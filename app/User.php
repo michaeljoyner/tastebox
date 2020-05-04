@@ -36,4 +36,9 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public static function addAdmin($options)
+    {
+        return static::create(array_merge($options, ['is_admin' => true]));
+    }
 }
