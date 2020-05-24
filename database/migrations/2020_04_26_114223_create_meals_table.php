@@ -26,6 +26,7 @@ class CreateMealsTable extends Migration
             $table->unsignedInteger('serving_carbs')->nullable();
             $table->unsignedInteger('serving_fat')->nullable();
             $table->unsignedInteger('serving_protein')->nullable();
+            $table->boolean('is_public')->default(0);
             $table->timestamps();
         });
     }

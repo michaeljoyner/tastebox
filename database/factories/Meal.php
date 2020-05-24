@@ -7,16 +7,25 @@ use Faker\Generator as Faker;
 
 $factory->define(Meal::class, function (Faker $faker) {
     return [
-        'unique_id' => Meal::generateUniqueId(),
+        'unique_id'       => Meal::generateUniqueId(),
         'name'            => $faker->words(3, true),
         'description'     => $faker->paragraph,
         'allergens'       => $faker->sentence,
-        'prep_time'       => $faker->numberBetween(10,60),
-        'cook_time'       => $faker->numberBetween(10,40),
+        'prep_time'       => $faker->numberBetween(10, 60),
+        'cook_time'       => $faker->numberBetween(10, 40),
         'instructions'    => $faker->paragraph,
-        'serving_energy'  => $faker->numberBetween(0,300),
-        'serving_carbs'   => $faker->numberBetween(0,100),
-        'serving_fat'     => $faker->numberBetween(0,100),
-        'serving_protein' => $faker->numberBetween(0,100),
+        'serving_energy'  => $faker->numberBetween(0, 300),
+        'serving_carbs'   => $faker->numberBetween(0, 100),
+        'serving_fat'     => $faker->numberBetween(0, 100),
+        'serving_protein' => $faker->numberBetween(0, 100),
+        'is_public'       => $faker->boolean,
     ];
 });
+
+$factory->state(Meal::class, 'private', [
+    'is_public'       => false,
+]);
+
+$factory->state(Meal::class, 'public', [
+    'is_public'       => true,
+]);

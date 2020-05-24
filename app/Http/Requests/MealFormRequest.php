@@ -16,14 +16,16 @@ class MealFormRequest extends FormRequest
     public function rules()
     {
         return [
-            'prep_time' => ['integer'],
-            'cook_time' => ['integer'],
-            'serving_energy' => ['integer'],
-            'serving_carbs' => ['integer'],
-            'serving_protein' => ['integer'],
-            'serving_fat' => ['integer'],
+            'prep_time' => ['nullable', 'integer'],
+            'cook_time' => ['nullable', 'integer'],
+            'serving_energy' => ['nullable', 'integer'],
+            'serving_carbs' => ['nullable', 'integer'],
+            'serving_protein' => ['nullable', 'integer'],
+            'serving_fat' => ['nullable', 'integer'],
             'customer_ingredients.*' => ['exists:ingredients,id'],
             'kit_ingredients.*' => ['exists:ingredients,id'],
+            'classifications' => ['array'],
+            'classifications.*' => ['integer', 'exists:classifications,id'],
         ];
     }
 
@@ -50,9 +52,12 @@ class MealFormRequest extends FormRequest
                 ]
             ]);
 
+        $classifications = collect($this->classifications)->map(fn ($c) => intval($c))->all();
+
         return [
             'meal_attributes' => $meal,
             'ingredients' => $ingredients->all(),
+            'classifications' => $classifications,
         ];
     }
 }

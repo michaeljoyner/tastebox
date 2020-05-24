@@ -5,14 +5,13 @@ export default {
 
     state: {
         meals: [],
-        ingredients: [
-            { id: 1, description: "horsemeat" },
-            { id: 2, description: "horses" },
-            { id: 3, description: "horsefly" },
-            { id: 4, description: "norsemen" },
-            { id: 5, description: "meningitis" },
-            { id: 6, description: "men and women" },
-        ],
+        ingredients: [],
+        classifications: [],
+    },
+
+    getters: {
+        byId: (state) => (id) =>
+            state.meals.find((meal) => meal.id === parseInt(id)),
     },
 
     mutations: {
@@ -22,6 +21,10 @@ export default {
 
         setIngredients(state, ingredients) {
             state.ingredients = ingredients;
+        },
+
+        setClassifications(state, classifications) {
+            state.classifications = classifications;
         },
     },
 
@@ -38,7 +41,7 @@ export default {
             });
         },
 
-        findById({}, id) {
+        findById({ getters }, id) {
             return new Promise((resolve, reject) => {
                 axios
                     .get(`/admin/api/meals/${id}`)
@@ -71,6 +74,20 @@ export default {
             });
         },
 
+        saveMealGalleryOrder({ dispatch }, { id, image_ids }) {
+            return new Promise((resolve, reject) => {
+                axios
+                    .post(`/admin/api/meals/${id}/images/positions`, {
+                        image_ids,
+                    })
+                    .then(() => {
+                        dispatch("fetchMeals");
+                        resolve();
+                    })
+                    .catch(() => reject("Failed to save image order"));
+            });
+        },
+
         fetchIngredients({ commit }) {
             return new Promise((resolve, reject) => {
                 axios
@@ -89,6 +106,41 @@ export default {
                         resolve(data);
                     })
                     .catch(reject);
+            });
+        },
+
+        fetchClassifications({ commit }) {
+            return new Promise((resolve, reject) => {
+                axios
+                    .get("/admin/api/classifications")
+                    .then(({ data }) => commit("setClassifications", data))
+                    .catch(() =>
+                        reject("Unable to fetch meal classifications")
+                    );
+            });
+        },
+
+        publishMeal({ dispatch }, meal_id) {
+            return new Promise((resolve, reject) => {
+                axios
+                    .post("/admin/api/published-meals", { meal_id })
+                    .then(() => {
+                        dispatch("fetchMeals").catch(showError);
+                        resolve();
+                    })
+                    .catch(() => reject("Unable to publish meal."));
+            });
+        },
+
+        retractMeal({ dispatch }, meal_id) {
+            return new Promise((resolve, reject) => {
+                axios
+                    .delete(`/admin/api/published-meals/${meal_id}`)
+                    .then(() => {
+                        dispatch("fetchMeals").catch(showError);
+                        resolve();
+                    })
+                    .catch(() => reject("Unable to retract meal."));
             });
         },
     },

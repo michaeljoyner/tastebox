@@ -33,7 +33,16 @@ Route::group(['middleware' => 'auth'], function() {
         Route::post('meals', 'MealsController@store');
         Route::post('meals/{meal}', 'MealsController@update');
 
+        Route::post('meals/{meal}/images', 'MealImagesController@store');
+        Route::post('meals/{meal}/images/positions', 'MealImagePositionsController@update');
+        Route::delete('meals/{meal}/images/{media}', 'MealImagesController@destroy');
+
+        Route::post('published-meals', 'PublishedMealsController@store');
+        Route::delete('published-meals/{meal}', 'PublishedMealsController@destroy');
+
         Route::get('ingredients', 'IngredientsController@index');
         Route::post('ingredients', 'IngredientsController@store');
+
+        Route::get('classifications', 'ClassificationsController@index');
     });
 });

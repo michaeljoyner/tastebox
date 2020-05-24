@@ -35,6 +35,7 @@ class MealFormRequestTest extends TestCase
                 ['id' => 4, 'quantity' => '', 'in_kit' => true],
                 ['id' => 5, 'quantity' => null, 'in_kit' => true],
             ],
+            'classifications' => ['1', '2'],
         ]);
 
 
@@ -58,6 +59,7 @@ class MealFormRequestTest extends TestCase
                 4 => ['quantity' => null, 'in_kit' => true],
                 5 => ['quantity' => null, 'in_kit' => true],
             ],
+            'classifications' => [1,2],
         ];
 
         $this->assertEquals($expected, $request->formData());

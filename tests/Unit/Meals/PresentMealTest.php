@@ -2,9 +2,11 @@
 
 namespace tests\Unit\Meals;
 
+use App\Meals\Classification;
 use App\Meals\Ingredient;
 use App\Meals\Meal;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Http\UploadedFile;
 use Tests\TestCase;
 
 class PresentMealTest extends TestCase
@@ -22,7 +24,10 @@ class PresentMealTest extends TestCase
         $ingredientD = factory(Ingredient::class)->create();
         $ingredientE = factory(Ingredient::class)->create();
 
-        $meal = factory(Meal::class)->create([
+        $classificationA = factory(Classification::class)->create();
+        $classificationB = factory(Classification::class)->create();
+
+        $meal = factory(Meal::class)->state('public')->create([
             'name'            => 'test name',
             'description'     => 'test description',
             'allergens'       => 'test allergens',
@@ -43,20 +48,25 @@ class PresentMealTest extends TestCase
             $ingredientE->id => ['quantity' => null, 'in_kit' => true],
         ]);
 
+        $meal->assignClassifications([$classificationA->id, $classificationB->id]);
+
+        $image = $meal->addImage(UploadedFile::fake()->image('testpic.png'));
+
         $expected = [
-            'id'                   => $meal->id,
-            'unique_id'            => $meal->unique_id,
-            'name'                 => 'test name',
-            'description'          => 'test description',
-            'allergens'            => 'test allergens',
-            'prep_time'            => 100,
-            'cook_time'            => 250,
-            'instructions'         => 'test instructions',
-            'serving_energy'       => '150',
-            'serving_carbs'        => 50,
-            'serving_fat'          => 70,
-            'serving_protein'      => 0,
-            'ingredients'          => [
+            'id'              => $meal->id,
+            'unique_id'       => $meal->unique_id,
+            'is_public'       => true,
+            'name'            => 'test name',
+            'description'     => 'test description',
+            'allergens'       => 'test allergens',
+            'prep_time'       => 100,
+            'cook_time'       => 250,
+            'instructions'    => 'test instructions',
+            'serving_energy'  => '150',
+            'serving_carbs'   => 50,
+            'serving_fat'     => 70,
+            'serving_protein' => 0,
+            'ingredients'     => [
                 [
                     'id'          => $ingredientA->id,
                     'description' => $ingredientA->description,
@@ -88,6 +98,30 @@ class PresentMealTest extends TestCase
                     'in_kit'      => true
                 ],
             ],
+            'title_image'     => [
+                'id'    => $image->id,
+                'thumb' => $image->getUrl('thumb'),
+                'web'   => $image->getUrl('web'),
+                'src'   => $image->getUrl('web'),
+            ],
+            'gallery'         => [
+                [
+                    'id'    => $image->id,
+                    'thumb' => $image->getUrl('thumb'),
+                    'web'   => $image->getUrl('web'),
+                    'src'   => $image->getUrl('web'),
+                ]
+            ],
+            'classifications' => [
+                [
+                    'id'   => $classificationA->id,
+                    'name' => $classificationA->name,
+                ],
+                [
+                    'id'   => $classificationB->id,
+                    'name' => $classificationB->name,
+                ]
+            ]
 
         ];
 

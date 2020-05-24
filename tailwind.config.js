@@ -7,6 +7,9 @@ module.exports = {
         inset: {
             50: '50%',
             100: '100%'
+        },
+        minHeight: {
+            '80': '20rem',
         }
     },
   },
