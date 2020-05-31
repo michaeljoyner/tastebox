@@ -16,8 +16,8 @@
                 >
                 <router-link
                     class="text-white font-bold hover:underline mx-4"
-                    to="/baskets"
-                    >Baskets</router-link
+                    to="/menus"
+                    >Menus</router-link
                 >
             </div>
             <div>
@@ -26,7 +26,19 @@
                     :name="username"
                 >
                     <div slot="dropdown_content" class="py-3">
-                        <a href="/" class="text-gray-800">A sewwt link</a>
+                        <form action="/logout" method="post">
+                            <input
+                                type="hidden"
+                                name="_token"
+                                :value="csrf_token"
+                            />
+                            <button
+                                class="text-gray-800 hover:text-pink-500"
+                                type="submit"
+                            >
+                                Logout
+                            </button>
+                        </form>
                     </div>
                 </dropdown>
             </div>
@@ -45,6 +57,10 @@ export default {
     computed: {
         username() {
             return this.$store.state.me.username;
+        },
+
+        csrf_token() {
+            return document.querySelector("#csrf-token-meta").content;
         },
     },
 };

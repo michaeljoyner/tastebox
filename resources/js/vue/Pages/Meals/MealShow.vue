@@ -1,5 +1,5 @@
 <template>
-    <div class="max-w-4xl mx-auto" v-if="meal">
+    <page v-if="meal">
         <page-header :title="meal.name">
             <router-link :to="`/meals/${meal.id}/gallery`" class="btn mx-4"
                 >Pics</router-link
@@ -61,10 +61,11 @@
             <p class="font-bold mb-6">Instructions</p>
             <div v-html="meal.instructions"></div>
         </div>
-    </div>
+    </page>
 </template>
 
 <script type="text/babel">
+import Page from "../../Components/UI/Page";
 import PageHeader from "../../Components/PageHeader";
 import NutritionalInfo from "../../Components/Meals/NutritionalInfo";
 import MealTimes from "../../Components/Meals/MealTimes";
@@ -73,6 +74,7 @@ import { showError } from "../../../libs/notifications";
 
 export default {
     components: {
+        Page,
         PageHeader,
         NutritionalInfo,
         MealTimes,

@@ -12,12 +12,14 @@ Vue.config.ignoredElements = ["trix-editor"];
 import me from "./stores/me";
 import meals from "./stores/meals";
 import notifications from "./stores/notifications";
+import menus from "./stores/menus";
 
 const store = new Vuex.Store({
     modules: {
         me,
         meals,
         notifications,
+        menus,
     },
 });
 

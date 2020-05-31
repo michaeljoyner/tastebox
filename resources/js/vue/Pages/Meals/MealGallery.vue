@@ -1,5 +1,5 @@
 <template>
-    <div class="max-w-4xl mx-auto" v-if="meal">
+    <page v-if="meal">
         <page-header :title="`Pics: ${meal.name}`"></page-header>
 
         <sortable-gallery
@@ -10,16 +10,18 @@
             :image-delete-url="getImageDeleteUrl"
             @image-removed="fetchMeal"
         ></sortable-gallery>
-    </div>
+    </page>
 </template>
 
 <script type="text/babel">
+import Page from "../../Components/UI/Page";
 import PageHeader from "../../Components/PageHeader";
 import SortableGallery from "../../Components/SortableGallery";
 import { showError } from "../../../libs/notifications";
 
 export default {
     components: {
+        Page,
         PageHeader,
         SortableGallery,
     },

@@ -20,13 +20,17 @@ Route::view('admin/login', 'auth.admin-login')->name('login');
 Route::post('admin/login', 'Auth\LoginController@login');
 Route::post('logout', 'Auth\LoginController@logout');
 
-Route::group(['middleware' => 'auth'], function() {
+Route::group(['middleware' => 'auth'], function () {
 
-    Route::group(['prefix' => 'admin', 'namespace' => 'Admin'], function() {
-       Route::view('dashboard', 'admin.dashboard');
+    Route::group(['prefix' => 'admin', 'namespace' => 'Admin'], function () {
+        Route::redirect('/', '/admin/dashboard');
+        Route::view('dashboard', 'admin.dashboard');
     });
 
-    Route::group(['prefix' => 'admin/api', 'namespace' => 'Admin'], function() {
+    Route::group(['prefix' => 'admin/api', 'namespace' => 'Admin'], function () {
+
+        Route::get('upcoming-menus', 'UpcomingMenusController@index');
+        Route::post('menus/{menu}/meals', 'MenuMealsController@store');
 
         Route::get('meals', 'MealsController@index');
         Route::get('meals/{meal}', 'MealsController@show');

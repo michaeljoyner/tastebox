@@ -1,5 +1,5 @@
 <template>
-    <div class="max-w-5xl mx-auto" v-if="ready">
+    <page v-if="ready">
         <page-header title="Edit Meal">
             <router-link :to="`/meals/${mealId}`" class="btn mr-4"
                 >Back</router-link
@@ -332,10 +332,11 @@
                 </div>
             </div>
         </div>
-    </div>
+    </page>
 </template>
 
 <script type="text/babel">
+import Page from "../../Components/UI/Page";
 import PageHeader from "../../Components/PageHeader";
 import IngredientList from "../../Components/Meals/IngredientList";
 import Wysiwyg from "@dymantic/vue-trix-editor";
@@ -347,6 +348,7 @@ import {
 
 export default {
     components: {
+        Page,
         PageHeader,
         IngredientList,
         Wysiwyg,
