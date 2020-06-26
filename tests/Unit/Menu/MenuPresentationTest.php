@@ -30,9 +30,13 @@ class MenuPresentationTest extends TestCase
             'can_order' => false,
         ]);
 
+        $orders_close = Carbon::parse($current_to)->subDay();
+
         $expected = [
             'id' => $menu->id,
             'can_order' => false,
+            'orders_close_on' => $orders_close->format(DatePresenter::STANDARD),
+            'orders_close_on_pretty' => $orders_close->format(DatePresenter::PRETTY_DMY),
             'current_from_date' => $current_from->format(DatePresenter::STANDARD),
             'current_from_pretty' => $current_from->format(DatePresenter::PRETTY_DMY),
             'current_to_date' => $current_to->format(DatePresenter::STANDARD),

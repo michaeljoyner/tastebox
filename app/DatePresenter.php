@@ -25,4 +25,14 @@ class DatePresenter
         return sprintf("%s %s %s", $from->format("jS M, Y"), $separator, $to->format("jS M, Y"));
 
     }
+
+    public static function pretty(?Carbon $date): string
+    {
+        return $date === null ? '' : $date->format(self::PRETTY_DMY);
+    }
+
+    public static function standard(?Carbon $date): string
+    {
+        return $date === null ? '' : $date->format(self::STANDARD);
+    }
 }

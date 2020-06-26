@@ -64,20 +64,42 @@ class Menu extends Model
 
     public function toArray()
     {
+
         return [
-            'id'                   => $this->id,
-            'can_order'            => $this->can_order,
-            'current_from_date'    => $this->current_from->format('Y-m-d'),
-            'current_from_pretty'  => $this->current_from->format('jS M, Y'),
-            'current_to_date'      => $this->current_to->format('Y-m-d'),
-            'current_to_pretty'    => $this->current_to->format('jS M, Y'),
-            'current_range_pretty' => DatePresenter::range($this->current_from, $this->current_to),
-            'delivery_from_date'   => $this->delivery_from->format('Y-m-d'),
-            'delivery_from_pretty' => $this->delivery_from->format('jS M, Y'),
-            'week_number'          => $this->current_from->week,
-            'is_current'           => $this->isCurrent(),
-            'status'               => Menu::UPCOMING,
-            'meals'                => $this->meals->map->toArray()->all(),
+            'id'                     => $this->id,
+            'can_order'              => $this->can_order,
+            'orders_close_on'        => DatePresenter::standard($this->ordersCloseDate()),
+            'orders_close_on_pretty' => DatePresenter::pretty($this->ordersCloseDate()),
+            'current_from_date'      => $this->current_from->format('Y-m-d'),
+            'current_from_pretty'    => $this->current_from->format('jS M, Y'),
+            'current_to_date'        => $this->current_to->format('Y-m-d'),
+            'current_to_pretty'      => $this->current_to->format('jS M, Y'),
+            'current_range_pretty'   => DatePresenter::range($this->current_from, $this->current_to),
+            'delivery_from_date'     => $this->delivery_from->format('Y-m-d'),
+            'delivery_from_pretty'   => $this->delivery_from->format('jS M, Y'),
+            'week_number'            => $this->current_from->week,
+            'is_current'             => $this->isCurrent(),
+            'status'                 => Menu::UPCOMING,
+            'meals'                  => $this->meals->map->asArrayForAdmin()->all(),
         ];
     }
+
+    public function openForOrders()
+    {
+        $this->can_order = true;
+        $this->save();
+    }
+
+    public function closedForOrders()
+    {
+        $this->can_order = false;
+        $this->save();
+    }
+
+    private function ordersCloseDate()
+    {
+        return Carbon::parse($this->current_to)->subDay();
+    }
+
+
 }

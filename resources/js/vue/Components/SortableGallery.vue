@@ -23,7 +23,7 @@
             @dragover.prevent="hover = true"
             @dragleave.prevent="hover = false"
             class="my-16 min-h-80 border-4 border-dotted rounded-lg"
-            :class="{ 'border-pink-500': hover, 'border-gray-500': !hover }"
+            :class="{ 'border-blue-600': hover, 'border-gray-500': !hover }"
         >
             <uploading-image
                 v-for="upload in uploads"

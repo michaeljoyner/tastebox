@@ -20,6 +20,12 @@ Route::view('admin/login', 'auth.admin-login')->name('login');
 Route::post('admin/login', 'Auth\LoginController@login');
 Route::post('logout', 'Auth\LoginController@logout');
 
+Route::post('my-kits', 'MealKitsController@store');
+Route::delete('my-kits/{kit_id}', 'MealKitsController@destroy');
+
+Route::post('my-kits/{kit_id}/meals', 'MealKitsMealsController@store');
+Route::delete('my-kits/{kit_id}/meals/{meal_id}', 'MealKitsMealsController@destroy');
+
 Route::group(['middleware' => 'auth'], function () {
 
     Route::group(['prefix' => 'admin', 'namespace' => 'Admin'], function () {
@@ -32,10 +38,14 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('upcoming-menus', 'UpcomingMenusController@index');
         Route::post('menus/{menu}/meals', 'MenuMealsController@store');
 
+        Route::post('orderable-menus', 'OrderableMenusController@create');
+        Route::delete('orderable-menus/{menu}', 'OrderableMenusController@destroy');
+
         Route::get('meals', 'MealsController@index');
         Route::get('meals/{meal}', 'MealsController@show');
         Route::post('meals', 'MealsController@store');
         Route::post('meals/{meal}', 'MealsController@update');
+        Route::delete('meals/{meal}', 'MealsController@delete');
 
         Route::post('meals/{meal}/images', 'MealImagesController@store');
         Route::post('meals/{meal}/images/positions', 'MealImagePositionsController@update');

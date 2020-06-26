@@ -7,6 +7,12 @@
             <router-link :to="`/meals/${meal.id}/edit`" class="btn btn-main"
                 >Edit</router-link
             >
+            <delete-confirmation
+                :disabled="waiting_on_delete"
+                :item="meal.name"
+                class="ml-4"
+                @confirmed="deleteMeal"
+            ></delete-confirmation>
         </page-header>
 
         <meal-publish-toggle
@@ -70,6 +76,7 @@ import PageHeader from "../../Components/PageHeader";
 import NutritionalInfo from "../../Components/Meals/NutritionalInfo";
 import MealTimes from "../../Components/Meals/MealTimes";
 import MealPublishToggle from "../../Components/Meals/MealPublishToggle";
+import DeleteConfirmation from "../../Components/UI/DeleteConfirmation";
 import { showError } from "../../../libs/notifications";
 
 export default {
@@ -79,11 +86,13 @@ export default {
         NutritionalInfo,
         MealTimes,
         MealPublishToggle,
+        DeleteConfirmation,
     },
 
     data() {
         return {
             meal: null,
+            waiting_on_delete: false,
         };
     },
 
@@ -118,6 +127,15 @@ export default {
                 .dispatch("meals/findById", this.$route.params.id)
                 .then((meal) => (this.meal = meal))
                 .catch(showError);
+        },
+
+        deleteMeal() {
+            this.waiting_on_delete = true;
+            this.$store
+                .dispatch("meals/deleteMealById", this.meal.id)
+                .then(() => this.$router.push("/meals"))
+                .catch(() => showError("Unable to delete meal."))
+                .then(() => (this.waiting_on_delete = false));
         },
     },
 };

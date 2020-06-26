@@ -10,40 +10,40 @@
         <div class="flex">
             <div class="w-64 pl-4 pt-12">
                 <p
-                    class="font-bold text-sm mb-3 text-gray-600 hover:text-pink-500 cursor-pointer"
+                    class="font-bold text-sm mb-3 text-gray-600 hover:text-blue-600 cursor-pointer"
                     :class="{
                         'text-gray-600': section !== 1,
-                        'text-pink-500': section === 1,
+                        'text-blue-600': section === 1,
                     }"
                     @click="section = 1"
                 >
                     Basic Info
                 </p>
                 <p
-                    class="font-bold text-sm mb-3 text-gray-600 hover:text-pink-500 cursor-pointer"
+                    class="font-bold text-sm mb-3 text-gray-600 hover:text-blue-600 cursor-pointer"
                     :class="{
                         'text-gray-600': section !== 2,
-                        'text-pink-500': section === 2,
+                        'text-blue-600': section === 2,
                     }"
                     @click="section = 2"
                 >
                     Nutritional Info
                 </p>
                 <p
-                    class="font-bold text-sm mb-3 text-gray-600 hover:text-pink-500 cursor-pointer"
+                    class="font-bold text-sm mb-3 text-gray-600 hover:text-blue-600 cursor-pointer"
                     :class="{
                         'text-gray-600': section !== 3,
-                        'text-pink-500': section === 3,
+                        'text-blue-600': section === 3,
                     }"
                     @click="section = 3"
                 >
                     Ingredients
                 </p>
                 <p
-                    class="font-bold text-sm mb-3 text-gray-600 hover:text-pink-500 cursor-pointer"
+                    class="font-bold text-sm mb-3 text-gray-600 hover:text-blue-600 cursor-pointer"
                     :class="{
                         'text-gray-600': section !== 4,
-                        'text-pink-500': section === 4,
+                        'text-blue-600': section === 4,
                     }"
                     @click="section = 4"
                 >

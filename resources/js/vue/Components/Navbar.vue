@@ -33,7 +33,7 @@
                                 :value="csrf_token"
                             />
                             <button
-                                class="text-gray-800 hover:text-pink-500"
+                                class="text-gray-800 hover:text-blue-600"
                                 type="submit"
                             >
                                 Logout

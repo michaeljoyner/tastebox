@@ -3,14 +3,22 @@
         <div v-for="meal in meals" :key="meal.id" class="">
             <router-link
                 :to="`/meals/${meal.id}`"
-                class="text-gray-800 hover:text-pink-500 flex"
+                class="text-gray-800 hover:text-blue-600 flex"
             >
-                <img :src="meal.title_image.thumb" class="w-16" />
-                <div class="p-4 flex flex-1 justify-between">
-                    <p class="font-bold">{{ meal.name }}</p>
-                    <div>
+                <div class="w-20 h-auto">
+                    <img
+                        :src="meal.title_image.thumb"
+                        class="w-full h-full object-cover"
+                    />
+                </div>
+
+                <div class="pl-2 pb-2 flex-1 justify-between">
+                    <p class="w-full max-w-md truncate pr-6">
+                        {{ meal.name }}
+                    </p>
+                    <div class="mt-2">
                         <span
-                            class="font-bold text-xs uppercase rounded-lg border-2 border-black px-2 py-1 mx-4"
+                            class="text-xs rounded-lg border border-black p-1 mr-4"
                             v-for="type in meal.classifications"
                             :key="type.id"
                             >{{ type.name }}</span

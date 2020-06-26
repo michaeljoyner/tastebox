@@ -44,4 +44,28 @@ class MenuTest extends TestCase
         $this->assertTrue($scoped->contains($upcoming));
         $this->assertFalse($scoped->contains($old));
     }
+
+    /**
+     *@test
+     */
+    public function can_open_a_menu_for_orders()
+    {
+        $menu = factory(Menu::class)->state('closed')->create();
+
+        $menu->openForOrders();
+
+        $this->assertTrue($menu->fresh()->can_order);
+    }
+
+    /**
+     *@test
+     */
+    public function can_close_menu_for_orders()
+    {
+        $menu = factory(Menu::class)->state('open')->create();
+
+        $menu->closedForOrders();
+
+        $this->assertFalse($menu->fresh()->can_order);
+    }
 }

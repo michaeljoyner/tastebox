@@ -29,4 +29,9 @@ class MealsController extends Controller
     {
         $meal->updateWithFormData($request->formData());
     }
+
+    public function delete(Meal $meal)
+    {
+        $meal->safeDelete();
+    }
 }

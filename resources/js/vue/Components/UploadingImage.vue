@@ -6,7 +6,7 @@
             :class="upload_opacity"
         />
         <div
-            class="absolute h-2 left-0 bottom-0 right-0 bg-pink-500"
+            class="absolute h-2 left-0 bottom-0 right-0 bg-blue-600"
             style="transform-origin: left;"
             :style="`transform: scaleX(${progress})`"
         ></div>

@@ -49,6 +49,12 @@ class Meal extends Model implements HasMedia
         $this->assignClassifications($form_data['classifications']);
     }
 
+    public function safeDelete()
+    {
+        $this->ingredients()->sync([]);
+        $this->delete();
+    }
+
     public static function generateUniqueId()
     {
         return Str::of(Str::random(10))

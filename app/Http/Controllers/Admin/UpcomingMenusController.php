@@ -10,6 +10,6 @@ class UpcomingMenusController extends Controller
 {
     public function index()
     {
-        return Menu::upcoming()->get()->map->toArray();
+        return Menu::with('meals.ingredients')->upcoming()->get()->map->toArray();
     }
 }

@@ -1,4 +1,5 @@
 import { showError } from "../libs/notifications";
+import { deleteMeal } from "../apis/meals";
 
 export default {
     namespaced: true,
@@ -142,6 +143,12 @@ export default {
                     })
                     .catch(() => reject("Unable to retract meal."));
             });
+        },
+
+        deleteMealById({ dispatch }, meal_id) {
+            return deleteMeal(meal_id).then(() =>
+                dispatch("fetchMeals").catch(showError)
+            );
         },
     },
 };

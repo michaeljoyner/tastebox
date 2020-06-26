@@ -17,4 +17,11 @@ abstract class TestCase extends BaseTestCase
 
         return $this;
     }
+
+    public function asGuest(): self
+    {
+        $this->assertGuest();
+
+        return $this;
+    }
 }

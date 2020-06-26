@@ -4,6 +4,7 @@ import MealEdit from "../vue/Pages/Meals/MealEdit";
 import MealGallery from "../vue/Pages/Meals/MealGallery";
 import MenuIndex from "../vue/Pages/Menu/MenuIndex";
 import MenuShow from "../vue/Pages/Menu/MenuShow";
+import MenuEditMeals from "../vue/Pages/Menu/MenuEditMeals";
 
 export default [
     { path: "/meals", component: MealsIndex },
@@ -12,4 +13,5 @@ export default [
     { path: "/meals/:id/gallery", component: MealGallery },
     { path: "/menus", component: MenuIndex },
     { path: "/menus/:id", component: MenuShow },
+    { path: "/menus/:id/edit-meals", component: MenuEditMeals },
 ];
