@@ -30,3 +30,5 @@ yarn-error.log*
 *.sln
 *.sw?
 
+
+.smithy.yaml

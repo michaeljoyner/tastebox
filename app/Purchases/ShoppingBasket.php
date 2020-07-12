@@ -21,9 +21,14 @@ class ShoppingBasket
         return new ShoppingBasket(collect(session('basket.kits', [])));
     }
 
+    public function getKit(string $kit_id): ?Kit
+    {
+        return $this->kits->first(fn (Kit $kit) => $kit->id === $kit_id);
+    }
+
     public function addKit(int $menu_id)
     {
-        $kit = new Kit($menu_id);
+        $kit = new Kit($menu_id, null, $this->kits->count());
 
         $this->kits->push($kit);
 
@@ -62,10 +67,6 @@ class ShoppingBasket
         $this->save();
     }
 
-    private function getKit(string $kit_id): ?Kit
-    {
-        return $this->kits->first(fn ($k) => $k->id === $kit_id);
-    }
 
     private function setKit(Kit $kit)
     {
@@ -83,6 +84,11 @@ class ShoppingBasket
         $this->save();
     }
 
+    public function hasKit(string $kit_id): bool
+    {
+        return $this->kits->contains(fn (Kit $kit) => $kit->id === $kit_id);
+    }
+
 
 
     public function getMenuForKit(string $kit_id): Menu
@@ -96,4 +102,21 @@ class ShoppingBasket
     {
         session(['basket.kits' => $this->kits->all()]);
     }
+
+    public function price(): float
+    {
+        return $this->kits->sum(fn (Kit $kit) => $kit->price());
+    }
+
+    public function presentForReview()
+    {
+        $kits = $this->kits->map(fn(Kit $kit) => (new BasketPresenter())->presentKit($kit))->all();
+        return [
+            'total_boxes' => $this->kits->count(),
+            'total_price' => $this->kits->sum(fn (Kit $kit) => $kit->price()),
+            'kits' => $kits,
+        ];
+    }
+
+
 }

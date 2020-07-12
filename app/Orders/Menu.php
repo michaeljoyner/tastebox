@@ -18,6 +18,12 @@ class Menu extends Model
 
     protected $casts = ['can_order' => 'boolean'];
 
+    public function scopeAvailable($query)
+    {
+        $query->where('current_to', '>=', Carbon::now())
+              ->where('can_order', true);
+    }
+
     public function scopeUpcoming($query)
     {
         return $query->where('current_from', '>=', Carbon::now()->startOfWeek());
@@ -82,6 +88,11 @@ class Menu extends Model
             'status'                 => Menu::UPCOMING,
             'meals'                  => $this->meals->map->asArrayForAdmin()->all(),
         ];
+    }
+
+    public function presentForPublic()
+    {
+        return $this->toArray();
     }
 
     public function openForOrders()

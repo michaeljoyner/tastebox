@@ -20,11 +20,15 @@ class MealKitsMealsController extends Controller
 
 
         $basket->addMealToKit($kit_id, request('meal_id'), request('servings'));
+
+        return $basket->getKit($kit_id)->toArray();
     }
 
     public function destroy($kit_id, $menu_id)
     {
         $basket = ShoppingBasket::for(request()->user());
         $basket->removeMealFromKit($kit_id, intval($menu_id));
+
+        return $basket->getKit($kit_id)->toArray();
     }
 }

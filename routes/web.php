@@ -18,13 +18,29 @@ Route::view('/', 'welcome');
 Route::view('admin/login', 'auth.admin-login')->name('login');
 
 Route::post('admin/login', 'Auth\LoginController@login');
-Route::post('logout', 'Auth\LoginController@logout');
+Route::post('logout', 'Auth\LoginController@logout')->middleware('auth');
 
 Route::post('my-kits', 'MealKitsController@store');
 Route::delete('my-kits/{kit_id}', 'MealKitsController@destroy');
 
 Route::post('my-kits/{kit_id}/meals', 'MealKitsMealsController@store');
 Route::delete('my-kits/{kit_id}/meals/{meal_id}', 'MealKitsMealsController@destroy');
+
+Route::group(['middleware' => 'auth'], function() {
+    Route::get('test-home', 'HomePageController@show');
+    Route::get('my-kits/{kit_id}', 'MealKitsController@show');
+
+    Route::get('basket', 'BasketController@show');
+    Route::get('basket-summary', 'BasketSummaryController@show');
+
+
+});
+
+Route::get('checkout', 'CheckoutController@show');
+Route::post('checkout', 'OrdersController@store');
+
+Route::get('payfast/return/{order_key}', 'PayfastController@success');
+Route::post('payfast/notify/{order:order_key}', 'PaymentsController@store');
 
 Route::group(['middleware' => 'auth'], function () {
 

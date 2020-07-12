@@ -7,6 +7,7 @@ namespace Tests\Unit\Menu;
 use App\Meals\Meal;
 use App\Orders\Menu;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Carbon;
 use Tests\TestCase;
 
 class MenuTest extends TestCase
@@ -67,5 +68,37 @@ class MenuTest extends TestCase
         $menu->closedForOrders();
 
         $this->assertFalse($menu->fresh()->can_order);
+    }
+
+    /**
+     *@test
+     */
+    public function can_scope_to_available_for_orders()
+    {
+        $open_current = factory(Menu::class)->state('current')->create([
+            'can_order' => true,
+            'current_to' => Carbon::tomorrow(),
+        ]);
+        $open_upcoming = factory(Menu::class)->state('upcoming')->create([
+            'can_order' => true,
+        ]);
+        $open_old = factory(Menu::class)->state('old')->create([
+            'can_order' => true,
+        ]);
+        $closed_current = factory(Menu::class)->state('current')->create([
+            'can_order' => false,
+        ]);
+        $closed_upcoming = factory(Menu::class)->state('upcoming')->create([
+            'can_order' => false,
+        ]);
+
+        $scoped = Menu::available()->get();
+
+        $this->assertCount(2, $scoped);
+        $this->assertTrue($scoped->contains($open_current));
+        $this->assertTrue($scoped->contains($open_upcoming));
+        $this->assertFalse($scoped->contains($open_old));
+        $this->assertFalse($scoped->contains($closed_current));
+        $this->assertFalse($scoped->contains($closed_upcoming));
     }
 }

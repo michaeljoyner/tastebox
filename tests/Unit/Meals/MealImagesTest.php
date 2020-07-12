@@ -108,4 +108,31 @@ class MealImagesTest extends TestCase
         $this->assertEquals(3, $imageA->fresh()->getCustomProperty('position'));
         $this->assertEquals(999, $imageD->fresh()->getCustomProperty('position'));
     }
+
+    /**
+     *@test
+     */
+    public function can_get_the_title_image()
+    {
+        $meal = factory(Meal::class)->create();
+
+        /** @var Media $image */
+        $image = $meal->addImage(UploadedFile::fake()->image('testpic.png'));
+
+        $this->assertEquals($image->getUrl(), $meal->titleImage());
+        $this->assertEquals($image->getUrl('web'), $meal->titleImage('web'));
+        $this->assertEquals($image->getUrl('thumb'), $meal->titleImage('thumb'));
+    }
+
+    /**
+     *@test
+     */
+    public function title_image_has_default()
+    {
+        $meal = factory(Meal::class)->create();
+
+        $this->assertEquals(Meal::DEFAULT_IMAGE, $meal->titleImage());
+        $this->assertEquals(Meal::DEFAULT_IMAGE, $meal->titleImage('web'));
+        $this->assertEquals(Meal::DEFAULT_IMAGE, $meal->titleImage('thumb'));
+    }
 }

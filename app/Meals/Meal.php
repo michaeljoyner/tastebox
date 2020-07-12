@@ -15,6 +15,9 @@ class Meal extends Model implements HasMedia
     use InteractsWithMedia;
 
     const GALLERY = 'gallery';
+    const DEFAULT_IMAGE = '/images/logos/tastebox_logo.jpg';
+
+    const SERVING_PRICE = 65;
 
     protected $fillable = [
         'unique_id',
@@ -147,13 +150,22 @@ class Meal extends Model implements HasMedia
         ];
     }
 
+    public function titleImage($conversion = '')
+    {
+        $image = $this->getMedia(static::GALLERY)
+             ->sortBy(fn($m) => $m->getCustomProperty('position'))
+            ->first();
+
+        return $image ? $image->getUrl($conversion) : '/images/logos/tastebox_logo.jpg';
+    }
+
     private function defaultImage()
     {
         return [
             'id'    => null,
-            'thumb' => '/images/logos/tastebox_logo.jpg',
-            'web'   => '/images/logos/tastebox_logo.jpg',
-            'src'   => '/images/logos/tastebox_logo.jpg',
+            'thumb' => static::DEFAULT_IMAGE,
+            'web'   => static::DEFAULT_IMAGE,
+            'src'   => static::DEFAULT_IMAGE,
         ];
     }
 
