@@ -49,6 +49,20 @@ class MenuTest extends TestCase
     /**
      *@test
      */
+    public function get_next_to_be_delivered()
+    {
+        $old = factory(Menu::class)->state('old')->create();
+        $current = factory(Menu::class)->state('current')->create();
+        $upcoming = factory(Menu::class)->state('upcoming')->create();
+
+        $next_up = Menu::nextUp();
+
+        $this->assertTrue($next_up->is($current));
+    }
+
+    /**
+     *@test
+     */
     public function can_open_a_menu_for_orders()
     {
         $menu = factory(Menu::class)->state('closed')->create();

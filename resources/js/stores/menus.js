@@ -1,5 +1,6 @@
 import {
     closeMenuForOrders,
+    getCurrentBatch,
     openMenuForOrders,
     setMenuMeals,
 } from "../apis/menus";
@@ -11,6 +12,7 @@ export default {
     state: {
         upcoming_menus: [],
         archived: [],
+        current_batch: null,
     },
 
     getters: {
@@ -22,11 +24,22 @@ export default {
             }
             return meal;
         },
+
+        current_kits: (state) =>
+            state.current_batch ? state.current_batch.kits : [],
+        current_meals: (state) =>
+            state.current_batch ? state.current_batch.meals : [],
+        current_ingredients: (state) =>
+            state.current_batch ? state.current_batch.ingredients : [],
     },
 
     mutations: {
         setMenus(state, menus) {
             state.upcoming_menus = menus;
+        },
+
+        setCurrentBatch(state, batch) {
+            state.current_batch = batch;
         },
     },
 
@@ -61,6 +74,10 @@ export default {
                     showError("Unable to fetch current menus.")
                 )
             );
+        },
+
+        fetchCurrentBatch({ commit }) {
+            getCurrentBatch().then((batch) => commit("setCurrentBatch", batch));
         },
     },
 };

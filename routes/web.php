@@ -39,8 +39,11 @@ Route::group(['middleware' => 'auth'], function() {
 Route::get('checkout', 'CheckoutController@show');
 Route::post('checkout', 'OrdersController@store');
 
-Route::get('payfast/return/{order_key}', 'PayfastController@success');
+Route::get('payfast/return/{order:order_key}', 'PayfastController@success');
+Route::get('payfast/cancel/{order:order_key}', 'PayfastController@cancelled');
 Route::post('payfast/notify/{order:order_key}', 'PaymentsController@store');
+
+Route::get('thank-you/{order:order_key}', 'ThankYouController@show');
 
 Route::group(['middleware' => 'auth'], function () {
 
@@ -74,5 +77,12 @@ Route::group(['middleware' => 'auth'], function () {
         Route::post('ingredients', 'IngredientsController@store');
 
         Route::get('classifications', 'ClassificationsController@index');
+
+        Route::post('completed-ordered-kits', 'CompletedOrderedKitsController@store');
+
+        Route::get('recent-orders', 'OrdersController@index');
+        Route::get('recent-orders/{order}', 'OrdersController@show');
+
+        Route::get('current-batch', 'CurrentBatchController@show');
     });
 });

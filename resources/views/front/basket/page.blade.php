@@ -13,4 +13,7 @@
             @endforeach
         </div>
     @endforeach
+    <div class="my-20">
+        <a href="/checkout">Checkout</a>
+    </div>
 </x-public-page>

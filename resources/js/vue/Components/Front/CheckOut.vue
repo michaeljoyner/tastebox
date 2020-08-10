@@ -120,90 +120,80 @@
                 </div>
             </div>
         </div>
-        <div class="max-w-md">
+
+        <div class="">
             <p class="text-xl text-center my-20">Delivery</p>
-            <div v-if="use_multiple_addresses === null">
-                <p class="mt-8 mb-4">
+
+            <div
+                v-if="has_multiple_kits"
+                class="flex justify-around items-center my-12"
+            >
+                <p class="mt-8 mb-4 max-w-sm">
                     You have ordered more than one box. Would you like to have
                     any of the boxes sent to different address?
                 </p>
-                <button class="mb-8" @click="use_multiple_addresses = true">
-                    Yes Please
-                </button>
-                <button class="mb-8" @click="use_multiple_addresses = false">
-                    no, just the one
-                </button>
+                <div>
+                    <label class="block mb-4">
+                        <input
+                            type="radio"
+                            :value="false"
+                            v-model="use_multiple_addresses"
+                        />
+                        <span>No, use the same address for all boxes.</span>
+                    </label>
+
+                    <label class="block mb-4">
+                        <input
+                            type="radio"
+                            :value="true"
+                            v-model="use_multiple_addresses"
+                        />
+                        <span>Yes, I need to send to different addresses.</span>
+                    </label>
+                </div>
             </div>
 
             <div v-if="use_multiple_addresses === true">
-                <div v-for="kit in basket.kits" :key="kit.kit_id">
-                    <p>{{ kit.name }}</p>
-                    <p>Delivery from: {{ kit.delivery_date }}</p>
-                    <address-input
-                        v-model="formData.delivery[kit.kit_id]"
-                    ></address-input>
+                <div
+                    v-for="kit in basket.kits"
+                    :key="kit.kit_id"
+                    class="flex justify-around p-6 border"
+                >
+                    <div>
+                        <p>{{ kit.name }}</p>
+                        <p>Delivery from: {{ kit.delivery_date }}</p>
+                        <p v-for="meal in kit.meals" :key="meal.id">
+                            {{ meal.name }} ({{ meal.servings }} servings)
+                        </p>
+                    </div>
+                    <div>
+                        <address-input
+                            v-model="formData.delivery[kit.kit_id]"
+                        ></address-input>
+                    </div>
                 </div>
             </div>
-            <div v-if="use_multiple_addresses === false">
+            <div
+                v-if="use_multiple_addresses === false"
+                class="flex justify-around"
+            >
+                <div v-if="has_multiple_kits">
+                    <p>
+                        You have ordered {{ basket.kits.length }} meal kits.
+                        They will all be delivered to this address.
+                    </p>
+                </div>
+                <div v-else>
+                    <p>{{ basket.kits[0].name }}</p>
+                    <p>Delivery from: {{ basket.kits[0].delivery_date }}</p>
+                    <p v-for="meal in basket.kits[0].meals" :key="meal.id">
+                        {{ meal.name }} ({{ meal.servings }} servings)
+                    </p>
+                </div>
                 <address-input v-model="formData.main_address"></address-input>
             </div>
         </div>
 
-        <form action="/checkout" method="post" ref="real_form">
-            <input type="hidden" name="name" :value="formData.name" />
-            <input type="hidden" name="email" :value="formData.email" />
-            <input type="hidden" name="phone" :value="formData.phone" />
-
-            <div v-if="use_multiple_addresses === false">
-                <div v-for="(address, kit_id) in formData.delivery">
-                    <input
-                        type="hidden"
-                        :name="`delivery[${kit_id}][line_one]`"
-                        :value="formData.main_address.line_one"
-                    />
-                    <input
-                        type="hidden"
-                        :name="`delivery[${kit_id}][line_two]`"
-                        :value="formData.main_address.line_two"
-                    />
-                    <input
-                        type="hidden"
-                        :name="`delivery[${kit_id}][city]`"
-                        :value="formData.main_address.city"
-                    />
-                    <input
-                        type="hidden"
-                        :name="`delivery[${kit_id}][postal_code]`"
-                        :value="formData.main_address.postal_code"
-                    />
-                </div>
-            </div>
-
-            <div v-if="use_multiple_addresses === true">
-                <div v-for="(address, kit_id) in formData.delivery">
-                    <input
-                        type="hidden"
-                        :name="`delivery[${kit_id}][line_one]`"
-                        :value="address.line_one"
-                    />
-                    <input
-                        type="hidden"
-                        :name="`delivery[${kit_id}][line_two]`"
-                        :value="address.line_two"
-                    />
-                    <input
-                        type="hidden"
-                        :name="`delivery[${kit_id}][city]`"
-                        :value="address.city"
-                    />
-                    <input
-                        type="hidden"
-                        :name="`delivery[${kit_id}][postal_code]`"
-                        :value="address.postal_code"
-                    />
-                </div>
-            </div>
-        </form>
         <div class="my-6">
             <button @click="submit" type="button">Checkout</button>
         </div>
@@ -236,7 +226,7 @@ export default {
 
     data() {
         return {
-            use_multiple_addresses: null,
+            use_multiple_addresses: false,
             formData: {
                 first_name: "",
                 last_name: "",
@@ -260,6 +250,12 @@ export default {
         };
     },
 
+    computed: {
+        has_multiple_kits() {
+            return this.basket.kits.length > 1;
+        },
+    },
+
     created() {
         this.formData.delivery = this.basket.kits.reduce((carry, kit) => {
             carry[kit.kit_id] = {
@@ -280,7 +276,7 @@ export default {
         submit() {
             const fd = {
                 first_name: this.formData.first_name,
-                last_name: this.formData.first_name,
+                last_name: this.formData.last_name,
                 email: this.formData.email,
                 phone: this.formData.phone,
                 delivery: {},

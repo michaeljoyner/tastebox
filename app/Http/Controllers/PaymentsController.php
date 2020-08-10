@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\OrderConfirmed;
 use App\Purchases\ITNValidator;
 use App\Purchases\Order;
 use App\Purchases\PayFast;
 use App\Purchases\PayfastITN;
+use App\Purchases\ShoppingBasket;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 
@@ -15,9 +17,11 @@ class PaymentsController extends Controller
     {
         $itn = new PayfastITN(request()->all());
 
-        if ($itn->isTrusted($order) && PayFast::recognizesIP($this->getIp()))
+        if ($itn->isTrusted($order) && PayFast::recognizesIP($this->getIp()) && !$order->isPaid())
         {
             $order->acceptPayment($itn);
+
+            event(new OrderConfirmed($order));
         }
 
         return response('ok');

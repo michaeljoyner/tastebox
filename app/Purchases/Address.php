@@ -20,4 +20,15 @@ class Address
         $this->postal_code = $info['postal_code'] ?? '';
         $this->notes = $info['notes'] ?? '';
     }
+
+    public function toArray(): array
+    {
+        return [
+            'line_one'    => $this->line_one,
+            'line_two'    => $this->line_two,
+            'city'        => $this->city,
+            'postal_code' => $this->postal_code,
+            'notes'       => $this->notes,
+        ];
+    }
 }

@@ -32,6 +32,22 @@ class ShoppingBasketTest extends TestCase
     }
 
     /**
+     *@test
+     */
+    public function can_clear_a_basket()
+    {
+        $basket = ShoppingBasket::for(null);
+        $menu = factory(Menu::class)->create();
+
+        $kit = $basket->addKit($menu->id);
+
+        $basket->clear();
+
+        $this->assertCount(0, session('basket.kits'));
+        $this->assertTrue($basket->isEmpty());
+    }
+
+    /**
      * @test
      */
     public function can_add_a_second_kit_with_same_menu()

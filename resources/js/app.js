@@ -13,6 +13,7 @@ import me from "./stores/me";
 import meals from "./stores/meals";
 import notifications from "./stores/notifications";
 import menus from "./stores/menus";
+import orders from "./stores/orders";
 
 const store = new Vuex.Store({
     modules: {
@@ -20,6 +21,7 @@ const store = new Vuex.Store({
         meals,
         notifications,
         menus,
+        orders,
     },
 });
 

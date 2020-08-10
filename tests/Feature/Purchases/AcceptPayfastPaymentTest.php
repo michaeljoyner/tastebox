@@ -4,8 +4,12 @@
 namespace Tests\Feature\Purchases;
 
 
+use App\Meals\Meal;
+use App\Orders\Menu;
 use App\Purchases\ITNValidator;
 use App\Purchases\Order;
+use App\Purchases\Payment;
+use App\Purchases\ShoppingBasket;
 use App\Purchases\TestITNVaildator;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
@@ -60,7 +64,10 @@ class AcceptPayfastPaymentTest extends TestCase
         ]);
 
 
+
     }
+
+
 
     /**
      *@test
@@ -115,6 +122,31 @@ class AcceptPayfastPaymentTest extends TestCase
         ]);
 
         $this->assertDatabaseMissing('payments', ['order_id' => $order->id]);
+    }
+
+    /**
+     *@test
+     */
+    public function does_not_process_order_is_order_already_paid()
+    {
+        $this->withoutExceptionHandling();
+
+        $order = factory(Order::class)->state('paid')->create([
+            'order_key'      => 'afb61e5b-6e5d-4857-9196-75557bf4254e',
+            'price_in_cents' => 39000
+        ]);
+        $payment = factory(Payment::class)->state('payfast')->create([
+            'order_id' => $order->id,
+        ]);
+        $validIp = gethostbyname('sandbox.payfast.co.za');
+
+        $response = $this->post("/payfast/notify/{$order->order_key}", $this->validITNData(), [
+            'REMOTE_ADDR' => $validIp
+        ]);
+        $response->assertSuccessful();
+
+        $this->assertCount(1, Payment::where('order_id', $order->id)->get());
+        $this->assertTrue($order->payment->is($payment));
     }
 
     /**

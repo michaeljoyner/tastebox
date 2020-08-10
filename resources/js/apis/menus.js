@@ -1,4 +1,4 @@
-import { del, post } from "./http";
+import { del, post, get } from "./http";
 
 function setMenuMeals(menu_id, meal_ids) {
     return post(`/admin/api/menus/${menu_id}/meals`, { meal_ids });
@@ -12,4 +12,8 @@ function closeMenuForOrders(menu_id) {
     return del(`/admin/api/orderable-menus/${menu_id}`);
 }
 
-export { setMenuMeals, openMenuForOrders, closeMenuForOrders };
+function getCurrentBatch() {
+    return get("/admin/api/current-batch");
+}
+
+export { setMenuMeals, openMenuForOrders, closeMenuForOrders, getCurrentBatch };

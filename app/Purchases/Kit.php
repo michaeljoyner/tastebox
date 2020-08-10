@@ -63,6 +63,11 @@ class Kit
         return $this->meals->sum('servings') * Meal::SERVING_PRICE;
     }
 
+    public function mealSummary(): KitMealSummary
+    {
+        return new KitMealSummary($this->meals);
+    }
+
     public function toArray(): array
     {
         return [

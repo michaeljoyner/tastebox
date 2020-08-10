@@ -7,6 +7,15 @@ function post(url, body) {
     });
 }
 
+function get(url) {
+    return new Promise((resolve, reject) => {
+        axios
+            .get(url)
+            .then(({ data }) => resolve(data))
+            .catch(({ response }) => reject(response));
+    });
+}
+
 function del(url) {
     return new Promise((resolve, reject) => {
         axios
@@ -16,4 +25,4 @@ function del(url) {
     });
 }
 
-export { post, del };
+export { get, post, del };

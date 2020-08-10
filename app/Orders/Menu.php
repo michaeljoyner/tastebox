@@ -4,6 +4,8 @@ namespace App\Orders;
 
 use App\DatePresenter;
 use App\Meals\Meal;
+use App\Purchases\Order;
+use App\Purchases\OrderedKit;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Carbon;
 
@@ -27,6 +29,15 @@ class Menu extends Model
     public function scopeUpcoming($query)
     {
         return $query->where('current_from', '>=', Carbon::now()->startOfWeek());
+    }
+
+    public static function nextUp(): Menu
+    {
+        $next =  self::where('delivery_from', '>=', Carbon::today()->startOfDay())
+                     ->orderBy('delivery_from')
+                     ->first();
+
+        return $next ?? new self;
     }
 
     public static function generateWeekly($number_of_weeks)
@@ -110,6 +121,23 @@ class Menu extends Model
     private function ordersCloseDate()
     {
         return Carbon::parse($this->current_to)->subDay();
+    }
+
+    public function orderedKits()
+    {
+        return $this->hasMany(OrderedKit::class);
+    }
+
+    public function getBatch(): Batch
+    {
+        $kits = $this
+            ->orderedKits()
+            ->with('order')
+            ->due()
+            ->get()
+            ->filter(fn (OrderedKit $kit) => $kit->order->status === Order::STATUS_OPEN);
+
+        return new Batch($kits, $this->weekOfYear());
     }
 
 

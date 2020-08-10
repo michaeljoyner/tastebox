@@ -24,6 +24,7 @@ class OrderPaymentsTest extends TestCase
         $order->acceptPayment($itn);
 
         $this->assertTrue($order->fresh()->is_paid);
+        $this->assertSame(Order::STATUS_OPEN, $order->status);
         $order->refresh();
 
         $this->assertEquals('payfast', $order->payment->merchant);

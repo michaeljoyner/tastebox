@@ -118,5 +118,16 @@ class ShoppingBasket
         ];
     }
 
+    public function clear()
+    {
+        $this->kits = collect([]);
+        $this->save();
+    }
+
+    public function isEmpty()
+    {
+        return $this->kits->count() === 0;
+    }
+
 
 }

@@ -19,6 +19,16 @@
                     to="/menus"
                     >Menus</router-link
                 >
+                <router-link
+                    class="text-white font-bold hover:underline mx-4"
+                    to="/recent-orders"
+                    >Orders</router-link
+                >
+                <router-link
+                    class="text-white font-bold hover:underline mx-4"
+                    to="/current-batch/kits"
+                    >This Week</router-link
+                >
             </div>
             <div>
                 <dropdown
