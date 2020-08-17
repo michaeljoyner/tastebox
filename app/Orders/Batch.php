@@ -6,22 +6,52 @@ namespace App\Orders;
 
 use App\Meals\Meal;
 use App\Purchases\OrderedKit;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
 
 class Batch
 {
     public Collection $kits;
     public int $week;
+    public Carbon $delivery_date;
+    public int $menu_id;
 
-    public function __construct($kits, int $week)
+    public function __construct($kits, int $week, Carbon $delivery_date, int $menu_id)
     {
         $this->kits = $kits;
         $this->week = $week;
+        $this->delivery_date = $delivery_date;
+        $this->menu_id = $menu_id;
     }
 
     public function name(): string
     {
         return "Batch #{$this->week}";
+    }
+
+    public function menuId(): int
+    {
+        return $this->menu_id;
+    }
+
+    public function deliveryDate(): Carbon
+    {
+        return $this->delivery_date;
+    }
+
+    public function totalKits(): int
+    {
+        return $this->kits->count();
+    }
+
+    public function totalPackedMeals(): int
+    {
+        return $this->kits->sum(fn ($kit) => $kit->meals->count());
+    }
+
+    public function totalServings(): int
+    {
+        return $this->kits->sum(fn ($kit) => $kit->meals->sum(fn ($meal) => $meal->pivot->servings));
     }
 
     public function kitList(): array

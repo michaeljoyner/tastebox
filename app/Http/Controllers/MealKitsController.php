@@ -9,7 +9,10 @@ class MealKitsController extends Controller
 {
     public function show($kit_id)
     {
+
         $basket = ShoppingBasket::for(request()->user());
+
+        abort_unless($basket->hasKit($kit_id), 404);
         $menu = $basket->getMenuForKit($kit_id);
         return view('front.kits.page', [
             'menu' => $menu->presentForPublic(),

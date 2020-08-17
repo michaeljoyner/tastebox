@@ -26,7 +26,7 @@
                 >
                 <router-link
                     class="text-white font-bold hover:underline mx-4"
-                    to="/current-batch/kits"
+                    to="/current-batch/"
                     >This Week</router-link
                 >
             </div>

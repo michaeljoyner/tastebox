@@ -110,10 +110,13 @@ class ShoppingBasket
 
     public function presentForReview()
     {
-        $kits = $this->kits->map(fn(Kit $kit) => (new BasketPresenter())->presentKit($kit))->all();
+        $kits = $this
+            ->kits
+            ->filter->isValid()
+            ->map(fn(Kit $kit) => (new BasketPresenter())->presentKit($kit))->all();
         return [
             'total_boxes' => $this->kits->count(),
-            'total_price' => $this->kits->sum(fn (Kit $kit) => $kit->price()),
+            'total_price' => $this->price(),
             'kits' => $kits,
         ];
     }

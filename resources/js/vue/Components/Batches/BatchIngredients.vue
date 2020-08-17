@@ -1,6 +1,12 @@
 <template>
     <div>
-        <p class="text-xl font-bold mb-8">Ingredient List</p>
+        <div class="flex justify-between items-center mb-8">
+            <p class="text-xl font-bold">Ingredient List</p>
+            <button class="btn btn-main" @click="downloadShoppingList">
+                Shopping List
+            </button>
+        </div>
+
         <div
             v-for="ingredient in ingredients"
             :key="ingredient.id"
@@ -31,6 +37,16 @@ export default {
                 }
                 return 0;
             });
+        },
+
+        menu_id() {
+            return this.$store.getters["menus/current_batch_menu_id"];
+        },
+    },
+
+    methods: {
+        downloadShoppingList() {
+            window.location = `/admin/api/menus/${this.menu_id}/batch/shopping-list`;
         },
     },
 };

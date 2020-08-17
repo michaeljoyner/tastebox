@@ -24,12 +24,14 @@ $factory->state(Menu::class, 'current', [
     'current_from' => Carbon::today()->startOfWeek(),
     'current_to' => Carbon::today()->startOfWeek()->addDays(5),
     'delivery_from' => Carbon::today()->endOfWeek()->addDay(),
+    'can_order' => true,
 ]);
 
 $factory->state(Menu::class, 'upcoming', [
     'current_from' => Carbon::today()->addWeeks(2)->startOfWeek(),
     'current_to' => Carbon::today()->addWeeks(2)->startOfWeek()->addDays(5),
     'delivery_from' => Carbon::today()->addWeeks(2)->endOfWeek()->addDay(),
+    'can_order' => true,
 ]);
 
 $factory->state(Menu::class, 'closed', [

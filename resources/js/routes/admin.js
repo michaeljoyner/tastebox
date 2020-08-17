@@ -7,10 +7,11 @@ import MenuShow from "../vue/Pages/Menu/MenuShow";
 import MenuEditMeals from "../vue/Pages/Menu/MenuEditMeals";
 import RecentOrders from "../vue/Pages/Orders/RecentOrders";
 import Order from "../vue/Pages/Orders/Order";
-import CurrentBatch from "../vue/Pages/Btches/CurrentBatch";
+import CurrentBatch from "../vue/Pages/Batches/CurrentBatch";
 import BatchKits from "../vue/Components/Batches/BatchKits";
 import BatchMeals from "../vue/Components/Batches/BatchMeals";
 import BatchIngredients from "../vue/Components/Batches/BatchIngredients";
+import BatchSummary from "../vue/Pages/Batches/BatchSummary";
 
 export default [
     { path: "/meals", component: MealsIndex },
@@ -26,6 +27,7 @@ export default [
         path: "/current-batch",
         component: CurrentBatch,
         children: [
+            { path: "/", component: BatchSummary },
             { path: "kits", component: BatchKits },
             { path: "meals", component: BatchMeals },
             { path: "ingredients", component: BatchIngredients },

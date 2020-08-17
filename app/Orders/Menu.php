@@ -137,7 +137,12 @@ class Menu extends Model
             ->get()
             ->filter(fn (OrderedKit $kit) => $kit->order->status === Order::STATUS_OPEN);
 
-        return new Batch($kits, $this->weekOfYear());
+        return new Batch(
+            $kits,
+            $this->weekOfYear(),
+            $this->delivery_from,
+            $this->id,
+        );
     }
 
 

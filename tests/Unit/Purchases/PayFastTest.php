@@ -54,7 +54,7 @@ class PayFastTest extends TestCase
         $order = Order::makeNew([
             'first_name' => 'test first name',
             'last_name' => 'test last name',
-            'phone' => 'test phone',
+            'phone' => '0791112223',
             'email' => 'test@test.test',
         ], $basket->price());
 
@@ -70,7 +70,7 @@ class PayFastTest extends TestCase
             'name_first' => 'test first name',
             'name_last' => 'test last name',
             'email_address' => 'test@test.test',
-            'cell_number' => 'test phone',
+            'cell_number' => '0791112223',
             'm_payment_id' => $order->order_key,
             'amount' => $basket->price(),
             'item_name' => 'Tastebox order',
@@ -89,6 +89,78 @@ class PayFastTest extends TestCase
 
         $this->assertEquals($expected, PayFast::checkoutForm($order));
 
+    }
+
+    /**
+     *@test
+     */
+    public function will_not_include_cell_number_if_not_a_valid_sa_cell_number()
+    {
+        config(['payfast.merchant_id' => '12345']);
+        config(['payfast.merchant_key' => 'abcde']);
+        config(['payfast.return_url' => 'https://tastebox.test/payfast/return']);
+        config(['payfast.cancel_url' => 'https://tastebox.test/payfast/cancel']);
+        config(['payfast.notify_url' => 'https://tastebox.test/payfast/notify']);
+        config(['payfast.passphrase' => 'salty_dog']);
+
+        $menu = factory(Menu::class)->state('current')->create();
+
+        $mealA = factory(Meal::class)->create();
+        $mealB = factory(Meal::class)->create();
+        $mealC = factory(Meal::class)->create();
+        $mealD = factory(Meal::class)->create();
+
+        $menu->setMeals([$mealA->id, $mealB->id, $mealC->id, $mealD->id]);
+
+        $basket = ShoppingBasket::for(null);
+        $kitA = $basket->addKit($menu->id);
+        $kitB = $basket->addKit($menu->id);
+
+        $kitA->setMeal($mealA->id, 2);
+        $kitA->setMeal($mealB->id, 3);
+
+        $kitA->setMeal($mealC->id, 4);
+        $kitA->setMeal($mealD->id, 5);
+
+        /**
+         * @var $order Order
+         */
+        $order = Order::makeNew([
+            'first_name' => 'test first name',
+            'last_name' => 'test last name',
+            'phone' => 'test phone',
+            'email' => 'test@test.test',
+        ], $basket->price());
+
+        $order->addKit($kitA, $this->getTestAddress());
+        $order->addKit($kitB, $this->getTestAddress());
+
+        $order_data = [
+            'merchant_id' => '12345',
+            'merchant_key' => 'abcde',
+            'return_url' => 'https://tastebox.test/payfast/return/' . $order->order_key,
+            'cancel_url' => 'https://tastebox.test/payfast/cancel/' . $order->order_key,
+            'notify_url' => 'https://tastebox.test/payfast/notify/' . $order->order_key,
+            'name_first' => 'test first name',
+            'name_last' => 'test last name',
+            'email_address' => 'test@test.test',
+            'm_payment_id' => $order->order_key,
+            'amount' => $basket->price(),
+            'item_name' => 'Tastebox order',
+            'item_description' => '2 x Mealkits',
+            'email_confirmation' => 0,
+        ];
+
+        $out = collect($order_data)
+            ->map(function($value, $key) {
+                return sprintf("%s=%s", $key, urlencode($value));
+            })->join("&");
+
+        $sig = md5($out . "&passphrase=salty_dog");
+
+        $expected = array_merge($order_data, ['signature' => $sig]);
+
+        $this->assertEquals($expected, PayFast::checkoutForm($order));
     }
 
     /**

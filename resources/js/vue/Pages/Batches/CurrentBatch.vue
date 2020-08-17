@@ -1,8 +1,16 @@
 <template>
     <page v-if="batch">
-        <page-header :title="batch.name"></page-header>
+        <page-header :title="batch.name"> </page-header>
+
         <div class="flex">
             <div class="w-64">
+                <div class="mb-3 pl-2">
+                    <router-link
+                        class="font-bold text-gray-700 hover:text-teal-600"
+                        :to="`/current-batch/`"
+                        >Overview</router-link
+                    >
+                </div>
                 <div class="mb-3 pl-2">
                     <router-link
                         class="font-bold text-gray-700 hover:text-teal-600"

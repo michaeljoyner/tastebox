@@ -36,7 +36,16 @@ class PayFast
             'email_confirmation' => 0,
         ];
 
+        if(!self::recognizesCellNumber($fields['cell_number'])) {
+            unset($fields['cell_number']);
+        }
+
         return array_merge($fields, static::sign($fields));
+    }
+
+    private static function recognizesCellNumber(string $number): bool
+    {
+        return !! preg_match('/(079|082){1}[\d]{7}/', $number);
     }
 
     private static function sign(array $data)

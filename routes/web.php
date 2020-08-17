@@ -28,11 +28,11 @@ Route::delete('my-kits/{kit_id}/meals/{meal_id}', 'MealKitsMealsController@destr
 
 Route::group(['middleware' => 'auth'], function() {
     Route::get('test-home', 'HomePageController@show');
+    Route::get('build-a-box', 'KitBuilderController@show');
     Route::get('my-kits/{kit_id}', 'MealKitsController@show');
 
     Route::get('basket', 'BasketController@show');
     Route::get('basket-summary', 'BasketSummaryController@show');
-
 
 });
 
@@ -84,5 +84,7 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('recent-orders/{order}', 'OrdersController@show');
 
         Route::get('current-batch', 'CurrentBatchController@show');
+
+        Route::get('menus/{menu}/batch/shopping-list', 'ShoppingListController@download');
     });
 });

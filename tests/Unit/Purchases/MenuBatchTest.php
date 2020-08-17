@@ -120,5 +120,11 @@ class MenuBatchTest extends TestCase
         ];
 
         $this->assertEquals($expected_meal_list, $batch->mealList());
+
+        $this->assertSame($menu->id, $batch->menuId());
+        $this->assertEquals($menu->delivery_from, $batch->deliveryDate());
+        $this->assertSame(3, $batch->totalKits());
+        $this->assertSame(9, $batch->totalPackedMeals());
+        $this->assertSame(31, $batch->totalServings());
     }
 }

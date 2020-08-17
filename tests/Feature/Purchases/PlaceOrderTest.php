@@ -59,7 +59,7 @@ class PlaceOrderTest extends TestCase
             'first_name' => 'test first name',
             'last_name'  => 'test last name',
             'email'      => 'test@test.test',
-            'phone'      => 'test phone',
+            'phone'      => '0798888888',
             'delivery'   => [
                 $kitA->id => [
                     'line_one'    => 'test road',
@@ -84,7 +84,7 @@ class PlaceOrderTest extends TestCase
             'first_name'    => 'test first name',
             'last_name'    => 'test last name',
             'email'   => 'test@test.test',
-            'phone'   => 'test phone',
+            'phone'   => '0798888888',
             'is_paid' => false,
         ]);
 
@@ -308,7 +308,7 @@ class PlaceOrderTest extends TestCase
             'first_name'     => 'test first name',
             'last_name'     => 'test last name',
             'email'    => 'test@test.test',
-            'phone'    => 'test phone',
+            'phone'    => '0798888888',
             'delivery' => [
                 $kit->id => [
                     'line_one'    => 'test road',
