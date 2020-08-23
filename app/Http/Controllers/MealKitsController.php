@@ -2,23 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Purchases\BasketPresenter;
 use App\Purchases\ShoppingBasket;
 use Illuminate\Http\Request;
 
 class MealKitsController extends Controller
 {
-    public function show($kit_id)
-    {
-
-        $basket = ShoppingBasket::for(request()->user());
-
-        abort_unless($basket->hasKit($kit_id), 404);
-        $menu = $basket->getMenuForKit($kit_id);
-        return view('front.kits.page', [
-            'menu' => $menu->presentForPublic(),
-            'kit' => $basket->getKit($kit_id)->toArray(),
-        ]);
-    }
 
     public function store()
     {
@@ -29,12 +18,14 @@ class MealKitsController extends Controller
         $basket = ShoppingBasket::for(request()->user());
         $kit = $basket->addKit(request('menu_id'));
 
-        return redirect("my-kits/{$kit->id}");
+        return (new BasketPresenter())->presentKit($kit);
     }
 
     public function destroy($kit_id)
     {
         $basket = ShoppingBasket::for(request()->user());
         $basket->discardKit($kit_id);
+
+        return $basket->presentForReview();
     }
 }

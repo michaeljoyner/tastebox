@@ -17,7 +17,7 @@ class BasketPresenter
 
         return [
             'name' => $kit->name,
-            'kit_id' => $kit->id,
+            'id' => $kit->id,
             'menu_id' => $kit->menu_id,
             'delivery_date' => DatePresenter::pretty($menu->delivery_from),
             'meals_count' => $meals->count(),

@@ -1,33 +1,69 @@
 <template>
     <div>
-        <button
-            @click="remove"
-            class="text-gray-600 hover:text-red-500 hover:underline mr-4"
-        >
-            Remove
-        </button>
-        <span class="inline-flex bg-gray-800">
-            <button
-                @click="decServings"
-                class="text-white hover:text-yellow-500 text-xl font-bold border-r border-grey-100 px-3 mr-2"
-            >
-                -
-            </button>
-            <span class="text-white text-xl font-bold">{{ servings }}</span>
-            <button
-                class="text-white text-xl font-bold border-l border-grey-100 px-3 ml-2"
-                @click="incServings"
-            >
-                +
-            </button>
-        </span>
+        <div class="flex flex-wrap justify-end items-center my-3">
+            <span class="inline-flex items-center">
+                <span class="mr-4">Servings: </span>
+                <button
+                    @click="servings = 2"
+                    class="block h-10 w-10 rounded-full shadow font-bold border-2 border-gray-200 focus:outline-none"
+                    :class="{
+                        'bg-green-600 text-white': currentState === 2,
+                        'bg-gray-200 focus:border-green-600':
+                            currentState !== 2,
+                    }"
+                >
+                    2
+                </button>
+                <button
+                    @click="servings = 4"
+                    class="block h-10 w-10 rounded-full shadow font-bold mx-3 border-2 border-gray-200 focus:outline-none"
+                    :class="{
+                        'bg-green-600 text-white': currentState === 4,
+                        'bg-gray-200 focus:border-green-600':
+                            currentState !== 4,
+                    }"
+                >
+                    4
+                </button>
+                <button
+                    class="block h-10 w-10 rounded-full shadow font-bold border-2 border-gray-200 focus:outline-none"
+                    :class="{
+                        'bg-green-600 text-white': currentState === 6,
+                        'bg-gray-200 focus:border-green-600':
+                            currentState !== 6,
+                    }"
+                    @click="servings = 6"
+                >
+                    6
+                </button>
+            </span>
 
-        <button
-            class="bg-blue-600 hover:bg-blue-700 text-white px-2 py-1 rounded"
-            @click="addToKit"
-        >
-            {{ set_button_text }}
-        </button>
+            <div class="flex items-center mt-3 md:mt-0 md:ml-6">
+                <button
+                    class="px-2 py-1 rounded mr-4 order-1 md:order-2"
+                    :class="{
+                        'text-red-600 hover:text-red-500': currentState,
+                        'text-gray-500': !currentState,
+                    }"
+                    @click="remove"
+                    :disabled="!currentState"
+                >
+                    Remove
+                </button>
+
+                <button
+                    class="font-bold text-white px-2 py-1 rounded order-2 md:order-1"
+                    :class="{
+                        'bg-green-600 hover:bg-green-500': !unchanged,
+                        'bg-gray-200': unchanged,
+                    }"
+                    @click="addToKit"
+                    :disabled="unchanged"
+                >
+                    {{ set_button_text }}
+                </button>
+            </div>
+        </div>
     </div>
 </template>
 
@@ -37,7 +73,7 @@ export default {
 
     data() {
         return {
-            servings: 2,
+            servings: 0,
             waiting: false,
         };
     },
@@ -46,10 +82,17 @@ export default {
         set_button_text() {
             return this.currentState ? "Update Kit" : "Add to Kit";
         },
+
+        unchanged() {
+            return (
+                this.currentState === this.servings ||
+                (!this.currentState && !this.servings)
+            );
+        },
     },
 
     mounted() {
-        this.servings = this.currentState ? this.currentState : 2;
+        this.servings = this.currentState ? this.currentState : 0;
     },
 
     methods: {
@@ -77,7 +120,10 @@ export default {
         remove() {
             axios
                 .delete(`/my-kits/${this.kitId}/meals/${this.mealId}`)
-                .then(({ data }) => this.$emit("updated", data));
+                .then(({ data }) => {
+                    this.$emit("updated", data);
+                    this.servings = 0;
+                });
         },
     },
 };

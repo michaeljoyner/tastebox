@@ -113,7 +113,7 @@ class ShoppingBasket
         $kits = $this
             ->kits
             ->filter->isValid()
-            ->map(fn(Kit $kit) => (new BasketPresenter())->presentKit($kit))->all();
+            ->map(fn(Kit $kit) => (new BasketPresenter())->presentKit($kit))->values()->all();
         return [
             'total_boxes' => $this->kits->count(),
             'total_price' => $this->price(),

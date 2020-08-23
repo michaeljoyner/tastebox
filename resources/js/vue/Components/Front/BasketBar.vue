@@ -34,13 +34,9 @@
         >
             <div v-show="has_kits">
                 <p class="text-sm uppercase pb-2 mb-2 border-b">Your kits:</p>
-                <div
-                    v-for="box in basket.kits"
-                    :key="box.kit_id"
-                    class="p-2 mb-2"
-                >
+                <div v-for="box in basket.kits" :key="box.id" class="p-2 mb-2">
                     <a
-                        :href="`/my-kits/${box.kit_id}`"
+                        :href="`/build-a-box?kit=${box.id}`"
                         class="hover:text-teal-600"
                     >
                         <span class="font-bold">{{ box.name }}</span>

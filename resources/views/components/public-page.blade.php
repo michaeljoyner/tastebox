@@ -19,7 +19,9 @@
 <div id="app" class="min-h-full">
     {{ $slot }}
     <div class="bg-white px-6 shadow w-screen h-16 flex justify-between items-center fixed top-0 left-0">
-        <div>home</div>
+        <div>
+            <a href="/">Home</a>
+        </div>
         <basket-bar></basket-bar>
     </div>
 </div>

@@ -28,7 +28,7 @@ class CreateKitTest extends TestCase
         $kit = session('basket.kits')[0];
 
         $this->assertEquals($menu->id, $kit->menu_id);
-        $response->assertRedirect("/my-kits/{$kit->id}");
+        $response->assertSuccessful();
     }
 
     /**
@@ -36,8 +36,8 @@ class CreateKitTest extends TestCase
      */
     public function the_menu_id_is_must_exist_in_menu_table()
     {
-        $response = $this->from("/")->asGuest()->post('/my-kits', ['menu_id' => 999]);
-        $response->assertRedirect("/");
-        $response->assertSessionHasErrors('menu_id');
+        $response = $this->from("/")->asGuest()->postJson('/my-kits', ['menu_id' => 999]);
+        $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
+        $response->assertJsonValidationErrors('menu_id');
     }
 }

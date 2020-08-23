@@ -13,7 +13,6 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::view('/', 'welcome');
 
 Route::view('admin/login', 'auth.admin-login')->name('login');
 
@@ -27,7 +26,7 @@ Route::post('my-kits/{kit_id}/meals', 'MealKitsMealsController@store');
 Route::delete('my-kits/{kit_id}/meals/{meal_id}', 'MealKitsMealsController@destroy');
 
 Route::group(['middleware' => 'auth'], function() {
-    Route::get('test-home', 'HomePageController@show');
+    Route::get('/', 'HomePageController@show');
     Route::get('build-a-box', 'KitBuilderController@show');
     Route::get('my-kits/{kit_id}', 'MealKitsController@show');
 

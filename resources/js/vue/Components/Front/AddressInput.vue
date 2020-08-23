@@ -1,8 +1,10 @@
 <template>
-    <div>
+    <div class="w-full">
         <div>
-            <label>
-                <span>Street address</span>
+            <label class="mb-4 block">
+                <span class="text-gray-700 font-bold text-sm"
+                    >Street address</span
+                >
                 <input
                     type="text"
                     class="block w-full border p-2"
@@ -10,8 +12,10 @@
                     @input="$emit('input', address)"
                 />
             </label>
-            <label>
-                <span>Line two</span>
+            <label class="mb-4 block">
+                <span class="text-gray-700 font-bold text-sm"
+                    >Street address (Line two)</span
+                >
                 <input
                     type="text"
                     class="block w-full border p-2"
@@ -19,8 +23,8 @@
                     @input="$emit('input', address)"
                 />
             </label>
-            <label>
-                <span>City</span>
+            <label class="mb-4 block">
+                <span class="text-gray-700 font-bold text-sm">City</span>
                 <input
                     type="text"
                     class="block w-full border p-2"
@@ -28,8 +32,8 @@
                     @input="$emit('input', address)"
                 />
             </label>
-            <label>
-                <span>Postal Code</span>
+            <label class="mb-4 block">
+                <span class="text-gray-700 font-bold text-sm">Postal Code</span>
                 <input
                     type="text"
                     class="block w-full border p-2"

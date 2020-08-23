@@ -9,6 +9,7 @@ use App\Meals\Meal;
 use App\Orders\Menu;
 use App\Purchases\ShoppingBasket;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Carbon;
 use Tests\TestCase;
 
 class PresentShoppingBasketTest extends TestCase
@@ -20,8 +21,13 @@ class PresentShoppingBasketTest extends TestCase
      */
     public function present_the_basket()
     {
-        $menuA = factory(Menu::class)->state('current')->create();
-        $menuB = factory(Menu::class)->state('upcoming')->create();
+        $menuA = factory(Menu::class)->state('current')->create([
+            'current_to' => Carbon::tomorrow(),
+            'can_order' => true,
+        ]);
+        $menuB = factory(Menu::class)->state('upcoming')->create([
+            'can_order' => true
+        ]);
 
         $mealA = factory(Meal::class)->create();
         $mealB = factory(Meal::class)->create();
@@ -47,7 +53,7 @@ class PresentShoppingBasketTest extends TestCase
             'kits' => [
                 [
                     'name' => 'Box One',
-                    'kit_id' => $kitA->id,
+                    'id' => $kitA->id,
                     'menu_id' => $menuA->id,
                     'delivery_date' => $menuA->delivery_from->format(DatePresenter::PRETTY_DMY),
                     'meals_count' => 2,
@@ -70,7 +76,7 @@ class PresentShoppingBasketTest extends TestCase
                 ],
                 [
                     'name' => 'Box Two',
-                    'kit_id' => $kitB->id,
+                    'id' => $kitB->id,
                     'menu_id' => $menuB->id,
                     'delivery_date' => $menuB->delivery_from->format(DatePresenter::PRETTY_DMY),
                     'meals_count' => 2,
@@ -94,6 +100,7 @@ class PresentShoppingBasketTest extends TestCase
             ],
 
         ];
+
 
         $this->assertEquals($expected, $basket->presentForReview());
     }
