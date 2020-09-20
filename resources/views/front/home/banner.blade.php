@@ -8,3 +8,4 @@
     </div>
 
 </div>
+@include('svg.wavy-divider', ['top_colour' => 'bg-green-600', 'bottom_colour' => 'text-green-400'])
