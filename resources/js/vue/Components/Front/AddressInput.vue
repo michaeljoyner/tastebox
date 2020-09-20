@@ -1,6 +1,13 @@
 <template>
     <div class="w-full">
-        <div>
+        <div
+            class="p-1"
+            :class="{ 'border-b border-t border-red-500': errorMsg }"
+        >
+            <p class="text-sm text-red-600" v-show="errorMsg">
+                Each address requires a street address (line one), city and
+                postal code.
+            </p>
             <label class="mb-4 block">
                 <span class="text-gray-700 font-bold text-sm"
                     >Street address</span
@@ -47,7 +54,7 @@
 
 <script type="text/babel">
 export default {
-    props: ["value"],
+    props: ["value", "error-msg"],
 
     data() {
         return {

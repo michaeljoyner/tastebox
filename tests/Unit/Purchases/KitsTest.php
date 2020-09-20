@@ -59,12 +59,12 @@ class KitsTest extends TestCase
 
         $basket = ShoppingBasket::for(null);
 
-//        $kitA = $basket->addKit($old_menu->id);
-//        $kitA->setMeal($mealA->id, 2);
-//        $kitA->setMeal($mealB->id, 3);
-//        $kitA->setMeal($mealC->id, 4);
-//
-//        $this->assertFalse($kitA->isValid());
+        $kitA = $basket->addKit($old_menu->id);
+        $kitA->setMeal($mealA->id, 2);
+        $kitA->setMeal($mealB->id, 3);
+        $kitA->setMeal($mealC->id, 4);
+
+        $this->assertFalse($kitA->isValid());
 
 
         $kitB = $basket->addKit($current_menu->id);
@@ -110,5 +110,30 @@ class KitsTest extends TestCase
         $this->assertTrue($meal_summary->meals->contains(
             fn (KitMeal $kit_meal) => $kit_meal->name === $mealC->name && $kit_meal->servings === 4
         ));
+    }
+
+    /**
+     *@test
+     */
+    public function kits_with_less_than_three_meals_is_not_legible_for_order()
+    {
+        $menu = factory(Menu::class)->state('current')->create();
+
+        $mealA = factory(Meal::class)->create();
+        $mealB = factory(Meal::class)->create();
+        $mealC = factory(Meal::class)->create();
+
+        $menu->setMeals([$mealA->id, $mealB->id, $mealC->id]);
+
+        $basket = ShoppingBasket::for(null);
+
+        $kit = $basket->addKit($menu->id);
+        $kit->setMeal($mealA->id, 2);
+        $kit->setMeal($mealB->id, 3);
+
+        $this->assertFalse($kit->eligibleForOrder());
+
+        $kit->setMeal($mealC->id, 3);
+        $this->assertTrue($kit->eligibleForOrder());
     }
 }

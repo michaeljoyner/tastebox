@@ -5,6 +5,7 @@ namespace Tests\Unit\Purchases;
 use App\Meals\Meal;
 use App\Orders\Menu;
 use App\Purchases\Kit;
+use App\Purchases\Order;
 use App\Purchases\ShoppingBasket;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Str;
@@ -170,13 +171,40 @@ class ShoppingBasketTest extends TestCase
         $menu = factory(Menu::class)->create();
         $mealA = factory(Meal::class)->create();
         $mealB = factory(Meal::class)->create();
-        $menu->setMeals([$mealA->id, $mealB->id]);
+        $mealC = factory(Meal::class)->create();
+        $menu->setMeals([$mealA->id, $mealB->id, $mealC->id]);
 
         $kit = $basket->addKit($menu->id);
         $kit->setMeal($mealA->id, 2);
-        $kit->setMeal($mealB->id, 3);
+        $kit->setMeal($mealB->id, 4);
+        $kit->setMeal($mealC->id, 2);
 
-        $this->assertEquals(325.00, $basket->price());
+        $this->assertEquals(8 * Meal::SERVING_PRICE, $basket->price());
+    }
+
+    /**
+     *@test
+     */
+    public function basket_price_does_not_include_ineligible_kits()
+    {
+        $basket = ShoppingBasket::for(null);
+        $menu = factory(Menu::class)->create();
+        $mealA = factory(Meal::class)->create();
+        $mealB = factory(Meal::class)->create();
+        $mealC = factory(Meal::class)->create();
+        $menu->setMeals([$mealA->id, $mealB->id, $mealC->id]);
+
+        $bad_kit = $basket->addKit($menu->id);
+        $bad_kit->setMeal($mealA->id, 2);
+        $bad_kit->setMeal($mealB->id, 3);
+
+        $good_kit = $basket->addKit($menu->id);
+        $good_kit->setMeal($mealA->id, 3);
+        $good_kit->setMeal($mealB->id, 4);
+        $good_kit->setMeal($mealC->id, 5);
+
+
+        $this->assertEquals(12 * Meal::SERVING_PRICE, $basket->price());
     }
 
 

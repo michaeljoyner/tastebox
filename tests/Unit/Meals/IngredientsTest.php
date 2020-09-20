@@ -6,6 +6,7 @@ namespace Tests\Unit\Meals;
 
 
 use App\Meals\Ingredient;
+use App\Meals\Meal;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -36,5 +37,27 @@ class IngredientsTest extends TestCase
         $this->assertCount(1, Ingredient::all());
 
         $this->assertTrue($later->is($ingredient));
+    }
+
+    /**
+     *@test
+     */
+    public function can_scope_to_unused()
+    {
+        $mealA = factory(Meal::class)->create();
+        $mealB = factory(Meal::class)->create();
+
+        $ingredientA = factory(Ingredient::class)->create();
+        $ingredientB = factory(Ingredient::class)->create();
+        $ingredientC = factory(Ingredient::class)->create();
+        $ingredientD = factory(Ingredient::class)->create();
+
+        $mealA->ingredients()->sync([$ingredientA->id, $ingredientB->id]);
+        $mealB->ingredients()->sync([$ingredientA->id, $ingredientD->id]);
+
+        $scoped = Ingredient::unused()->get();
+
+        $this->assertCount(1, $scoped);
+        $this->assertTrue($scoped->first()->is($ingredientC));
     }
 }

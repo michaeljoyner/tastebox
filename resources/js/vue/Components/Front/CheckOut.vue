@@ -5,7 +5,11 @@
         >
             <div>
                 <p class="text-xl my-12 text-center font-bold">Your Order</p>
-                <div v-for="kit in basket.kits" :key="kit.id" class="mb-4 w-64">
+                <div
+                    v-for="kit in eligible_kits"
+                    :key="kit.id"
+                    class="mb-4 w-64"
+                >
                     <p class="flex justify-between border-b border-gray-200">
                         <span class="font-bold mr-8">{{ kit.name }}</span>
                         <span>R{{ kit.price }}</span>
@@ -15,6 +19,21 @@
                         servings)
                     </p>
                 </div>
+
+                <div
+                    v-for="kit in ineligible_kits"
+                    :key="kit.id"
+                    class="mb-4 w-64 text-gray-600"
+                >
+                    <p class="flex justify-between border-b border-gray-200">
+                        <span class="font-bold mr-8">{{ kit.name }}</span>
+                        <span class="line-through">R{{ kit.price }}</span>
+                    </p>
+                    <p class="text-sm">
+                        Kit not eligible for order
+                    </p>
+                </div>
+
                 <p class="w-64 flex justify-between">
                     <span>Sub-total:</span>
                     <span>R{{ basket.total_price }}</span>
@@ -33,7 +52,7 @@
 
                 <div class="w-full max-w-md mx-auto">
                     <div
-                        class="my-4 w-full"
+                        class="my-4 w-full md:w-64"
                         :class="{
                             'border-b border-red-400': formErrors.first_name,
                         }"
@@ -52,12 +71,12 @@
                             type="text"
                             name="first_name"
                             v-model="formData.first_name"
-                            class="block border p-2 w-full md:w-64"
+                            class="block border p-2 w-full"
                             id="first_name"
                         />
                     </div>
                     <div
-                        class="my-4"
+                        class="my-4 md:w-64"
                         :class="{
                             'border-b border-red-400': formErrors.last_name,
                         }"
@@ -76,13 +95,13 @@
                             type="text"
                             name="last_name"
                             v-model="formData.last_name"
-                            class="block border p-2 w-full md:w-64"
+                            class="block border p-2 w-full"
                             id="last_name"
                         />
                     </div>
 
                     <div
-                        class="my-4"
+                        class="my-4 md:w-64"
                         :class="{ 'border-b border-red-400': formErrors.email }"
                     >
                         <label
@@ -99,12 +118,12 @@
                             type="email"
                             name="email"
                             v-model="formData.email"
-                            class="block border p-2 w-full md:w-64"
+                            class="block border p-2 w-full"
                             id="email"
                         />
                     </div>
                     <div
-                        class="my-4"
+                        class="my-4 md:w-64"
                         :class="{ 'border-b border-red-400': formErrors.phone }"
                     >
                         <label
@@ -121,7 +140,7 @@
                             type="text"
                             name="phone"
                             v-model="formData.phone"
-                            class="block border p-2 w-full md:w-64"
+                            class="block border p-2 w-full"
                             id="phone"
                         />
                     </div>
@@ -192,6 +211,7 @@
                     <address-input
                         class="max-w-md"
                         v-model="formData.delivery[kit.id]"
+                        :error-msg="isInvalidAddress(kit.id)"
                     ></address-input>
                 </div>
             </div>
@@ -226,18 +246,19 @@
                 <address-input
                     class="max-w-md"
                     v-model="formData.main_address"
+                    :error-msg="invalidAddresses.length"
                 ></address-input>
             </div>
         </div>
 
         <div class="my-6 text-center">
-            <button
-                @click="submit"
-                type="button"
-                class="px-4 py-2 rounded bg-green-600 hover:bg-green-500 text-white font-bold"
+            <submit-button
+                @click.native="submit"
+                role="button"
+                :waiting="waiting"
             >
                 Pay Now
-            </button>
+            </submit-button>
         </div>
         <div>
             <form
@@ -259,9 +280,15 @@
 
 <script type="text/babel">
 import AddressInput from "./AddressInput";
+import SubmitButton from "./SubmitButton";
+import {
+    clearValidationErrors,
+    setValidationErrors,
+} from "../../../libs/forms";
 export default {
     components: {
         AddressInput,
+        SubmitButton,
     },
 
     props: ["basket"],
@@ -269,6 +296,7 @@ export default {
     data() {
         return {
             use_multiple_addresses: false,
+            waiting: false,
             formData: {
                 first_name: "",
                 last_name: "",
@@ -288,6 +316,7 @@ export default {
                 email: "",
                 phone: "",
             },
+            invalidAddresses: [],
             payfast: {},
         };
     },
@@ -295,6 +324,18 @@ export default {
     computed: {
         has_multiple_kits() {
             return this.basket.kits.length > 1;
+        },
+
+        eligible_kits() {
+            return this.basket.kits.filter((kit) => kit.eligible_for_order);
+        },
+
+        ineligible_kits() {
+            return this.basket.kits.filter((kit) => !kit.eligible_for_order);
+        },
+
+        hasInvalidAddress() {
+            return this.invalidAddresses.length > 0;
         },
     },
 
@@ -316,6 +357,10 @@ export default {
 
     methods: {
         submit() {
+            this.waiting = true;
+            this.formErrors = clearValidationErrors(this.formErrors);
+            this.clearInvalidAddresses();
+
             const fd = {
                 first_name: this.formData.first_name,
                 last_name: this.formData.last_name,
@@ -335,12 +380,44 @@ export default {
             }
             axios
                 .post("/checkout", fd)
-                .then(({ data }) => (this.payfast = data))
-                .then(() =>
-                    this.$nextTick().then(() =>
-                        this.$refs.payfast_form.submit()
-                    )
-                );
+                .then(({ data }) => this.onSuccess(data))
+                .catch(({ response }) => this.onError(response));
+        },
+
+        onSuccess(payfast_data) {
+            this.payfast = payfast_data;
+
+            this.$nextTick().then(() => {
+                this.$refs.payfast_form.submit();
+            });
+        },
+
+        onError({ status, data }) {
+            this.waiting = false;
+            if (status === 422) {
+                this.setInvalidAddresses(data.errors);
+                return (this.formErrors = setValidationErrors(
+                    this.formErrors,
+                    data.errors
+                ));
+            }
+        },
+
+        setInvalidAddresses(errors) {
+            const invalid = new Set(
+                Object.keys(errors)
+                    .filter((key) => key.indexOf("delivery.") === 0)
+                    .map((key) => key.slice(9, 45))
+            );
+            this.invalidAddresses = [...invalid];
+        },
+
+        clearInvalidAddresses() {
+            this.invalidAddresses = [];
+        },
+
+        isInvalidAddress(kit_id) {
+            return this.invalidAddresses.includes(kit_id);
         },
     },
 };

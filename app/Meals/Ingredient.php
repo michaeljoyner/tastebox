@@ -14,6 +14,16 @@ class Ingredient extends Model
         return static::firstOrCreate(['description' => $description]);
     }
 
+    public function scopeUnused($query)
+    {
+        return $query->whereDoesntHave('meals');
+    }
+
+    public function meals()
+    {
+        return $this->belongsToMany(Meal::class);
+    }
+
     public function toArray()
     {
         if($this->pivot) {

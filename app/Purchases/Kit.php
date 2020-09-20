@@ -41,11 +41,16 @@ class Kit
         return $names[$index];
     }
 
-    public function isValid()
+    public function isValid(): bool
     {
         $menu = Menu::find($this->menu_id);
         $cut_off = $menu->current_to->setHours(23)->setMinutes(59);
         return $cut_off->greaterThan(now()) && $menu->can_order;
+    }
+
+    public function eligibleForOrder(): bool
+    {
+        return $this->meals->count() > 2;
     }
 
     public function setMeal(int $meal_id, int $servings)

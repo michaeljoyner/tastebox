@@ -105,7 +105,10 @@ class ShoppingBasket
 
     public function price(): float
     {
-        return $this->kits->sum(fn (Kit $kit) => $kit->price());
+        return $this
+            ->kits
+            ->filter(fn(Kit $kit) => $kit->eligibleForOrder())
+            ->sum(fn (Kit $kit) => $kit->price());
     }
 
     public function presentForReview()

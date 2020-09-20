@@ -20,7 +20,9 @@
     {{ $slot }}
     <div class="bg-white px-6 shadow w-screen h-16 flex justify-between items-center fixed top-0 left-0">
         <div>
-            <a href="/">Home</a>
+            <a href="/">
+                <img src="/images/logo.jpg" alt="Tastebox logo" class="w-12">
+            </a>
         </div>
         <basket-bar></basket-bar>
     </div>

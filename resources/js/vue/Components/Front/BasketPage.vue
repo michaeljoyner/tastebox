@@ -29,6 +29,26 @@
                         {{ meal.name }} ({{ meal.servings }} people)
                     </li>
                 </ul>
+
+                <div
+                    v-if="!kit.eligible_for_order"
+                    class="my-6 pl-12 pr-6 py-4 rounded-lg border border-red-600 text-red-700 relative"
+                >
+                    <warning-icon
+                        class="h-5 text-red-600 absolute top-0 left-0 m-2"
+                    ></warning-icon>
+                    <span class="text-sm">
+                        This kit does not contain enough meals or servings to
+                        make it eligible for order. It does not count towards
+                        the basket total price. You can
+                        <a
+                            class="font-bold hover:underline"
+                            :href="`/build-a-box?kit=${kit.id}`"
+                            >add more meals</a
+                        >
+                        or it will be abandoned on checkout.
+                    </span>
+                </div>
                 <div class="mt-4 md:m-4 static md:absolute top-0 right-0">
                     <a
                         :href="`/build-a-box?kit=${kit.id}`"
@@ -57,9 +77,11 @@
 
 <script type="text/babel">
 import DeleteKit from "./DeleteKit";
+import WarningIcon from "../UI/Icons/WarningIcon";
 export default {
     components: {
         DeleteKit,
+        WarningIcon,
     },
 
     props: ["initial-basket"],

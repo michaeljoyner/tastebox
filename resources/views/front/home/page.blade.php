@@ -1,37 +1,26 @@
 <x-public-page title="Tastebox | Meal Kits Delivered to Your Door" :css="mix('css/front.css')">
-    <div class="min-h-screen flex items-center"
-         style="background-image: url(/images/banners/thai_noodles.jpg); background-size: cover;">
-        <div class="rounded-lg bg-opaque p-8 max-w-lg ml-24">
-            <p class="text-6xl text-gray-700 font-bold mb-6">Tastebox</p>
-            <p class="text-bold text-3xl mb-8">Good food, ready to cook, delivered to your door.</p>
-            <a href="/build-a-box"
-               class="bg-green-600 hover:bg-green-400 text-white shadow-lg px-4 py-2 font-bold rounded-lg">Build a new
-                kit</a>
-        </div>
+    @include('front.home.banner')
 
+
+    <div class="px-6 py-20">
+        <p class="text-4xl font-bold text-center mb-12">How it Works</p>
+        <div class="max-w-xl mx-auto">
+            <ul class="list-disc text-2xl">
+                <li class="mb-4">You tell us what you want for the week</li>
+                <li class="mb-4">We pack it it up into boxes and send it to you</li>
+                <li class="mb-4">You live long and prosper</li>
+            </ul>
+        </div>
     </div>
 
-
-    <div>
-        <p class="text-center text-4xl my-20">Order ahead</p>
-        <div class="flex">
-            @foreach($menus as $menu)
-                <div class="m-6 p-6 border w-80">
-                    <p class="text-gray-600 uppercase text-sm">Week #{{ $menu['week_number'] }}</p>
-                    <p class="font-bold mb-2">Delivered on {{ $menu['delivery_from_pretty'] }}</p>
-                    <div class="flex flex-wrap">
-                        @foreach($menu['meals'] as $meal)
-                            <img src="{{ $meal['title_image']['thumb'] }}" alt="{{ $meal['name'] }}"
-                                 class="w-32 h-auto">
-                        @endforeach
-                    </div>
-                    <form action="/my-kits" method="POST">
-                        <input type="hidden" name="menu_id" value="{{ $menu['id'] }}">
-                        {!! csrf_field() !!}
-                        <button class="bg-white">Build your kit</button>
-                    </form>
-                </div>
-            @endforeach
+    <div class="px-6 py-20">
+        <p class="text-4xl font-bold text-center mb-12">Benefits of Tastebox</p>
+        <div class="max-w-xl mx-auto">
+            <ul class="list-disc text-2xl">
+                <li class="mb-4">Eat healthy & delicious food</li>
+                <li class="mb-4">You save money</li>
+                <li class="mb-4">We make money</li>
+            </ul>
         </div>
     </div>
 </x-public-page>
