@@ -323,7 +323,7 @@ export default {
 
     computed: {
         has_multiple_kits() {
-            return this.basket.kits.length > 1;
+            return this.eligible_kits.length > 1;
         },
 
         eligible_kits() {

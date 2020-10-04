@@ -4,8 +4,19 @@
             <span class="inline-flex items-center">
                 <span class="mr-4">Servings: </span>
                 <button
-                    @click="servings = 2"
+                    @click="servings = 1"
                     class="block h-10 w-10 rounded-full shadow font-bold border-2 border-gray-200 focus:outline-none"
+                    :class="{
+                        'bg-green-600 text-white': currentState === 1,
+                        'bg-gray-200 focus:border-green-600':
+                            currentState !== 1,
+                    }"
+                >
+                    1
+                </button>
+                <button
+                    @click="servings = 2"
+                    class="block h-10 w-10 rounded-full shadow font-bold mx-3 border-2 border-gray-200 focus:outline-none"
                     :class="{
                         'bg-green-600 text-white': currentState === 2,
                         'bg-gray-200 focus:border-green-600':
@@ -15,26 +26,15 @@
                     2
                 </button>
                 <button
-                    @click="servings = 4"
-                    class="block h-10 w-10 rounded-full shadow font-bold mx-3 border-2 border-gray-200 focus:outline-none"
+                    class="block h-10 w-10 rounded-full shadow font-bold border-2 border-gray-200 focus:outline-none"
                     :class="{
                         'bg-green-600 text-white': currentState === 4,
                         'bg-gray-200 focus:border-green-600':
                             currentState !== 4,
                     }"
+                    @click="servings = 4"
                 >
                     4
-                </button>
-                <button
-                    class="block h-10 w-10 rounded-full shadow font-bold border-2 border-gray-200 focus:outline-none"
-                    :class="{
-                        'bg-green-600 text-white': currentState === 6,
-                        'bg-gray-200 focus:border-green-600':
-                            currentState !== 6,
-                    }"
-                    @click="servings = 6"
-                >
-                    6
                 </button>
             </span>
 

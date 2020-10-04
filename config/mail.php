@@ -87,6 +87,13 @@ return [
         'name' => env('MAIL_FROM_NAME', 'Example'),
     ],
 
+    'addresses' => [
+        'admins' => [
+            ['name' => 'Steph', 'email' => 'steph@test.test'],
+            ['name' => 'Alex', 'email' => 'alex@test.test'],
+        ]
+    ],
+
     /*
     |--------------------------------------------------------------------------
     | Markdown Mail Settings

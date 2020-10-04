@@ -1,0 +1,18 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Http\Requests\ContactMessageRequest;
+use App\Mail\ContactMessage;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
+
+class ContactMessageController extends Controller
+{
+    public function store(ContactMessageRequest $request)
+    {
+        $admins = collect(config('mail.addresses.admins'));
+        Mail::to($admins)
+            ->queue(new ContactMessage($request->messageDetails()));
+    }
+}

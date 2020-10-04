@@ -121,7 +121,7 @@ class AddMealToKitTest extends TestCase
     /**
      *@test
      */
-    public function the_servings_must_be_greater_than_zero()
+    public function the_servings_must_be_either_one_two_or_four()
     {
         $menu = factory(Menu::class)->create();
         $meal = factory(Meal::class)->create();
@@ -129,11 +129,17 @@ class AddMealToKitTest extends TestCase
         $basket = ShoppingBasket::for(null);
         $kit = $basket->addKit($menu->id);
 
-        $response = $this->asGuest()->postJson("/my-kits/{$kit->id}/meals", [
-            'meal_id' => $meal->id,
-            'servings' => -1,
-        ]);
-        $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
-        $response->assertJsonValidationErrors('servings');
+        $bad_servings = collect([-1,0,3,5,10]);
+
+        $bad_servings->each(function($serving) use ($kit, $meal) {
+            $response = $this->asGuest()->postJson("/my-kits/{$kit->id}/meals", [
+                'meal_id' => $meal->id,
+                'servings' => $serving,
+            ]);
+            $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
+            $response->assertJsonValidationErrors('servings');
+        });
+
+
     }
 }

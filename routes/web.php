@@ -33,7 +33,14 @@ Route::group(['middleware' => 'auth'], function() {
     Route::get('basket', 'BasketController@show');
     Route::get('basket-summary', 'BasketSummaryController@show');
 
+    Route::get('faqs', 'FaqsController@show');
+    Route::view('our-story', 'front.story.page');
+
+    Route::view('contact', 'front.contact.page');
+
 });
+
+Route::post('contact', 'ContactMessageController@store');
 
 Route::get('checkout', 'CheckoutController@show');
 Route::post('checkout', 'OrdersController@store');

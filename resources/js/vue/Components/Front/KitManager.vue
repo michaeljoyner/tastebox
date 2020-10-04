@@ -4,7 +4,7 @@
             <p class="text-5xl font-bold text-center">Choose a menu.</p>
             <p class="my-6 max-w-xl text-gray-600 mx-auto px-6">
                 Each week has its own menu. You may plan ahead by ordering from
-                multiple menus, or you may order more than one kit from the same
+                multiple menus, or you may order more than one box from the same
                 menu.
             </p>
             <div class="flex flex-col items-center px-6">
@@ -32,7 +32,7 @@
                                 class="px-4 py-2 rounded-lg font-bold text-white bg-green-600 shadow hover:bg-green-400"
                                 @click="addKit(menu.id)"
                             >
-                                Build kit
+                                Build box
                             </button>
                         </div>
                     </div>

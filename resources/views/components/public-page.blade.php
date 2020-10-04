@@ -16,15 +16,41 @@
 
         </head>
 <body class="font-sans text-gray-800 h-full pt-16">
-<div id="app" class="min-h-full">
-    {{ $slot }}
-    <div class="bg-white px-6 shadow w-screen h-16 flex justify-between items-center fixed top-0 left-0">
-        <div>
+<div id="app" class="min-h-full flex flex-col">
+    <div class="flex-1">
+        {{ $slot }}
+    </div>
+    <div class="bg-green-600 px-6 py-12">
+        <p class="text-3xl text-center font-black text-white">Tastebox</p>
+        <p class="text-center text-green-100">&copy; {{ date('Y') }}</p>
+    </div>
+    <div class="main-nav bg-white px-6 shadow w-screen h-16 flex justify-between items-center fixed top-0 left-0">
+        <div class="">
             <a href="/">
-                <img src="/images/logo.jpg" alt="Tastebox logo" class="w-12">
+                <div class="font-black rounded-tl-lg rounded-br-lg border-green-500 border-4 flex">
+                    <p class="bg-green-500 pl-4 pr-1 text-green-100">Taste</p>
+                    <p class="text-green-500 pr-4 pl-1 bg-white">box</p>
+                </div>
             </a>
         </div>
-        <basket-bar></basket-bar>
+        <div class="flex">
+            <div class="nav-drawer flex flex-col lg:flex-row lg:pt-0 pt-12 lg:static fixed top-16 left-0 lg:min-h-0 min-h-screen bg-green-200 lg:bg-white w-screen lg:w-auto">
+                <a class="text-lg font-bold lg:mb-0 mb-6 mx-4 block" href="">FAQs</a>
+                <a class="text-lg font-bold lg:mb-0 mb-6 mx-4 block" href="">Contact Us</a>
+                <a class="text-lg font-bold lg:mb-0 mb-6 mx-4 block" href="">Our Story</a>
+            </div>
+            <div class="flex">
+                <basket-bar class="mx-4"></basket-bar>
+                <button class="block lg:hidden nav-trigger focus:outline-none">
+                    <svg class="stroke-current h-6 text-gray-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h8m-8 6h16"/>
+                    </svg>
+
+                </button>
+            </div>
+        </div>
+
+
     </div>
 </div>
 <script src="{{ $javascript }}"></script>

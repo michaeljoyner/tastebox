@@ -1,11 +1,11 @@
 <template>
     <div v-if="kit">
-        <h1 class="text-5xl font-bold text-center my-8">Build a kit</h1>
+        <h1 class="text-5xl font-bold text-center my-8">Build a box</h1>
 
         <p class="max-w-xl mx-auto px-6 mb-6">
             Select the meals you want <strong>for the week</strong> below. Our
-            kits are designed to be <strong>fresh for only one week</strong>, so
-            we strongly suggest you don't over order.
+            boxes are designed to be <strong>fresh for only one week</strong>,
+            so we strongly suggest you don't over order.
         </p>
 
         <div class="px-6">

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Purchases\ShoppingBasket;
 use App\Rules\OnTheMenu;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 
 class MealKitsMealsController extends Controller
 {
@@ -15,7 +16,7 @@ class MealKitsMealsController extends Controller
 
         request()->validate([
             'meal_id' => ['required', 'exists:meals,id', new OnTheMenu($menu)],
-            'servings' => ['required', 'integer', 'min:1'],
+            'servings' => ['required', 'integer', Rule::in([1,2,4])],
         ]);
 
 
