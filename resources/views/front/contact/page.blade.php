@@ -4,7 +4,7 @@
     <div>
         <p class="my-12 px-6 max-w-lg mx-auto">Feel free toi get in touch if you have any questions, ideas or special requests. We'd love to hear from you.</p>
     </div>
-    <div class="px-6">
+    <div class="px-6 max-w-lg mx-auto">
         <contact-form></contact-form>
     </div>
 </x-public-page>

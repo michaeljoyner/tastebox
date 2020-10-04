@@ -35,9 +35,9 @@
         </div>
         <div class="flex">
             <div class="nav-drawer flex flex-col lg:flex-row lg:pt-0 pt-12 lg:static fixed top-16 left-0 lg:min-h-0 min-h-screen bg-green-200 lg:bg-white w-screen lg:w-auto">
-                <a class="text-lg font-bold lg:mb-0 mb-6 mx-4 block" href="">FAQs</a>
-                <a class="text-lg font-bold lg:mb-0 mb-6 mx-4 block" href="">Contact Us</a>
-                <a class="text-lg font-bold lg:mb-0 mb-6 mx-4 block" href="">Our Story</a>
+                <a class="text-lg font-bold lg:mb-0 mb-6 mx-4 block" href="/faqs">FAQs</a>
+                <a class="text-lg font-bold lg:mb-0 mb-6 mx-4 block" href="/contact">Contact Us</a>
+                <a class="text-lg font-bold lg:mb-0 mb-6 mx-4 block" href="/our-story">Our Story</a>
             </div>
             <div class="flex">
                 <basket-bar class="mx-4"></basket-bar>
