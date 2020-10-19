@@ -40,7 +40,7 @@ class UploadMealImageTest extends TestCase
         $image = $meal->fresh()->getFirstMedia(Meal::GALLERY);
         $this->assertStorageHasImage($image);
 
-        $this->assertEquals($image->getUrl('web'), $response->decodeResponseJson('src'));
+        $this->assertEquals($image->getUrl('web'), $response->json('src'));
     }
 
     /**

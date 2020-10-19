@@ -38,6 +38,6 @@ class FetchCurrentBatchTest extends TestCase
             'menu_id'        => $batch->menuId(),
         ];
 
-        $this->assertEquals($expected, $response->decodeResponseJson());
+        $this->assertEquals($expected, $response->json());
     }
 }

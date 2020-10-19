@@ -25,7 +25,7 @@ class CreateMealTest extends TestCase
         $this->assertCount(1, Meal::all());
         $meal = Meal::first();
 
-        $this->assertEquals($meal->uniqueId, $response->decodeResponseJson('uniqueId'));
+        $this->assertEquals($meal->uniqueId, $response->json('uniqueId'));
 
         $this->assertDatabaseHas('meals', [
             'unique_id' => $meal->unique_id,

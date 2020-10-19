@@ -23,8 +23,8 @@ class AddIngredientTest extends TestCase
         ]);
         $response->assertSuccessful();
 
-        $this->assertEquals('test ingredient', $response->decodeResponseJson('description'));
-        $this->assertNotNull($response->decodeResponseJson('id'));
+        $this->assertEquals('test ingredient', $response->json('description'));
+        $this->assertNotNull($response->json('id'));
 
         $this->assertDatabaseHas('ingredients', [
             'description' => 'test ingredient',
