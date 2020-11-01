@@ -12,7 +12,7 @@ class MealsController extends Controller
 
     public function index()
     {
-        return Meal::all()->map->asArrayForAdmin();
+        return Meal::with('ingredients', 'classifications')->get()->map->asArrayForAdmin();
     }
 
     public function show(Meal $meal)
