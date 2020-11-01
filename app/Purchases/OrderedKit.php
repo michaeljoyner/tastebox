@@ -27,9 +27,12 @@ class OrderedKit extends Model
         'status'
     ];
 
-    protected $dates = ['delivery_date'];
+//    protected $dates = ['delivery_date'];
 
-    protected $casts = ['meal_summary' => 'array'];
+    protected $casts = [
+        'meal_summary' => 'array',
+        'delivery_date' => 'date'
+    ];
 
     public function scopeDue($query)
     {

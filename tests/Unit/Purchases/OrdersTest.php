@@ -82,7 +82,7 @@ class OrdersTest extends TestCase
         $this->assertEquals($kit->id, $orderedKit->kit_id);
         $this->assertEquals($menu->id, $orderedKit->menu_id);
         $this->assertEquals($menu->current_from->week, $orderedKit->menu_week_number);
-        $this->assertEquals($menu->delivery_from, $orderedKit->delivery_date);
+        $this->assertTrue($menu->delivery_from->isSameDay($orderedKit->delivery_date));
         $this->assertEquals('test road', $orderedKit->line_one);
         $this->assertEquals('test district', $orderedKit->line_two);
         $this->assertEquals('test city', $orderedKit->city);

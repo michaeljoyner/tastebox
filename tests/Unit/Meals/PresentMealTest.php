@@ -122,7 +122,7 @@ class PresentMealTest extends TestCase
                     'name' => $classificationB->name,
                 ]
             ],
-            'last_touched_timestamp' => now()->timestamp,
+            'last_touched_timestamp' => $meal->fresh()->updated_at->timestamp,
 
         ];
 

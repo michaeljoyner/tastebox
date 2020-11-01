@@ -14,7 +14,7 @@ class ReAddIndexesToClassificationMealTable extends Migration
     public function up()
     {
         Schema::table('classification_meal', function (Blueprint $table) {
-            
+
         });
     }
 

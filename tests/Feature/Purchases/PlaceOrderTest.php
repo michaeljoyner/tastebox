@@ -94,36 +94,36 @@ class PlaceOrderTest extends TestCase
             'order_id'         => $order->id,
             'kit_id'           => $kitA->id,
             'menu_id'          => $menuA->id,
-            'delivery_date'    => $menuA->delivery_from,
+            'delivery_date'    => $menuA->delivery_from->format("Y-m-d"),
             'menu_week_number' => $menuA->current_from->week,
             'line_one'         => 'test road',
             'line_two'         => 'test district',
             'city'             => 'test city',
             'postal_code'      => 'test code',
             'delivery_notes'   => 'test notes',
-            'meal_summary'     => json_encode([
+            'meal_summary'     => $this->asJson([
                 ['id' => $mealA->id, 'name' => $mealA->name, 'servings' => 2],
                 ['id' => $mealB->id, 'name' => $mealB->name, 'servings' => 3],
                 ['id' => $mealC->id, 'name' => $mealC->name, 'servings' => 4],
-            ]),
+            ], 'meal_summary'),
         ]);
 
         $this->assertDatabaseHas('ordered_kits', [
             'order_id'         => $order->id,
             'kit_id'           => $kitB->id,
             'menu_id'          => $menuB->id,
-            'delivery_date'    => $menuB->delivery_from,
+            'delivery_date'    => $menuB->delivery_from->format('Y-m-d'),
             'menu_week_number' => $menuB->current_from->week,
             'line_one'         => 'test road',
             'line_two'         => 'test district',
             'city'             => 'test city',
             'postal_code'      => 'test code',
             'delivery_notes'   => 'test notes',
-            'meal_summary'     => json_encode([
+            'meal_summary'     => $this->asJson([
                 ['id' => $mealD->id, 'name' => $mealD->name, 'servings' => 3],
                 ['id' => $mealE->id, 'name' => $mealE->name, 'servings' => 4],
                 ['id' => $mealF->id, 'name' => $mealF->name, 'servings' => 5],
-            ]),
+            ], 'meal_summary'),
         ]);
 
         $ordered_kitA = OrderedKit::where('kit_id', $kitA->id)->first();

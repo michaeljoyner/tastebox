@@ -24,4 +24,14 @@ abstract class TestCase extends BaseTestCase
 
         return $this;
     }
+
+    public function asJson($array, $column)
+    {
+        return function ($query) use ($column, $array) {
+            $query->select($column);
+            foreach ($array as $value) {
+                $query->whereJsonContains($column, $value);
+            }
+        };
+    }
 }
