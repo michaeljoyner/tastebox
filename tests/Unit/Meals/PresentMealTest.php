@@ -62,7 +62,7 @@ class PresentMealTest extends TestCase
             'prep_time'       => 100,
             'cook_time'       => 250,
             'instructions'    => 'test instructions',
-            'serving_energy'  => '150',
+            'serving_energy'  => 150,
             'serving_carbs'   => 50,
             'serving_fat'     => 70,
             'serving_protein' => 0,
@@ -121,7 +121,8 @@ class PresentMealTest extends TestCase
                     'id'   => $classificationB->id,
                     'name' => $classificationB->name,
                 ]
-            ]
+            ],
+            'last_touched_timestamp' => now()->timestamp,
 
         ];
 

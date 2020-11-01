@@ -34,8 +34,14 @@ class Meal extends Model implements HasMedia
     ];
 
     protected $casts = [
-        'unique_id' => 'string',
-        'is_public' => 'boolean'
+        'unique_id'       => 'string',
+        'is_public'       => 'boolean',
+        'prep_time'       => 'integer',
+        'cook_time'       => 'integer',
+        'serving_carbs'   => 'integer',
+        'serving_fat'     => 'integer',
+        'serving_protein' => 'integer',
+        'serving_energy'  => 'integer',
     ];
 
     public static function createNew($attributes = []): self
@@ -143,35 +149,7 @@ class Meal extends Model implements HasMedia
 
     public function asArrayForAdmin()
     {
-        $gallery = $this->getMedia(static::GALLERY)
-                        ->sortBy(fn($m) => $m->getCustomProperty('position'))
-                        ->map(fn($m) => [
-                            'id'    => $m->id,
-                            'thumb' => $m->getUrl('thumb'),
-                            'web'   => $m->getUrl('web'),
-                            'src'   => $m->getUrl('web'),
-                        ])->values();;
-
-        return [
-            'id'              => $this->id,
-            'unique_id'       => $this->unique_id,
-            'is_public'       => $this->is_public,
-            'name'            => $this->name,
-            'description'     => $this->description,
-            'allergens'       => $this->allergens,
-            'prep_time'       => $this->prep_time,
-            'cook_time'       => $this->cook_time,
-            'instructions'    => $this->instructions,
-            'serving_energy'  => $this->serving_energy,
-            'serving_carbs'   => $this->serving_carbs,
-            'serving_fat'     => $this->serving_fat,
-            'serving_protein' => $this->serving_protein,
-            'ingredients'     => $this->ingredients->map->toArray()->all(),
-            'title_image'     => $gallery->count() ? $gallery->first() : $this->defaultImage(),
-            'gallery'         => $gallery->all(),
-            'classifications' => $this->classifications->map->toArray()->all(),
-            'last_touched_timestamp' => max($this->created_at->timestamp, $this->updated_at->timestamp),
-        ];
+        return MealsPresenter::forAdmin($this);
     }
 
     public function titleImage($conversion = '')
