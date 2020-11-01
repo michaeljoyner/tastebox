@@ -1,5 +1,11 @@
 import { showError } from "../libs/notifications";
-import { deleteMeal } from "../apis/meals";
+import {
+    copyMeal,
+    createNewMeal,
+    deleteMeal,
+    fetchAllMeals,
+    saveMeal,
+} from "../apis/meals";
 
 export default {
     namespaced: true,
@@ -13,6 +19,14 @@ export default {
     getters: {
         byId: (state) => (id) =>
             state.meals.find((meal) => meal.id === parseInt(id)),
+
+        recent: (state) =>
+            state.meals
+                .sort(
+                    (a, b) =>
+                        b.last_touched_timestamp - a.last_touched_timestamp
+                )
+                .slice(0, 5),
     },
 
     mutations: {
@@ -30,49 +44,29 @@ export default {
     },
 
     actions: {
-        fetchMeals({ commit }) {
-            return new Promise((resolve, reject) => {
-                axios
-                    .get("/admin/api/meals")
-                    .then(({ data }) => {
-                        commit("setMeals", data);
-                        resolve();
-                    })
-                    .catch(() => reject("failed to fetch meals"));
-            });
+        fetchMeals({ dispatch, state }) {
+            if (!state.meals || !state.meals.length) {
+                return dispatch("refresh");
+            }
+
+            return Promise.resolve();
         },
 
-        findById({ getters }, id) {
-            return new Promise((resolve, reject) => {
-                axios
-                    .get(`/admin/api/meals/${id}`)
-                    .then(({ data }) => resolve(data))
-                    .catch(() => reject("Unable to fetch meal info"));
-            });
+        refresh({ commit }) {
+            return fetchAllMeals()
+                .then((meals) => commit("setMeals", meals))
+                .catch(() => showError("Failed to fetch meals"));
         },
 
         createMeal({ dispatch }) {
-            return new Promise((resolve, reject) => {
-                axios
-                    .post("/admin/api/meals")
-                    .then(({ data }) => {
-                        dispatch("fetchMeals").catch(showError);
-                        resolve(data);
-                    })
-                    .catch(() => reject("failed to create meal"));
+            return createNewMeal().then((meal) => {
+                dispatch("refresh");
+                return meal;
             });
         },
 
-        saveMeal({ dispatch }, { id, mealData }) {
-            return new Promise((resolve, reject) => {
-                axios
-                    .post(`/admin/api/meals/${id}`, mealData)
-                    .then(() => {
-                        dispatch("fetchMeals").catch(showError);
-                        resolve();
-                    })
-                    .catch(({ response }) => reject(response));
-            });
+        save({ dispatch }, { id, mealData }) {
+            return saveMeal(id, mealData).then(() => dispatch("refresh"));
         },
 
         saveMealGalleryOrder({ dispatch }, { id, image_ids }) {
@@ -147,8 +141,12 @@ export default {
 
         deleteMealById({ dispatch }, meal_id) {
             return deleteMeal(meal_id).then(() =>
-                dispatch("fetchMeals").catch(showError)
+                dispatch("refresh").catch(showError)
             );
+        },
+
+        copy({ dispatch }, { meal_id, name }) {
+            return copyMeal(meal_id, name).then(() => dispatch("refresh"));
         },
     },
 };

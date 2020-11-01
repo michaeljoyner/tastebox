@@ -10,7 +10,6 @@ class PublishedMealsController extends Controller
 {
     public function store()
     {
-        sleep(3);
         Meal::findOrFail(request('meal_id'))->publish();
     }
 

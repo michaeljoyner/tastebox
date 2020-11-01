@@ -47,6 +47,7 @@ export default {
             const lookup = {
                 main: "bg-green-600 hover:bg-green-500",
                 danger: "bg-red-600 hover:bg-red-500",
+                dark: "bg-gray-800 hover:bg-gray-700",
             };
 
             const colors =

@@ -38,11 +38,34 @@ class Meal extends Model implements HasMedia
         'is_public' => 'boolean'
     ];
 
-    public static function createNew()
+    public static function createNew($attributes = []): self
     {
-        return static::create([
+        return static::create(array_merge($attributes, [
             'unique_id' => static::generateUniqueId(),
+        ]));
+    }
+
+    public static function copy(Meal $meal, string $name)
+    {
+        $copy = self::createNew([
+            'name'            => $name,
+            'description'     => $meal->description,
+            'allergens'       => $meal->allergens,
+            'prep_time'       => $meal->prep_time,
+            'cook_time'       => $meal->cook_time,
+            'instructions'    => $meal->instructions,
+            'serving_energy'  => $meal->serving_energy,
+            'serving_carbs'   => $meal->serving_carbs,
+            'serving_fat'     => $meal->serving_fat,
+            'serving_protein' => $meal->serving_protein,
         ]);
+        $copy->retract();
+        $copy->ingredients()->sync(
+            collect($meal->ingredients->toArray())
+                ->mapWithKeys(fn($ing) => [$ing['id'] => ['in_kit' => $ing['in_kit'], 'quantity' => $ing['quantity']]])
+        );
+
+        return $copy;
     }
 
     public function updateWithFormData($form_data)
@@ -147,14 +170,15 @@ class Meal extends Model implements HasMedia
             'title_image'     => $gallery->count() ? $gallery->first() : $this->defaultImage(),
             'gallery'         => $gallery->all(),
             'classifications' => $this->classifications->map->toArray()->all(),
+            'last_touched_timestamp' => max($this->created_at->timestamp, $this->updated_at->timestamp),
         ];
     }
 
     public function titleImage($conversion = '')
     {
         $image = $this->getMedia(static::GALLERY)
-             ->sortBy(fn($m) => $m->getCustomProperty('position'))
-            ->first();
+                      ->sortBy(fn($m) => $m->getCustomProperty('position'))
+                      ->first();
 
         return $image ? $image->getUrl($conversion) : '/images/logos/tastebox_logo.jpg';
     }

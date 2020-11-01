@@ -30,7 +30,16 @@ import routes from "./routes/admin";
 import Navbar from "./vue/Components/Navbar";
 import NotificationHub from "./vue/Components/NotificationHub";
 
-const router = new VueRouter({ routes });
+const router = new VueRouter({
+    routes,
+    scrollBehavior(to, from, savedPosition) {
+        if (savedPosition) {
+            return savedPosition;
+        } else {
+            return { x: 0, y: 0 };
+        }
+    },
+});
 window.app = new Vue({
     components: {
         Navbar,

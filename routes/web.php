@@ -72,6 +72,8 @@ Route::group(['middleware' => 'auth'], function () {
         Route::post('meals/{meal}', 'MealsController@update');
         Route::delete('meals/{meal}', 'MealsController@delete');
 
+        Route::post('meals/{meal}/copies', 'MealCopiesController@store');
+
         Route::post('meals/{meal}/images', 'MealImagesController@store');
         Route::post('meals/{meal}/images/positions', 'MealImagePositionsController@update');
         Route::delete('meals/{meal}/images/{media}', 'MealImagesController@destroy');

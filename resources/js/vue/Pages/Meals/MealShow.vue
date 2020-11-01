@@ -1,24 +1,11 @@
 <template>
     <page v-if="meal">
-        <page-header :title="meal.name">
-            <router-link :to="`/meals/${meal.id}/gallery`" class="btn mx-4"
-                >Pics</router-link
-            >
-            <router-link :to="`/meals/${meal.id}/edit`" class="btn btn-main"
-                >Edit</router-link
-            >
-            <delete-confirmation
-                :disabled="waiting_on_delete"
-                :item="meal.name"
-                class="ml-4"
-                @confirmed="deleteMeal"
-            ></delete-confirmation>
-        </page-header>
+        <meal-header :meal="meal"></meal-header>
 
         <meal-publish-toggle
             :is-public="meal.is_public"
             :meal-id="meal.id"
-            @toggled="fetchMeal"
+            @toggled="$store.dispatch('meals/refresh')"
             class="p-4 shadow"
         ></meal-publish-toggle>
 
@@ -78,25 +65,28 @@ import MealTimes from "../../Components/Meals/MealTimes";
 import MealPublishToggle from "../../Components/Meals/MealPublishToggle";
 import DeleteConfirmation from "../../Components/UI/DeleteConfirmation";
 import { showError } from "../../../libs/notifications";
+import CopyMeal from "../../Components/Meals/CopyMeal";
+import MealHeader from "../../Components/Meals/MealHeader";
 
 export default {
     components: {
+        MealHeader,
         Page,
         PageHeader,
         NutritionalInfo,
         MealTimes,
         MealPublishToggle,
-        DeleteConfirmation,
     },
 
     data() {
-        return {
-            meal: null,
-            waiting_on_delete: false,
-        };
+        return {};
     },
 
     computed: {
+        meal() {
+            return this.$store.getters["meals/byId"](this.$route.params.id);
+        },
+
         kit_ingredients() {
             return this.meal.ingredients
                 .filter((i) => i.in_kit)
@@ -111,33 +101,10 @@ export default {
     },
 
     mounted() {
-        this.fetchMeal();
+        this.$store.dispatch("meals/fetchMeals");
     },
 
-    watch: {
-        $route() {
-            this.meal = null;
-            this.fetchMeal();
-        },
-    },
-
-    methods: {
-        fetchMeal() {
-            this.$store
-                .dispatch("meals/findById", this.$route.params.id)
-                .then((meal) => (this.meal = meal))
-                .catch(showError);
-        },
-
-        deleteMeal() {
-            this.waiting_on_delete = true;
-            this.$store
-                .dispatch("meals/deleteMealById", this.meal.id)
-                .then(() => this.$router.push("/meals"))
-                .catch(() => showError("Unable to delete meal."))
-                .then(() => (this.waiting_on_delete = false));
-        },
-    },
+    methods: {},
 };
 </script>
 

@@ -1,6 +1,12 @@
 <template>
     <page v-if="meal">
-        <page-header :title="`Pics: ${meal.name}`"></page-header>
+        <page-header title="Meal Photos">
+            <router-link :to="`/meals/${meal.id}`" class="btn"
+                >Back to Meal</router-link
+            >
+        </page-header>
+
+        <p class="my-12 text-2xl font-semibold">{{ meal.name }}</p>
 
         <sortable-gallery
             :upload-path="`/admin/api/meals/${meal.id}/images`"
@@ -8,7 +14,7 @@
             :stored-images="images"
             @reordered="setOrder"
             :image-delete-url="getImageDeleteUrl"
-            @image-removed="fetchMeal"
+            @image-removed="$store.dispatch('meals/refresh')"
         ></sortable-gallery>
     </page>
 </template>
@@ -27,13 +33,18 @@ export default {
     },
 
     data() {
-        return {
-            meal: null,
-            images: [],
-        };
+        return {};
     },
 
     computed: {
+        meal() {
+            return this.$store.getters["meals/byId"](this.$route.params.id);
+        },
+
+        images() {
+            return this.meal.gallery;
+        },
+
         getImageDeleteUrl() {
             const base = `/admin/api/meals/${this.meal.id}/images/`;
             return (image) => `${base}${image.id}`;
@@ -41,29 +52,13 @@ export default {
     },
 
     mounted() {
-        this.fetchMeal();
-    },
-
-    watch: {
-        $route() {
-            this.meal = null;
-            this.fetchMeal();
-        },
+        this.$store.dispatch("meals/fetchMeals");
     },
 
     methods: {
-        fetchMeal() {
-            this.$store
-                .dispatch("meals/findById", this.$route.params.id)
-                .then((meal) => {
-                    this.meal = meal;
-                    this.images = meal.gallery;
-                })
-                .catch(showError);
-        },
-
         addImage(image_data) {
             this.images.push(image_data);
+            this.$store.dispatch("meals/refresh");
         },
 
         setOrder(image_ids) {
