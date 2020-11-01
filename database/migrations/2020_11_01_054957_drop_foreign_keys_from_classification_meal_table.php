@@ -14,8 +14,8 @@ class DropForeignKeysFromClassificationMealTable extends Migration
     public function up()
     {
         Schema::table('classification_meal', function (Blueprint $table) {
-//            $table->dropForeign('classification_meal_classification_id_key_foreign');
-//            $table->dropForeign('classification_meal_meal_id_key_foreign');
+            $table->dropForeign('classification_meal_classification_id_key_foreign');
+            $table->dropForeign('classification_meal_meal_id_key_foreign');
             $table->dropColumn(['classification_id_key', 'meal_id_key']);
         });
     }
