@@ -8,7 +8,7 @@ class MealsPresenter
 {
     public static function forAdmin(Meal $meal)
     {
-        $meal->load('ingredients', 'classifications');
+//        $meal->load('ingredients', 'classifications');
 
         $gallery = $meal->getMedia(Meal::GALLERY)
                         ->sortBy(fn($m) => $m->getCustomProperty('position'))
