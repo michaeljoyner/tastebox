@@ -38,6 +38,11 @@
 import SubmitButton from "../UI/SubmitButton";
 import TextField from "../Forms/TextField";
 import Modal from "@dymantic/modal";
+import { showError, showSuccess } from "../../../libs/notifications";
+import {
+    clearValidationErrors,
+    setValidationErrors,
+} from "../../../libs/forms";
 
 export default {
     components: { TextField, SubmitButton, Modal },
@@ -56,6 +61,7 @@ export default {
     methods: {
         submit() {
             this.waiting = true;
+            this.formErrors = clearValidationErrors(this.formErrors);
 
             this.$store
                 .dispatch("meals/copy", {
@@ -65,6 +71,22 @@ export default {
                 .then(this.onSuccess)
                 .catch(this.onError)
                 .then(() => (this.waiting = false));
+        },
+
+        onSuccess() {
+            this.showModal = false;
+            this.$router.push("/meals");
+            showSuccess("Meal copied");
+        },
+
+        onError({ status, data }) {
+            if (status === 422) {
+                return (this.formErrors = setValidationErrors(
+                    this.formErrors,
+                    data.errors
+                ));
+            }
+            showError("Failed to copy meal");
         },
     },
 };
