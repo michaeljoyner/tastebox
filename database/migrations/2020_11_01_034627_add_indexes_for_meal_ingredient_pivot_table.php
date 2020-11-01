@@ -16,6 +16,7 @@ class AddIndexesForMealIngredientPivotTable extends Migration
         Schema::table('ingredient_meal', function (Blueprint $table) {
             $table->unsignedBigInteger('ingredient_id')->change();
             $table->unsignedBigInteger('meal_id')->change();
+
             $table->foreign('ingredient_id')->references('id')->on('ingredients');
             $table->foreign('meal_id')->references('id')->on('meals');
         });

@@ -14,11 +14,13 @@ class AddForeignKeysToClassificationMealTable extends Migration
     public function up()
     {
         Schema::table('classification_meal', function (Blueprint $table) {
-            $table->unsignedBigInteger('classification_id')->change();
-            $table->unsignedBigInteger('meal_id')->change();
+            $table->unsignedBigInteger('classification_id')->nullable()->change();
+            $table->unsignedBigInteger('meal_id')->nullable()->change();
 
-            $table->foreign('classification_id')->references('id')->on('classifications');
-            $table->foreign('meal_id')->references('id')->on('meals');
+            $table->foreignId('classification_id_key')->nullable()
+                  ->references('id')->on('classifications');
+
+            $table->foreignId('meal_id_key')->nullable()->references('id')->on('meals');
         });
     }
 
