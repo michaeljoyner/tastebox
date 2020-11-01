@@ -14,15 +14,7 @@ class ReAddIndexesToClassificationMealTable extends Migration
     public function up()
     {
         Schema::table('classification_meal', function (Blueprint $table) {
-            $table->foreign('classification_id')
-                  ->references('id')
-                  ->on('classifications')
-                  ->onDelete('cascade');
-
-            $table->foreign('meal_id')
-                  ->references('id')
-                  ->on('meals')
-                  ->onDelete('cascade');
+            
         });
     }
 
