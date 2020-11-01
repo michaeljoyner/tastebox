@@ -161,7 +161,7 @@ class Meal extends Model implements HasMedia
         return $image ? $image->getUrl($conversion) : '/images/logos/tastebox_logo.jpg';
     }
 
-    private function defaultImage()
+    public function defaultImage()
     {
         return [
             'id'    => null,
