@@ -2,43 +2,51 @@
     <div>
         <sub-header title="Meal Ingredients">
             <router-link
+                :to="`/meals/${meal.id}/manage/ingredients/organise`"
+                class="btn mx-4"
+                >Organise</router-link
+            >
+            <router-link
                 :to="`/meals/${meal.id}/manage/ingredients/edit`"
                 class="btn btn-main"
                 >Edit</router-link
             >
         </sub-header>
-        <div class="my-12 shadow p-6">
-            <table class="w-full">
-                <thead>
-                    <tr class="border-b border-gray-300">
-                        <th class="p-2 text-left">Qty</th>
-                        <th class="p-2 text-left">Ingredient</th>
-                        <th class="p-2 text-left whitespace-no-wrap">
-                            In Kit
-                        </th>
-                    </tr>
-                </thead>
-                <tbody class="text-sm">
-                    <tr
-                        v-for="(ingredient, index) in meal.ingredients"
-                        :key="ingredient.id"
-                        :class="{ 'bg-gray-100': index % 2 === 1 }"
-                    >
-                        <td>{{ ingredient.quantity }}</td>
-                        <td class="p-2">{{ ingredient.description }}</td>
-                        <td><span v-if="ingredient.in_kit">&check;</span></td>
-                    </tr>
-                </tbody>
-            </table>
+        <div class="my-12 shadow p-6" v-for="group in groups">
+            <p class="font-semibold capitalize text-lg mb-2">
+                {{ group.name }}
+            </p>
+            <ingredients-table
+                :ingredients="group.ingredients"
+            ></ingredients-table>
         </div>
     </div>
 </template>
 
 <script type="text/babel">
 import SubHeader from "../UI/SubHeader";
+import IngredientsTable from "./IngredientsTable";
 export default {
-    components: { SubHeader },
+    components: { IngredientsTable, SubHeader },
 
     props: ["meal"],
+
+    computed: {
+        groups() {
+            return this.meal.ingredients.reduce((groups, ingredient) => {
+                const groupName = ingredient.group || "main";
+                const existing = groups.find((g) => g.name === groupName);
+                if (existing) {
+                    existing.ingredients.push(ingredient);
+                    return groups;
+                }
+                groups.push({
+                    ingredients: [ingredient],
+                    name: groupName,
+                });
+                return groups;
+            }, []);
+        },
+    },
 };
 </script>
