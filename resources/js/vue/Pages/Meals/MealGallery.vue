@@ -1,12 +1,6 @@
 <template>
-    <page v-if="meal">
-        <page-header title="Meal Photos">
-            <router-link :to="`/meals/${meal.id}`" class="btn"
-                >Back to Meal</router-link
-            >
-        </page-header>
-
-        <p class="my-12 text-2xl font-semibold">{{ meal.name }}</p>
+    <div>
+        <sub-header :title="`Photos: ${meal.name}`"> </sub-header>
 
         <sortable-gallery
             :upload-path="`/admin/api/meals/${meal.id}/images`"
@@ -16,31 +10,23 @@
             :image-delete-url="getImageDeleteUrl"
             @image-removed="$store.dispatch('meals/refresh')"
         ></sortable-gallery>
-    </page>
+    </div>
 </template>
 
 <script type="text/babel">
-import Page from "../../Components/UI/Page";
-import PageHeader from "../../Components/PageHeader";
+import SubHeader from "../../Components/UI/SubHeader";
 import SortableGallery from "../../Components/SortableGallery";
 import { showError } from "../../../libs/notifications";
 
 export default {
     components: {
-        Page,
-        PageHeader,
         SortableGallery,
+        SubHeader,
     },
 
-    data() {
-        return {};
-    },
+    props: ["meal"],
 
     computed: {
-        meal() {
-            return this.$store.getters["meals/byId"](this.$route.params.id);
-        },
-
         images() {
             return this.meal.gallery;
         },

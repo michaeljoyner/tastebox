@@ -23,43 +23,19 @@ class MealFormRequestTest extends TestCase
             'allergens'       => 'test allergens',
             'prep_time'       => 100,
             'cook_time'       => 250,
-            'instructions'    => 'test instructions',
-            'serving_energy'  => '150',
-            'serving_carbs'   => 50,
-            'serving_fat'     => 70,
-            'serving_protein' => 0,
-            'ingredients'     => [
-                ['id' => 1, 'quantity' => '2', 'in_kit' => false],
-                ['id' => 2, 'quantity' => '3 tsp', 'in_kit' => false],
-                ['id' => 3, 'quantity' => '1 bag', 'in_kit' => true],
-                ['id' => 4, 'quantity' => '', 'in_kit' => true],
-                ['id' => 5, 'quantity' => null, 'in_kit' => true],
-            ],
             'classifications' => ['1', '2'],
         ]);
 
 
         $expected = [
             'meal_attributes' => [
-                'name'            => 'test name',
-                'description'     => 'test description',
-                'allergens'       => 'test allergens',
-                'prep_time'       => 100,
-                'cook_time'       => 250,
-                'instructions'    => 'test instructions',
-                'serving_energy'  => '150',
-                'serving_carbs'   => 50,
-                'serving_fat'     => 70,
-                'serving_protein' => 0,
+                'name'        => 'test name',
+                'description' => 'test description',
+                'allergens'   => 'test allergens',
+                'prep_time'   => 100,
+                'cook_time'   => 250,
             ],
-            'ingredients'     => [
-                1 => ['quantity' => '2', 'in_kit' => false],
-                2 => ['quantity' => '3 tsp', 'in_kit' => false],
-                3 => ['quantity' => '1 bag', 'in_kit' => true],
-                4 => ['quantity' => null, 'in_kit' => true],
-                5 => ['quantity' => null, 'in_kit' => true],
-            ],
-            'classifications' => [1,2],
+            'classifications' => [1, 2],
         ];
 
         $this->assertEquals($expected, $request->formData());

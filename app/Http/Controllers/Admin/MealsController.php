@@ -20,9 +20,10 @@ class MealsController extends Controller
         return $meal->asArrayForAdmin();
     }
 
-    public function store()
+    public function store(MealFormRequest $request)
     {
-        return Meal::createNew();
+        $data = $request->formData();
+        return Meal::createNew($data['meal_attributes'], $data['classifications']);
     }
 
     public function update(Meal $meal, MealFormRequest $request)

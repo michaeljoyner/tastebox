@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\Meals;
 
+use App\Meals\Classification;
 use App\Meals\Ingredient;
 use App\Meals\Meal;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -18,17 +19,44 @@ class CreateMealTest extends TestCase
     {
         $this->withoutExceptionHandling();
 
-        $response = $this->asAdmin()->postJson("/admin/api/meals", []);
+        $classificationA = factory(Classification::class)->create();
+        $classificationB = factory(Classification::class)->create();
 
+        $response = $this->asAdmin()->postJson("/admin/api/meals", [
+            'name' => 'test name',
+            'description' => 'test description',
+            'allergens' => 'test allergens',
+            'prep_time' => 100,
+            'cook_time' => 250,
+            'classifications' => [$classificationA->id, $classificationB->id],
+        ]);
         $response->assertSuccessful();
 
         $this->assertCount(1, Meal::all());
         $meal = Meal::first();
 
-        $this->assertEquals($meal->uniqueId, $response->json('uniqueId'));
+        $this->assertSame($meal->id, $response->json('id'));
 
         $this->assertDatabaseHas('meals', [
             'unique_id' => $meal->unique_id,
+            'description' => 'test description',
+            'allergens' => 'test allergens',
+            'prep_time' => 100,
+            'cook_time' => 250,
+        ]);
+
+
+
+        $this->assertEquals($meal->uniqueId, $response->json('uniqueId'));
+
+        $this->assertDatabaseHas('classification_meal', [
+            'classification_id' => $classificationA->id,
+            'meal_id' => $meal->id,
+        ]);
+
+        $this->assertDatabaseHas('classification_meal', [
+            'classification_id' => $classificationB->id,
+            'meal_id' => $meal->id,
         ]);
 
 

@@ -1,15 +1,19 @@
 <template>
-    <div class="w-48 h-32 relative">
-        <img
-            :src="src"
-            class="w-full h-full object-cover"
-            :class="upload_opacity"
-        />
-        <div
-            class="absolute h-2 left-0 bottom-0 right-0 bg-blue-600"
-            style="transform-origin: left;"
-            :style="`transform: scaleX(${progress})`"
-        ></div>
+    <div class="w-64 flex items-center">
+        <div class="h-8 w-8 rounded-full overflow-hidden">
+            <img
+                :src="src"
+                class="w-full h-full object-cover"
+                :class="upload_opacity"
+            />
+        </div>
+        <div class="flex-1 h-2 px-3">
+            <div
+                class="h-full w-48 bg-blue-600 rounded-lg relative"
+                style="transform-origin: left;"
+                :style="`transform: scaleX(${progress})`"
+            ></div>
+        </div>
     </div>
 </template>
 

@@ -32,7 +32,7 @@ class MealsPresenter
             'serving_carbs'          => $meal->serving_carbs,
             'serving_fat'            => $meal->serving_fat,
             'serving_protein'        => $meal->serving_protein,
-            'ingredients'            => $meal->ingredients->map->toArray()->all(),
+            'ingredients'            => $meal->ingredients()->orderBy('position')->get()->map->toArray()->all(),
             'title_image'            => $gallery->count() ? $gallery->first() : $meal->defaultImage(),
             'gallery'                => $gallery->all(),
             'classifications'        => $meal->classifications->map->toArray()->all(),

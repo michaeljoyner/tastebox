@@ -22,7 +22,9 @@
                 </button>
             </div>
 
-            <create-meal-button></create-meal-button>
+            <router-link to="/meals/create" class="btn btn-main"
+                >New Meal</router-link
+            >
         </div>
 
         <div class="my-12" v-if="!filtered">

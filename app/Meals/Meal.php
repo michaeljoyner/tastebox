@@ -44,11 +44,14 @@ class Meal extends Model implements HasMedia
         'serving_energy'  => 'integer',
     ];
 
-    public static function createNew($attributes = []): self
+    public static function createNew($attributes = [], $classifications = []): self
     {
-        return static::create(array_merge($attributes, [
+        $meal =  static::create(array_merge($attributes, [
             'unique_id' => static::generateUniqueId(),
         ]));
+        $meal->assignClassifications($classifications);
+
+        return $meal;
     }
 
     public static function copy(Meal $meal, string $name)
@@ -77,8 +80,22 @@ class Meal extends Model implements HasMedia
     public function updateWithFormData($form_data)
     {
         $this->update($form_data['meal_attributes']);
-        $this->ingredients()->sync($form_data['ingredients']);
         $this->assignClassifications($form_data['classifications']);
+    }
+
+    public function setNutritionalInfo(NutritionalInfo $nutritionalInfo)
+    {
+        $this->update($nutritionalInfo->toArray());
+    }
+
+    public function setIngredients(IngredientList $ingredientsList)
+    {
+        $this->ingredients()->sync($ingredientsList->ingredients);
+    }
+
+    public function setInstructions(string $instructions = '')
+    {
+        $this->update(['instructions' => $instructions]);
     }
 
     public function safeDelete()
@@ -99,7 +116,18 @@ class Meal extends Model implements HasMedia
     {
         return $this->belongsToMany(Ingredient::class)
                     ->using(MealIngredient::class)
-                    ->withPivot(['quantity', 'in_kit']);
+                    ->withPivot(['quantity', 'in_kit', 'position', 'group']);
+    }
+
+    public function organizeIngredients(array $ingredientData)
+    {
+        collect($ingredientData)
+            ->each(function($info) {
+               $this->ingredients()->updateExistingPivot($info['id'], [
+                   'position' => $info['position'],
+                   'group' => $info['group'],
+               ]);
+            });
     }
 
     public function customerIngredients()

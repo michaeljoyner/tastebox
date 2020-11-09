@@ -1,7 +1,7 @@
 import { del, get, post } from "./http";
 
-function createNewMeal() {
-    return post("/admin/api/meals");
+function createNewMeal(formData) {
+    return post("/admin/api/meals", formData);
 }
 
 function deleteMeal(meal_id) {
@@ -16,12 +16,30 @@ function findMealById(meal_id) {
     return get(`/admin/api/meals/${meal_id}`);
 }
 
-function saveMeal(meal_id, formData) {
+function updateMealInfo(meal_id, formData) {
     return post(`/admin/api/meals/${meal_id}`, formData);
+}
+
+function updateMealInstructions(meal_id, instructions) {
+    return post(`/admin/api/meals/${meal_id}/instructions`, { instructions });
+}
+
+function updateMealIngredients(meal_id, ingredients) {
+    return post(`/admin/api/meals/${meal_id}/ingredients`, { ingredients });
+}
+
+function updateMealNutritionalInfo(meal_id, formData) {
+    return post(`/admin/api/meals/${meal_id}/nutritional-info`, formData);
 }
 
 function copyMeal(meal_id, name) {
     return post(`/admin/api/meals/${meal_id}/copies`, { name });
+}
+
+function updateIngredientPositions(meal_id, formData) {
+    return post(`/admin/api/meals/${meal_id}/organise-ingredients`, {
+        ingredients: formData,
+    });
 }
 
 export {
@@ -30,5 +48,9 @@ export {
     fetchAllMeals,
     findMealById,
     createNewMeal,
-    saveMeal,
+    updateMealInfo,
+    updateMealNutritionalInfo,
+    updateMealIngredients,
+    updateMealInstructions,
+    updateIngredientPositions,
 };

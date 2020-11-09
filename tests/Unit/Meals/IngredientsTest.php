@@ -60,4 +60,6 @@ class IngredientsTest extends TestCase
         $this->assertCount(1, $scoped);
         $this->assertTrue($scoped->first()->is($ingredientC));
     }
+
+
 }

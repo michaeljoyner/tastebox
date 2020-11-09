@@ -8,7 +8,7 @@
             @change="handleFiles"
         />
         <div class="flex justify-between items-start">
-            <p class="max-w-2xl">
+            <p class="max-w-sm text-xs">
                 Drag and drop images into the box below, or use the button to
                 browse files. Note that only regular image files are accepted.
                 You may drag the uploaded images into the order you desire.
@@ -25,14 +25,6 @@
             class="my-16 min-h-80 border-4 border-dotted rounded-lg"
             :class="{ 'border-blue-600': hover, 'border-gray-500': !hover }"
         >
-            <uploading-image
-                v-for="upload in uploads"
-                :key="upload.name"
-                :file="upload"
-                :upload-path="uploadPath"
-                @uploaded="addImage"
-            ></uploading-image>
-
             <div class="flex flex-wrap" ref="sortable">
                 <sortable-gallery-image
                     v-for="image in storedImages"
@@ -42,6 +34,15 @@
                     @deleted="removeImage(image)"
                 ></sortable-gallery-image>
             </div>
+        </div>
+        <div class="fixed bottom-0 right-0 p-6">
+            <uploading-image
+                v-for="upload in uploads"
+                :key="upload.name"
+                :file="upload"
+                :upload-path="uploadPath"
+                @uploaded="addImage"
+            ></uploading-image>
         </div>
     </div>
 </template>

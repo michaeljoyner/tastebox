@@ -2,7 +2,7 @@
     <div class="shadow divide-y divide-gray-200">
         <div v-for="meal in meals" :key="meal.id" class="p-2">
             <router-link
-                :to="`/meals/${meal.id}`"
+                :to="`/meals/${meal.id}/manage/info`"
                 class="text-gray-800 hover:text-blue-600 flex"
             >
                 <div class="w-12 h-12 rounded-full overflow-hidden">

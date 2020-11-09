@@ -32,6 +32,8 @@ class Ingredient extends Model
                 'description' => $this->description,
                 'quantity' => $this->pivot->quantity,
                 'in_kit' => $this->pivot->in_kit,
+                'position' => $this->pivot->position,
+                'group' => $this->pivot->group,
             ];
         }
         return [

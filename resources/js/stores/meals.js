@@ -4,7 +4,11 @@ import {
     createNewMeal,
     deleteMeal,
     fetchAllMeals,
-    saveMeal,
+    updateIngredientPositions,
+    updateMealInfo,
+    updateMealIngredients,
+    updateMealInstructions,
+    updateMealNutritionalInfo,
 } from "../apis/meals";
 
 export default {
@@ -58,15 +62,35 @@ export default {
                 .catch(() => showError("Failed to fetch meals"));
         },
 
-        createMeal({ dispatch }) {
-            return createNewMeal().then((meal) => {
+        createMeal({ dispatch }, formData) {
+            return createNewMeal(formData).then((meal) => {
                 dispatch("refresh");
                 return meal;
             });
         },
 
-        save({ dispatch }, { id, mealData }) {
-            return saveMeal(id, mealData).then(() => dispatch("refresh"));
+        updateInfo({ dispatch }, { meal_id, formData }) {
+            return updateMealInfo(meal_id, formData).then(() =>
+                dispatch("refresh")
+            );
+        },
+
+        updateNutritionalInfo({ dispatch }, { meal_id, formData }) {
+            return updateMealNutritionalInfo(meal_id, formData).then(() =>
+                dispatch("refresh")
+            );
+        },
+
+        updateIngredients({ dispatch }, { meal_id, ingredients }) {
+            return updateMealIngredients(meal_id, ingredients).then(() =>
+                dispatch("refresh")
+            );
+        },
+
+        updateInstructions({ dispatch }, { meal_id, instructions }) {
+            return updateMealInstructions(meal_id, instructions).then(() =>
+                dispatch("refresh")
+            );
         },
 
         saveMealGalleryOrder({ dispatch }, { id, image_ids }) {
@@ -147,6 +171,12 @@ export default {
 
         copy({ dispatch }, { meal_id, name }) {
             return copyMeal(meal_id, name).then(() => dispatch("refresh"));
+        },
+
+        organiseIngredients({ dispatch }, { meal_id, formData }) {
+            return updateIngredientPositions(meal_id, formData).then(() =>
+                dispatch("refresh")
+            );
         },
     },
 };

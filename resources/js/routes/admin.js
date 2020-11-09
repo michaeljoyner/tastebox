@@ -1,6 +1,4 @@
 import MealsIndex from "../vue/Pages/Meals/MealsIndex";
-import MealShow from "../vue/Pages/Meals/MealShow";
-import MealEdit from "../vue/Pages/Meals/MealEdit";
 import MealGallery from "../vue/Pages/Meals/MealGallery";
 import MenuIndex from "../vue/Pages/Menu/MenuIndex";
 import MenuShow from "../vue/Pages/Menu/MenuShow";
@@ -12,12 +10,39 @@ import BatchKits from "../vue/Components/Batches/BatchKits";
 import BatchMeals from "../vue/Components/Batches/BatchMeals";
 import BatchIngredients from "../vue/Components/Batches/BatchIngredients";
 import BatchSummary from "../vue/Pages/Batches/BatchSummary";
+import MealPageShell from "../vue/Pages/Meals/MealPageShell";
+import ShowMealGeneralInfo from "../vue/Components/Meals/ShowMealGeneralInfo";
+import EditMealGeneralInfo from "../vue/Components/Meals/EditMealGeneralInfo";
+import SetMealIngredients from "../vue/Components/Meals/SetMealIngredients";
+import ShowMealNutritionalInfo from "../vue/Components/Meals/ShowMealNutritionalInfo";
+import EditNutritionalInfo from "../vue/Components/Meals/EditNutritionalInfo";
+import ShowMealInstructions from "../vue/Components/Meals/ShowMealInstructions";
+import EditMealInstructions from "../vue/Components/Meals/EditMealInstructions";
+import MealActionsPage from "../vue/Pages/Meals/MealActionsPage";
+import CreateMeal from "../vue/Components/Meals/CreateMeal";
+import ShowMealIngredients from "../vue/Components/Meals/ShowMealIngredients";
+import OrganiseIngredients from "../vue/Components/Meals/OrganiseIngredients";
 
 export default [
     { path: "/meals", component: MealsIndex },
-    { path: "/meals/:id", component: MealShow },
-    { path: "/meals/:id/edit", component: MealEdit },
-    { path: "/meals/:id/gallery", component: MealGallery },
+    { path: "/meals/create", component: CreateMeal },
+    {
+        path: "/meals/:meal/manage",
+        component: MealPageShell,
+        children: [
+            { path: "info", component: ShowMealGeneralInfo },
+            { path: "info/edit", component: EditMealGeneralInfo },
+            { path: "ingredients", component: ShowMealIngredients },
+            { path: "ingredients/edit", component: SetMealIngredients },
+            { path: "ingredients/organise", component: OrganiseIngredients },
+            { path: "nutritional-info", component: ShowMealNutritionalInfo },
+            { path: "nutritional-info/edit", component: EditNutritionalInfo },
+            { path: "instructions", component: ShowMealInstructions },
+            { path: "instructions/edit", component: EditMealInstructions },
+            { path: "photos", component: MealGallery },
+            { path: "actions", component: MealActionsPage },
+        ],
+    },
     { path: "/menus", component: MenuIndex },
     { path: "/menus/:id", component: MenuShow },
     { path: "/menus/:id/edit-meals", component: MenuEditMeals },

@@ -72,6 +72,12 @@ Route::group(['middleware' => 'auth'], function () {
         Route::post('meals/{meal}', 'MealsController@update');
         Route::delete('meals/{meal}', 'MealsController@delete');
 
+        Route::post('meals/{meal}/nutritional-info', 'MealNutritionalInfoController@update');
+        Route::post('meals/{meal}/ingredients', 'MealIngredientsController@update');
+        Route::post('meals/{meal}/instructions', 'MealInstructionsController@update');
+
+        Route::post('meals/{meal}/organise-ingredients', 'OrganisedMealIngredientsController@update');
+
         Route::post('meals/{meal}/copies', 'MealCopiesController@store');
 
         Route::post('meals/{meal}/images', 'MealImagesController@store');
