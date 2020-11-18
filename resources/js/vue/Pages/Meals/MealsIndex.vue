@@ -27,6 +27,24 @@
             >
         </div>
 
+        <div class="my-12">
+            <div class="flex justify-around">
+                <button
+                    v-for="classification in classifications"
+                    :key="classification.id"
+                    class="px-4 py-1 rounded-lg border text-sm"
+                    @click="toggleClassification(classification.id)"
+                    :class="{
+                        'bg-green-200': selected_classifications.includes(
+                            classification.id
+                        ),
+                    }"
+                >
+                    {{ classification.name }}
+                </button>
+            </div>
+        </div>
+
         <div class="my-12" v-if="!filtered">
             <div class="my-12">
                 <p class="font-bold mb-6">Recent</p>
@@ -39,7 +57,9 @@
         </div>
 
         <div v-else class="my-12">
-            <p class="font-bold mb-6">Matching "{{ this.search }}"</p>
+            <p class="font-bold mb-6" v-show="search.length">
+                Matching "{{ search }}"
+            </p>
             <meal-list :meals="matches"></meal-list>
         </div>
     </page>
@@ -63,6 +83,7 @@ export default {
     data() {
         return {
             search: "",
+            selected_classifications: [],
         };
     },
 
@@ -76,7 +97,10 @@ export default {
         },
 
         filtered() {
-            return this.search.length > 2;
+            return (
+                this.search.length > 2 ||
+                this.selected_classifications.length > 0
+            );
         },
 
         matches() {
@@ -84,14 +108,40 @@ export default {
                 return [];
             }
 
-            return this.meals.filter((meal) =>
-                meal.name.toLowerCase().includes(this.search.toLowerCase())
-            );
+            return this.meals
+                .filter((meal) =>
+                    meal.name.toLowerCase().includes(this.search.toLowerCase())
+                )
+                .filter((meal) => {
+                    const meal_classifications = meal.classifications.map(
+                        (c) => c.id
+                    );
+                    return this.selected_classifications.every((id) =>
+                        meal_classifications.includes(id)
+                    );
+                });
+        },
+
+        classifications() {
+            return this.$store.state.meals.classifications;
         },
     },
 
     mounted() {
         this.$store.dispatch("meals/fetchMeals").catch(showError);
+        this.$store.dispatch("meals/fetchClassifications").catch(showError);
+    },
+
+    methods: {
+        toggleClassification(id) {
+            if (this.selected_classifications.includes(id)) {
+                return (this.selected_classifications = this.selected_classifications.filter(
+                    (c) => c !== id
+                ));
+            }
+
+            this.selected_classifications.push(id);
+        },
     },
 };
 </script>

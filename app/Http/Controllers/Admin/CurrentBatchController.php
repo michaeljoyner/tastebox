@@ -11,7 +11,12 @@ class CurrentBatchController extends Controller
 {
     public function show()
     {
-        $batch = Menu::nextUp()->getBatch();
+        $next_up = Menu::nextUp();
+
+        if(!$next_up->id) {
+            return null;
+        }
+        $batch = $next_up->getBatch();
 
         return [
             'name'           => $batch->name(),

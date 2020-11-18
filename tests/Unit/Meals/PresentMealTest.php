@@ -53,58 +53,68 @@ class PresentMealTest extends TestCase
         $image = $meal->addImage(UploadedFile::fake()->image('testpic.png'));
 
         $expected = [
-            'id'              => $meal->id,
-            'unique_id'       => $meal->unique_id,
-            'is_public'       => true,
-            'name'            => 'test name',
-            'description'     => 'test description',
-            'allergens'       => 'test allergens',
-            'prep_time'       => 100,
-            'cook_time'       => 250,
-            'instructions'    => 'test instructions',
-            'serving_energy'  => 150,
-            'serving_carbs'   => 50,
-            'serving_fat'     => 70,
-            'serving_protein' => 0,
-            'ingredients'     => [
+            'id'                     => $meal->id,
+            'unique_id'              => $meal->unique_id,
+            'is_public'              => true,
+            'name'                   => 'test name',
+            'description'            => 'test description',
+            'allergens'              => 'test allergens',
+            'prep_time'              => 100,
+            'cook_time'              => 250,
+            'instructions'           => 'test instructions',
+            'serving_energy'         => 150,
+            'serving_carbs'          => 50,
+            'serving_fat'            => 70,
+            'serving_protein'        => 0,
+            'ingredients'            => [
                 [
                     'id'          => $ingredientA->id,
                     'description' => $ingredientA->description,
                     'quantity'    => '2',
-                    'in_kit'      => false
+                    'in_kit'      => false,
+                    'position'    => null,
+                    'group'       => null,
                 ],
                 [
                     'id'          => $ingredientB->id,
                     'description' => $ingredientB->description,
                     'quantity'    => '3 tsp',
-                    'in_kit'      => false
+                    'in_kit'      => false,
+                    'position'    => null,
+                    'group'       => null,
                 ],
                 [
                     'id'          => $ingredientC->id,
                     'description' => $ingredientC->description,
                     'quantity'    => '1 bag',
-                    'in_kit'      => true
+                    'in_kit'      => true,
+                    'position'    => null,
+                    'group'       => null,
                 ],
                 [
                     'id'          => $ingredientD->id,
                     'description' => $ingredientD->description,
                     'quantity'    => null,
-                    'in_kit'      => true
+                    'in_kit'      => true,
+                    'position'    => null,
+                    'group'       => null,
                 ],
                 [
                     'id'          => $ingredientE->id,
                     'description' => $ingredientE->description,
                     'quantity'    => null,
-                    'in_kit'      => true
+                    'in_kit'      => true,
+                    'position'    => null,
+                    'group'       => null,
                 ],
             ],
-            'title_image'     => [
+            'title_image'            => [
                 'id'    => $image->id,
                 'thumb' => $image->getUrl('thumb'),
                 'web'   => $image->getUrl('web'),
                 'src'   => $image->getUrl('web'),
             ],
-            'gallery'         => [
+            'gallery'                => [
                 [
                     'id'    => $image->id,
                     'thumb' => $image->getUrl('thumb'),
@@ -112,7 +122,7 @@ class PresentMealTest extends TestCase
                     'src'   => $image->getUrl('web'),
                 ]
             ],
-            'classifications' => [
+            'classifications'        => [
                 [
                     'id'   => $classificationA->id,
                     'name' => $classificationA->name,

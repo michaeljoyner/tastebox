@@ -1,6 +1,9 @@
 <template>
     <page v-if="menu">
         <page-header :title="`Select meals for #${menu.week_number}`">
+            <router-link :to="`/menus/${menu.id}`" class="mx-4 btn-muted"
+                >Back to Menu</router-link
+            >
             <button class="btn btn-main" @click="save">Save</button>
         </page-header>
 

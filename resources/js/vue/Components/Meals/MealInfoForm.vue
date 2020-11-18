@@ -140,11 +140,11 @@ export default {
                 .then(() => (this.waiting = false));
         },
 
-        onSuccess({ id }) {
+        onSuccess(meal) {
             showSuccess("Meal info saved");
             const redirect = this.meal
                 ? `/meals/${this.meal.id}/manage/info`
-                : `/meals/${id}/manage/info`;
+                : `/meals/${meal.id}/manage/info`;
             this.$router.push(redirect);
         },
 
