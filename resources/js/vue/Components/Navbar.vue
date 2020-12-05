@@ -11,6 +11,11 @@
             <div>
                 <router-link
                     class="text-white font-bold hover:underline mx-4"
+                    to="/instagram"
+                    >Instagram</router-link
+                >
+                <router-link
+                    class="text-white font-bold hover:underline mx-4"
                     to="/meals"
                     >Meals</router-link
                 >
