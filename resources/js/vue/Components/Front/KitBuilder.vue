@@ -1,6 +1,6 @@
 <template>
     <div v-if="kit">
-        <h1 class="text-5xl font-bold text-center my-8">Build a box</h1>
+        <h1 class="type-h1 font-bold text-center my-8">Build a Box</h1>
 
         <p class="max-w-xl mx-auto px-6 mb-6">
             Select the meals you want <strong>for the week</strong> below. Our
@@ -15,16 +15,43 @@
                 class="w-5/5 max-w-3xl my-12 mx-auto shadow relative"
             >
                 <div class="flex flex-col md:flex-row border-b border-gray-200">
-                    <div class="w-full h-auto md:w-64 md:h-42">
+                    <div class="w-full h-auto md:w-80">
                         <img
-                            :src="meal.title_image.thumb"
+                            :src="meal.title_image"
                             :alt="meal.name"
                             class="w-full h-full object-cover"
                         />
                     </div>
-                    <div class="flex-1 p-3">
-                        <p class="font-bold">{{ meal.name }}</p>
-                        <p class="mt-2 text-sm">{{ meal.description }}</p>
+                    <div class="flex-1 p-3 pl-6">
+                        <p class="type-h3">{{ meal.name }}</p>
+
+                        <div class="flex my-2">
+                            <p
+                                v-for="category in meal.classifications"
+                                :key="category.id"
+                                class="mr-3 border rounded border-black px-2 type-b3"
+                            >
+                                {{ category.name }}
+                            </p>
+                        </div>
+
+                        <p class="mt-2 type-b3">{{ meal.description }}</p>
+
+                        <p class="type-b4 my-2 flex items-center leading-none">
+                            <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                class="fill-current text-green-400 h-4 mr-2"
+                                viewBox="0 0 20 20"
+                            >
+                                <path
+                                    d="M16.32 7.1A8 8 0 1 1 9 4.06V2h2v2.06c1.46.18 2.8.76 3.9 1.62l1.46-1.46 1.42 1.42-1.46 1.45zM10 18a6 6 0 1 0 0-12 6 6 0 0 0 0 12zM7 0h6v2H7V0zm5.12 8.46l1.42 1.42L10 13.4 8.59 12l3.53-3.54z"
+                                />
+                            </svg>
+
+                            <span class="type-b4 pt-1"
+                                >{{ meal.cook_time }} mins</span
+                            >
+                        </p>
 
                         <check-icon
                             v-if="mealIsInKit(meal.id)"
@@ -57,11 +84,7 @@
                     Build another box
                 </button>
 
-                <a
-                    href="/basket"
-                    class="px-4 py-2 text-white bg-green-600 hover:bg-green-500 shadow rounded-lg md:ml-6"
-                    >Go to basket</a
-                >
+                <a href="/basket" class="green-btn md:ml-6">Go to basket</a>
             </div>
         </div>
     </div>

@@ -5,7 +5,8 @@ module.exports = {
           opaque: 'rgba(255,255,255,.8)',
         },
         fontFamily: {
-            sans: ["Inter", "system-ui", '-apple-system', 'BlinkMacSystemFont', '"Segoe UI"', 'Roboto', '"Helvetica Neue"', "Arial", '"Noto Sans"', "sans-serif", '"Apple Color Emoji"', '"Segoe UI Emoji"', '"Segoe UI Symbol"', '"Noto Color Emoji"']
+            sans: ["Lato", "system-ui", '-apple-system', 'BlinkMacSystemFont', '"Segoe UI"', 'Roboto', '"Helvetica Neue"', "Arial", '"Noto Sans"', "sans-serif", '"Apple Color Emoji"', '"Segoe UI Emoji"', '"Segoe UI Symbol"', '"Noto Color Emoji"'],
+            "serif": ["Playfair Display", "ui-serif", "Georgia", "Cambria", "'Times New Roman'", "Times", "serif"]
         },
         spacing: {
             42: '10.7rem',

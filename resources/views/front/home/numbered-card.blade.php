@@ -3,7 +3,7 @@
         <p class="text-green-600 text-3xl md:text-5xl font-bold">{{ $number }}.</p>
     </div>
     <div class="p-6">
-        <p class="text-lg font-bold">{{ $title }}</p>
+        <p class="type-h2">{{ $title }}</p>
         <p class="mt-4">{{ $text }}</p>
     </div>
 </div>

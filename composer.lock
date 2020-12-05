@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "41f89d185214c8780ecae241fa041db5",
+    "content-hash": "83811212b4d84e27c6c6b4b029315393",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -741,6 +741,52 @@
                 }
             ],
             "time": "2020-10-13T01:26:01+00:00"
+        },
+        {
+            "name": "dymantic/laravel-instagram-feed",
+            "version": "v2.3.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Dymantic/laravel-instagram-feed.git",
+                "reference": "5f72ede10bdd6148bf44ceb09920630820c40f88"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Dymantic/laravel-instagram-feed/zipball/5f72ede10bdd6148bf44ceb09920630820c40f88",
+                "reference": "5f72ede10bdd6148bf44ceb09920630820c40f88",
+                "shasum": ""
+            },
+            "require": {
+                "guzzlehttp/guzzle": "^6.5 | ^7.0"
+            },
+            "require-dev": {
+                "orchestra/testbench": "^3.9"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Dymantic\\InstagramFeed\\InstagramFeedServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Dymantic\\InstagramFeed\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Michael Joyner",
+                    "email": "joyner.michael@gmail.com"
+                }
+            ],
+            "description": "Fetches the instagram feed for given authenticated profiles",
+            "time": "2020-10-09T05:54:35+00:00"
         },
         {
             "name": "egulias/email-validator",

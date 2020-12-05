@@ -4,7 +4,7 @@
             class="flex flex-col md:flex-row items-center md:items-start justify-around px-6"
         >
             <div>
-                <p class="text-xl my-12 text-center font-bold">Your Order</p>
+                <p class="type-h2 my-12 text-center">Your Order</p>
                 <div
                     v-for="kit in eligible_kits"
                     :key="kit.id"
@@ -48,7 +48,7 @@
                 </p>
             </div>
             <div class="w-full md:w-auto">
-                <p class="text-xl my-12 text-center font-bold">Your Details</p>
+                <p class="type-h2 my-12 text-center">Your Details</p>
 
                 <div class="w-full max-w-md mx-auto">
                     <div
@@ -149,7 +149,13 @@
         </div>
 
         <div class="px-6">
-            <p class="text-xl font-bold text-center my-12">Delivery</p>
+            <p class="type-h2 text-center mt-12 mb-8">Delivery</p>
+            <p class="max-w-lg mx-auto text-center mb-8">
+                Note: We currently do NOT deliver outside of Pietermaritzburg,
+                Hilton, Nottingham road or Wartburg. If you are unsure if you
+                will receive your delivery, please contact us before you place
+                your order.
+            </p>
 
             <div
                 v-if="has_multiple_kits"

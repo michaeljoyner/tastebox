@@ -12,7 +12,12 @@
           name="csrf-token"
           content="{{ csrf_token() }}">
     <meta name="description" content="{{ $description }}">
-        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;800&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Lato&family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
+
+    @if($hasSlideshow)
+        <link rel="stylesheet" href="https://unpkg.com/flickity@2/dist/flickity.min.css">
+    @endif
 
         </head>
 <body class="font-sans text-gray-800 h-full pt-16">
@@ -53,6 +58,9 @@
 
     </div>
 </div>
+@if($hasSlideshow)
+    <script src="https://unpkg.com/flickity@2/dist/flickity.pkgd.min.js"></script>
+@endif
 <script src="{{ $javascript }}"></script>
 </body>
 </html>

@@ -22,6 +22,7 @@ import MealActionsPage from "../vue/Pages/Meals/MealActionsPage";
 import CreateMeal from "../vue/Components/Meals/CreateMeal";
 import ShowMealIngredients from "../vue/Components/Meals/ShowMealIngredients";
 import OrganiseIngredients from "../vue/Components/Meals/OrganiseIngredients";
+import InstagramIndex from "../vue/Pages/Instagram/InstagramIndex";
 
 export default [
     { path: "/meals", component: MealsIndex },
@@ -58,4 +59,5 @@ export default [
             { path: "ingredients", component: BatchIngredients },
         ],
     },
+    { path: "/instagram", component: InstagramIndex },
 ];

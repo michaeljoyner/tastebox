@@ -2,7 +2,7 @@
     <button
         :type="role"
         :disabled="waiting"
-        class="px-4 py-2 rounded-lg shadow-lg text-white font-semibold relative"
+        class="green-btn relative"
         :class="btnClass"
     >
         <span :class="{ 'opacity-0': waiting, 'opacity-100': !waiting }">

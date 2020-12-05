@@ -103,7 +103,7 @@ class Menu extends Model
 
     public function presentForPublic()
     {
-        return $this->toArray();
+        return MenuPresenter::forPublic($this);
     }
 
     public function openForOrders()
@@ -118,7 +118,7 @@ class Menu extends Model
         $this->save();
     }
 
-    private function ordersCloseDate()
+    public function ordersCloseDate()
     {
         return Carbon::parse($this->current_to)->subDay();
     }

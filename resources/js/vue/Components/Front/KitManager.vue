@@ -1,7 +1,7 @@
 <template>
     <div class="py-6">
         <div v-if="showMenus">
-            <p class="text-5xl font-bold text-center">Choose a menu.</p>
+            <p class="type-h1 text-center">Choose a menu.</p>
             <p class="my-6 max-w-xl text-gray-600 mx-auto px-6">
                 Each week has its own menu. You may plan ahead by ordering from
                 multiple menus, or you may order more than one box from the same
@@ -13,13 +13,42 @@
                     :key="menu.id"
                     class="p-4 shadow my-8 max-w-lg mx-6 w-full"
                 >
-                    <div
-                        class="flex flex-col md:flex-row justify-between items-start md:items-center"
-                    >
+                    <div class="">
                         <div>
-                            <p class="text-lg font-bold">
-                                Menu #{{ menu.week_number }}
-                            </p>
+                            <div class="flex justify-between items-center mb-8">
+                                <p class="type-h2">
+                                    Menu #{{ menu.week_number }}
+                                </p>
+                                <button
+                                    v-if="!menuKits(menu).length"
+                                    class="green-btn"
+                                    @click="addKit(menu.id)"
+                                >
+                                    Build box
+                                </button>
+                                <button
+                                    v-else
+                                    @click="selectKit(menuKits(menu)[0].id)"
+                                    class="green-btn"
+                                >
+                                    Continue
+                                </button>
+                            </div>
+
+                            <div
+                                class="flex flex-wrap w-full overflow-auto my-4"
+                            >
+                                <div
+                                    v-for="meal in menu.meals"
+                                    :key="meal.id"
+                                    class="w-10 h-10 mr-4 mb-4 rounded-full overflow-hidden"
+                                >
+                                    <img
+                                        :src="meal.thumb_img"
+                                        class="h-full w-full object-cover"
+                                    />
+                                </div>
+                            </div>
                             <p class="text-gray-600">
                                 Delivered on
                                 <span class="font-bold">{{
@@ -27,14 +56,7 @@
                                 }}</span>
                             </p>
                         </div>
-                        <div class="mt-4 md:mt-0">
-                            <button
-                                class="px-4 py-2 rounded-lg font-bold text-white bg-green-600 shadow hover:bg-green-400"
-                                @click="addKit(menu.id)"
-                            >
-                                Build box
-                            </button>
-                        </div>
+                        <div class="mt-4 md:mt-0"></div>
                     </div>
                     <div class="mt-4" v-show="menuKits(menu).length">
                         <p class="text-gray-600 uppercase text-sm mb-2">
@@ -51,6 +73,15 @@
                                 class="font-bold text-green-600 hover:text-green-500 ml-8"
                             >
                                 Continue
+                            </button>
+                        </div>
+                        <div class="mt-3">
+                            <p class="text-gray-600">or</p>
+
+                            <button class="type-b4" @click="addKit(menu.id)">
+                                <span class="text-green-600 underline"
+                                    >Build another box </span
+                                >for this menu
                             </button>
                         </div>
                     </div>
@@ -105,6 +136,12 @@ export default {
         this.kits = this.initialBasket.kits;
 
         this.selected_kit_id = this.initialKit;
+
+        window.addEventListener("popstate", ({ state }) => {
+            if (!state) {
+                this.selected_kit_id = null;
+            }
+        });
     },
 
     methods: {
@@ -113,7 +150,7 @@ export default {
                 .post("/my-kits", { menu_id })
                 .then(({ data }) => {
                     this.kits.push(data);
-                    this.selected_kit_id = data.id;
+                    this.selectKit(data.id);
                 })
                 .catch(console.log())
                 .then(() => eventHub.$emit("basket-updated"));
@@ -131,6 +168,15 @@ export default {
 
         menuKits(menu) {
             return this.kits.filter((kit) => kit.menu_id === menu.id);
+        },
+
+        selectKit(kit_id) {
+            window.history.pushState(
+                { kit_id: kit_id },
+                "",
+                `/build-a-box?kit=${kit_id}`
+            );
+            this.selected_kit_id = kit_id;
         },
     },
 };

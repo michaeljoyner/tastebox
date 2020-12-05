@@ -1,68 +1,43 @@
 <template>
     <div>
-        <div class="flex flex-wrap justify-end items-center my-3">
+        <div class="flex justify-end">
+            <span class="type-b3 mr-4">{{ in_box_status }}</span>
+            <button
+                v-show="!show"
+                class="type-b4 flex items-center hover:text-green-600"
+                @click="show = true"
+            >
+                <span class="leading-none">{{ set_button_text }}</span>
+                <svg
+                    v-show="servings === 0"
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 20 20"
+                    class="fill-current h-5"
+                >
+                    <path
+                        fill-rule="evenodd"
+                        d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z"
+                        clip-rule="evenodd"
+                    />
+                </svg>
+            </button>
+        </div>
+        <div v-show="show" class="flex flex-wrap justify-end items-center my-3">
             <span class="inline-flex items-center">
-                <span class="mr-4">Servings: </span>
+                <span class="mr-4 type-b1">Cooking for: </span>
                 <button
-                    @click="servings = 1"
-                    class="block h-10 w-10 rounded-full shadow font-bold border-2 border-gray-200 focus:outline-none"
+                    v-for="amount in possible_servings"
+                    :key="amount"
+                    :disabled="waiting || servings === amount"
                     :class="{
-                        'bg-green-600 text-white': currentState === 1,
-                        'bg-gray-200 focus:border-green-600':
-                            currentState !== 1,
+                        'bg-gray-400': waiting || servings === amount,
                     }"
+                    @click="setServings(amount)"
+                    class="w-6 h-6 ml-4 border border-black rounded flex justify-center items-center hover:bg-green-300"
                 >
-                    1
-                </button>
-                <button
-                    @click="servings = 2"
-                    class="block h-10 w-10 rounded-full shadow font-bold mx-3 border-2 border-gray-200 focus:outline-none"
-                    :class="{
-                        'bg-green-600 text-white': currentState === 2,
-                        'bg-gray-200 focus:border-green-600':
-                            currentState !== 2,
-                    }"
-                >
-                    2
-                </button>
-                <button
-                    class="block h-10 w-10 rounded-full shadow font-bold border-2 border-gray-200 focus:outline-none"
-                    :class="{
-                        'bg-green-600 text-white': currentState === 4,
-                        'bg-gray-200 focus:border-green-600':
-                            currentState !== 4,
-                    }"
-                    @click="servings = 4"
-                >
-                    4
+                    {{ amount }}
                 </button>
             </span>
-
-            <div class="flex items-center mt-3 md:mt-0 md:ml-6">
-                <button
-                    class="px-2 py-1 rounded mr-4 order-1 md:order-2"
-                    :class="{
-                        'text-red-600 hover:text-red-500': currentState,
-                        'text-gray-500': !currentState,
-                    }"
-                    @click="remove"
-                    :disabled="!currentState"
-                >
-                    Remove
-                </button>
-
-                <button
-                    class="font-bold text-white px-2 py-1 rounded order-2 md:order-1"
-                    :class="{
-                        'bg-green-600 hover:bg-green-500': !unchanged,
-                        'bg-gray-200': unchanged,
-                    }"
-                    @click="addToKit"
-                    :disabled="unchanged"
-                >
-                    {{ set_button_text }}
-                </button>
-            </div>
         </div>
     </div>
 </template>
@@ -73,6 +48,8 @@ export default {
 
     data() {
         return {
+            possible_servings: [0, 1, 2, 4],
+            show: false,
             servings: 0,
             waiting: false,
         };
@@ -80,7 +57,15 @@ export default {
 
     computed: {
         set_button_text() {
-            return this.currentState ? "Update Kit" : "Add to Kit";
+            return this.servings > 0 ? "Change" : "Add to Box";
+        },
+
+        in_box_status() {
+            if (this.servings === 0) {
+                return "";
+            }
+
+            return `${this.servings} packed in your box`;
         },
 
         unchanged() {
@@ -96,25 +81,25 @@ export default {
     },
 
     methods: {
-        decServings() {
-            if (this.servings > 1) {
-                this.servings--;
+        setServings(amount) {
+            if (amount === 0) {
+                return this.remove();
             }
-        },
 
-        incServings() {
-            if (this.servings < 6) {
-                this.servings++;
-            }
-        },
-
-        addToKit() {
+            this.waiting = true;
             axios
                 .post(`/my-kits/${this.kitId}/meals`, {
                     meal_id: this.mealId,
-                    servings: this.servings,
+                    servings: amount,
                 })
-                .then(({ data }) => this.$emit("updated", data));
+                .then(({ data }) => {
+                    this.$emit("updated", data);
+                    this.servings = amount;
+                })
+                .then(() => {
+                    this.waiting = false;
+                    this.show = false;
+                });
         },
 
         remove() {
@@ -123,6 +108,7 @@ export default {
                 .then(({ data }) => {
                     this.$emit("updated", data);
                     this.servings = 0;
+                    this.show = false;
                 });
         },
     },

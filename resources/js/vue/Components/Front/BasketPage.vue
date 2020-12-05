@@ -1,32 +1,35 @@
 <template>
     <div>
-        <h1 class="text-5xl text-center font-bold my-12">My Basket</h1>
+        <h1 class="type-h1 text-center my-20">My Basket</h1>
 
         <div class="px-6">
             <div
                 v-for="kit in kits"
                 class="max-w-2xl mx-auto my-12 p-6 shadow relative"
             >
-                <p class="font-bold text-green-700">
+                <p class="type-h2">
                     {{ kit.name }}
-                    <span class="mb-3 text-sm text-gray-600 font-normal"
-                        >{{ kit.meals_count }} meal ({{
+                    <span class="mb-3 text-sm text-gray-600 font-normal type-b3"
+                        >{{ kit.meals_count }} meals ({{
                             kit.servings_count
                         }}
                         servings)</span
                     >
                 </p>
-                <p class="my-3">
+                <p class="my-3 type-b1">
                     Delivery from
-                    <strong class="text-gray-700">{{
-                        kit.delivery_date
-                    }}</strong>
+                    <span class="type-b2">{{ kit.delivery_date }}</span>
                 </p>
 
-                <p class="font-bold">Meals</p>
+                <p class="type-h3 underline">Meals</p>
                 <ul class="">
-                    <li v-for="meal in kit.meals" :key="meal.id" class="mb-1">
-                        {{ meal.name }} ({{ meal.servings }} people)
+                    <li
+                        v-for="meal in kit.meals"
+                        :key="meal.id"
+                        class="mb-1 type-b3"
+                    >
+                        {{ meal.name }} ({{ meal.servings }}
+                        {{ meal.servings === 1 ? "person" : "people" }})
                     </li>
                 </ul>
 
@@ -50,27 +53,24 @@
                     </span>
                 </div>
                 <div class="mt-4 md:m-4 static md:absolute top-0 right-0">
-                    <a
-                        :href="`/build-a-box?kit=${kit.id}`"
-                        class="font-bold mr-4 text-green-600 hover:text-green-500"
-                        >Go to kit</a
-                    >
                     <delete-kit
                         @deleted="updateKits"
                         :kit-id="kit.id"
                         :kit-name="kit.name"
                     ></delete-kit>
+
+                    <a
+                        :href="`/build-a-box?kit=${kit.id}`"
+                        class="type-b2 mr-4 text-green-600 hover:text-green-500"
+                        >Go to kit</a
+                    >
                 </div>
             </div>
         </div>
 
         <div class="my-20 text-center">
             <span class="text-lg text-gray-600 mr-6">Look good? </span>
-            <a
-                href="/checkout"
-                class="px-4 py-2 rounded shadow bg-green-600 hover:bg-green-500 text-white font-bold"
-                >Proceed to Checkout</a
-            >
+            <a href="/checkout" class="green-btn">Proceed to Checkout</a>
         </div>
     </div>
 </template>
