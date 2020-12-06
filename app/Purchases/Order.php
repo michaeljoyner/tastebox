@@ -6,6 +6,7 @@ use App\DatePresenter;
 use App\Meals\Meal;
 use App\Orders\Menu;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 
 class Order extends Model
@@ -32,17 +33,30 @@ class Order extends Model
         return trim(sprintf("%s %s", $this->first_name, $this->last_name));
     }
 
-    public static function makeNew(array $customer, $price): Order
+    public static function makeNew(array $customer, Collection $addressed_kits): Order
     {
-        return static::create([
+        $order = static::create([
             'first_name'     => $customer['first_name'],
             'last_name'      => $customer['last_name'],
             'email'          => $customer['email'] ?? '',
             'phone'          => $customer['phone'] ?? 'not given',
-            'price_in_cents' => $price * 100,
             'order_key'      => Str::uuid()->toString(),
+            'price_in_cents' => static::checkOrderPrice($addressed_kits) * 100,
             'status'         => self::STATUS_PENDING,
         ]);
+
+        $addressed_kits->each(fn ($kit) => $order->addKit($kit['kit'], $kit['address']));
+
+        return $order;
+
+    }
+
+    private static function checkOrderPrice(Collection $kits)
+    {
+        return $kits
+            ->map(fn ($k) => $k['kit'])
+            ->filter(fn(Kit $kit) => $kit->eligibleForOrder())
+            ->sum(fn (Kit $kit) => $kit->price());
     }
 
     public function customer(): Customer

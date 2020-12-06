@@ -48,18 +48,16 @@ class PayFastTest extends TestCase
         $kitA->setMeal($mealC->id, 4);
         $kitA->setMeal($mealD->id, 5);
 
-        /**
-         * @var $order Order
-         */
-        $order = Order::makeNew([
+        $customer = [
             'first_name' => 'test first name',
             'last_name' => 'test last name',
             'phone' => '0791112223',
             'email' => 'test@test.test',
-        ], $basket->price());
+        ];
+        $addressed_kits = $basket
+            ->kits->map(fn ($k) => ['kit' => $k, 'address' => Address::fake()]);
+        $order = Order::makeNew($customer, $addressed_kits);
 
-        $order->addKit($kitA, $this->getTestAddress());
-        $order->addKit($kitB, $this->getTestAddress());
 
         $order_data = [
             'merchant_id' => '12345',
@@ -122,18 +120,15 @@ class PayFastTest extends TestCase
         $kitA->setMeal($mealC->id, 4);
         $kitA->setMeal($mealD->id, 5);
 
-        /**
-         * @var $order Order
-         */
-        $order = Order::makeNew([
+        $customer = [
             'first_name' => 'test first name',
             'last_name' => 'test last name',
-            'phone' => 'test phone',
+            'phone' => '555555555',
             'email' => 'test@test.test',
-        ], $basket->price());
-
-        $order->addKit($kitA, $this->getTestAddress());
-        $order->addKit($kitB, $this->getTestAddress());
+        ];
+        $addressed_kits = $basket
+            ->kits->map(fn ($k) => ['kit' => $k, 'address' => Address::fake()]);
+        $order = Order::makeNew($customer, $addressed_kits);
 
         $order_data = [
             'merchant_id' => '12345',

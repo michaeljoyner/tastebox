@@ -31,4 +31,15 @@ class Address
             'notes'       => $this->notes,
         ];
     }
+
+    public static function fake(): Address
+    {
+        return new self([
+            'line_one'    => '123 sesame street',
+            'line_two'    => 'homeville',
+            'city'        => 'new york',
+            'postal_code' => '555',
+            'notes'       => 'this is a dummy address',
+        ]);
+    }
 }

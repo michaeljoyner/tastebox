@@ -32,18 +32,15 @@ class SuccessfulOrderTest extends TestCase
         $kit->setMeal($mealA->id, 2);
         $kit->setMeal($mealB->id, 3);
 
-        $order = Order::makeNew([
-            'first_name' => 'Test',
-            'last_name'  => 'Name',
-            'email'      => 'tst@test.test',
-            'phone'      => 'test phone',
-        ], 100);
-
-        $basket->kits->each(fn(Kit $kit) => $order->addKit($kit, new Address([
-            'line_one'    => '123 Sesame',
-            'city'        => 'New York',
-            'postal_code' => '555',
-        ])));
+        $customer = [
+            'first_name' => 'test first name',
+            'last_name' => 'test last name',
+            'phone' => '0791112223',
+            'email' => 'test@test.test',
+        ];
+        $addressed_kits = $basket
+            ->kits->map(fn ($k) => ['kit' => $k, 'address' => Address::fake()]);
+        $order = Order::makeNew($customer, $addressed_kits);
 
         $response = $this->get("/payfast/return/{$order->order_key}");
 

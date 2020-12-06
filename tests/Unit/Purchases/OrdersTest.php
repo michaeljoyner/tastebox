@@ -25,19 +25,22 @@ class OrdersTest extends TestCase
      */
     public function make_a_new_order()
     {
-        $order = Order::makeNew([
+        $customer = [
             'first_name' => 'test first name',
             'last_name' => 'test last name',
             'email' => 'test@test.test',
             'phone' => 'test phone',
-        ], 550);
+        ];
+        $address = Address::fake();
+        $addressed_kits = $this->makeKits()->map(fn ($k) => ['kit' => $k, 'address' => $address]); //2 kits 15 meals
+        $order = Order::makeNew($customer, $addressed_kits);
 
         $this->assertEquals('test first name', $order->first_name);
         $this->assertEquals('test last name', $order->last_name);
         $this->assertEquals('test phone', $order->phone);
         $this->assertEquals('test@test.test', $order->email);
         $this->assertTrue(Str::isUuid($order->order_key));
-        $this->assertEquals(55000, $order->price_in_cents);
+        $this->assertEquals(Meal::SERVING_PRICE * 15 * 100, $order->price_in_cents);
         $this->assertSame(Order::STATUS_PENDING, $order->status);
     }
 
@@ -200,5 +203,27 @@ class OrdersTest extends TestCase
         $this->assertSame('Fancy Pants', $customer->name);
         $this->assertSame('test@test.test', $customer->email);
         $this->assertSame('test phone', $customer->phone);
+    }
+
+    private function makeKits()
+    {
+        $menu = factory(Menu::class)->state('current')->create();
+        $mealA = factory(Meal::class)->create();
+        $mealB = factory(Meal::class)->create();
+        $mealC = factory(Meal::class)->create();
+        $mealD = factory(Meal::class)->create();
+        $menu->setMeals([$mealA->id, $mealB->id, $mealC->id, $mealD->id,]);
+
+        $basket = ShoppingBasket::for(null);
+        $kitA = $basket->addKit($menu->id);
+        $kitA->setMeal($mealA->id, 2);
+        $kitA->setMeal($mealB->id, 2);
+        $kitA->setMeal($mealC->id, 4);
+        $kitB = $basket->addKit($menu->id);
+        $kitB->setMeal($mealA->id, 1);
+        $kitB->setMeal($mealC->id, 2);
+        $kitB->setMeal($mealD->id, 4);
+
+        return $basket->kits;
     }
 }

@@ -14,13 +14,9 @@ class OrdersController extends Controller
     public function store(PlaceOrderRequest $request)
     {
         $basket = ShoppingBasket::for(request()->user());
+        $kits = $basket->kits->filter(fn (Kit $kit) => $kit->eligibleForOrder());
 
-        $order = Order::makeNew(request()->all('first_name', 'last_name', 'email', 'phone'), $basket->price());
-
-        $basket
-            ->kits
-            ->reject(fn (Kit $kit) => $kit->meals->count() === 0)
-            ->each(fn (Kit $kit) => $order->addKit($kit, $request->addressForKit($kit->id)));
+        $order = Order::makeNew($request->customerDetails(), $request->adressedKits($kits));
 
         return PayFast::checkoutForm($order);
     }
