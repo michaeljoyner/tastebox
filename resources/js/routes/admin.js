@@ -23,6 +23,8 @@ import CreateMeal from "../vue/Components/Meals/CreateMeal";
 import ShowMealIngredients from "../vue/Components/Meals/ShowMealIngredients";
 import OrganiseIngredients from "../vue/Components/Meals/OrganiseIngredients";
 import InstagramIndex from "../vue/Pages/Instagram/InstagramIndex";
+import CreateDiscountCode from "../vue/Components/Discounts/CreateDiscountCode";
+import DiscountsIndex from "../vue/Components/Discounts/DiscountsIndex";
 
 export default [
     { path: "/meals", component: MealsIndex },
@@ -60,4 +62,6 @@ export default [
         ],
     },
     { path: "/instagram", component: InstagramIndex },
+    { path: "/discount-codes/create", component: CreateDiscountCode },
+    { path: "/discount-codes", component: DiscountsIndex },
 ];

@@ -102,5 +102,10 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('menus/{menu}/batch/shopping-list', 'ShoppingListController@download');
 
         Route::get('instagram-feed', 'InstagramController@show');
+
+        Route::get('discount-codes', 'DiscountCodesController@index');
+        Route::post('discount-codes', 'DiscountCodesController@store');
+        Route::post('discount-codes/{code}', 'DiscountCodesController@update');
+        Route::delete('discount-codes/{code}', 'DiscountCodesController@delete');
     });
 });
