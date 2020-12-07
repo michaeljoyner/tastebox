@@ -46,6 +46,7 @@ class GenerateMenusTest extends TestCase
         $newest = Menu::latest('current_from')->first();
 
         $this->assertTrue($most_recent->current_from->addWeek()->isSameDay($newest->current_from));
-        $this->assertEquals($most_recent->weekOfYear() + 1, $newest->weekOfYear());
+        $expected = $most_recent->weekOfYear() === 52 ? 1 : $most_recent->weekOfYear() + 1;
+        $this->assertEquals($expected, $newest->weekOfYear());
     }
 }
