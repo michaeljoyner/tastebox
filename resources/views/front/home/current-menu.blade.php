@@ -3,7 +3,7 @@
     <div class="max-w-6xl mx-auto" data-flickity='{"cellAlign": "left", "imagesLoaded": true, "contain": true}'>
         @foreach($current['meals'] as $meal)
             <div class="py-4 max-w-md w-full mx-4">
-                <div class="w-full p-3 rounded-lg bg-green-300 shadow-lg">
+                <div class="w-full p-3 rounded-lg shadow-lg">
                     <img src="{{ $meal['title_image'] }}" class="rounded-t-lg w-full"
                          alt="{{ $meal['name'] }}">
                     <p class="type-b4 rounded-b-lg py-2 px-2 w-full truncate bg-white">{{ $meal['name'] }}</p>
