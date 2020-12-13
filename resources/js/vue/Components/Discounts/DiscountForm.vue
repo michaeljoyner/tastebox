@@ -169,10 +169,7 @@ export default {
 
         onSuccess() {
             showSuccess("Discount code saved");
-            const redirect = this.code
-                ? "/discount-codes/${this.code.id}"
-                : "/discount-codes";
-            this.$router.push(redirect);
+            this.$router.push("/discount-codes");
         },
 
         onError({ status, data }) {

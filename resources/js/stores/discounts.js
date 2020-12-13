@@ -13,6 +13,10 @@ export default {
         all: [],
     },
 
+    getters: {
+        byId: state => id => state.all.find(dc => dc.id === parseInt(id)),
+    },
+
     mutations: {
         setCodes(state, codes) {
             state.all = codes;

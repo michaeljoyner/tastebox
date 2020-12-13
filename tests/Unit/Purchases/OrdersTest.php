@@ -7,6 +7,7 @@ namespace Tests\Unit\Purchases;
 use App\Meals\Meal;
 use App\Orders\Menu;
 use App\Purchases\Address;
+use App\Purchases\NullDiscount;
 use App\Purchases\Order;
 use App\Purchases\OrderedKit;
 use App\Purchases\Payment;
@@ -33,7 +34,7 @@ class OrdersTest extends TestCase
         ];
         $address = Address::fake();
         $addressed_kits = $this->makeKits()->map(fn ($k) => ['kit' => $k, 'address' => $address]); //2 kits 15 meals
-        $order = Order::makeNew($customer, $addressed_kits);
+        $order = Order::makeNew($customer, $addressed_kits, new NullDiscount());
 
         $this->assertEquals('test first name', $order->first_name);
         $this->assertEquals('test last name', $order->last_name);

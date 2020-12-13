@@ -6,6 +6,7 @@ namespace Tests\Feature\Purchases;
 
 use App\Meals\Meal;
 use App\Orders\Menu;
+use App\Purchases\DiscountCode;
 use App\Purchases\Kit;
 use App\Purchases\Order;
 use App\Purchases\OrderedKit;
@@ -24,6 +25,12 @@ class PlaceOrderTest extends TestCase
     public function place_an_order()
     {
         $this->withoutExceptionHandling();
+
+        $discount_code = factory(DiscountCode::class)->create([
+            'uses'  => 5,
+            'type'  => DiscountCode::LUMP,
+            'value' => 50
+        ]);
 
         $menuA = factory(Menu::class)->state('current')->create([
             'can_order'  => true,
@@ -56,11 +63,12 @@ class PlaceOrderTest extends TestCase
         $kitB->setMeal($mealF->id, 5);
 
         $response = $this->asGuest()->post("/checkout", [
-            'first_name' => 'test first name',
-            'last_name'  => 'test last name',
-            'email'      => 'test@test.test',
-            'phone'      => '0798888888',
-            'delivery'   => [
+            'first_name'    => 'test first name',
+            'last_name'     => 'test last name',
+            'email'         => 'test@test.test',
+            'phone'         => '0798888888',
+            'discount_code' => $discount_code->code,
+            'delivery'      => [
                 $kitA->id => [
                     'line_one'    => 'test road',
                     'line_two'    => 'test district',
@@ -81,11 +89,20 @@ class PlaceOrderTest extends TestCase
 
 
         $this->assertDatabaseHas('orders', [
-            'first_name'    => 'test first name',
-            'last_name'    => 'test last name',
-            'email'   => 'test@test.test',
-            'phone'   => '0798888888',
-            'is_paid' => false,
+            'first_name'     => 'test first name',
+            'last_name'      => 'test last name',
+            'email'          => 'test@test.test',
+            'phone'          => '0798888888',
+            'price_in_cents' => ((21 * Meal::SERVING_PRICE) - 50) * 100,
+            'discount_code'  => $discount_code->code,
+            'discount_type'  => DiscountCode::LUMP,
+            'discount_value' => 50,
+            'is_paid'        => false,
+        ]);
+
+        $this->assertDatabaseHas('discount_codes', [
+            'id'   => $discount_code->id,
+            'uses' => 4
         ]);
 
         $order = Order::where('email', 'test@test.test')->first();
@@ -159,6 +176,97 @@ class PlaceOrderTest extends TestCase
             'meal_id'        => $mealF->id,
             'servings'       => 5
         ]);
+    }
+
+    /**
+     * @test
+     */
+    public function place_an_order_without_discount_code()
+    {
+        $this->withoutExceptionHandling();
+
+        $menuA = factory(Menu::class)->state('current')->create([
+            'can_order'  => true,
+            'current_to' => Carbon::tomorrow()
+        ]);
+        $menuB = factory(Menu::class)->state('upcoming')->create([
+            'can_order' => true,
+        ]);
+
+        $mealA = factory(Meal::class)->create();
+        $mealB = factory(Meal::class)->create();
+        $mealC = factory(Meal::class)->create();
+        $mealD = factory(Meal::class)->create();
+        $mealE = factory(Meal::class)->create();
+        $mealF = factory(Meal::class)->create();
+
+        $menuA->setMeals([$mealA->id, $mealB->id, $mealC->id]);
+        $menuB->setMeals([$mealD->id, $mealE->id, $mealF->id]);
+
+        $basket = ShoppingBasket::for(null);
+
+        $kitA = $basket->addKit($menuA->id);
+        $kitA->setMeal($mealA->id, 2);
+        $kitA->setMeal($mealB->id, 3);
+        $kitA->setMeal($mealC->id, 4);
+
+        $kitB = $basket->addKit($menuB->id);
+        $kitB->setMeal($mealD->id, 3);
+        $kitB->setMeal($mealE->id, 4);
+        $kitB->setMeal($mealF->id, 5);
+
+        $response = $this->asGuest()->post("/checkout", [
+            'first_name'    => 'test first name',
+            'last_name'     => 'test last name',
+            'email'         => 'test@test.test',
+            'phone'         => '0798888888',
+            'discount_code' => null,
+            'delivery'      => [
+                $kitA->id => [
+                    'line_one'    => 'test road',
+                    'line_two'    => 'test district',
+                    'city'        => 'test city',
+                    'postal_code' => 'test code',
+                    'notes'       => 'test notes',
+                ],
+                $kitB->id => [
+                    'line_one'    => 'test road',
+                    'line_two'    => 'test district',
+                    'city'        => 'test city',
+                    'postal_code' => 'test code',
+                    'notes'       => 'test notes',
+                ],
+            ],
+        ]);
+        $response->assertSuccessful();
+
+
+        $this->assertDatabaseHas('orders', [
+            'first_name'     => 'test first name',
+            'last_name'      => 'test last name',
+            'email'          => 'test@test.test',
+            'phone'          => '0798888888',
+            'price_in_cents' => 21 * Meal::SERVING_PRICE * 100,
+            'discount_code'  => null,
+            'discount_type'  => null,
+            'discount_value' => null,
+            'is_paid'        => false,
+        ]);
+    }
+
+    /**
+     *@test
+     */
+    public function the_discount_code_must_be_valid()
+    {
+        $kit = $this->setKit();
+
+        $old_code = factory(DiscountCode::class)->state('expired')->create();
+        $used_code = factory(DiscountCode::class)->state('used')->create();
+
+        $this->assertFieldIsInvalid($kit, ['discount_code' => 'xjhdjhdndkjxhx']);
+        $this->assertFieldIsInvalid($kit, ['discount_code' => $old_code->code]);
+        $this->assertFieldIsInvalid($kit, ['discount_code' => $used_code->code]);
     }
 
     /**
@@ -305,11 +413,11 @@ class PlaceOrderTest extends TestCase
     {
 
         $valid = [
-            'first_name'     => 'test first name',
-            'last_name'     => 'test last name',
-            'email'    => 'test@test.test',
-            'phone'    => '0798888888',
-            'delivery' => [
+            'first_name' => 'test first name',
+            'last_name'  => 'test last name',
+            'email'      => 'test@test.test',
+            'phone'      => '0798888888',
+            'delivery'   => [
                 $kit->id => [
                     'line_one'    => 'test road',
                     'line_two'    => 'test district',

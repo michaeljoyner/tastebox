@@ -25,6 +25,8 @@ Route::delete('my-kits/{kit_id}', 'MealKitsController@destroy');
 Route::post('my-kits/{kit_id}/meals', 'MealKitsMealsController@store');
 Route::delete('my-kits/{kit_id}/meals/{meal_id}', 'MealKitsMealsController@destroy');
 
+Route::post('discount-code-status', 'DiscountCodeStatusController@show');
+
 Route::group(['middleware' => 'auth'], function() {
     Route::get('/', 'HomePageController@show');
     Route::get('build-a-box', 'KitBuilderController@show');

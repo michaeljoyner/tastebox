@@ -42,10 +42,41 @@
                     <span>Delivery fee:</span>
                     <span>R0</span>
                 </p>
+                <p v-show="using_discount" class="w-64 flex justify-between">
+                    <span>Discount:</span>
+                    <span>R{{ amount_discounted }}</span>
+                </p>
                 <p class="w-64 flex justify-between">
                     <span>Total:</span>
-                    <span>R{{ basket.total_price }}</span>
+                    <span>R{{ total_amount }}</span>
                 </p>
+                <div class="flex justify-end mt-2">
+                    <button
+                        v-show="!using_discount"
+                        @click="showDiscountInput = true"
+                        class="text-sm text-green-600 flex items-center leading-none"
+                    >
+                        <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            viewBox="0 0 20 20"
+                            class="fill-current h-4 mr-2"
+                        >
+                            <path
+                                fill-rule="evenodd"
+                                d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z"
+                                clip-rule="evenodd"
+                            />
+                        </svg>
+                        Use discount code
+                    </button>
+                    <button
+                        v-show="using_discount"
+                        @click="clearDiscount"
+                        class="text-sm text-gray-600 hover:text-red-500 flex items-center leading-none"
+                    >
+                        Remove discount
+                    </button>
+                </div>
             </div>
             <div class="w-full md:w-auto">
                 <p class="type-h2 my-12 text-center">Your Details</p>
@@ -281,12 +312,52 @@
                 />
             </form>
         </div>
+        <modal :show="showDiscountInput" @close="showDiscountInput = false">
+            <div class="w-screen max-w-md p-6">
+                <p class="font-bold text-lg mb-6">Use A discount Code</p>
+                <div>
+                    <label
+                        class="text-sm font-bold text-gray-700"
+                        for="discount_code"
+                        >Enter your Discount Code</label
+                    >
+                    <p
+                        v-show="discount_status_error"
+                        class="text-sm text-red-600"
+                    >
+                        {{ discount_status_error }}
+                    </p>
+                    <input
+                        class="block p-2 border w-full"
+                        type="text"
+                        v-model="check_discount_code"
+                    />
+                </div>
+                <div class="flex justify-end mt-6">
+                    <button
+                        type="button"
+                        @click="showDiscountInput = false"
+                        class="mr-4"
+                    >
+                        Cancel
+                    </button>
+                    <submit-button
+                        @click.native="checkDiscountCode"
+                        role="button"
+                        :waiting="checking_code"
+                    >
+                        Apply Code
+                    </submit-button>
+                </div>
+            </div>
+        </modal>
     </div>
 </template>
 
 <script type="text/babel">
 import AddressInput from "./AddressInput";
 import SubmitButton from "./SubmitButton";
+import Modal from "@dymantic/modal";
 import {
     clearValidationErrors,
     setValidationErrors,
@@ -295,6 +366,7 @@ export default {
     components: {
         AddressInput,
         SubmitButton,
+        Modal,
     },
 
     props: ["basket"],
@@ -302,12 +374,19 @@ export default {
     data() {
         return {
             use_multiple_addresses: false,
+            showDiscountInput: false,
+            check_discount_code: "",
+            checking_code: false,
+            discount_status_error: "",
+            discount_value: 0,
+            discount_type: "",
             waiting: false,
             formData: {
                 first_name: "",
                 last_name: "",
                 email: "",
                 phone: "",
+                discount_code: "",
                 main_address: {
                     line_one: "",
                     line_two: "",
@@ -343,6 +422,28 @@ export default {
         hasInvalidAddress() {
             return this.invalidAddresses.length > 0;
         },
+
+        using_discount() {
+            return this.formData.discount_code && this.discount_value > 0;
+        },
+
+        amount_discounted() {
+            const price = this.basket.total_price;
+            if (this.discount_type === "lump") {
+                return this.discount_value;
+            }
+
+            if (this.discount_type === "percent") {
+                const percent = this.discount_value / 100;
+                return parseInt(price * percent);
+            }
+
+            return 0;
+        },
+
+        total_amount() {
+            return this.basket.total_price - this.amount_discounted;
+        },
     },
 
     created() {
@@ -372,6 +473,7 @@ export default {
                 last_name: this.formData.last_name,
                 email: this.formData.email,
                 phone: this.formData.phone,
+                discount_code: this.formData.discount_code,
                 delivery: {},
             };
 
@@ -424,6 +526,46 @@ export default {
 
         isInvalidAddress(kit_id) {
             return this.invalidAddresses.includes(kit_id);
+        },
+
+        checkDiscountCode() {
+            this.checking_code = true;
+            this.discount_status_error = "";
+            axios
+                .post("/discount-code-status", {
+                    discount_code: this.check_discount_code,
+                })
+                .then(({ data }) =>
+                    data.is_valid
+                        ? this.applyCode(data)
+                        : this.handleInvalidCode(data)
+                )
+                .catch(this.onDiscountStatusError)
+                .then(() => (this.checking_code = false));
+        },
+
+        applyCode(code) {
+            this.formData.discount_code = code.code;
+            this.discount_value = code.value;
+            this.discount_type = code.type;
+            this.check_discount_code = "";
+            this.showDiscountInput = false;
+        },
+
+        handleInvalidCode(code) {
+            this.discount_status_error = code.message;
+        },
+
+        onDiscountStatusError() {
+            this.discount_status_error =
+                "Sorry, we were unable to check on that code for you.";
+        },
+
+        clearDiscount() {
+            this.formData.discount_code = "";
+            this.check_discount_code = "";
+            this.discount_value = 0;
+            this.discount_type = "";
         },
     },
 };

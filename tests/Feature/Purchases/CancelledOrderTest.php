@@ -8,6 +8,7 @@ use App\Meals\Meal;
 use App\Orders\Menu;
 use App\Purchases\Address;
 use App\Purchases\Kit;
+use App\Purchases\NullDiscount;
 use App\Purchases\Order;
 use App\Purchases\ShoppingBasket;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -40,7 +41,7 @@ class CancelledOrderTest extends TestCase
         ];
         $addressed_kits = $basket
             ->kits->map(fn ($k) => ['kit' => $k, 'address' => Address::fake()]);
-        $order = Order::makeNew($customer, $addressed_kits);
+        $order = Order::makeNew($customer, $addressed_kits, new NullDiscount());
 
         $response = $this->get("/payfast/cancel/{$order->order_key}");
 

@@ -3,6 +3,9 @@
 namespace App\Http\Requests;
 
 use App\Purchases\Address;
+use App\Purchases\Discount;
+use App\Purchases\DiscountCode;
+use App\Purchases\NullDiscount;
 use App\Rules\ForExistingKit;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Collection;
@@ -27,6 +30,7 @@ class PlaceOrderRequest extends FormRequest
             'delivery.*.line_one' => ['required'],
             'delivery.*.city' => ['required'],
             'delivery.*.postal_code' => ['required'],
+            'discount_code' => [new \App\Rules\DiscountCode()]
         ];
     }
 
@@ -48,5 +52,15 @@ class PlaceOrderRequest extends FormRequest
     {
         $address = $this->delivery[$kit_id] ?? $this->delivery[array_key_first($this->delivery)];
         return new Address($address);
+    }
+
+    public function discount(): Discount
+    {
+        if(!$this->discount_code) {
+            return new NullDiscount();
+        }
+
+        return DiscountCode::for($this->discount_code) ?? new NullDiscount();
+
     }
 }

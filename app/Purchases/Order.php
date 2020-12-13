@@ -33,7 +33,7 @@ class Order extends Model
         return trim(sprintf("%s %s", $this->first_name, $this->last_name));
     }
 
-    public static function makeNew(array $customer, Collection $addressed_kits): Order
+    public static function makeNew(array $customer, Collection $addressed_kits, Discount $discount): Order
     {
         $order = static::create([
             'first_name'     => $customer['first_name'],
@@ -44,6 +44,8 @@ class Order extends Model
             'price_in_cents' => static::checkOrderPrice($addressed_kits) * 100,
             'status'         => self::STATUS_PENDING,
         ]);
+
+        $order->applyDiscount($discount);
 
         $addressed_kits->each(fn ($kit) => $order->addKit($kit['kit'], $kit['address']));
 
@@ -57,6 +59,22 @@ class Order extends Model
             ->map(fn ($k) => $k['kit'])
             ->filter(fn(Kit $kit) => $kit->eligibleForOrder())
             ->sum(fn (Kit $kit) => $kit->price());
+    }
+
+    private function applyDiscount(Discount $discount)
+    {
+        if(!$discount->isValid()) {
+            return;
+        }
+
+        $this->price_in_cents = $discount->discount($this->price_in_cents);
+        $this->discount_code = $discount->getCode();
+        $this->discount_type = $discount->getType();
+        $this->discount_value = $discount->getValue();
+        $this->save();
+        $discount->use();
+
+
     }
 
     public function customer(): Customer

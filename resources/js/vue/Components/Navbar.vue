@@ -31,6 +31,11 @@
                 >
                 <router-link
                     class="text-white font-bold hover:underline mx-4"
+                    to="/discount-codes"
+                    >Discounts</router-link
+                >
+                <router-link
+                    class="text-white font-bold hover:underline mx-4"
                     to="/current-batch/"
                     >This Week</router-link
                 >
