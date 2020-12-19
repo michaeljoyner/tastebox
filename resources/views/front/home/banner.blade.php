@@ -3,7 +3,7 @@
     <div class="rounded-lg bg-opaque p-8 max-w-xl ml-3 mr-3 md:ml-24">
 
             <p class="type-h0 text-gray-700 font-bold mb-4 border-b-2 border-green-300">Tastebox</p>
-            <p class="type-h2 mb-8">Good food, ready to cook, delivered to your door.</p>
+            <p class="type-h2 mb-8">Healthy, ready-to-cook meal kits, delivered to your door.</p>
         <div class="flex justify-between">
             <a href="/build-a-box"
                class="green-btn">Build your box</a>

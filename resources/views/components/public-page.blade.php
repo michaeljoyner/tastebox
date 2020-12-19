@@ -13,7 +13,7 @@
           content="{{ csrf_token() }}">
     <meta name="description" content="{{ $description }}">
     <link rel="preconnect" href="https://fonts.gstatic.com">
-    <link href="https://fonts.googleapis.com/css2?family=Lato&family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat&family=Domine:wght@500&display=swap" rel="stylesheet">
 
     @if($hasSlideshow)
         <link rel="stylesheet" href="https://unpkg.com/flickity@2/dist/flickity.min.css">
@@ -39,10 +39,13 @@
             </a>
         </div>
         <div class="flex">
-            <div class="nav-drawer flex flex-col lg:flex-row lg:pt-0 pt-12 lg:static fixed top-16 left-0 lg:min-h-0 min-h-screen bg-green-200 lg:bg-white w-screen lg:w-auto">
+            <div class="nav-drawer flex flex-col lg:flex-row lg:pt-0 pt-12 lg:static fixed top-16 left-0 lg:min-h-0 min-h-screen bg-green-200 lg:bg-white w-screen lg:w-auto items-center">
+                <a class="text-lg font-bold lg:mb-0 mb-6 mx-4 block" href="/our-meals">Our Meals</a>
+                <a class="text-lg font-bold lg:mb-0 mb-6 mx-4 block" href="/team">The Team</a>
                 <a class="text-lg font-bold lg:mb-0 mb-6 mx-4 block" href="/faqs">FAQs</a>
                 <a class="text-lg font-bold lg:mb-0 mb-6 mx-4 block" href="/contact">Contact Us</a>
-                <a class="text-lg font-bold lg:mb-0 mb-6 mx-4 block" href="/our-story">Our Story</a>
+                <a href="/build-a-box"
+                   class="lg:mb-0 mb-6 mx-4 green-btn">Order</a>
             </div>
             <div class="flex">
                 <basket-bar class="mx-4"></basket-bar>

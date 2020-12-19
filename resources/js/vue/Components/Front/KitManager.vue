@@ -3,9 +3,10 @@
         <div v-if="showMenus">
             <p class="type-h1 text-center">Choose a menu.</p>
             <p class="my-6 max-w-xl text-gray-600 mx-auto px-6">
-                Each week has its own menu. You may plan ahead by ordering from
-                multiple menus, or you may order more than one box from the same
-                menu.
+                Each week has its own unique menu from which you can choose the
+                meals you like. You can plan for the weeks ahead by ordering
+                from multiple menus, or you may order more than one box from the
+                same menu to help family and friends.
             </p>
             <div class="flex flex-col items-center px-6">
                 <div

@@ -3,9 +3,12 @@
         <h1 class="type-h1 font-bold text-center my-8">Build a Box</h1>
 
         <p class="max-w-xl mx-auto px-6 mb-6">
-            Select the meals you want <strong>for the week</strong> below. Our
-            boxes are designed to be <strong>fresh for only one week</strong>,
-            so we strongly suggest you don't over order.
+            Select the meals you want
+            <span class="font-bold">for the week</span> below as well as the
+            number of people you will be cooking for. There is a
+            <span class="font-bold">minimum of 3 meals per box</span> and we
+            suggest not over-ordering as the meals are designed to be
+            <span class="font-bold">fresh for 5 days after delivery</span>.
         </p>
 
         <div class="px-6">
@@ -72,9 +75,9 @@
 
         <div class="px-6 my-8 max-w-xl mx-auto">
             <p>
-                All done? We hope you found something to your liking. You may
-                either go back and build another kit, or head on to review your
-                basket and checkout.
+                All done? We hope you’re excited to learn a few new recipes. You
+                can still go back to build another box, or proceed to review
+                your basket and checkout.
             </p>
             <div class="flex justify-between md:justify-center mt-6">
                 <button

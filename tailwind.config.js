@@ -11,7 +11,7 @@ module.exports = {
             },
             fontFamily: {
                 sans: [
-                    "Lato",
+                    "Montserrat",
                     "system-ui",
                     "-apple-system",
                     "BlinkMacSystemFont",
@@ -27,7 +27,7 @@ module.exports = {
                     '"Noto Color Emoji"',
                 ],
                 serif: [
-                    "Playfair Display",
+                    "Domine",
                     "ui-serif",
                     "Georgia",
                     "Cambria",

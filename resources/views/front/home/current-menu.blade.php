@@ -1,5 +1,6 @@
 <div class="py-20 px-6">
-    <p class="text-3xl mb-12 text-center font-serif font-bold">On the Menu Now</p>
+    <p class="type-h1 mb-4 text-center">Fresh Out the Kitchen</p>
+    <p class="type-h2 mb-12 text-center">Don’t miss out! Available this week only.</p>
     <div class="max-w-6xl mx-auto" data-flickity='{"cellAlign": "left", "imagesLoaded": true, "contain": true}'>
         @foreach($current['meals'] as $meal)
             <div class="py-4 max-w-md w-full mx-4">

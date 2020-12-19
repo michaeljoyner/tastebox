@@ -36,7 +36,8 @@ Route::group(['middleware' => 'auth'], function() {
     Route::get('basket-summary', 'BasketSummaryController@show');
 
     Route::get('faqs', 'FaqsController@show');
-    Route::view('our-story', 'front.story.page');
+    Route::view('team', 'front.story.page');
+    Route::view('our-meals', 'front.our-meals.page');
 
     Route::view('contact', 'front.contact.page');
 
