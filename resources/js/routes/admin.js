@@ -26,6 +26,7 @@ import InstagramIndex from "../vue/Pages/Instagram/InstagramIndex";
 import CreateDiscountCode from "../vue/Components/Discounts/CreateDiscountCode";
 import DiscountsIndex from "../vue/Components/Discounts/DiscountsIndex";
 import DiscountEdit from "../vue/Components/Discounts/DiscountEdit";
+import MailingListIndex from "../vue/Pages/MailingList/MailingListIndex";
 
 export default [
     { path: "/meals", component: MealsIndex },
@@ -66,4 +67,5 @@ export default [
     { path: "/discount-codes/create", component: CreateDiscountCode },
     { path: "/discount-codes", component: DiscountsIndex },
     { path: "/discount-codes/:code/edit", component: DiscountEdit },
+    { path: "/mailing-list", component: MailingListIndex },
 ];

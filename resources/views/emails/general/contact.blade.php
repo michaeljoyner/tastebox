@@ -1,5 +1,5 @@
 @component('mail::message')
-# Tastebox Message
+# TasteBox Message
 
 From: {{ $sender_name }}
 

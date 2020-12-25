@@ -1,4 +1,4 @@
-<x-public-page title="Checkout | Tastebox">
+<x-public-page title="Checkout | TasteBox">
     <h1 class="text-5xl text-center my-12 font-bold">Checkout</h1>
     <div class="max-w-xl mx-auto px-6">
         <p>Currently you do not have anything in your shopping basket that can be checked out. You can <a href="/build-a-box" class="font-semibold text-green-600 hover:text-green-500">build a new box</a> or you can <a href="/basket" class="font-semibold text-green-600 hover:text-green-500">review your basket</a>.</p>

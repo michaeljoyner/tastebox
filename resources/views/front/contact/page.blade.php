@@ -1,4 +1,4 @@
-<x-public-page title="Checkout | Tastebox">
+<x-public-page title="Checkout | TasteBox">
     <h1 class="type-h1 text-center my-12">Contact Us</h1>
     <div>
         <p class="my-12 px-6 max-w-lg mx-auto">Feel free to get in touch if you have any questions, ideas or special requests. We'd love to hear from you.</p>

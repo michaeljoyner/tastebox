@@ -1,4 +1,4 @@
-<x-public-page title="FAQs | Tastebox">
+<x-public-page title="FAQs | TasteBox">
     <h1 class="type-h1 text-center my-12">FAQs</h1>
     <div class="px-6 max-w-xl mx-auto">
         @foreach($faqs as $faq)

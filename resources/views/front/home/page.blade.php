@@ -1,4 +1,4 @@
-<x-public-page title="Tastebox | Meal Kits Delivered to Your Door"
+<x-public-page title="TasteBox | Meal Kits Delivered to Your Door"
                :css="mix('css/front.css')"
                :has-slideshow="true">
     @include('front.home.banner')

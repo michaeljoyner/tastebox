@@ -4,16 +4,34 @@
             <router-link
                 to="/"
                 class="text-white text-2xl font-bold hover:text-teal-500"
-                >Tastebox</router-link
+                >TasteBox</router-link
             >
         </div>
         <div class="flex justify-end items-center">
-            <div>
-                <router-link
-                    class="text-white font-bold hover:underline mx-4"
-                    to="/instagram"
-                    >Instagram</router-link
+            <div class="flex items-center">
+                <dropdown
+                    class="text-white font-bold h-16 flex items-center px-6"
+                    name="Marketing"
                 >
+                    <div slot="dropdown_content" class="py-3">
+                        <router-link
+                            class="text-gray-800 font-bold hover:underline mx-4 mb-2 block"
+                            to="/discount-codes"
+                            >Discounts</router-link
+                        >
+                        <router-link
+                            class="text-gray-800 font-bold hover:underline mx-4 mb-2 block"
+                            to="/instagram"
+                            >Instagram</router-link
+                        >
+                        <router-link
+                            class="text-gray-800 font-bold hover:underline mx-4 mb-2 block"
+                            to="/mailing-list"
+                            >Mailing List</router-link
+                        >
+                    </div>
+                </dropdown>
+
                 <router-link
                     class="text-white font-bold hover:underline mx-4"
                     to="/meals"
@@ -29,11 +47,7 @@
                     to="/recent-orders"
                     >Orders</router-link
                 >
-                <router-link
-                    class="text-white font-bold hover:underline mx-4"
-                    to="/discount-codes"
-                    >Discounts</router-link
-                >
+
                 <router-link
                     class="text-white font-bold hover:underline mx-4"
                     to="/current-batch/"

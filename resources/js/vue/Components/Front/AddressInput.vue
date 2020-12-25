@@ -31,22 +31,19 @@
                 />
             </label>
             <label class="mb-4 block">
-                <span class="text-gray-700 font-bold text-sm">City</span>
-                <input
-                    type="text"
-                    class="block w-full border p-2"
+                <span class="text-gray-700 font-bold text-sm">Area</span>
+                <select
                     v-model="address.city"
                     @input="$emit('input', address)"
-                />
-            </label>
-            <label class="mb-4 block">
-                <span class="text-gray-700 font-bold text-sm">Postal Code</span>
-                <input
-                    type="text"
-                    class="block w-full border p-2"
-                    v-model="address.postal_code"
-                    @input="$emit('input', address)"
-                />
+                    class="block w-full border p-2 bg-white"
+                >
+                    <option
+                        v-for="city in locations"
+                        :key="city"
+                        :value="city"
+                        >{{ city }}</option
+                    >
+                </select>
             </label>
         </div>
     </div>
@@ -64,6 +61,12 @@ export default {
                 city: "",
                 postal_code: "",
             },
+            locations: [
+                "Pietermaritzburg",
+                "Hilton",
+                "Nottingham Road",
+                "Wartburg",
+            ],
         };
     },
 };

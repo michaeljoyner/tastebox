@@ -29,8 +29,8 @@ class PlaceOrderRequest extends FormRequest
             'delivery.*' => [new ForExistingKit()],
             'delivery.*.line_one' => ['required'],
             'delivery.*.city' => ['required'],
-            'delivery.*.postal_code' => ['required'],
-            'discount_code' => [new \App\Rules\DiscountCode()]
+            'discount_code' => [new \App\Rules\DiscountCode()],
+            'subscribe_to_newsletter' => ['boolean', 'nullable']
         ];
     }
 
@@ -62,5 +62,23 @@ class PlaceOrderRequest extends FormRequest
 
         return DiscountCode::for($this->discount_code) ?? new NullDiscount();
 
+    }
+
+    public function allowsNewsletterSignup(): bool
+    {
+        return !! $this->get('subscribe_to_newsletter', false);
+    }
+
+    public function fullName(): string
+    {
+        if(!$this->first_name) {
+            return $this->last_name;
+        }
+
+        if(!$this->last_name) {
+            return $this->first_name;
+        }
+
+        return "{$this->first_name} {$this->last_name}";
     }
 }

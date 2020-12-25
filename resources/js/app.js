@@ -16,6 +16,7 @@ import menus from "./stores/menus";
 import orders from "./stores/orders";
 import instagram from "./stores/instagram";
 import discounts from "./stores/discounts";
+import mailinglist from "./stores/mailinglist";
 
 const store = new Vuex.Store({
     modules: {
@@ -26,6 +27,7 @@ const store = new Vuex.Store({
         orders,
         instagram,
         discounts,
+        mailinglist,
     },
 });
 

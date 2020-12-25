@@ -288,13 +288,51 @@
             </div>
         </div>
 
-        <div class="my-6 text-center">
+        <div class="my-12">
+            <p class="text-center type-h3 mb-3">Keep up to date.</p>
+            <div>
+                <label
+                    for="newsletter_signup"
+                    class="max-w-md px-6 mx-auto block text-center"
+                >
+                    <input
+                        type="checkbox"
+                        id="newsletter_signup"
+                        v-model="formData.subscribe_to_newsletter"
+                    />
+                    <span class="type-b3"
+                        >I agree that TasteBox can send me emails.</span
+                    >
+                </label>
+                <p
+                    class="type-b3 text-center text-gray-600 mt-2 max-w-md mx-auto"
+                >
+                    TasteBox will only send emails relevant to our meals and
+                    offerings, and will never sell your information.
+                </p>
+            </div>
+        </div>
+
+        <div class="my-12 text-center">
             <submit-button
                 @click.native="submit"
                 role="button"
                 :waiting="waiting"
             >
-                Pay Now
+                <span class="flex items-center leading-none">
+                    <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 20 20"
+                        class="fill-current h-4 mr-3"
+                    >
+                        <path
+                            fill-rule="evenodd"
+                            d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z"
+                            clip-rule="evenodd"
+                        />
+                    </svg>
+                    <span>Pay R{{ total_amount }} Now</span>
+                </span>
             </submit-button>
         </div>
         <div>
@@ -394,6 +432,7 @@ export default {
                     postal_code: "",
                 },
                 delivery: {},
+                subscribe_to_newsletter: false,
             },
             formErrors: {
                 first_name: "",
@@ -474,6 +513,7 @@ export default {
                 email: this.formData.email,
                 phone: this.formData.phone,
                 discount_code: this.formData.discount_code,
+                subscribe_to_newsletter: this.formData.subscribe_to_newsletter,
                 delivery: {},
             };
 

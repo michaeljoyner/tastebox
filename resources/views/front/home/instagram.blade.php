@@ -11,4 +11,12 @@
             </div>
         @endforeach
     </div>
+    <div class="mt-8 flex justify-center items-center">
+        <a target="_blank" rel="nofollow" href="https://www.instagram.com/TasteBoxsa/" class="bg-gradient-to-r from-yellow-400 via-red-500 to-pink-500 mx-3 rounded-full text-white">
+            @include('svg.social.instagram', ['classes' => 'h-10'])
+        </a>
+        <a target="_blank" rel="nofollow" href="https://www.facebook.com/TasteBoxSA" class="text-blue-700 mx-3 hover:text-blue-500">
+            @include('svg.social.facebook', ['classes' => 'h-8'])
+        </a>
+    </div>
 </div>

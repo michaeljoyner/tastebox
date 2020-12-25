@@ -63,29 +63,31 @@ class PlaceOrderTest extends TestCase
         $kitB->setMeal($mealF->id, 5);
 
         $response = $this->asGuest()->post("/checkout", [
-            'first_name'    => 'test first name',
-            'last_name'     => 'test last name',
-            'email'         => 'test@test.test',
-            'phone'         => '0798888888',
-            'discount_code' => $discount_code->code,
-            'delivery'      => [
+            'first_name'              => 'test first name',
+            'last_name'               => 'test last name',
+            'email'                   => 'test@test.test',
+            'phone'                   => '0798888888',
+            'discount_code'           => $discount_code->code,
+            'subscribe_to_newsletter' => true,
+            'delivery'                => [
                 $kitA->id => [
-                    'line_one'    => 'test road',
-                    'line_two'    => 'test district',
-                    'city'        => 'test city',
-                    'postal_code' => 'test code',
-                    'notes'       => 'test notes',
+                    'line_one' => 'test road',
+                    'line_two' => 'test district',
+                    'city'     => 'test city',
                 ],
                 $kitB->id => [
-                    'line_one'    => 'test road',
-                    'line_two'    => 'test district',
-                    'city'        => 'test city',
-                    'postal_code' => 'test code',
-                    'notes'       => 'test notes',
+                    'line_one' => 'test road',
+                    'line_two' => 'test district',
+                    'city'     => 'test city',
                 ],
             ],
         ]);
         $response->assertSuccessful();
+
+        $this->assertDatabaseHas('mailing_list_members', [
+            'name'  => 'test first name test last name',
+            'email' => 'test@test.test',
+        ]);
 
 
         $this->assertDatabaseHas('orders', [
@@ -116,8 +118,8 @@ class PlaceOrderTest extends TestCase
             'line_one'         => 'test road',
             'line_two'         => 'test district',
             'city'             => 'test city',
-            'postal_code'      => 'test code',
-            'delivery_notes'   => 'test notes',
+            'postal_code'      => '',
+            'delivery_notes'   => '',
             'meal_summary'     => $this->asJson([
                 ['id' => $mealA->id, 'name' => $mealA->name, 'servings' => 2],
                 ['id' => $mealB->id, 'name' => $mealB->name, 'servings' => 3],
@@ -134,8 +136,8 @@ class PlaceOrderTest extends TestCase
             'line_one'         => 'test road',
             'line_two'         => 'test district',
             'city'             => 'test city',
-            'postal_code'      => 'test code',
-            'delivery_notes'   => 'test notes',
+            'postal_code'      => '',
+            'delivery_notes'   => '',
             'meal_summary'     => $this->asJson([
                 ['id' => $mealD->id, 'name' => $mealD->name, 'servings' => 3],
                 ['id' => $mealE->id, 'name' => $mealE->name, 'servings' => 4],
@@ -255,7 +257,7 @@ class PlaceOrderTest extends TestCase
     }
 
     /**
-     *@test
+     * @test
      */
     public function the_discount_code_must_be_valid()
     {
@@ -389,25 +391,6 @@ class PlaceOrderTest extends TestCase
         ], "delivery.{$kit->id}.city");
     }
 
-    /**
-     * @test
-     */
-    public function delivery_needs_postal_code()
-    {
-        $kit = $this->setKit();
-
-        $this->assertFieldIsInvalid($kit, [
-            'delivery' => [
-                $kit->id => [
-                    'line_one'    => 'test road',
-                    'line_two'    => 'test district',
-                    'city'        => 'test city',
-                    'postal_code' => null,
-                    'notes'       => 'test notes',
-                ]
-            ]
-        ], "delivery.{$kit->id}.postal_code");
-    }
 
     private function assertFieldIsInvalid($kit, $field, $error_key = null)
     {

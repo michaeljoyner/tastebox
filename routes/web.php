@@ -110,5 +110,7 @@ Route::group(['middleware' => 'auth'], function () {
         Route::post('discount-codes', 'DiscountCodesController@store');
         Route::post('discount-codes/{code}', 'DiscountCodesController@update');
         Route::delete('discount-codes/{code}', 'DiscountCodesController@delete');
+
+        Route::get('mailing-list', 'MailingListMembersController@index');
     });
 });

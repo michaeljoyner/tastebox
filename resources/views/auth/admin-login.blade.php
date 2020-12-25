@@ -5,7 +5,7 @@
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Tastebox Admin Login</title>
+    <title>TasteBox Admin Login</title>
     <meta name="robots" content="noindex, nofollow">
     <link rel="stylesheet" href="{{ mix('/css/app.css') }}">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
@@ -13,7 +13,7 @@
 </head>
 <body class="h-full flex justify-center items-center font-sans">
     <div class="max-w-md mx-auto w-full">
-        <p class="text-2xl font-bold text-gray-800">Login to Tastebox HQ</p>
+        <p class="text-2xl font-bold text-gray-800">Login to TasteBox HQ</p>
         <form action="/admin/login" method="POST">
             {!! csrf_field() !!}
 

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\PlaceOrderRequest;
+use App\MailingList\MailingListMember;
 use App\Purchases\Kit;
 use App\Purchases\Order;
 use App\Purchases\PayFast;
@@ -17,6 +18,10 @@ class OrdersController extends Controller
         $kits = $basket->kits->filter(fn (Kit $kit) => $kit->eligibleForOrder());
 
         $order = Order::makeNew($request->customerDetails(), $request->adressedKits($kits), $request->discount());
+
+        if($request->allowsNewsletterSignup()) {
+            MailingListMember::subscribe($request->email, $request->fullName());
+        }
 
         return PayFast::checkoutForm($order);
     }

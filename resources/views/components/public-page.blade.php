@@ -25,16 +25,22 @@
     <div class="flex-1">
         {{ $slot }}
     </div>
-    <div class="bg-green-600 px-6 py-12">
-        <p class="text-3xl text-center font-black text-white">Tastebox</p>
+    <div class="bg-green-800 px-6 py-12">
+        <p class="type-h0 text-center text-green-600">TasteBox</p>
+        <div class="flex justify-center space-x-6 text-white mb-8">
+            <a class="hover:text-green-400" href="/our-meals">Our Meals</a>
+            <a class="hover:text-green-400" href="/team">The Team</a>
+            <a class="hover:text-green-400" href="/faqs">FAQs</a>
+            <a class="hover:text-green-400" href="/contact">Contact Us</a>
+        </div>
         <p class="text-center text-green-100">&copy; {{ date('Y') }}</p>
     </div>
     <div class="main-nav bg-white px-6 shadow w-screen h-16 flex justify-between items-center fixed top-0 left-0">
-        <div class="">
+        <div class="type-h4">
             <a href="/">
-                <div class="font-black rounded-tl-lg rounded-br-lg border-green-500 border-4 flex">
-                    <p class="bg-green-500 pl-4 pr-1 text-green-100">Taste</p>
-                    <p class="text-green-500 pr-4 pl-1 bg-white">box</p>
+                <div class="rounded-tl-lg rounded-br-lg border-green-600 border-4 flex">
+                    <p class="type-h4 bg-green-600 pl-4 pr-1 text-green-100">Taste</p>
+                    <p class="text-green-600 pr-4 pl-1 bg-white">Box</p>
                 </div>
             </a>
         </div>

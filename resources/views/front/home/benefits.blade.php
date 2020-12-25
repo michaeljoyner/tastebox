@@ -1,5 +1,5 @@
 <div class="px-6 py-20 bg-green-300">
-    <p class="text-4xl font-bold text-center mb-12">Benefits of Tastebox</p>
+    <p class="text-4xl font-bold text-center mb-12">Benefits of TasteBox</p>
     <div class="flex flex-col md:flex-row justify-center">
         @include('front.home.benefit-box', [
 'icon' => 'heart',
