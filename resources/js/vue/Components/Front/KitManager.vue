@@ -1,7 +1,7 @@
 <template>
     <div class="py-6">
         <div v-if="showMenus">
-            <p class="type-h1 text-center">Choose a menu.</p>
+            <p class="type-h1 text-center">Choose a Menu</p>
             <p class="my-6 max-w-xl text-gray-600 mx-auto px-6">
                 Each week has its own unique menu from which you can choose the
                 meals you like. You can plan for the weeks ahead by ordering
