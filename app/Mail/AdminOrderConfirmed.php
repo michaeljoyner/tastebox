@@ -42,7 +42,7 @@ class AdminOrderConfirmed extends Mailable
     public function build()
     {
         return $this
-            ->from('the-boss@tastebox.co.za')
+            ->from('tastebox@tastebox.co.za', 'TasteBox HQ')
             ->subject('Kaching! We have a new order!')
             ->markdown('email.admin.order-confirmed');
     }
