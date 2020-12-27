@@ -23,7 +23,7 @@ class SendAdminOrderConfirmedMail
     /**
      * Handle the event.
      *
-     * @param  OrderConfirmed  $event
+     * @param OrderConfirmed $event
      * @return void
      */
     public function handle(OrderConfirmed $event)
@@ -31,7 +31,8 @@ class SendAdminOrderConfirmedMail
         $customer = $event->order->customer();
         $boxes = $event->order->orderedKits->map->summarize();
         $amount_paid = $event->order->payment->amount_gross;
-        Mail::to('test@test.test')
-            ->queue(new AdminOrderConfirmed($customer, $boxes, $amount_paid));
+        collect(['joyner.michael@gmail.com', 'alexandra.joyner@gmail.com', 'stephjoyner18@gmail.com'])
+            ->each(
+                fn($r) => Mail::to($r)->queue(new AdminOrderConfirmed($customer, $boxes, $amount_paid)));
     }
 }

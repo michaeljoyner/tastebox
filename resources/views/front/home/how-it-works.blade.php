@@ -1,6 +1,6 @@
 <div class="px-6 py-12 border-t-4 border-green-500">
     <p class="type-h1 text-center mb-4">How it Works</p>
-    <p class="type-h2 text-center mb-12">We chop, you cook.</p>
+    <p class="type-h2 text-center mb-12">We chop, you cook!</p>
     @include('front.home.numbered-card', [
         'number' => 1,
         'title' => 'You Build Your Box',
