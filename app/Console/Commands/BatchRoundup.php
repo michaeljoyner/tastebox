@@ -41,8 +41,11 @@ class BatchRoundup extends Command
                    ->setNpmBinary(config('browsershot.npm_path'))
                    ->savePdf(storage_path("app/public/{$file_name}"));
 
-        $message = new BatchRoundupSummary($batch, storage_path("app/public/{$file_name}"));
+        collect(['joyner.michael@gmail.com', 'alexandra.joyner@gmail.com', 'stephjoyner18@gmail.com'])
+            ->each(function($recipient) use ($batch, $file_name) {
+                $message = new BatchRoundupSummary($batch, storage_path("app/public/{$file_name}"));
+                Mail::to($recipient)->queue($message);
+            });
 
-        Mail::to('test@test.test')->queue($message);
     }
 }

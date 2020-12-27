@@ -25,7 +25,7 @@ class BatchRoundupSummary extends Mailable
     public function build()
     {
         return $this
-            ->from('the-all-seeing-eye@testbox.co.za', 'Tastebox HQ')
+            ->from('tastebox@tastebox.co.za', 'TasteBox HQ')
             ->subject($this->batch->name() . ": Roundup")
             ->markdown('email.admin.batch-summary', [
                 'total_kits'  => $this->batch->totalKits(),
