@@ -26,6 +26,11 @@ class Kernel extends ConsoleKernel
     {
         $schedule->command('backup:clean')->dailyAt('01:00');
         $schedule->command('backup:run')->dailyAt('01:30');
+        $schedule->command('instagram-feed:refresh')->dailyAt('02:00');
+        $schedule->command('instagram-feed:refresh-tokens')->monthly();
+        $schedule->command('batch:round-up')->weeklyOn(5, '05:30');
+        $schedule->command('menus:next')->weeklyOn(5, '06:30');
+
     }
 
     /**
