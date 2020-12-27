@@ -1,7 +1,8 @@
 @if($current)
 <div class="py-20 px-6">
-    <p class="type-h1 mb-4 text-center">Ready for Order</p>
-    <p class="type-h2 mb-12 text-center">Delivered on Monday.</p>
+    <p class="type-h1 mb-4 text-center">Order Now</p>
+    <p class="type-h2 mb-12 text-center">For Delivery {{ in_array(now()->dayOfWeek, [0,5,6]) ? 'Next' : 'This' }} Monday.</p>
+    <p class="max-w-lg my-6 text-center mx-auto">Don't miss out on this week's menu. Order before midnight on Thursday to have your selection of TasteBox meals delivered on the following Monday.</p>
     <div class="max-w-6xl mx-auto" data-flickity='{"cellAlign": "left", "imagesLoaded": true, "contain": true}'>
         @foreach($current['meals'] as $meal)
             <div class="py-4 max-w-md w-full mx-4">
