@@ -4,6 +4,9 @@
 namespace App\Meals;
 
 
+use App\DatePresenter;
+use Illuminate\Support\Carbon;
+
 class MealsPresenter
 {
     public static function forAdmin(Meal $meal)
@@ -16,7 +19,9 @@ class MealsPresenter
                             'thumb' => $m->getUrl('thumb'),
                             'web'   => $m->getUrl('web'),
                             'src'   => $m->getUrl('web'),
-                        ])->values();;
+                        ])->values();
+
+        $last_used = $meal->last_used ? Carbon::parse($meal->last_used) : null;
 
         return [
             'id'                     => $meal->id,
@@ -37,6 +42,8 @@ class MealsPresenter
             'gallery'                => $gallery->all(),
             'classifications'        => $meal->classifications->map->toArray()->all(),
             'last_touched_timestamp' => max($meal->created_at->timestamp, $meal->updated_at->timestamp),
+            'last_used'              => DatePresenter::pretty($last_used),
+            'last_used_ago' => optional($last_used)->diffForHumans() ?? 'Never used',
         ];
     }
 

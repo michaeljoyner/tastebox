@@ -7,21 +7,39 @@
             <button class="btn btn-main" @click="save">Save</button>
         </page-header>
 
-        <div class="flex justify-between">
-            <div class="flex-1 mr-6">
-                <p class="text-lg font-bold">Selected meals</p>
+        <div class="">
+            <div
+                class="max-w-lg fixed bottom-0 right-0 m-6 shadow-lg bg-white w-full"
+            >
+                <div
+                    class="flex justify-between items-center p-2 bg-red-500 text-white"
+                >
+                    <p class="text-lg font-bold">
+                        {{ selected_meals.length }} Selected meals
+                    </p>
+                    <button
+                        @click="showSelected = !showSelected"
+                        class="focus:outline-none"
+                    >
+                        <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            viewBox="0 0 20 20"
+                            class="fill-current h-5 transform -rotate-45"
+                        >
+                            <path
+                                d="M8 5a1 1 0 100 2h5.586l-1.293 1.293a1 1 0 001.414 1.414l3-3a1 1 0 000-1.414l-3-3a1 1 0 10-1.414 1.414L13.586 5H8zM12 15a1 1 0 100-2H6.414l1.293-1.293a1 1 0 10-1.414-1.414l-3 3a1 1 0 000 1.414l3 3a1 1 0 001.414-1.414L6.414 15H12z"
+                            />
+                        </svg>
+                    </button>
+                </div>
 
-                <p class="my-6 text-sm">
-                    These are the currently selected meals
-                </p>
-
-                <div class="divide-y divide-gray-200">
+                <div class="divide-y divide-gray-200 p-2" v-show="showSelected">
                     <div
                         v-for="meal in selected_meals"
                         :key="meal.id"
                         class="flex justify-between my-2 pt-2 my-2"
                     >
-                        <p class="flex-1 mr-4">{{ meal.name }}</p>
+                        <p class="flex-1 mr-4 text-sm">{{ meal.name }}</p>
                         <button
                             @click="removeMeal(meal)"
                             class="text-xs font-bold text-gray-600 hover:text-red-500"
@@ -33,6 +51,19 @@
             </div>
             <div class="flex-1 ml-6">
                 <p class="text-lg font-bold">Available Meals</p>
+                <div class="my-3">
+                    <button
+                        v-for="category in classifications"
+                        :key="category.id"
+                        class="mr-4 px-3 border border-black text-sm hover:border-green-600 rounded focus:outline-none"
+                        :class="{
+                            'bg-green-200': selected_category === category.id,
+                        }"
+                        @click="setCategory(category.id)"
+                    >
+                        {{ category.name }}
+                    </button>
+                </div>
                 <div class="flex items-center bg-gray-100 px-2">
                     <search-icon
                         class="h-6 bg-gray-100 text-gray-700"
@@ -48,9 +79,14 @@
                     <div
                         v-for="meal in meal_choices"
                         :key="meal.id"
-                        class="flex justify-between my-2 pt-2"
+                        class="flex my-2 pt-2 hover:bg-blue-100"
                     >
-                        <p class="flex-1 mr-4">{{ meal.name }}</p>
+                        <p class="flex-1 mr-4 text-sm">
+                            {{ meal.name }}
+                        </p>
+                        <p class="mr-4 text-sm text-gray-600">
+                            {{ meal.last_used_ago }}
+                        </p>
                         <button
                             @click="addMeal(meal)"
                             class="font-bold text-gray-600 hover:text-blue-500 text-xs"
@@ -81,6 +117,8 @@ export default {
         return {
             selected_meals: [],
             search: "",
+            showSelected: false,
+            selected_category: null,
         };
     },
 
@@ -101,13 +139,25 @@ export default {
                 )
                 .filter((meal) =>
                     meal.name.toLowerCase().includes(this.search.toLowerCase())
+                )
+                .filter(
+                    (meal) =>
+                        this.selected_category === null ||
+                        meal.classifications.some(
+                            (c) => c.id === this.selected_category
+                        )
                 );
+        },
+
+        classifications() {
+            return this.$store.state.meals.classifications;
         },
     },
 
     mounted() {
         this.$store.dispatch("menus/fetchMenus").catch(showError);
         this.$store.dispatch("meals/fetchMeals").catch(showError);
+        this.$store.dispatch("meals/fetchClassifications");
     },
 
     watch: {
@@ -141,6 +191,14 @@ export default {
                 })
                 .then(() => showSuccess("Meals saved!"))
                 .catch(() => showError("Unable to save meals"));
+        },
+
+        setCategory(category_id) {
+            if (this.selected_category === category_id) {
+                return (this.selected_category = null);
+            }
+
+            this.selected_category = category_id;
         },
     },
 };

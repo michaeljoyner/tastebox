@@ -1,3 +1,4 @@
+@if($current)
 <div class="py-20 px-6">
     <p class="type-h1 mb-4 text-center">Ready for Order</p>
     <p class="type-h2 mb-12 text-center">Delivered on Monday.</p>
@@ -18,3 +19,4 @@
            class="green-btn">Place your order</a>
     </div>
 </div>
+@endif

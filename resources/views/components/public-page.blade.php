@@ -26,12 +26,12 @@
         {{ $slot }}
     </div>
     <div class="bg-green-800 px-6 py-12">
-        <p class="type-h0 text-center text-green-600">TasteBox</p>
-        <div class="flex justify-center space-x-6 text-white mb-8">
-            <a class="hover:text-green-400" href="/our-meals">Our Meals</a>
-            <a class="hover:text-green-400" href="/team">The Team</a>
-            <a class="hover:text-green-400" href="/faqs">FAQs</a>
-            <a class="hover:text-green-400" href="/contact">Contact Us</a>
+        <p class="type-h1 text-center text-green-600">TasteBox</p>
+        <div class="grid grid-cols-2 md:grid-cols-4 max-w-md mx-auto text-white my-8">
+            <a class="hover:text-green-400 mx-auto mb-4" href="/our-meals">Our Meals</a>
+            <a class="hover:text-green-400 mx-auto mb-4" href="/team">The Team</a>
+            <a class="hover:text-green-400 mx-auto mb-4" href="/faqs">FAQs</a>
+            <a class="hover:text-green-400 mx-auto mb-4" href="/contact">Contact Us</a>
         </div>
         <p class="text-center text-green-100">&copy; {{ date('Y') }}</p>
     </div>
