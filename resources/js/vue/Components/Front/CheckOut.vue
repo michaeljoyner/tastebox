@@ -319,7 +319,10 @@
                 role="button"
                 :waiting="waiting"
             >
-                <span class="flex items-center leading-none">
+                <span
+                    class="flex items-center leading-none"
+                    :class="{ 'opacity-0': waiting }"
+                >
                     <svg
                         xmlns="http://www.w3.org/2000/svg"
                         viewBox="0 0 20 20"
@@ -331,14 +334,14 @@
                             clip-rule="evenodd"
                         />
                     </svg>
-                    <span>Pay R{{ total_amount }} Now</span>
+                    <span>Pay Now</span>
                 </span>
             </submit-button>
         </div>
         <div>
             <form
                 ref="payfast_form"
-                action="https://payfast.co.za/eng/process"
+                action="https://www.payfast.co.za/eng/process"
                 method="post"
             >
                 <input
