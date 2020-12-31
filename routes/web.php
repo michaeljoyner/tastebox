@@ -27,21 +27,19 @@ Route::delete('my-kits/{kit_id}/meals/{meal_id}', 'MealKitsMealsController@destr
 
 Route::post('discount-code-status', 'DiscountCodeStatusController@show');
 
-Route::group(['middleware' => 'auth'], function() {
-    Route::get('/', 'HomePageController@show');
-    Route::get('build-a-box', 'KitBuilderController@show');
-    Route::get('my-kits/{kit_id}', 'MealKitsController@show');
+Route::get('/', 'HomePageController@show');
+Route::get('build-a-box', 'KitBuilderController@show');
+Route::get('my-kits/{kit_id}', 'MealKitsController@show');
 
-    Route::get('basket', 'BasketController@show');
-    Route::get('basket-summary', 'BasketSummaryController@show');
+Route::get('basket', 'BasketController@show');
+Route::get('basket-summary', 'BasketSummaryController@show');
 
-    Route::get('faqs', 'FaqsController@show');
-    Route::view('team', 'front.story.page');
-    Route::view('our-meals', 'front.our-meals.page');
+Route::get('faqs', 'FaqsController@show');
+Route::view('team', 'front.story.page');
+Route::view('our-meals', 'front.our-meals.page');
 
-    Route::view('contact', 'front.contact.page');
+Route::view('contact', 'front.contact.page');
 
-});
 
 Route::post('contact', 'ContactMessageController@store');
 
