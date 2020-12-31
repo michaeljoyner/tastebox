@@ -89,8 +89,9 @@ return [
 
     'addresses' => [
         'admins' => [
-            ['name' => 'Steph', 'email' => 'steph@test.test'],
-            ['name' => 'Alex', 'email' => 'alex@test.test'],
+            ['name' => 'Steph', 'email' => 'stephjoyner18@gmail.com'],
+            ['name' => 'Alex', 'email' => 'alexandra.joyner@gmail.com'],
+            ['name' => 'Mooz', 'email' => 'alexandra.joyner.michael@gmail.com'],
         ]
     ],
 

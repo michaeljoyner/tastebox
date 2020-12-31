@@ -1,4 +1,4 @@
-<x-public-page title="FAQs | TasteBox">
+<x-public-page title="FAQs | TasteBox" description="Find the answers to your questions about TasteBox, our meals and how we work.">
     <h1 class="type-h1 text-center my-12">FAQs</h1>
     <div class="px-6 max-w-xl mx-auto">
         @foreach($faqs as $faq)

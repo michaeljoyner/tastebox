@@ -1,4 +1,4 @@
-<x-public-page title="Meet the Team | TasteBox">
+<x-public-page title="Meet the Team | TasteBox" description="Meat the passionate team behind TasteBox.">
     <div class="pt-20 px-6 max-w-3xl mx-auto">
         <h1 class="type-h1 mb-6 text-center">Meet the Team</h1>
         <p class="type-h3 mb-12 text-center">Two heath fanatics with a mission and a message - that healthy eating isn’t hard.</p>

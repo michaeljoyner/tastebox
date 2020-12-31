@@ -10,22 +10,22 @@ class PublicPage extends Component
     public string $description;
     public string $css;
     public string $javascript;
-    public array $ogdata;
     public bool $hasSlideshow;
+    public bool $noRobots;
 
     /**
      * Create a new component instance.
      *
      * @return void
      */
-    public function __construct($title, $description = '', $css = null, $javascript = null, $hasSlideshow = false, $ogdata = [])
+    public function __construct($title, $description = '', $css = null, $javascript = null, $hasSlideshow = false, $noRobots = false)
     {
         $this->title = $title;
         $this->description = $description;
         $this->css = $css ?? mix('css/front.css');
         $this->javascript = $javascript ?? mix('js/front.js');
-        $this->ogdata = $ogdata;
         $this->hasSlideshow = $hasSlideshow;
+        $this->noRobots = $noRobots;
     }
 
     /**

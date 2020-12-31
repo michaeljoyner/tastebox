@@ -1,4 +1,4 @@
-<x-public-page title="Meet the Team | TasteBox">
+<x-public-page title="Our Meals | TasteBox" description="Here at TasteBox we take our meals very seriously. Each meal is carefully crafted or curated by a registered dietician.">
     <div class="pt-20 px-6 max-w-3xl mx-auto">
         <h1 class="type-h1 mb-6 text-center">Our Meals</h1>
 

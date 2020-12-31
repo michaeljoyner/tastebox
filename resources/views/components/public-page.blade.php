@@ -19,7 +19,21 @@
         <link rel="stylesheet" href="https://unpkg.com/flickity@2/dist/flickity.min.css">
     @endif
 
-        </head>
+    @if($noRobots)
+        <meta name="robots" content="noindex" />
+    @endif
+
+    <meta property="og:image" content="{{ url('/images/sharing_image.png') }}"/>
+    <meta property="og:url" content="{{ Request::url() }}"/>
+    <meta property="og:title" content="{{ $title }}"/>
+    <meta property="og:site_name" content="TasteBox"/>
+    <meta property="og:type" content="Website"/>
+    <meta property="og:description" content="{{ $description ?? '' }}"/>
+    <meta property="description" content="{{ $description ?? '' }}">
+    <meta property="twitter:card" content="summary_large_image">
+
+
+</head>
 <body class="font-sans text-gray-800 h-full pt-16">
 <div id="app" class="min-h-full flex flex-col">
     <div class="flex-1">
@@ -38,10 +52,7 @@
     <div class="main-nav bg-white px-6 shadow w-screen h-16 flex justify-between items-center fixed top-0 left-0">
         <div class="type-h4">
             <a href="/">
-                <div class="rounded-tl-lg rounded-br-lg border-green-600 border-4 flex">
-                    <p class="type-h4 bg-green-600 pl-4 pr-1 text-green-100">Taste</p>
-                    <p class="text-green-600 pr-4 pl-1 bg-white">Box</p>
-                </div>
+                @include('svg.logos.logo_small', ['classes' => 'h-8 text-green-600 hover:text-green-500'])
             </a>
         </div>
         <div class="flex">
