@@ -339,11 +339,7 @@
             </submit-button>
         </div>
         <div>
-            <form
-                ref="payfast_form"
-                action="https://www.payfast.co.za/eng/process"
-                method="post"
-            >
+            <form ref="payfast_form" :action="payfastUrl" method="post">
                 <input
                     v-for="(value, key) in payfast"
                     :key="key"
@@ -410,7 +406,7 @@ export default {
         Modal,
     },
 
-    props: ["basket"],
+    props: ["basket", "payfast-url"],
 
     data() {
         return {

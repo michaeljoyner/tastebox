@@ -32,8 +32,8 @@ class OrderConfirmed extends Mailable
     public function build()
     {
         return $this
-            ->from('no-reply@tastebox.co.za')
-            ->subject('Tastebox order confirmed')
+            ->from('orders@tastebox.co.za')
+            ->subject('Your TasteBox order confirmed')
             ->markdown('email.customers.order-confirmed');
     }
 }

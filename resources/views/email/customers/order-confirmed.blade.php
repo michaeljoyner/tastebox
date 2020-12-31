@@ -2,7 +2,7 @@
 
 Hi {{ $customer_name }}
 
-We are happy to confirm that your order has been confirmed, and your payment of R{{ $amount_paid / 100 }} has been received. Thank you so much for your support, we really appreciate it.
+Your order has been confirmed, and your payment of R{{ $amount_paid / 100 }} has been received. Thank you so much for your support, we really appreciate it.
 
 Your ordered meal kits are below:
 

@@ -65,7 +65,7 @@ export default {
                 return "";
             }
 
-            return `${this.servings} packed in your box`;
+            return `${this.servings} servings packed in your box`;
         },
 
         unchanged() {
