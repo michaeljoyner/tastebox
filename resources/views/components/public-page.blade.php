@@ -40,7 +40,10 @@
         {{ $slot }}
     </div>
     <div class="bg-green-800 px-6 py-12">
-        <p class="type-h1 text-center text-green-600">TasteBox</p>
+        <div class="flex items-center justify-center">
+            @include('svg.logos.logo_small', ['classes' => 'h-10 text-green-600 mr-3'])
+            <p class="type-h1 text-center text-green-600">TasteBox</p>
+        </div>
         <div class="grid grid-cols-2 md:grid-cols-4 max-w-md mx-auto text-white my-8">
             <a class="hover:text-green-400 mx-auto mb-4" href="/our-meals">Our Meals</a>
             <a class="hover:text-green-400 mx-auto mb-4" href="/team">The Team</a>
