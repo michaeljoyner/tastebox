@@ -11,7 +11,6 @@
     <meta id="csrf-token-meta"
           name="csrf-token"
           content="{{ csrf_token() }}">
-    <meta name="description" content="{{ $description }}">
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat&family=Domine:wght@500&display=swap" rel="stylesheet">
 
@@ -23,7 +22,7 @@
         <meta name="robots" content="noindex" />
     @endif
 
-    <meta property="og:image" content="{{ url('/images/sharing_image.png') }}"/>
+    <meta property="og:image" content="{{ url('/images/sharing_image.jpg') }}"/>
     <meta property="og:url" content="{{ Request::url() }}"/>
     <meta property="og:title" content="{{ $title }}"/>
     <meta property="og:site_name" content="TasteBox"/>

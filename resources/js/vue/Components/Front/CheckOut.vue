@@ -182,10 +182,10 @@
         <div class="px-6">
             <p class="type-h2 text-center mt-12 mb-8">Delivery</p>
             <p class="max-w-lg mx-auto text-center mb-8">
-                Note: We currently do NOT deliver outside of Pietermaritzburg,
-                Hilton, Nottingham road or Wartburg. If you are unsure if you
-                will receive your delivery, please contact us before you place
-                your order.
+                Note: We currently ONLY deliver in Pietermaritzburg and
+                surrounding areas, including Nottingham Road, Kloof and
+                Pinetown. If you are unsure if you will receive your delivery,
+                please contact us before you place your order.
             </p>
 
             <div

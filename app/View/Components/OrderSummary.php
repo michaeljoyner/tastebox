@@ -29,4 +29,14 @@ class OrderSummary extends Component
     {
         return $this->order->orderedKits->values();
     }
+
+    public function hasPhone(): bool
+    {
+        return !!  $this->order->phone;
+    }
+
+    public function phoneNumber(): string
+    {
+        return $this->order->phone;
+    }
 }

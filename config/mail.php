@@ -91,7 +91,7 @@ return [
         'admins' => [
             ['name' => 'Steph', 'email' => 'stephjoyner18@gmail.com'],
             ['name' => 'Alex', 'email' => 'alexandra.joyner@gmail.com'],
-            ['name' => 'Mooz', 'email' => 'alexandra.joyner.michael@gmail.com'],
+            ['name' => 'Mooz', 'email' => 'joyner.michael@gmail.com'],
         ]
     ],
 

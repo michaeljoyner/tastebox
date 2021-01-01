@@ -10,6 +10,10 @@ class FaqsController extends Controller
     {
         $faqs = [
             [
+                'question' => 'What is the TasteBox delivery range?',
+                'answer' => 'We currently deliver to Nottingham Road, Howick, Hilton, Pietermaritzburg, Wartburg, Camperdown, Cato Ridge, Hillcrest, Kloof, and Pinetown. If you’re not sure you fall within delivery range please feel free to contact us.',
+            ],
+            [
                 'question' => 'Do I need any cooking experience?',
                 'answer' => 'Not at all. Our meals are not complicated at all and every kit is accompanied with an easy-to-follow recipe card that has been written with beginners in mind.',
             ],

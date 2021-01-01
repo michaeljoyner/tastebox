@@ -10,7 +10,7 @@ Your ordered meal kits are below:
 @foreach($boxes as $index => $box)
 **Kit #{{ $index + 1 }}**
 
-Delivery From: {{ $box->delivery_date }}
+Delivery on: {{ $box->delivery_date }}
 
 @foreach($box->meals as $meal)
 {{ $meal['meal'] }} ({{ $meal['servings'] }} servings)
@@ -19,6 +19,8 @@ Delivery From: {{ $box->delivery_date }}
 Deliver to: {{ $box->delivery_address }}
 
 @endforeach
+
+We will contact you on the given phone number on day of delivery to make final arrangements.
 
 
 

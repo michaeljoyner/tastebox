@@ -62,9 +62,15 @@ export default {
                 postal_code: "",
             },
             locations: [
-                "Pietermaritzburg",
+                "Camperdown",
+                "Cato Ridge",
+                "Hillcrest",
                 "Hilton",
+                "Howick",
+                "Kloof",
                 "Nottingham Road",
+                "Pietermaritzburg",
+                "Pinetown",
                 "Wartburg",
             ],
         };
