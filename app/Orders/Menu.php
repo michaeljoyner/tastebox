@@ -48,7 +48,7 @@ class Menu extends Model
         collect(range(1, $number_of_weeks))
             ->each(function ($week) use ($start) {
                 $from = Carbon::parse($start)->addWeeks($week)->startOfWeek();
-                $to = Carbon::parse($start)->addWeeks($week)->startOfWeek()->addDays(5);
+                $to = Carbon::parse($start)->addWeeks($week)->startOfWeek()->addDays(3)->endOfDay();
                 $delivery = Carbon::parse($start)->addWeeks($week)->endOfWeek()->addDays(1);
 
                 Menu::create([
@@ -66,7 +66,7 @@ class Menu extends Model
 
     public function isCurrent()
     {
-        return Carbon::now()->isBetween($this->current_from, $this->current_to);
+        return Carbon::now()->isBetween($this->current_from, $this->current_to->endOfDay());
     }
 
     public function meals()

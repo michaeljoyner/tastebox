@@ -133,6 +133,8 @@ class PresentMealTest extends TestCase
                 ]
             ],
             'last_touched_timestamp' => $meal->fresh()->updated_at->timestamp,
+            'last_used' => '',
+            'last_used_ago' => 'Never used',
 
         ];
 

@@ -14,17 +14,6 @@ class MealsTest extends TestCase
 {
     use RefreshDatabase;
 
-    /**
-     *@test
-     */
-    public function get_meals_with_the_last_used_date()
-    {
-        $lastUsed = DB::table('meal_menus')->select('meal_menu.meal_id, max(meal_menu.menu_id), max(menus.current_from) as last_used')
-                      ->leftJoin('menus', 'menus.id', '=', 'meal_menu.menu.id')
-                      ->groupBy('meal_menu.meal_id')->dump();
-
-        dd($lastUsed);
-    }
 
     /**
      *@test
