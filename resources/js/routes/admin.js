@@ -27,6 +27,7 @@ import CreateDiscountCode from "../vue/Components/Discounts/CreateDiscountCode";
 import DiscountsIndex from "../vue/Components/Discounts/DiscountsIndex";
 import DiscountEdit from "../vue/Components/Discounts/DiscountEdit";
 import MailingListIndex from "../vue/Pages/MailingList/MailingListIndex";
+import MenuImages from "../vue/Pages/Menu/MenuImages";
 
 export default [
     { path: "/meals", component: MealsIndex },
@@ -51,6 +52,7 @@ export default [
     { path: "/menus", component: MenuIndex },
     { path: "/menus/:id", component: MenuShow },
     { path: "/menus/:id/edit-meals", component: MenuEditMeals },
+    { path: "/menus/:menu/images", component: MenuImages },
     { path: "/recent-orders", component: RecentOrders },
     { path: "/recent-orders/:id", component: Order },
     {

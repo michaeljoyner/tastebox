@@ -2,6 +2,11 @@
     <page v-if="menu">
         <page-header :title="menu_title">
             <router-link
+                :to="`/menus/${menu.id}/images`"
+                class="text-gray-600 text-sm hover:text-blue-600 mr-4"
+                >Get Images</router-link
+            >
+            <router-link
                 :to="`/menus/${menu.id}/edit-meals`"
                 class="btn btn-main"
                 >Choose Meals</router-link

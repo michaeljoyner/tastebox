@@ -182,11 +182,16 @@ class Meal extends Model implements HasMedia
 
     public function titleImage($conversion = '')
     {
-        $image = $this->getMedia(static::GALLERY)
-                      ->sortBy(fn($m) => $m->getCustomProperty('position'))
-                      ->first();
+        $image = $this->titleMedia();
 
         return $image ? $image->getUrl($conversion) : '/images/logos/tastebox_logo.jpg';
+    }
+
+    public function titleMedia(): ?Media
+    {
+        return $this->getMedia(static::GALLERY)
+             ->sortBy(fn($m) => $m->getCustomProperty('position'))
+             ->first();
     }
 
     public function defaultImage()
