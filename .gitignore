@@ -6,6 +6,7 @@
 /public/**/*.js
 /public/**/*.css
 /public/media
+/public/mix-manifest.json
 .env
 .env.backup
 .phpunit.result.cache
