@@ -62,6 +62,7 @@ export default {
                 postal_code: "",
             },
             locations: [
+                "Ashburton",
                 "Camperdown",
                 "Cato Ridge",
                 "Hillcrest",
