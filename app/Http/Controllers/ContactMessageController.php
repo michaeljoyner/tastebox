@@ -12,7 +12,9 @@ class ContactMessageController extends Controller
     public function store(ContactMessageRequest $request)
     {
         $admins = collect(config('mail.addresses.admins'));
-        Mail::to($admins)
-            ->queue(new ContactMessage($request->messageDetails()));
+
+        $admins->each(
+            fn ($admin) => Mail::to($admin['email'])->queue(new ContactMessage($request->messageDetails())));
+
     }
 }
