@@ -89,9 +89,8 @@ return [
 
     'addresses' => [
         'admins' => [
-            ['name' => 'Steph', 'email' => 'stephjoyner18@gmail.com'],
+            ['name' => 'TasteBox', 'email' => 'enquiries@tastebox.co.za'],
             ['name' => 'Alex', 'email' => 'alexandra.joyner@gmail.com'],
-            ['name' => 'Mooz', 'email' => 'joyner.michael@gmail.com'],
         ]
     ],
 
