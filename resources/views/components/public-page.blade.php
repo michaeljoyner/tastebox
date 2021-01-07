@@ -93,6 +93,6 @@
     <script src="https://unpkg.com/flickity@2/dist/flickity.pkgd.min.js"></script>
 @endif
 <script src="{{ $javascript }}"></script>
-
+@include('front.partials.ga-tracking')
 </body>
 </html>

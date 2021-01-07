@@ -32,6 +32,10 @@ return [
 
     'facebook' => [
         'pixel_id' => env('FB_PIXEL_ID'),
+    ],
+
+    'google' => [
+        'analytics' => env('GA_TRACKING_ID'),
     ]
 
 ];
