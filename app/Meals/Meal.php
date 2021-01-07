@@ -145,7 +145,7 @@ class Meal extends Model implements HasMedia
     public function addImage(UploadedFile $file)
     {
         return $this->addMedia($file)
-                    ->usingFileName(Str::slug(Str::random(10)))
+                    ->usingFileName($file->hashName())
                     ->withCustomProperties(['position' => 999])
                     ->preservingOriginal()
                     ->toMediaCollection(static::GALLERY);
@@ -165,7 +165,7 @@ class Meal extends Model implements HasMedia
     public function registerMediaConversions(Media $media = null): void
     {
         $this->addMediaConversion('thumb')
-             ->fit(Manipulations::FIT_CROP, 300, 200)
+             ->fit(Manipulations::FIT_CROP, 600, 400)
              ->optimize()
              ->performOnCollections(self::GALLERY);
 

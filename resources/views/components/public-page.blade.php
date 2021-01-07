@@ -28,7 +28,7 @@
     <meta property="og:site_name" content="TasteBox"/>
     <meta property="og:type" content="Website"/>
     <meta property="og:description" content="{{ $description ?? '' }}"/>
-    <meta property="description" content="{{ $description ?? '' }}">
+    <meta name="description" content="{{ $description ?? '' }}">
     <meta property="twitter:card" content="summary_large_image">
 
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
