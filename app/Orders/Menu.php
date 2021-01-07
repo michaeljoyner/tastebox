@@ -22,7 +22,7 @@ class Menu extends Model
 
     public function scopeAvailable($query)
     {
-        $query->where('current_to', '>=', Carbon::now())
+        $query->where('current_to', '>=', Carbon::now()->startOfDay())
               ->where('can_order', true);
     }
 
