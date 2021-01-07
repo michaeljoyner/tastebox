@@ -5,8 +5,8 @@
         @foreach($instagrams as $instagram)
             <div>
                 <a rel="nofollow" target="_blank" href="{{ $instagram['permalink'] }}">
-                    <img src="{{ $instagram['url'] }}"
-                         alt="instagram post" class="w-full h-full object-cover">
+                    <img data-src="{{ $instagram['url'] }}"
+                         alt="instagram post" class="w-full h-full object-cover lazyload">
                 </a>
             </div>
         @endforeach
