@@ -1,10 +1,10 @@
 module.exports = {
+    purge: [
+        "./resources/**/*.html",
+        "./resources/**/*.vue",
+        "./resources/**/*.blade.php",
+    ],
     theme: {
-        purge: [
-            "./resources/**/*.html",
-            "./resources/**/*.vue",
-            "./resources/**/*.blade.php",
-        ],
         extend: {
             colors: {
                 opaque: "rgba(255,255,255,.8)",
