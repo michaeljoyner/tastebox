@@ -32,4 +32,14 @@
     @if($hasPhone())
         <p class="my-12">We will contact you on {{ $phoneNumber }} on the day of delivery to make final arrangements.</p>
     @endif
+
+    @section('afterVue')
+    <script>
+        try {
+            fbq("track", "Purchase", {currency: "ZAR", value: "{{ $price() }}"})
+        } catch (e) {
+
+        }
+    </script>
+    @endsection
 </div>

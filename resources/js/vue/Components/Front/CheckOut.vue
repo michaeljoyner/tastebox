@@ -500,6 +500,15 @@ export default {
         }
     },
 
+    mounted() {
+        try {
+            fbq("track", "InitiateCheckout", {
+                currency: "ZAR",
+                value: this.total_amount,
+            });
+        } catch (e) {}
+    },
+
     methods: {
         submit() {
             this.waiting = true;

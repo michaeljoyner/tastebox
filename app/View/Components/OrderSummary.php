@@ -39,4 +39,9 @@ class OrderSummary extends Component
     {
         return $this->order->phone;
     }
+
+    public function price()
+    {
+        return $this->order->price_in_cents / 100;
+    }
 }

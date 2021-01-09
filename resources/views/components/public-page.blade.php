@@ -89,6 +89,7 @@
 
     </div>
 </div>
+@yield('afterVue')
 @if($hasSlideshow)
     <script src="https://unpkg.com/flickity@2/dist/flickity.pkgd.min.js"></script>
 @endif

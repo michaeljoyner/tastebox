@@ -95,6 +95,9 @@ export default {
                 .then(({ data }) => {
                     this.$emit("updated", data);
                     this.servings = amount;
+                    try {
+                        fbq("track", "AddToCart");
+                    } catch (e) {}
                 })
                 .then(() => {
                     this.waiting = false;
