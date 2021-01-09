@@ -73,7 +73,7 @@
                 <a class="text-lg font-bold lg:mb-0 mb-6 mx-4 block" href="/faqs">FAQs</a>
                 <a class="text-lg font-bold lg:mb-0 mb-6 mx-4 block" href="/contact">Contact Us</a>
                 <a href="/build-a-box"
-                   class="lg:mb-0 mb-6 mx-4 green-btn">Order</a>
+                   class="lg:mb-0 mb-6 mx-4 green-btn">See Menus</a>
             </div>
             <div class="flex">
                 <basket-bar class="mx-4"></basket-bar>
