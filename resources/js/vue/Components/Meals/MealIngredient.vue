@@ -52,6 +52,7 @@ export default {
     data() {
         return {
             quantity: this.ingredient.quantity,
+            form: this.ingredient.form,
             in_kit: this.ingredient.in_kit,
         };
     },
@@ -62,6 +63,10 @@ export default {
         },
 
         in_kit(to, from) {
+            this.update();
+        },
+
+        form(to, from) {
             this.update();
         },
     },
@@ -77,6 +82,7 @@ export default {
                 description: this.ingredient.description,
                 quantity: this.quantity,
                 in_kit: this.in_kit,
+                form: this.form,
             });
         },
     },

@@ -97,7 +97,6 @@ class Meal extends Model implements HasMedia
                 'in_kit' => $ing['in_kit'],
                 'form' => $ing['form'],
             ]));
-//        $this->ingredients()->sync($ingredientsList->ingredients);
     }
 
     public function setInstructions(string $instructions = '')
@@ -123,7 +122,7 @@ class Meal extends Model implements HasMedia
     {
         return $this->belongsToMany(Ingredient::class)
                     ->using(MealIngredient::class)
-                    ->withPivot(['quantity', 'in_kit', 'position', 'group']);
+                    ->withPivot(['quantity', 'in_kit', 'position', 'group', 'form']);
     }
 
     public function organizeIngredients(array $ingredientData)

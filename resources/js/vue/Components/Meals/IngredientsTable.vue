@@ -16,7 +16,12 @@
                 :class="{ 'bg-gray-100': index % 2 === 1 }"
             >
                 <td>{{ ingredient.quantity }}</td>
-                <td class="p-2">{{ ingredient.description }}</td>
+                <td class="p-2">
+                    {{ ingredient.description }}
+                    <span v-show="ingredient.form"
+                        >({{ ingredient.form }})</span
+                    >
+                </td>
                 <td><span v-if="ingredient.in_kit">&check;</span></td>
             </tr>
         </tbody>
