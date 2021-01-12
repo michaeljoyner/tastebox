@@ -12,5 +12,5 @@ class MealIngredient extends Pivot
 
     protected $casts = ['in_kit' => 'boolean'];
 
-    protected $fillable = ['in_kit', 'quantity', 'position', 'group'];
+    protected $fillable = ['in_kit', 'quantity', 'position', 'group', 'form'];
 }

@@ -31,11 +31,12 @@ class UpdateMealIngredientsTest extends TestCase
 
         $response = $this->asAdmin()->postJson("/admin/api/meals/{$meal->id}/ingredients", [
             'ingredients' => [
-                ['id' => $ingredientA->id, 'quantity' => '2', 'in_kit' => false],
-                ['id' => $ingredientB->id, 'quantity' => '3 tsp', 'in_kit' => false],
-                ['id' => $ingredientC->id, 'quantity' => '1 bag', 'in_kit' => true],
-                ['id' => $ingredientD->id, 'quantity' => '', 'in_kit' => true],
-                ['id' => $ingredientE->id, 'quantity' => null, 'in_kit' => true],
+                ['id' => $ingredientA->id, 'quantity' => '2', 'form' => 'sliced', 'in_kit' => false],
+                ['id' => $ingredientB->id, 'quantity' => '3 tsp', 'form' => 'chopped', 'in_kit' => false],
+                ['id' => $ingredientC->id, 'quantity' => '1 bag', 'form' => 'rinsed', 'in_kit' => true],
+                ['id' => $ingredientD->id, 'quantity' => '', 'form' => '', 'in_kit' => true],
+                ['id' => $ingredientE->id, 'quantity' => null, 'form' => 'crushed', 'in_kit' => true],
+                ['id' => $ingredientE->id, 'quantity' => 'a bit', 'form' => 'powdered', 'in_kit' => true],
             ],
         ]);
         $response->assertSuccessful();
@@ -44,7 +45,7 @@ class UpdateMealIngredientsTest extends TestCase
         $kitIngredients = $meal->kitIngredients()->get();
 
         $this->assertCount(2, $customerIngredients);
-        $this->assertCount(3, $kitIngredients);
+        $this->assertCount(4, $kitIngredients);
 
         $this->assertTrue($customerIngredients->contains($ingredientA));
         $this->assertTrue($customerIngredients->contains($ingredientB));
@@ -55,6 +56,7 @@ class UpdateMealIngredientsTest extends TestCase
         $this->assertDatabaseHas('ingredient_meal', [
             'meal_id'       => $meal->id,
             'ingredient_id' => $ingredientA->id,
+            'form' => 'sliced',
             'in_kit'        => false,
             'quantity'      => '2',
         ]);
@@ -62,6 +64,7 @@ class UpdateMealIngredientsTest extends TestCase
         $this->assertDatabaseHas('ingredient_meal', [
             'meal_id'       => $meal->id,
             'ingredient_id' => $ingredientB->id,
+            'form' => 'chopped',
             'in_kit'        => false,
             'quantity'      => '3 tsp',
         ]);
@@ -69,6 +72,7 @@ class UpdateMealIngredientsTest extends TestCase
         $this->assertDatabaseHas('ingredient_meal', [
             'meal_id'       => $meal->id,
             'ingredient_id' => $ingredientC->id,
+            'form' => 'rinsed',
             'in_kit'        => true,
             'quantity'      => '1 bag',
         ]);
@@ -76,6 +80,7 @@ class UpdateMealIngredientsTest extends TestCase
         $this->assertDatabaseHas('ingredient_meal', [
             'meal_id'       => $meal->id,
             'ingredient_id' => $ingredientD->id,
+            'form' => null,
             'in_kit'        => true,
             'quantity'      => null,
         ]);
@@ -83,8 +88,17 @@ class UpdateMealIngredientsTest extends TestCase
         $this->assertDatabaseHas('ingredient_meal', [
             'meal_id'       => $meal->id,
             'ingredient_id' => $ingredientE->id,
+            'form' => 'crushed',
             'in_kit'        => true,
             'quantity'      => null,
+        ]);
+
+        $this->assertDatabaseHas('ingredient_meal', [
+            'meal_id'       => $meal->id,
+            'ingredient_id' => $ingredientE->id,
+            'form' => 'powdered',
+            'in_kit'        => true,
+            'quantity'      => 'a bit',
         ]);
 
 

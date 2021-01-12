@@ -13,6 +13,9 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Route::get('recipes/{meal:unique_id}', function(App\Meals\Meal $meal) {
+    return view('recipes.card', ['meal' => App\Meals\MealsPresenter::forPublic($meal)]);
+});
 
 Route::view('admin/login', 'auth.admin-login')->name('login');
 

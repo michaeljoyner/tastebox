@@ -27,11 +27,11 @@ class SetIngredientsRequest extends FormRequest
     public function ingredientsList(): IngredientList
     {
         $ingredients = collect($this->ingredients)
-            ->mapWithKeys(fn($ingredient) => [
-                $ingredient['id'] => [
-                    'quantity' => $ingredient['quantity'],
-                    'in_kit'   => $ingredient['in_kit'],
-                ]
+            ->map(fn($ingredient) => [
+                'id'       => $ingredient['id'],
+                'quantity' => $ingredient['quantity'],
+                'in_kit'   => $ingredient['in_kit'],
+                'form'     => $ingredient['form'],
             ]);
 
         return new IngredientList($ingredients->all());

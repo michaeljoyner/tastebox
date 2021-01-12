@@ -36,6 +36,9 @@ module.exports = {
                     "serif",
                 ],
             },
+            fontSize: {
+                xxs: "0.625rem",
+            },
             spacing: {
                 42: "10.7rem",
                 80: "20rem",

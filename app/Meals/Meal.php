@@ -90,7 +90,14 @@ class Meal extends Model implements HasMedia
 
     public function setIngredients(IngredientList $ingredientsList)
     {
-        $this->ingredients()->sync($ingredientsList->ingredients);
+        $this->ingredients()->detach();
+        collect($ingredientsList->ingredients)
+            ->each(fn ($ing) => $this->ingredients()->attach($ing['id'], [
+                'quantity' => $ing['quantity'],
+                'in_kit' => $ing['in_kit'],
+                'form' => $ing['form'],
+            ]));
+//        $this->ingredients()->sync($ingredientsList->ingredients);
     }
 
     public function setInstructions(string $instructions = '')
