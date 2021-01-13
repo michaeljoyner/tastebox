@@ -34,7 +34,8 @@ class GenerateRecipeCard extends Command
         $html = view('recipes.card', ['meal' => MealsPresenter::forPublic($meal)])->render();
 
         Browsershot::html($html)->waitUntilNetworkIdle()
-                   ->format('A5')
+                   ->format('A4')
+                   ->landscape()
                    ->margins(0, 0, 0, 0)
                    ->save('recipe_card.pdf');
 

@@ -31,7 +31,7 @@ class SetIngredientsRequest extends FormRequest
                 'id'       => $ingredient['id'],
                 'quantity' => $ingredient['quantity'],
                 'in_kit'   => $ingredient['in_kit'],
-                'form'     => $ingredient['form'],
+                'form'     => $ingredient['form'] ?? '',
             ]);
 
         return new IngredientList($ingredients->all());
