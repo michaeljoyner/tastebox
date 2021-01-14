@@ -28,11 +28,11 @@
                     <div class="flex-1 p-3 pl-6">
                         <p class="type-h3">{{ meal.name }}</p>
 
-                        <div class="flex my-2">
+                        <div class="flex flex-wrap my-2">
                             <p
                                 v-for="category in meal.classifications"
                                 :key="category.id"
-                                class="mr-3 border rounded border-black px-2 type-b3"
+                                class="mr-3 border rounded border-black px-2 type-b3 mb-2 whitespace-no-wrap"
                             >
                                 {{ category.name }}
                             </p>
