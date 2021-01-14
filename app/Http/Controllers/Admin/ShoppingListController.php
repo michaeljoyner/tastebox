@@ -24,7 +24,7 @@ class ShoppingListController extends Controller
         ])->render();
 
         Browsershot::html($html)
-                   ->margins(25, 0, 25, 25)
+                   ->margins(25, 5, 25, 5)
                    ->setNodeBinary(config('browsershot.node_path'))
                    ->setNpmBinary(config('browsershot.npm_path'))
                    ->savePdf(storage_path("app/public/{$file_name}"));

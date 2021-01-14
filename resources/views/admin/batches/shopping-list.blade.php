@@ -5,7 +5,11 @@
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Shopping List</title>
+    <title>Shopping List for Batch #{{ $batch_number }}</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat&family=Domine:wght@500&display=swap"
+          rel="stylesheet">
+    <link rel="stylesheet"
+          href="{{ public_path(mix('css/front.css')) }}"/>
 </head>
 <body style="font-family: sans-serif;">
 <h1 style="text-align: center; margin-bottom: 1rem;">Shopping List for Batch #{{ $batch_number }}</h1>
@@ -16,9 +20,10 @@
         <div style="padding-left: 1rem;">
             @foreach($ingredient['uses'] as $use)
                 <p>
-                    <span>{{ $use['count'] }}</span>
+                    <span>{{ $use['count'] / 4 }}</span>
                     <span> X </span>
                     <span>{{ $use['quantity'] }}</span>
+                    <span> {{ $use['form'] }}</span>
                     (<small>{{ $use['meal'] }}</small>)
                 </p>
             @endforeach

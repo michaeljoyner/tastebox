@@ -19,11 +19,13 @@ class BatchIngredientsList
             $this->list[$ingredient['id']] = [
                 'id'          => $ingredient['id'],
                 'description' => $ingredient['description'],
+                'total_servings' => $servings,
                 'uses'        => [
                     [
                         'meal'     => $meal_name,
                         'count'    => $servings,
-                        'quantity' => $ingredient['quantity']
+                        'quantity' => $ingredient['quantity'],
+                        'form' => $ingredient['form'] ?? 'n/a',
                     ],
                 ]
             ];
@@ -34,8 +36,11 @@ class BatchIngredientsList
         $this->list[$ingredient['id']]['uses'][] = [
             'meal'     => $meal_name,
             'count'    => $servings,
-            'quantity' => $ingredient['quantity']
+            'quantity' => $ingredient['quantity'],
+            'form' => $ingredient['form'] ?? 'n/a',
         ];
+
+        $this->list[$ingredient['id']]['total_servings'] = $this->list[$ingredient['id']]['total_servings'] + $servings;
     }
 
     public function toArray(): array
