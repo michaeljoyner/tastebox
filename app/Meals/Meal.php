@@ -5,6 +5,7 @@ namespace App\Meals;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Str;
+use Spatie\Browsershot\Browsershot;
 use Spatie\Image\Manipulations;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
@@ -230,5 +231,20 @@ class Meal extends Model implements HasMedia
     {
         $this->is_public = false;
         $this->save();
+    }
+
+    public function createRecipeCard($location = ''): string
+    {
+        $html = view('recipes.card', ['meal' => MealsPresenter::forPublic($this)])->render();
+
+        $path = $location ? $location . "/" . Str::slug($this->name) : Str::slug($this->name);
+        $final_path = storage_path(sprintf("app/recipes/%s.pdf", $path));
+        Browsershot::html($html)->waitUntilNetworkIdle()
+                   ->format('A4')
+                   ->landscape()
+                   ->margins(0, 0, 0, 0)
+                   ->save($final_path);
+
+        return $final_path;
     }
 }
