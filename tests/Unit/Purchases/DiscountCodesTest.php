@@ -6,6 +6,7 @@ namespace Tests\Unit\Purchases;
 
 use App\Purchases\DiscountCode;
 use App\Purchases\NullDiscount;
+use Carbon\Carbon;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -36,5 +37,18 @@ class DiscountCodesTest extends TestCase
         $this->assertSame(316, $percent->discount(333));
         $this->assertSame(422, $percent->discount(444));
         $this->assertSame(0, $percent->discount(0));
+    }
+
+    /**
+     *@test
+     */
+    public function it_is_valid_until_the_end_of_the_day()
+    {
+        $discount = factory(DiscountCode::class)->create([
+            'valid_from' => Carbon::yesterday(),
+            'valid_until' => Carbon::today(),
+        ]);
+
+        $this->assertTrue($discount->isValid());
     }
 }

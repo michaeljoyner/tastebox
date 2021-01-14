@@ -83,7 +83,7 @@ class DiscountCode extends Model implements Discount
 
     public function isValid(): bool
     {
-        return (now()->isBetween($this->valid_from, $this->valid_until)) && $this->uses > 0;
+        return (now()->isBetween($this->valid_from->startOfDay(), $this->valid_until->endOfDay())) && $this->uses > 0;
     }
 
     public function use()
