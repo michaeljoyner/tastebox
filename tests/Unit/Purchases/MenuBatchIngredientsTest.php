@@ -122,73 +122,82 @@ class MenuBatchIngredientsTest extends TestCase
                 'id' => $ingredientA->id,
                 'description' => $ingredientA->description,
                 'uses' => [
-                    ['meal' => $mealA->name, 'count' => 5, 'quantity' => '4'],
-                    ['meal' => $mealC->name, 'count' => 11, 'quantity' => 'a bag'],
-                ]
+                    ['meal' => $mealA->name, 'count' => 5, 'quantity' => '4', 'form' => 'n/a'],
+                    ['meal' => $mealC->name, 'count' => 11, 'quantity' => 'a bag', 'form' => 'n/a'],
+                ],
+                'total_servings' => 16,
             ],
             [
                 'id' => $ingredientB->id,
                 'description' => $ingredientB->description,
                 'uses' => [
-                    ['meal' => $mealA->name, 'count' => 5, 'quantity' => '1/2 cup'],
-                    ['meal' => $mealE->name, 'count' => 6, 'quantity' => '3 oz'],
-                ]
+                    ['meal' => $mealA->name, 'count' => 5, 'quantity' => '1/2 cup', 'form' => 'n/a'],
+                    ['meal' => $mealE->name, 'count' => 6, 'quantity' => '3 oz', 'form' => 'n/a'],
+                ],
+                'total_servings' => 11,
             ],
             [
                 'id' => $ingredientC->id,
                 'description' => $ingredientC->description,
                 'uses' => [
-                    ['meal' => $mealA->name, 'count' => 5, 'quantity' => 'a pound'],
-                    ['meal' => $mealC->name, 'count' => 11, 'quantity' => '340ml'],
-                    ['meal' => $mealE->name, 'count' => 6, 'quantity' => '3 cup'],
-                ]
+                    ['meal' => $mealA->name, 'count' => 5, 'quantity' => 'a pound', 'form' => 'n/a'],
+                    ['meal' => $mealC->name, 'count' => 11, 'quantity' => '340ml', 'form' => 'n/a'],
+                    ['meal' => $mealE->name, 'count' => 6, 'quantity' => '3 cup', 'form' => 'n/a'],
+                ],
+                'total_servings' => 22,
             ],
             [
                 'id' => $ingredientD->id,
                 'description' => $ingredientD->description,
                 'uses' => [
-                    ['meal' => $mealA->name, 'count' => 5, 'quantity' => '400g'],
-                    ['meal' => $mealD->name, 'count' => 6, 'quantity' => '22lb'],
-                ]
+                    ['meal' => $mealA->name, 'count' => 5, 'quantity' => '400g', 'form' => 'n/a'],
+                    ['meal' => $mealD->name, 'count' => 6, 'quantity' => '22lb', 'form' => 'n/a'],
+                ],
+                'total_servings' => 11,
             ],
             [
                 'id' => $ingredientE->id,
                 'description' => $ingredientE->description,
                 'uses' => [
-                    ['meal' => $mealB->name, 'count' => 3, 'quantity' => '20g'],
-                    ['meal' => $mealD->name, 'count' => 6, 'quantity' => '2kg'],
-                ]
+                    ['meal' => $mealB->name, 'count' => 3, 'quantity' => '20g', 'form' => 'n/a'],
+                    ['meal' => $mealD->name, 'count' => 6, 'quantity' => '2kg', 'form' => 'n/a'],
+                ],
+                'total_servings' => 9,
             ],
             [
                 'id' => $ingredientG->id,
                 'description' => $ingredientG->description,
                 'uses' => [
-                    ['meal' => $mealB->name, 'count' => 3, 'quantity' => 'a pack'],
-                    ['meal' => $mealD->name, 'count' => 6, 'quantity' => '1/2 box'],
-                    ['meal' => $mealE->name, 'count' => 6, 'quantity' => '4'],
-                ]
+                    ['meal' => $mealB->name, 'count' => 3, 'quantity' => 'a pack', 'form' => 'n/a'],
+                    ['meal' => $mealD->name, 'count' => 6, 'quantity' => '1/2 box', 'form' => 'n/a'],
+                    ['meal' => $mealE->name, 'count' => 6, 'quantity' => '4', 'form' => 'n/a'],
+                ],
+                'total_servings' => 15,
             ],
             [
                 'id' => $ingredientH->id,
                 'description' => $ingredientH->description,
                 'uses' => [
-                    ['meal' => $mealB->name, 'count' => 3, 'quantity' => '260ml'],
-                ]
+                    ['meal' => $mealB->name, 'count' => 3, 'quantity' => '260ml', 'form' => 'n/a'],
+                ],
+                'total_servings' => 3,
             ],
             [
                 'id' => $ingredientI->id,
                 'description' => $ingredientI->description,
                 'uses' => [
-                    ['meal' => $mealC->name, 'count' => 11, 'quantity' => '250g'],
-                ]
+                    ['meal' => $mealC->name, 'count' => 11, 'quantity' => '250g', 'form' => 'n/a'],
+                ],
+                'total_servings' => 11,
             ],
             [
                 'id' => $ingredientJ->id,
                 'description' => $ingredientJ->description,
                 'uses' => [
-                    ['meal' => $mealC->name, 'count' => 11, 'quantity' => '1 can'],
-                    ['meal' => $mealE->name, 'count' => 6, 'quantity' => '6 spoons'],
-                ]
+                    ['meal' => $mealC->name, 'count' => 11, 'quantity' => '1 can', 'form' => 'n/a'],
+                    ['meal' => $mealE->name, 'count' => 6, 'quantity' => '6 spoons', 'form' => 'n/a'],
+                ],
+                'total_servings' => 17,
             ],
         ];
 

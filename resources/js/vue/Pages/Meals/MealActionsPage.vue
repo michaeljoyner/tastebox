@@ -9,6 +9,25 @@
             class="p-4 shadow my-12"
         ></meal-publish-toggle>
 
+        <div class="my-12 shadow p-6">
+            <form
+                :action="`/admin/api/meals/${meal.id}/recipe-card`"
+                method="POST"
+                @submit="setRecipeTimer"
+            >
+                <p class="font-bold">Download Recipe Card</p>
+                <p class="my-4 text-sm">
+                    Download a PDF file of the recipe for this meal. Note it may
+                    take a second or two, so be patient. Don't just click the
+                    button like an angry monkey.
+                </p>
+                <input type="hidden" name="_token" :value="csrf_token" />
+                <submit-button :waiting="waiting_on_recipe"
+                    >Download PDF</submit-button
+                >
+            </form>
+        </div>
+
         <div class="my-12">
             <copy-meal :meal="meal"></copy-meal>
         </div>
@@ -36,14 +55,23 @@ import SubHeader from "../../Components/UI/SubHeader";
 import CopyMeal from "../../Components/Meals/CopyMeal";
 import DeleteConfirmation from "../../Components/UI/DeleteConfirmation";
 import { showError, showSuccess } from "../../../libs/notifications";
+import SubmitButton from "../../Components/UI/SubmitButton";
 export default {
-    components: { CopyMeal, SubHeader, MealPublishToggle, DeleteConfirmation },
+    components: {
+        SubmitButton,
+        CopyMeal,
+        SubHeader,
+        MealPublishToggle,
+        DeleteConfirmation,
+    },
 
     props: ["meal"],
 
     data() {
         return {
             waiting_on_delete: false,
+            waiting_on_recipe: false,
+            csrf_token: document.getElementById("csrf-token-meta").content,
         };
     },
 
@@ -58,6 +86,11 @@ export default {
                 })
                 .catch(() => showError("Unable to delete meal."))
                 .then(() => (this.waiting_on_delete = false));
+        },
+
+        setRecipeTimer() {
+            this.waiting_on_recipe = true;
+            window.setTimeout(() => (this.waiting_on_recipe = false), 5000);
         },
     },
 };

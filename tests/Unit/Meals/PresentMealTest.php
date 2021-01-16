@@ -74,6 +74,7 @@ class PresentMealTest extends TestCase
                     'in_kit'      => false,
                     'position'    => null,
                     'group'       => null,
+                    'form'        => null,
                 ],
                 [
                     'id'          => $ingredientB->id,
@@ -82,6 +83,7 @@ class PresentMealTest extends TestCase
                     'in_kit'      => false,
                     'position'    => null,
                     'group'       => null,
+                    'form'        => null,
                 ],
                 [
                     'id'          => $ingredientC->id,
@@ -90,6 +92,7 @@ class PresentMealTest extends TestCase
                     'in_kit'      => true,
                     'position'    => null,
                     'group'       => null,
+                    'form'        => null,
                 ],
                 [
                     'id'          => $ingredientD->id,
@@ -98,6 +101,7 @@ class PresentMealTest extends TestCase
                     'in_kit'      => true,
                     'position'    => null,
                     'group'       => null,
+                    'form'        => null,
                 ],
                 [
                     'id'          => $ingredientE->id,
@@ -106,6 +110,7 @@ class PresentMealTest extends TestCase
                     'in_kit'      => true,
                     'position'    => null,
                     'group'       => null,
+                    'form'        => null,
                 ],
             ],
             'title_image'            => [
@@ -133,8 +138,8 @@ class PresentMealTest extends TestCase
                 ]
             ],
             'last_touched_timestamp' => $meal->fresh()->updated_at->timestamp,
-            'last_used' => '',
-            'last_used_ago' => 'Never used',
+            'last_used'              => '',
+            'last_used_ago'          => 'Never used',
 
         ];
 

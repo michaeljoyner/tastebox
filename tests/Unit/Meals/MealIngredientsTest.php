@@ -14,7 +14,7 @@ class MealIngredientsTest extends TestCase
     use RefreshDatabase;
 
     /**
-     *@test
+     * @test
      */
     public function can_organize_a_meals_ingredients()
     {
@@ -41,36 +41,40 @@ class MealIngredientsTest extends TestCase
 
         $expected = [
             [
-                'id' => $ingredientA->id,
+                'id'          => $ingredientA->id,
                 'description' => $ingredientA->description,
-                'in_kit' => true,
-                'quantity' => 'a bunch',
-                'position' => 3,
-                'group' => 'main dish'
+                'in_kit'      => true,
+                'quantity'    => 'a bunch',
+                'position'    => 3,
+                'group'       => 'main dish',
+                'form'        => null,
             ],
             [
-                'id' => $ingredientB->id,
+                'id'          => $ingredientB->id,
                 'description' => $ingredientB->description,
-                'in_kit' => true,
-                'quantity' => 'a bunch',
-                'position' => 1,
-                'group' => 'main dish'
+                'in_kit'      => true,
+                'quantity'    => 'a bunch',
+                'position'    => 1,
+                'group'       => 'main dish',
+                'form'        => null,
             ],
             [
-                'id' => $ingredientC->id,
+                'id'          => $ingredientC->id,
                 'description' => $ingredientC->description,
-                'in_kit' => true,
-                'quantity' => 'a bunch',
-                'position' => 0,
-                'group' => 'sauce'
+                'in_kit'      => true,
+                'quantity'    => 'a bunch',
+                'position'    => 0,
+                'group'       => 'sauce',
+                'form'        => null,
             ],
             [
-                'id' => $ingredientD->id,
+                'id'          => $ingredientD->id,
                 'description' => $ingredientD->description,
-                'in_kit' => true,
-                'quantity' => 'a bunch',
-                'position' => 2,
-                'group' => 'sauce'
+                'in_kit'      => true,
+                'quantity'    => 'a bunch',
+                'position'    => 2,
+                'group'       => 'sauce',
+                'form'        => null,
             ],
         ];
 

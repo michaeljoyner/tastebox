@@ -4,6 +4,7 @@ namespace App\Console\Commands;
 
 use App\Mail\SendRecipeCards;
 use App\Meals\Meal;
+use App\Meals\RecipeCard;
 use App\Orders\Menu;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Mail;
@@ -33,15 +34,10 @@ class SendMenuRecipeCards extends Command
             return 0;
         }
 
-        $zip = new \ZipArchive();
+        $archive = RecipeCard::archiveForMenu($menu);
 
-        $zip->open(storage_path("app/recipes/week_{$menu->weekOfYear()}.zip") , \ZipArchive::CREATE | \ZipArchive::OVERWRITE);
-
-        $menu->meals->map(fn (Meal $meal) => $meal->createRecipeCard())
-        ->each(fn ($file) => $zip->addFile($file, Str::afterLast($file, "/")));
-        $zip->close();
-
-        Mail::to('stephjoyner18@gmail.com')->queue(new SendRecipeCards(storage_path("app/recipes/week_{$menu->weekOfYear()}.zip")));
+        Mail::to('stephjoyner18@gmail.com')
+            ->queue(new SendRecipeCards(RecipeCard::disk()->path($archive)));
 
         return 0;
     }

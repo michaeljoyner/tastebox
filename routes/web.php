@@ -13,9 +13,6 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('recipes/{meal:unique_id}', function(App\Meals\Meal $meal) {
-    return view('recipes.card', ['meal' => App\Meals\MealsPresenter::forPublic($meal)]);
-});
 
 Route::view('admin/login', 'auth.admin-login')->name('login');
 
@@ -87,6 +84,8 @@ Route::group(['middleware' => 'auth'], function () {
         Route::post('meals/{meal}/images', 'MealImagesController@store');
         Route::post('meals/{meal}/images/positions', 'MealImagePositionsController@update');
         Route::delete('meals/{meal}/images/{media}', 'MealImagesController@destroy');
+
+        Route::post('meals/{meal}/recipe-card', 'MealRecipeCardController@show');
 
         Route::post('published-meals', 'PublishedMealsController@store');
         Route::delete('published-meals/{meal}', 'PublishedMealsController@destroy');

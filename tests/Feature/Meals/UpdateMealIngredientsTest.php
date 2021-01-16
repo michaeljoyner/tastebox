@@ -80,7 +80,7 @@ class UpdateMealIngredientsTest extends TestCase
         $this->assertDatabaseHas('ingredient_meal', [
             'meal_id'       => $meal->id,
             'ingredient_id' => $ingredientD->id,
-            'form' => null,
+            'form' => '',
             'in_kit'        => true,
             'quantity'      => null,
         ]);
