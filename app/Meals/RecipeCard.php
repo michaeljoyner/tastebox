@@ -19,6 +19,11 @@ class RecipeCard
         return Storage::disk(static::DISK_NAME);
     }
 
+    public static function clearDisk()
+    {
+        static::disk()->delete(static::disk()->allFiles());
+    }
+
     public static function forMeal(Meal $meal): string
     {
         $html = view('recipes.card', ['meal' => MealsPresenter::forPublic($meal)])->render();
