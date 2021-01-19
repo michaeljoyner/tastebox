@@ -65,6 +65,7 @@ export default {
                 "Ashburton",
                 "Camperdown",
                 "Cato Ridge",
+		"Dalton",
                 "Hillcrest",
                 "Hilton",
                 "Howick",
