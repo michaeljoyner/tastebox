@@ -50,7 +50,7 @@ class RecipeCard
         $zip->open(static::disk()->path($archive_name) , \ZipArchive::CREATE | \ZipArchive::OVERWRITE);
 
         $menu->meals->map(fn (Meal $meal) => $meal->createRecipeCard())
-                    ->each(fn ($file) => $zip->addFile(static::disk()->path($file)));
+                    ->each(fn ($file) => $zip->addFile(static::disk()->path($file), $file));
         $zip->close();
 
         return $archive_name;
