@@ -36,6 +36,11 @@ return [
 
     'google' => [
         'analytics' => env('GA_TRACKING_ID'),
+    ],
+
+    'nexmo' => [
+        'key' => env('NEXMO_API_KEY'),
+        'secret' => env('NEXMO_API_SECRET'),
     ]
 
 ];
