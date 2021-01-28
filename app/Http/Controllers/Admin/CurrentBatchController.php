@@ -28,6 +28,7 @@ class CurrentBatchController extends Controller
             'meals'          => $batch->mealList(),
             'ingredients'    => $batch->ingredientList(),
             'menu_id'        => $batch->menuId(),
+            'shopping_list' => $batch->shoppingList(),
         ];
     }
 }

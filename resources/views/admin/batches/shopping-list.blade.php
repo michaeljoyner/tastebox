@@ -11,21 +11,22 @@
     <link rel="stylesheet"
           href="{{ public_path(mix('css/front.css')) }}"/>
 </head>
-<body style="font-family: sans-serif;">
-<h1 style="text-align: center; margin-bottom: 1rem;">Shopping List for Batch #{{ $batch_number }}</h1>
-<h3 style="color: #718096; text-align: center; margin-bottom: 4rem;">For delivery from {{ $delivery_date }}</h3>
-@foreach($ingredients as $ingredient)
-    <div style="margin-bottom: 2rem; margin-left: 3rem;">
-        <p><strong>{{ $ingredient['description'] }}</strong></p>
-        <div style="padding-left: 1rem;">
-            @foreach($ingredient['uses'] as $use)
-                <p>
-                    <span>{{ $use['count'] / 4 }}</span>
-                    <span> X </span>
-                    <span>{{ $use['quantity'] }}</span>
-                    <span> {{ $use['form'] }}</span>
-                    (<small>{{ $use['meal'] }}</small>)
-                </p>
+<body class="font-sans text-sm">
+<h1 class="type-h3">Shopping List for Batch #{{ $batch_number }}</h1>
+<h3 class="type-b2 mb-16">For delivery from {{ $delivery_date }}</h3>
+@foreach($shoppingList as $item)
+    <div class="my-4 p-2 max-w-xl border-b border-gray-300" style="page-break-inside: avoid;">
+        <p class="font-bold capitalize">{{ $item['item_name'] }}</p>
+        <div class="border-b-2 border-green-600 w-40 mt-2 mb-4"></div>
+        @foreach($item['amounts'] as $unit => $qty)
+            <p class="text-2xl">
+                <span>{{ $qty }}</span>
+                <span>{{ $unit === "x_unit" ? "" : $unit }}</span>
+            </p>
+        @endforeach
+        <div class="text-xs pl-6">
+            @foreach($item['uses'] as $use)
+                <p>{{ $use }}</p>
             @endforeach
         </div>
     </div>

@@ -7,6 +7,7 @@ use App\Mail\BatchRoundupSummary;
 use App\Orders\Menu;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Storage;
 use Spatie\Browsershot\Browsershot;
 
 class BatchRoundup extends Command
@@ -27,23 +28,11 @@ class BatchRoundup extends Command
     public function handle()
     {
         $batch = Menu::nextUp()->getBatch();
-        $file_name = sprintf("shopping-lists/shopping_list_batch_%s.pdf", $batch->week);
-
-        $html = view('admin.batches.shopping-list', [
-            'batch_number' => $batch->week,
-            'delivery_date' => DatePresenter::pretty($batch->deliveryDate()),
-            'ingredients'  => $batch->ingredientList(),
-        ])->render();
-
-        Browsershot::html($html)
-                   ->margins(25, 0, 25, 25)
-                   ->setNodeBinary(config('browsershot.node_path'))
-                   ->setNpmBinary(config('browsershot.npm_path'))
-                   ->savePdf(storage_path("app/public/{$file_name}"));
+        $file_name = $batch->createShoppingListPdf();
 
         collect(['joyner.michael@gmail.com', 'alexandra.joyner@gmail.com', 'stephjoyner18@gmail.com'])
             ->each(function($recipient) use ($batch, $file_name) {
-                $message = new BatchRoundupSummary($batch, storage_path("app/public/{$file_name}"));
+                $message = new BatchRoundupSummary($batch, Storage::disk('admin_stuff')->path($file_name));
                 Mail::to($recipient)->queue($message);
             });
 

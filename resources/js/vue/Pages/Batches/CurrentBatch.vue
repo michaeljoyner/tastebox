@@ -25,11 +25,12 @@
                         >Meal List</router-link
                     >
                 </div>
+
                 <div class="mb-3 pl-2">
                     <router-link
                         class="font-bold text-gray-700 hover:text-teal-600"
-                        :to="`/current-batch/ingredients`"
-                        >Ingredients</router-link
+                        :to="`/current-batch/shopping`"
+                        >Shopping List</router-link
                     >
                 </div>
             </div>

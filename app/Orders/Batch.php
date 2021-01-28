@@ -4,10 +4,15 @@
 namespace App\Orders;
 
 
+use App\DatePresenter;
 use App\Meals\Meal;
 use App\Purchases\OrderedKit;
+use App\Purchases\ShoppingList;
+use App\Purchases\ShoppingListItem;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Storage;
+use Spatie\Browsershot\Browsershot;
 
 class Batch
 {
@@ -95,6 +100,47 @@ class Batch
                         return $list;
                     }, new BatchIngredientsList)
             ->toArray();
+    }
+
+    public function shoppingList(): array
+    {
+        return $this->mealsWithIngredients()
+                    ->reduce(function (ShoppingList $list, $meal) {
+                        foreach ($meal['ingredients'] as $ingredient) {
+                            if ($ingredient['in_kit']) {
+                                $list->addItem(new ShoppingListItem([
+                                    'id' => $ingredient['id'],
+                                    'description' => $ingredient['description'],
+                                    'quantity' => $ingredient['quantity'],
+                                    'form' => $ingredient['form'],
+                                    'meal' => $meal['name'],
+                                    'servings' => $meal['total_servings'],
+                                ]));
+                            }
+                        }
+                        return $list;
+                    }, new ShoppingList())
+                    ->toArray();
+    }
+
+    public function createShoppingListPdf(): string
+    {
+        $file_name = sprintf("shopping_list_batch_%s.pdf", $this->week);
+
+        $html = view('admin.batches.shopping-list', [
+            'batch_number'  => $this->week,
+            'delivery_date' => DatePresenter::pretty($this->deliveryDate()),
+            'shoppingList'  => $this->shoppingList(),
+        ])->render();
+
+        Browsershot::html($html)
+                   ->format('A4')
+                   ->margins(5, 5, 5, 25)
+                   ->setNodeBinary(config('browsershot.node_path'))
+                   ->setNpmBinary(config('browsershot.npm_path'))
+                   ->savePdf(Storage::disk('admin_stuff')->path("shopping-lists/{$file_name}"));
+
+        return "shopping-lists/{$file_name}";
     }
 
     private function mealsWithIngredients()

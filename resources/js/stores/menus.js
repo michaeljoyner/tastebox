@@ -31,6 +31,8 @@ export default {
             state.current_batch ? state.current_batch.meals : [],
         current_ingredients: (state) =>
             state.current_batch ? state.current_batch.ingredients : [],
+        current_shopping_list: (state) =>
+            state.current_batch ? state.current_batch.shopping_list : [],
         current_batch_menu_id: (state) =>
             state.current_batch ? state.current_batch.menu_id : null,
         current_batch_deliver_date: (state) =>

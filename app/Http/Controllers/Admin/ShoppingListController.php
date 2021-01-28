@@ -15,20 +15,9 @@ class ShoppingListController extends Controller
     {
 
         $batch = $menu->getBatch();
-        $file_name = sprintf("shopping-lists/shopping_list_batch_%s.pdf", $menu->weekOfYear());
 
-        $html = view('admin.batches.shopping-list', [
-            'batch_number' => $batch->week,
-            'delivery_date' => DatePresenter::pretty($batch->deliveryDate()),
-            'ingredients'  => $batch->ingredientList(),
-        ])->render();
+        $file = $batch->createShoppingListPdf();
 
-        Browsershot::html($html)
-                   ->margins(25, 5, 25, 5)
-                   ->setNodeBinary(config('browsershot.node_path'))
-                   ->setNpmBinary(config('browsershot.npm_path'))
-                   ->savePdf(storage_path("app/public/{$file_name}"));
-
-        return Storage::disk('public')->download($file_name);
+        return Storage::disk('admin_stuff')->download($file);
     }
 }

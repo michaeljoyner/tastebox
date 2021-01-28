@@ -53,6 +53,11 @@ return [
             'root' => storage_path('app/recipes'),
         ],
 
+        'admin_stuff' => [
+            'driver' => 'local',
+            'root' => storage_path('app/admin_stuff'),
+        ],
+
         'public' => [
             'driver' => 'local',
             'root' => storage_path('app/public'),
