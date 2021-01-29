@@ -69,6 +69,7 @@ class PlaceOrderTest extends TestCase
             'phone'                   => '0798888888',
             'discount_code'           => $discount_code->code,
             'subscribe_to_newsletter' => true,
+            'get_sms_reminder'       => true,
             'delivery'                => [
                 $kitA->id => [
                     'line_one' => 'test road',
@@ -87,6 +88,11 @@ class PlaceOrderTest extends TestCase
         $this->assertDatabaseHas('mailing_list_members', [
             'name'  => 'test first name test last name',
             'email' => 'test@test.test',
+        ]);
+
+        $this->assertDatabaseHas('sms_reminder_subscribers', [
+            'name'        => 'test first name',
+            'cell_number' => '27798888888',
         ]);
 
 

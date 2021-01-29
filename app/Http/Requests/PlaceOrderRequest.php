@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\PhoneNumber;
 use App\Purchases\Address;
 use App\Purchases\Discount;
 use App\Purchases\DiscountCode;
@@ -9,6 +10,7 @@ use App\Purchases\NullDiscount;
 use App\Rules\ForExistingKit;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Str;
 
 class PlaceOrderRequest extends FormRequest
 {
@@ -69,6 +71,11 @@ class PlaceOrderRequest extends FormRequest
         return !! $this->get('subscribe_to_newsletter', false);
     }
 
+    public function allowsSmsSubscription(): bool
+    {
+        return $this->get('get_sms_reminder', false) && $this->get('phone', false);
+    }
+
     public function fullName(): string
     {
         if(!$this->first_name) {
@@ -80,5 +87,15 @@ class PlaceOrderRequest extends FormRequest
         }
 
         return "{$this->first_name} {$this->last_name}";
+    }
+
+    public function firstName()
+    {
+        return $this->first_name ? $this->first_name : $this->last_name;
+    }
+
+    public function phoneNumber()
+    {
+        return PhoneNumber::from($this->phone);
     }
 }

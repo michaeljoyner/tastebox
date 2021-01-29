@@ -221,6 +221,16 @@ class ShoppingListTest extends TestCase
 
         $expected = [
             [
+                'id' => 2,
+                'item_name' => 'other description',
+                'amounts' => [
+                    'x_unit' => 4.5
+                ],
+                'uses' => [
+                    '3 servings of other meal (6 other form)',
+                ],
+            ],
+            [
                 'id' => 1,
                 'item_name' => 'test description',
                 'amounts' => [
@@ -230,16 +240,7 @@ class ShoppingListTest extends TestCase
                     '10 servings of test meal (100g test form)',
                 ],
             ],
-            [
-                'id' => 2,
-                'item_name' => 'other description',
-                'amounts' => [
-                    'x_unit' => 4.5
-                ],
-                'uses' => [
-                    '3 servings of other meal (6 other form)',
-                ],
-            ]
+
         ];
 
         $this->assertSame($expected, $list->toArray());

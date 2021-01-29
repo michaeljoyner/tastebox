@@ -8,6 +8,7 @@ use App\Purchases\Kit;
 use App\Purchases\Order;
 use App\Purchases\PayFast;
 use App\Purchases\ShoppingBasket;
+use App\SmsReminderSubscriber;
 use Illuminate\Http\Request;
 
 class OrdersController extends Controller
@@ -21,6 +22,10 @@ class OrdersController extends Controller
 
         if($request->allowsNewsletterSignup()) {
             MailingListMember::subscribe($request->email, $request->fullName());
+        }
+
+        if($request->allowsSmsSubscription()) {
+            SmsReminderSubscriber::addOrUpdate($request->firstName(), $request->phoneNumber());
         }
 
         return PayFast::checkoutForm($order);

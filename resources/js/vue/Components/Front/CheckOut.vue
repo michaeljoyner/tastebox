@@ -291,24 +291,43 @@
         <div class="my-12">
             <p class="text-center type-h3 mb-3">Keep up to date.</p>
             <div>
-                <label
-                    for="newsletter_signup"
-                    class="max-w-md px-6 mx-auto block text-center"
-                >
-                    <input
-                        type="checkbox"
-                        id="newsletter_signup"
-                        v-model="formData.subscribe_to_newsletter"
-                    />
-                    <span class="type-b3"
-                        >I agree that TasteBox can send me emails.</span
+                <div>
+                    <label
+                        for="newsletter_signup"
+                        class="max-w-md px-6 mx-auto block text-center"
                     >
-                </label>
+                        <input
+                            type="checkbox"
+                            id="newsletter_signup"
+                            v-model="formData.subscribe_to_newsletter"
+                        />
+                        <span class="type-b3"
+                            >I agree that TasteBox can send me emails.</span
+                        >
+                    </label>
+                </div>
+                <div>
+                    <label
+                        for="sms_reminder_signup"
+                        class="max-w-md px-6 mx-auto block text-center"
+                    >
+                        <input
+                            type="checkbox"
+                            id="sms_reminder_signup"
+                            v-model="formData.get_sms_reminder"
+                        />
+                        <span class="type-b3"
+                            >TasteBox can send me an order reminder by SMS every
+                            Thursday.</span
+                        >
+                    </label>
+                </div>
+
                 <p
                     class="type-b3 text-center text-gray-600 mt-2 max-w-md mx-auto"
                 >
-                    TasteBox will only send emails relevant to our meals and
-                    offerings, and will never sell your information.
+                    TasteBox will only send emails or SMSs relevant to our meals
+                    and offerings, and will never sell your information.
                 </p>
             </div>
         </div>
@@ -432,6 +451,7 @@ export default {
                 },
                 delivery: {},
                 subscribe_to_newsletter: false,
+                get_sms_reminder: false,
             },
             formErrors: {
                 first_name: "",
@@ -522,6 +542,7 @@ export default {
                 phone: this.formData.phone,
                 discount_code: this.formData.discount_code,
                 subscribe_to_newsletter: this.formData.subscribe_to_newsletter,
+                get_sms_reminder: this.formData.get_sms_reminder,
                 delivery: {},
             };
 
