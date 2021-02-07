@@ -306,7 +306,7 @@
                         >
                     </label>
                 </div>
-                <div>
+                <div v-if="false">
                     <label
                         for="sms_reminder_signup"
                         class="max-w-md px-6 mx-auto block text-center"
