@@ -102,6 +102,8 @@ Route::group(['middleware' => 'auth'], function () {
 
         Route::get('current-batch', 'CurrentBatchController@show');
 
+        Route::post('current-batch/manual-orders', 'ManualOrdersController@store');
+
         Route::get('menus/{menu}/batch/shopping-list', 'ShoppingListController@download');
 
         Route::get('instagram-feed', 'InstagramController@show');

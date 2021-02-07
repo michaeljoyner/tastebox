@@ -33,6 +33,13 @@
                         >Shopping List</router-link
                     >
                 </div>
+                <div class="mb-3 pl-2">
+                    <router-link
+                        class="font-bold text-gray-700 hover:text-teal-600"
+                        :to="`/current-batch/manual-order`"
+                        >Add Manual Order</router-link
+                    >
+                </div>
             </div>
             <div class="flex-1">
                 <router-view></router-view>

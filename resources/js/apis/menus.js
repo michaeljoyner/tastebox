@@ -16,4 +16,14 @@ function getCurrentBatch() {
     return get("/admin/api/current-batch");
 }
 
-export { setMenuMeals, openMenuForOrders, closeMenuForOrders, getCurrentBatch };
+function placeManualOrder(formData) {
+    return post("/admin/api/current-batch/manual-orders", formData);
+}
+
+export {
+    setMenuMeals,
+    openMenuForOrders,
+    closeMenuForOrders,
+    getCurrentBatch,
+    placeManualOrder,
+};

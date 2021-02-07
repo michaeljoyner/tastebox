@@ -24,6 +24,7 @@ class Order extends Model
         'order_key',
         'price_in_cents',
         'status',
+        'is_paid',
     ];
 
     protected $casts = ['is_paid' => 'boolean'];
@@ -47,23 +48,41 @@ class Order extends Model
 
         $order->applyDiscount($discount);
 
-        $addressed_kits->each(fn ($kit) => $order->addKit($kit['kit'], $kit['address']));
+        $addressed_kits->each(fn($kit) => $order->addKit($kit['kit'], $kit['address']));
 
         return $order;
 
     }
 
+    public static function manual(array $customer, Address $address, Kit $kit): self
+    {
+        $order = static::create([
+            'first_name'     => $customer['first_name'],
+            'last_name'      => $customer['last_name'],
+            'email'          => $customer['email'] ?? '',
+            'phone'          => $customer['phone'] ?? 'not given',
+            'order_key'      => Str::uuid()->toString(),
+            'price_in_cents' => $kit->price() * 100,
+            'status'         => self::STATUS_OPEN,
+            'is_paid'        => true,
+        ]);
+
+        $order->addKit($kit, $address);
+
+        return $order;
+    }
+
     private static function checkOrderPrice(Collection $kits)
     {
         return $kits
-            ->map(fn ($k) => $k['kit'])
+            ->map(fn($k) => $k['kit'])
             ->filter(fn(Kit $kit) => $kit->eligibleForOrder())
-            ->sum(fn (Kit $kit) => $kit->price());
+            ->sum(fn(Kit $kit) => $kit->price());
     }
 
     private function applyDiscount(Discount $discount)
     {
-        if(!$discount->isValid()) {
+        if (!$discount->isValid()) {
             return;
         }
 
@@ -156,7 +175,7 @@ class Order extends Model
     public function presentForAdmin(): array
     {
         return array_merge($this->summarizeForAdmin(), [
-            'kits' => $this->orderedKits->map->summarizeForAdmin()->toArray(),
+            'kits'     => $this->orderedKits->map->summarizeForAdmin()->toArray(),
             'customer' => $this->customer()->toArray(),
         ]);
     }

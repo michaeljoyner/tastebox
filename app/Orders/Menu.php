@@ -31,6 +31,8 @@ class Menu extends Model
         return $query->where('current_from', '>=', Carbon::now()->startOfWeek());
     }
 
+
+
     public static function nextUp(): Menu
     {
         $next =  self::where('delivery_from', '>=', Carbon::today()->startOfDay())

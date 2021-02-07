@@ -22,8 +22,11 @@ class ShoppingListItem
         $this->uses = [static::formatUse($attributes)];
     }
 
-    private static function assignQuatinty(string $quantity, int $servings)
+    private static function assignQuatinty(?string $quantity, int $servings)
     {
+        if($quantity === null) {
+            $quantity = '';
+        }
         $qty = (string)Str::of($quantity)->replace(' ', '');
 
         $matches = [];

@@ -2,6 +2,7 @@ import {
     closeMenuForOrders,
     getCurrentBatch,
     openMenuForOrders,
+    placeManualOrder,
     setMenuMeals,
 } from "../apis/menus";
 import { showError } from "../libs/notifications";
@@ -17,12 +18,12 @@ export default {
 
     getters: {
         byId: (state) => (id) => {
-            let meal = state.upcoming_menus.find((m) => m.id === parseInt(id));
+            let menu = state.upcoming_menus.find((m) => m.id === parseInt(id));
 
-            if (!meal) {
-                meal = state.archived.find((m) => m.id === parseInt(id));
+            if (!menu) {
+                menu = state.archived.find((m) => m.id === parseInt(id));
             }
-            return meal;
+            return menu;
         },
 
         current_kits: (state) =>
@@ -37,6 +38,15 @@ export default {
             state.current_batch ? state.current_batch.menu_id : null,
         current_batch_deliver_date: (state) =>
             state.current_batch ? state.current_batch.delivery_date : null,
+        currentAvailableMeals: (state) => {
+            if (!state.current_batch) {
+                return [];
+            }
+            const menu = state.upcoming_menus.find(
+                (m) => m.id === state.current_batch.menu_id
+            );
+            return menu ? menu.meals : [];
+        },
     },
 
     mutations: {
@@ -84,6 +94,14 @@ export default {
 
         fetchCurrentBatch({ commit }) {
             getCurrentBatch().then((batch) => commit("setCurrentBatch", batch));
+        },
+
+        manualOrder({ dispatch }, formData) {
+            return placeManualOrder(formData).then(() =>
+                dispatch("fetchCurrentBatch").catch(() =>
+                    showError("unable to refresh batch")
+                )
+            );
         },
     },
 };

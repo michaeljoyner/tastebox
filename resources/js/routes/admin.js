@@ -29,6 +29,7 @@ import DiscountEdit from "../vue/Components/Discounts/DiscountEdit";
 import MailingListIndex from "../vue/Pages/MailingList/MailingListIndex";
 import MenuImages from "../vue/Pages/Menu/MenuImages";
 import BatchShoppingList from "../vue/Components/Batches/BatchShoppingList";
+import CreateManualOrder from "../vue/Components/Batches/CreateManualOrder";
 
 export default [
     { path: "/meals", component: MealsIndex },
@@ -65,6 +66,7 @@ export default [
             { path: "meals", component: BatchMeals },
             { path: "ingredients", component: BatchIngredients },
             { path: "shopping", component: BatchShoppingList },
+            { path: "manual-order", component: CreateManualOrder },
         ],
     },
     { path: "/instagram", component: InstagramIndex },
