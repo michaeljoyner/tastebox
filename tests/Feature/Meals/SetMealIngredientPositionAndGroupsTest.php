@@ -27,20 +27,23 @@ class SetMealIngredientPositionAndGroupsTest extends TestCase
         $ingredientB = factory(Ingredient::class)->create();
         $ingredientC = factory(Ingredient::class)->create();
         $ingredientD = factory(Ingredient::class)->create();
+        $ingredientE = factory(Ingredient::class)->create();
 
         $meal->ingredients()->sync([
-            $ingredientA->id => ['in_kit' => true, 'quantity' => 'a bunch'],
-            $ingredientB->id => ['in_kit' => true, 'quantity' => 'a bunch'],
-            $ingredientC->id => ['in_kit' => true, 'quantity' => 'a bunch'],
-            $ingredientD->id => ['in_kit' => true, 'quantity' => 'a bunch'],
+            $ingredientA->id => ['in_kit' => true, 'quantity' => '100g'],
+            $ingredientB->id => ['in_kit' => true, 'quantity' => '100g'],
+            $ingredientC->id => ['in_kit' => true, 'quantity' => '100g'],
+            $ingredientD->id => ['in_kit' => true, 'quantity' => '100g'],
+            $ingredientE->id => ['in_kit' => true, 'quantity' => '100g'],
         ]);
 
         $response = $this->asAdmin()->postJson("/admin/api/meals/{$meal->id}/organise-ingredients", [
             'ingredients' => [
-                ['id' => $ingredientA->id, 'position' => 3, 'group' => 'main dish'],
-                ['id' => $ingredientB->id, 'position' => 1, 'group' => 'main dish'],
-                ['id' => $ingredientC->id, 'position' => 0, 'group' => 'sauce'],
-                ['id' => $ingredientD->id, 'position' => 2, 'group' => null],
+                ['id' => $ingredientA->id, 'position' => 4, 'group' => 'main dish', 'bundled' => false],
+                ['id' => $ingredientB->id, 'position' => 2, 'group' => 'main dish', 'bundled' => false],
+                ['id' => $ingredientC->id, 'position' => 0, 'group' => 'sauce', 'bundled' => true],
+                ['id' => $ingredientD->id, 'position' => 3, 'group' => null, 'bundled' => false],
+                ['id' => $ingredientE->id, 'position' => 1, 'group' => 'sauce', 'bundled' => true],
             ],
         ]);
         $response->assertSuccessful();
@@ -48,29 +51,41 @@ class SetMealIngredientPositionAndGroupsTest extends TestCase
         $this->assertDatabaseHas('ingredient_meal', [
             'ingredient_id' => $ingredientA->id,
             'meal_id' => $meal->id,
-            'position' => 3,
-            'group' => 'main dish'
+            'position' => 4,
+            'group' => 'main dish',
+            'bundled' => false,
         ]);
 
         $this->assertDatabaseHas('ingredient_meal', [
             'ingredient_id' => $ingredientB->id,
             'meal_id' => $meal->id,
-            'position' => 1,
-            'group' => 'main dish'
+            'position' => 2,
+            'group' => 'main dish',
+            'bundled' => false,
         ]);
 
         $this->assertDatabaseHas('ingredient_meal', [
             'ingredient_id' => $ingredientC->id,
             'meal_id' => $meal->id,
             'position' => 0,
-            'group' => 'sauce'
+            'group' => 'sauce',
+            'bundled' => true,
         ]);
 
         $this->assertDatabaseHas('ingredient_meal', [
             'ingredient_id' => $ingredientD->id,
             'meal_id' => $meal->id,
-            'position' => 2,
-            'group' => null
+            'position' => 3,
+            'group' => null,
+            'bundled' => false,
+        ]);
+
+        $this->assertDatabaseHas('ingredient_meal', [
+            'ingredient_id' => $ingredientE->id,
+            'meal_id' => $meal->id,
+            'position' => 1,
+            'group' => 'sauce',
+            'bundled' => true,
         ]);
 
     }
@@ -132,5 +147,27 @@ class SetMealIngredientPositionAndGroupsTest extends TestCase
         ]);
         $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
         $response->assertJsonValidationErrors('ingredients.0.position');
+    }
+
+    /**
+     *@test
+     */
+    public function bundled_must_be_a_bool()
+    {
+        $meal = factory(Meal::class)->create();
+
+        $ingredient = factory(Ingredient::class)->create();
+
+        $meal->ingredients()->sync([
+            $ingredient->id => ['in_kit' => true, 'quantity' => 'a bunch'],
+        ]);
+
+        $response = $this->asAdmin()->postJson("/admin/api/meals/{$meal->id}/organise-ingredients", [
+            'ingredients' => [
+                ['id' => $ingredient->id, 'position' => 1, 'group' => null, 'bundled' => 'not-a-bool'],
+            ],
+        ]);
+        $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
+        $response->assertJsonValidationErrors('ingredients.0.bundled');
     }
 }

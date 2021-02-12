@@ -18,7 +18,16 @@
             <div
                 class="flex justify-between pb-2 mb-3 border-b border-gray-300"
             >
-                <p class="font-semibold capitalize text-lg">{{ group.name }}</p>
+                <p class="">
+                    <span class="tex-lg capitalize font-semibold">{{
+                        group.name
+                    }}</span>
+                    <span
+                        v-show="group.bundled"
+                        class="text-gray-600 text-sm mr-2"
+                        >(Bundled on recipe card as "{{ group.name }}")</span
+                    >
+                </p>
                 <div class="flex justify-end">
                     <button
                         v-if="group.name.toLowerCase() !== 'main'"
@@ -57,10 +66,20 @@
             <form @submit.prevent="addGroup" class="w-screen max-w-md p-6">
                 <p class="font-bold">Add new ingredient group</p>
                 <input-field
-                    class="my-6"
+                    class="mt-6 mb-2"
                     label="Name of group"
                     v-model="group_name"
                 ></input-field>
+                <div class="mb-6">
+                    <input
+                        type="checkbox"
+                        v-model="bundle_new_group"
+                        id="new_bundle_check"
+                    />
+                    <label for="new_bundle_check"
+                        >Bundle this group on the recipe card?</label
+                    >
+                </div>
                 <div class="flex justify-end">
                     <button
                         class="btn mx-4"
@@ -83,10 +102,20 @@
             <form @submit.prevent="renameGroup" class="w-screen max-w-md p-6">
                 <p class="font-bold">Rename this group</p>
                 <input-field
-                    class="my-6"
+                    class="mt-6 mb-2"
                     label="Name of group"
                     v-model="rename_name"
                 ></input-field>
+                <div class="mb-6">
+                    <input
+                        type="checkbox"
+                        v-model="bundle_renamed"
+                        id="rename_bundle_check"
+                    />
+                    <label for="rename_bundle_check"
+                        >Bundle this group on the recipe card?</label
+                    >
+                </div>
                 <div class="flex justify-end">
                     <button
                         class="btn mx-4"
@@ -132,11 +161,14 @@ export default {
                     ingredients: [ingredient],
                     name: groupName,
                     key: groupName.replace(" ", "_").toLowerCase(),
+                    bundled: ingredient.bundled,
                 });
                 return groups;
             }, []),
             group_name: "",
+            bundle_new_group: false,
             rename_name: "",
+            bundle_renamed: false,
             renaming_group: null,
             showModal: false,
             showRenameModal: false,
@@ -157,9 +189,11 @@ export default {
                     ingredients: [],
                     name: this.group_name,
                     key: this.group_name.replace(" ", "_").toLowerCase(),
+                    bundled: this.bundle_new_group,
                 },
             ];
             this.group_name = "";
+            this.bundle_new_group = false;
             this.$nextTick().then(this.assignGroupSortables);
         },
 
@@ -169,6 +203,7 @@ export default {
             this.groups.forEach((group) => {
                 this.sortables.push({
                     name: group.name,
+                    bundled: group.bundled,
                     sortable: Sortable.create(this.$refs[group.key][0], {
                         group: "ingredients",
                     }),
@@ -182,20 +217,23 @@ export default {
             }
             this.renaming_group = group;
             this.rename_name = group.name;
+            this.bundle_renamed = group.bundled;
             this.showRenameModal = true;
         },
 
         renameGroup() {
             if (this.rename_name.toLowerCase() !== "main") {
                 this.renaming_group.name = this.rename_name;
+                this.renaming_group.bundled = this.bundle_renamed;
                 this.renaming_group.key = this.rename_name
                     .replace(" ", "_")
                     .toLowerCase();
-                this.assignGroupSortables();
+                this.$nextTick().then(this.assignGroupSortables);
             }
 
             this.showRenameModal = false;
             this.rename_name = "";
+            this.bundle_renamed = false;
             this.renaming_group = null;
         },
 
@@ -210,6 +248,7 @@ export default {
                         id: id,
                         position: position + 1,
                         group: s.name,
+                        bundled: s.bundled,
                     });
                 });
             });

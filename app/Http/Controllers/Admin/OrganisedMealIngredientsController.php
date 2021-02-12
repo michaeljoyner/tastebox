@@ -13,7 +13,8 @@ class OrganisedMealIngredientsController extends Controller
         request()->validate([
             'ingredients'            => ['array'],
             'ingredients.*.id'       => ['exists:ingredient_meal,ingredient_id'],
-            'ingredients.*.position' => ['integer']
+            'ingredients.*.position' => ['integer'],
+            'ingredients.*.bundled' => ['boolean'],
         ]);
 
         $meal->organizeIngredients(request('ingredients'));

@@ -48,7 +48,7 @@ class Meal extends Model implements HasMedia
 
     public static function createNew($attributes = [], $classifications = []): self
     {
-        $meal =  static::create(array_merge($attributes, [
+        $meal = static::create(array_merge($attributes, [
             'unique_id' => static::generateUniqueId(),
         ]));
         $meal->assignClassifications($classifications);
@@ -94,10 +94,10 @@ class Meal extends Model implements HasMedia
     {
         $this->ingredients()->detach();
         collect($ingredientsList->ingredients)
-            ->each(fn ($ing) => $this->ingredients()->attach($ing['id'], [
+            ->each(fn($ing) => $this->ingredients()->attach($ing['id'], [
                 'quantity' => $ing['quantity'],
-                'in_kit' => $ing['in_kit'],
-                'form' => $ing['form'],
+                'in_kit'   => $ing['in_kit'],
+                'form'     => $ing['form'],
             ]));
     }
 
@@ -124,17 +124,18 @@ class Meal extends Model implements HasMedia
     {
         return $this->belongsToMany(Ingredient::class)
                     ->using(MealIngredient::class)
-                    ->withPivot(['quantity', 'in_kit', 'position', 'group', 'form']);
+                    ->withPivot(['quantity', 'in_kit', 'position', 'group', 'form', 'bundled']);
     }
 
     public function organizeIngredients(array $ingredientData)
     {
         collect($ingredientData)
-            ->each(function($info) {
-               $this->ingredients()->updateExistingPivot($info['id'], [
-                   'position' => $info['position'],
-                   'group' => $info['group'],
-               ]);
+            ->each(function ($info) {
+                $this->ingredients()->updateExistingPivot($info['id'], [
+                    'position' => $info['position'],
+                    'group'    => $info['group'],
+                    'bundled'  => $info['bundled'] ?? false,
+                ]);
             });
     }
 
@@ -148,6 +149,43 @@ class Meal extends Model implements HasMedia
     {
         return $this->belongsToMany(Ingredient::class)
                     ->wherePivot('in_kit', 1);
+    }
+
+    public function recipeCardIngredients(): array
+    {
+        $ingredients = $this
+            ->ingredients()
+            ->orderBy('position')
+            ->get()
+            ->map->toArray()
+                 ->filter(fn($i) => $i['in_kit'])
+                 ->reduce(function ($list, $ingredient) {
+                     if ($ingredient['bundled']) {
+                         if (!$list->contains(fn($i) => $i['description'] === $ingredient['group'])) {
+                             $ingredient['description'] = $ingredient['group'];
+                             $ingredient['group'] = 'main';
+                             $list->push($ingredient);
+
+                             return $list;
+                         } else {
+                             return $list;
+                         }
+
+                     }
+                     $list->push($ingredient);
+
+                     return $list;
+                 }, collect([]));
+
+        return $ingredients->groupBy(fn($i) => $i['group'])
+                           ->mapWithKeys(function ($ingredients, $group_name) {
+                               return [
+                                   $group_name => $ingredients->map(
+                                       fn($i) => $i['description'])->values()->all()
+                               ];
+                           })->all();
+
+
     }
 
     public function addImage(UploadedFile $file)
@@ -198,8 +236,8 @@ class Meal extends Model implements HasMedia
     public function titleMedia(): ?Media
     {
         return $this->getMedia(static::GALLERY)
-             ->sortBy(fn($m) => $m->getCustomProperty('position'))
-             ->first();
+                    ->sortBy(fn($m) => $m->getCustomProperty('position'))
+                    ->first();
     }
 
     public function defaultImage()

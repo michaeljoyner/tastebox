@@ -10,7 +10,7 @@ class MealIngredient extends Pivot
 {
     public $incrementing = true;
 
-    protected $casts = ['in_kit' => 'boolean'];
+    protected $casts = ['in_kit' => 'boolean', 'bundled' => 'boolean'];
 
-    protected $fillable = ['in_kit', 'quantity', 'position', 'group', 'form'];
+    protected $fillable = ['in_kit', 'quantity', 'position', 'group', 'form', 'bundled'];
 }

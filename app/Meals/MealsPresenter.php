@@ -73,6 +73,25 @@ class MealsPresenter
         ];
     }
 
+    public static function forRecipeCard(Meal $meal): array
+    {
+        $gallery = static::getGallery($meal);
+        $title_image = $gallery->count() ? $gallery->first() : $meal->defaultImage();
+
+        return [
+            'name'            => $meal->name,
+            'description'     => $meal->description,
+            'prep_time'       => $meal->prep_time,
+            'cook_time'       => $meal->cook_time,
+            'instructions'    => $meal->instructions,
+            'required' => $meal->ingredients()->orderBy('position')->get()->map->toArray()->reject(fn ($i) => $i['in_kit'])->all(),
+            'ingredients'     => $meal->recipeCardIngredients(),
+            'title_image'     => $title_image['web'],
+            'thumb_img'       => $title_image['thumb'],
+            'classifications' => $meal->classifications->map->toArray()->all(),
+        ];
+    }
+
     private static function getGallery(Meal $meal)
     {
         return $meal->getMedia(Meal::GALLERY)

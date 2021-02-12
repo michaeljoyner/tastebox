@@ -34,7 +34,8 @@ class Ingredient extends Model
                 'form' => $this->pivot->form,
                 'in_kit' => $this->pivot->in_kit,
                 'position' => $this->pivot->position,
-                'group' => $this->pivot->group,
+                'group' => $this->pivot->group ?? 'main',
+                'bundled' => $this->pivot->bundled ?? false,
             ];
         }
         return [
