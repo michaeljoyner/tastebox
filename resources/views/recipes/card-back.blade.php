@@ -27,7 +27,7 @@
         @endforeach
         <div class="text-xxs"
         >
-            @if(count($meal['ingredients']) > 0)
+            @if(count($meal['ingredients']) > 1)
                 <p class="font-bold uppercase">Main Dish:</p>
             @endif
             <div style="column-count: 2;">

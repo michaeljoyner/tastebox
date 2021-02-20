@@ -32,7 +32,13 @@ class UpdateMealIngredientsTest extends TestCase
         $response = $this->asAdmin()->postJson("/admin/api/meals/{$meal->id}/ingredients", [
             'ingredients' => [
                 ['id' => $ingredientA->id, 'quantity' => '2', 'form' => 'sliced', 'in_kit' => false],
-                ['id' => $ingredientB->id, 'quantity' => '3 tsp', 'form' => 'chopped', 'in_kit' => false],
+                ['id'       => $ingredientB->id,
+                 'quantity' => '3 tsp',
+                 'form'     => 'chopped',
+                 'in_kit'   => false,
+                 'group'    => 'test group',
+                 'bundled'  => false
+                ],
                 ['id' => $ingredientC->id, 'quantity' => '1 bag', 'form' => 'rinsed', 'in_kit' => true],
                 ['id' => $ingredientD->id, 'quantity' => '', 'form' => '', 'in_kit' => true],
                 ['id' => $ingredientE->id, 'quantity' => null, 'form' => 'crushed', 'in_kit' => true],
@@ -56,7 +62,7 @@ class UpdateMealIngredientsTest extends TestCase
         $this->assertDatabaseHas('ingredient_meal', [
             'meal_id'       => $meal->id,
             'ingredient_id' => $ingredientA->id,
-            'form' => 'sliced',
+            'form'          => 'sliced',
             'in_kit'        => false,
             'quantity'      => '2',
         ]);
@@ -64,15 +70,17 @@ class UpdateMealIngredientsTest extends TestCase
         $this->assertDatabaseHas('ingredient_meal', [
             'meal_id'       => $meal->id,
             'ingredient_id' => $ingredientB->id,
-            'form' => 'chopped',
+            'form'          => 'chopped',
             'in_kit'        => false,
             'quantity'      => '3 tsp',
+            'group'         => 'test group',
+            'bundled'       => false
         ]);
 
         $this->assertDatabaseHas('ingredient_meal', [
             'meal_id'       => $meal->id,
             'ingredient_id' => $ingredientC->id,
-            'form' => 'rinsed',
+            'form'          => 'rinsed',
             'in_kit'        => true,
             'quantity'      => '1 bag',
         ]);
@@ -80,7 +88,7 @@ class UpdateMealIngredientsTest extends TestCase
         $this->assertDatabaseHas('ingredient_meal', [
             'meal_id'       => $meal->id,
             'ingredient_id' => $ingredientD->id,
-            'form' => '',
+            'form'          => '',
             'in_kit'        => true,
             'quantity'      => null,
         ]);
@@ -88,7 +96,7 @@ class UpdateMealIngredientsTest extends TestCase
         $this->assertDatabaseHas('ingredient_meal', [
             'meal_id'       => $meal->id,
             'ingredient_id' => $ingredientE->id,
-            'form' => 'crushed',
+            'form'          => 'crushed',
             'in_kit'        => true,
             'quantity'      => null,
         ]);
@@ -96,7 +104,7 @@ class UpdateMealIngredientsTest extends TestCase
         $this->assertDatabaseHas('ingredient_meal', [
             'meal_id'       => $meal->id,
             'ingredient_id' => $ingredientE->id,
-            'form' => 'powdered',
+            'form'          => 'powdered',
             'in_kit'        => true,
             'quantity'      => 'a bit',
         ]);
@@ -183,7 +191,7 @@ class UpdateMealIngredientsTest extends TestCase
     }
 
     /**
-     *@test
+     * @test
      */
     public function the_ingredient_in_kit_must_be_a_boolean()
     {
@@ -192,7 +200,7 @@ class UpdateMealIngredientsTest extends TestCase
 
         $response = $this->asAdmin()->postJson("/admin/api/meals/{$meal->id}/ingredients", [
             'ingredients' => [
-                ['id' =>$ingredient->id, 'quantity' => 'test', 'in_kit' => 'not-a-bool']
+                ['id' => $ingredient->id, 'quantity' => 'test', 'in_kit' => 'not-a-bool']
             ],
         ]);
         $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);

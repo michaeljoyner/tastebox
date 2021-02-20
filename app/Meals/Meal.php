@@ -98,6 +98,8 @@ class Meal extends Model implements HasMedia
                 'quantity' => $ing['quantity'],
                 'in_kit'   => $ing['in_kit'],
                 'form'     => $ing['form'],
+                'group' => $ing['group'],
+                'bundled' => $ing['bundled'],
             ]));
     }
 
