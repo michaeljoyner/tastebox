@@ -71,10 +71,16 @@ class Meal extends Model implements HasMedia
             'serving_protein' => $meal->serving_protein,
         ]);
         $copy->retract();
-        $copy->ingredients()->sync(
-            collect($meal->ingredients->toArray())
-                ->mapWithKeys(fn($ing) => [$ing['id'] => ['in_kit' => $ing['in_kit'], 'quantity' => $ing['quantity']]])
-        );
+
+        collect($meal->ingredients->toArray())
+            ->each(fn($ingredient) => $copy->ingredients()->attach($ingredient['id'], [
+                'position' => $ingredient['position'],
+                'in_kit'   => $ingredient['in_kit'],
+                'bundled'  => $ingredient['bundled'],
+                'form'     => $ingredient['form'],
+                'quantity'     => $ingredient['quantity'],
+            ]));
+
 
         return $copy;
     }
@@ -98,8 +104,8 @@ class Meal extends Model implements HasMedia
                 'quantity' => $ing['quantity'],
                 'in_kit'   => $ing['in_kit'],
                 'form'     => $ing['form'],
-                'group' => $ing['group'],
-                'bundled' => $ing['bundled'],
+                'group'    => $ing['group'],
+                'bundled'  => $ing['bundled'] ?? false,
             ]));
     }
 
@@ -126,18 +132,25 @@ class Meal extends Model implements HasMedia
     {
         return $this->belongsToMany(Ingredient::class)
                     ->using(MealIngredient::class)
-                    ->withPivot(['quantity', 'in_kit', 'position', 'group', 'form', 'bundled']);
+                    ->withPivot(['id', 'quantity', 'in_kit', 'position', 'group', 'form', 'bundled']);
     }
 
     public function organizeIngredients(array $ingredientData)
     {
         collect($ingredientData)
             ->each(function ($info) {
-                $this->ingredients()->updateExistingPivot($info['id'], [
+                $meal_ingredient = MealIngredient::find($info['meal_ingredient_id']);
+                $meal_ingredient->update([
                     'position' => $info['position'],
                     'group'    => $info['group'],
                     'bundled'  => $info['bundled'] ?? false,
                 ]);
+
+//                $this->ingredients()->updateExistingPivot($info['id'], [
+//                    'position' => $info['position'],
+//                    'group'    => $info['group'],
+//                    'bundled'  => $info['bundled'] ?? false,
+//                ]);
             });
     }
 

@@ -22,7 +22,7 @@
             </div>
             <meal-ingredient
                 v-for="ingredient in value"
-                :key="ingredient.id"
+                :key="ingredient.meal_ingredient_id"
                 :ingredient="ingredient"
                 @remove="remove"
                 @updated="updateIngredient"
@@ -86,14 +86,18 @@ export default {
         remove({ id }) {
             return this.$emit(
                 "input",
-                this.value.filter((i) => i.id !== id)
+                this.value.filter((i) => i.meal_ingredient_id !== id)
             );
         },
 
         updateIngredient(ingredient) {
             return this.$emit(
                 "input",
-                this.value.map((i) => (i.id !== ingredient.id ? i : ingredient))
+                this.value.map((i) =>
+                    i.meal_ingredient_id !== ingredient.meal_ingredient_id
+                        ? i
+                        : ingredient
+                )
             );
         },
     },

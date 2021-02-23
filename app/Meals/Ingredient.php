@@ -29,6 +29,7 @@ class Ingredient extends Model
         if($this->pivot) {
             return [
                 'id' => $this->id,
+                'meal_ingredient_id' => $this->pivot->id,
                 'description' => $this->description,
                 'quantity' => $this->pivot->quantity,
                 'form' => $this->pivot->form,

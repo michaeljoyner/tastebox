@@ -73,12 +73,13 @@ export default {
 
     methods: {
         remove(ingredient) {
-            this.$emit("remove", { id: this.ingredient.id });
+            this.$emit("remove", { id: this.ingredient.meal_ingredient_id });
         },
 
         update() {
             this.$emit("updated", {
                 id: this.ingredient.id,
+                meal_ingredient_id: this.ingredient.meal_ingredient_id,
                 description: this.ingredient.description,
                 quantity: this.quantity,
                 in_kit: this.in_kit,

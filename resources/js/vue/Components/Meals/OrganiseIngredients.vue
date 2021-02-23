@@ -50,8 +50,8 @@
             <div :ref="group.key" style="min-height: 5rem;" class="">
                 <div
                     v-for="ingredient in group.ingredients"
-                    :key="ingredient.id"
-                    :data-id="ingredient.id"
+                    :key="ingredient.meal_ingredient_id"
+                    :data-id="ingredient.meal_ingredient_id"
                     style="cursor: grab;"
                     class="mb-1"
                 >
@@ -242,10 +242,12 @@ export default {
             this.sortables.forEach((s) => {
                 s.sortable.toArray().forEach((id, position) => {
                     const ingredient = this.meal.ingredients.find(
-                        (i) => i.id === id
+                        (i) => i.meal_ingredient_id === parseInt(id)
                     );
+                    console.log({ id });
                     updated.push({
-                        id: id,
+                        id: ingredient.id,
+                        meal_ingredient_id: id,
                         position: position + 1,
                         group: s.name,
                         bundled: s.bundled,

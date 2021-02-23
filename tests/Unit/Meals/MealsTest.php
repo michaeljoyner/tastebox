@@ -69,6 +69,15 @@ class MealsTest extends TestCase
         $this->assertSame($meal->serving_fat, $copy->serving_fat);
         $this->assertSame($meal->serving_protein, $copy->serving_protein);
 
-        $this->assertSame($meal->ingredients->toArray(), $copy->ingredients->toArray());
+
+        collect($meal->ingredients->toArray())
+            ->each(fn ($ingredient) => $this->assertTrue(
+                $copy->ingredients->contains(
+                    fn($i) => $i->id === $ingredient['id']
+                    && $i->pivot->quantity === $ingredient['quantity']
+                    && $i->pivot->bundled === $ingredient['bundled']
+                    && $i->pivot->form === $ingredient['form']
+                )
+            ));
     }
 }

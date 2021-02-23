@@ -12,7 +12,7 @@
         <tbody class="text-sm">
             <tr
                 v-for="(ingredient, index) in ingredients"
-                :key="ingredient.id"
+                :key="ingredient.meal_ingredient_id"
                 :class="{ 'bg-gray-100': index % 2 === 1 }"
             >
                 <td>{{ ingredient.quantity }}</td>

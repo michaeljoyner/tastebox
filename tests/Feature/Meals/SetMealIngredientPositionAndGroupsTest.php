@@ -15,7 +15,7 @@ class SetMealIngredientPositionAndGroupsTest extends TestCase
     use RefreshDatabase;
 
     /**
-     *@test
+     * @test
      */
     public function set_the_meals_ingredients_positions_and_groups()
     {
@@ -37,61 +37,96 @@ class SetMealIngredientPositionAndGroupsTest extends TestCase
             $ingredientE->id => ['in_kit' => true, 'quantity' => '100g'],
         ]);
 
-        $response = $this->asAdmin()->postJson("/admin/api/meals/{$meal->id}/organise-ingredients", [
-            'ingredients' => [
-                ['id' => $ingredientA->id, 'position' => 4, 'group' => 'main dish', 'bundled' => false],
-                ['id' => $ingredientB->id, 'position' => 2, 'group' => 'main dish', 'bundled' => false],
-                ['id' => $ingredientC->id, 'position' => 0, 'group' => 'sauce', 'bundled' => true],
-                ['id' => $ingredientD->id, 'position' => 3, 'group' => null, 'bundled' => false],
-                ['id' => $ingredientE->id, 'position' => 1, 'group' => 'sauce', 'bundled' => true],
+        $meal_ingredients = collect($meal->fresh()->ingredients->toArray());
+        $organisation = collect([
+            [
+                'id'       => $ingredientA->id,
+                'meal_ingredient_id' => $meal_ingredients[0]['meal_ingredient_id'],
+                'position' => 4,
+                'group'    => 'main dish',
+                'bundled'  => false
             ],
+            [
+                'id'       => $ingredientB->id,
+                'meal_ingredient_id' => $meal_ingredients[1]['meal_ingredient_id'],
+                'position' => 2,
+                'group'    => 'main dish',
+                'bundled'  => false
+            ],
+            [
+                'id'       => $ingredientC->id,
+                'meal_ingredient_id' => $meal_ingredients[2]['meal_ingredient_id'],
+                'position' => 0,
+                'group'    => 'sauce',
+                'bundled'  => true
+            ],
+
+            [
+                'id'       => $ingredientD->id,
+                'meal_ingredient_id' => $meal_ingredients[3]['meal_ingredient_id'],
+                'position' => 3,
+                'group'    => null,
+                'bundled'  => false
+            ],
+
+            [
+                'id'       => $ingredientE->id,
+                'meal_ingredient_id' => $meal_ingredients[4]['meal_ingredient_id'],
+                'position' => 1,
+                'group'    => 'sauce',
+                'bundled'  => true
+            ],
+        ]);
+
+        $response = $this->asAdmin()->postJson("/admin/api/meals/{$meal->id}/organise-ingredients", [
+            'ingredients' => $organisation->toArray(),
         ]);
         $response->assertSuccessful();
 
         $this->assertDatabaseHas('ingredient_meal', [
             'ingredient_id' => $ingredientA->id,
-            'meal_id' => $meal->id,
-            'position' => 4,
-            'group' => 'main dish',
-            'bundled' => false,
+            'meal_id'       => $meal->id,
+            'position'      => 4,
+            'group'         => 'main dish',
+            'bundled'       => false,
         ]);
 
         $this->assertDatabaseHas('ingredient_meal', [
             'ingredient_id' => $ingredientB->id,
-            'meal_id' => $meal->id,
-            'position' => 2,
-            'group' => 'main dish',
-            'bundled' => false,
+            'meal_id'       => $meal->id,
+            'position'      => 2,
+            'group'         => 'main dish',
+            'bundled'       => false,
         ]);
 
         $this->assertDatabaseHas('ingredient_meal', [
             'ingredient_id' => $ingredientC->id,
-            'meal_id' => $meal->id,
-            'position' => 0,
-            'group' => 'sauce',
-            'bundled' => true,
+            'meal_id'       => $meal->id,
+            'position'      => 0,
+            'group'         => 'sauce',
+            'bundled'       => true,
         ]);
 
         $this->assertDatabaseHas('ingredient_meal', [
             'ingredient_id' => $ingredientD->id,
-            'meal_id' => $meal->id,
-            'position' => 3,
-            'group' => null,
-            'bundled' => false,
+            'meal_id'       => $meal->id,
+            'position'      => 3,
+            'group'         => null,
+            'bundled'       => false,
         ]);
 
         $this->assertDatabaseHas('ingredient_meal', [
             'ingredient_id' => $ingredientE->id,
-            'meal_id' => $meal->id,
-            'position' => 1,
-            'group' => 'sauce',
-            'bundled' => true,
+            'meal_id'       => $meal->id,
+            'position'      => 1,
+            'group'         => 'sauce',
+            'bundled'       => true,
         ]);
 
     }
 
     /**
-     *@test
+     * @test
      */
     public function the_ingredients_are_required_as_array()
     {
@@ -111,7 +146,7 @@ class SetMealIngredientPositionAndGroupsTest extends TestCase
     }
 
     /**
-     *@test
+     * @test
      */
     public function the_ingredient_id_must_exist_in_ingredient_meal_table()
     {
@@ -128,7 +163,7 @@ class SetMealIngredientPositionAndGroupsTest extends TestCase
     }
 
     /**
-     *@test
+     * @test
      */
     public function the_position_must_be_an_integer()
     {
@@ -150,7 +185,7 @@ class SetMealIngredientPositionAndGroupsTest extends TestCase
     }
 
     /**
-     *@test
+     * @test
      */
     public function bundled_must_be_a_bool()
     {
