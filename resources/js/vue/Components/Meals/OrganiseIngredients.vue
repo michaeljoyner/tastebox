@@ -244,7 +244,6 @@ export default {
                     const ingredient = this.meal.ingredients.find(
                         (i) => i.meal_ingredient_id === parseInt(id)
                     );
-                    console.log({ id });
                     updated.push({
                         id: ingredient.id,
                         meal_ingredient_id: id,
