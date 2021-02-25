@@ -35,6 +35,7 @@
 import IngredientInput from "./IngredientInput";
 import MealIngredient from "./MealIngredient";
 import { showError } from "../../../libs/notifications";
+import { makeId } from "../../../libs/helpers";
 
 export default {
     components: {
@@ -61,6 +62,7 @@ export default {
             if (ingredient.id) {
                 ingredient.quantity = "";
                 ingredient.in_kit = true;
+                ingredient.meal_ingredient_id = makeId();
                 return this.$emit("input", [ingredient, ...this.value]);
             }
 
@@ -78,7 +80,12 @@ export default {
                     item.toLowerCase() !== ingredient.description.toLowerCase()
             );
             return this.$emit("input", [
-                { ...ingredient, in_kit: true, quantity: "" },
+                {
+                    ...ingredient,
+                    in_kit: true,
+                    quantity: "",
+                    meal_ingredient_id: makeId(),
+                },
                 ...this.value,
             ]);
         },
