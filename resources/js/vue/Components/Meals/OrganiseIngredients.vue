@@ -53,12 +53,15 @@
                     :key="ingredient.meal_ingredient_id"
                     :data-id="ingredient.meal_ingredient_id"
                     style="cursor: grab;"
-                    class="mb-1"
+                    class="mb-1 flex items-center"
                 >
-                    <span
-                        >&middot; {{ ingredient.quantity }}
-                        {{ ingredient.description }}</span
-                    >
+                    <span>&middot;</span>
+                    <p class="w-12 mx-3 text-xs text-gray-600">
+                        {{ ingredient.quantity }}
+                    </p>
+                    <p class="flex-1 font-semibold text-lg">
+                        {{ ingredient.description }}
+                    </p>
                 </div>
             </div>
         </div>

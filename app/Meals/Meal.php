@@ -146,11 +146,6 @@ class Meal extends Model implements HasMedia
                     'bundled'  => $info['bundled'] ?? false,
                 ]);
 
-//                $this->ingredients()->updateExistingPivot($info['id'], [
-//                    'position' => $info['position'],
-//                    'group'    => $info['group'],
-//                    'bundled'  => $info['bundled'] ?? false,
-//                ]);
             });
     }
 
