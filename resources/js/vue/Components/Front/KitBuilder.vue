@@ -68,6 +68,8 @@
                         :kit-id="kit.id"
                         :current-state="kitMealServings(meal.id)"
                         @updated="setKit"
+                        :can-add-to-box="kit.meals.length < 5"
+                        @explain-limit="showLimitModal = true"
                     ></manage-servings>
                 </div>
             </div>
@@ -90,12 +92,36 @@
                 <a href="/basket" class="green-btn md:ml-6">Go to basket</a>
             </div>
         </div>
+        <modal :show="showLimitModal" @close="showLimitModal = false">
+            <div class="p-6 w-screen max-w-md">
+                <p class="type-h3 text-green-700 mb-6">Your box is full!</p>
+                <p class="type-b3">
+                    A box may only contain up to 5 meals. If you really need
+                    more, you could separate your order over two boxes. The cost
+                    would be the same.
+                </p>
+                <p class="type-b3 mt-4">
+                    Please bear in mind that our meals are only designed to stay
+                    fresh until the Friday after delivery.
+                </p>
+                <div class="mt-6 flex justify-end">
+                    <button
+                        type="button"
+                        @click="showLimitModal = false"
+                        class=""
+                    >
+                        Okay
+                    </button>
+                </div>
+            </div>
+        </modal>
     </div>
 </template>
 
 <script type="text/babel">
 import ManageServings from "./ManageServings";
 import CheckIcon from "../UI/Icons/CheckIcon";
+import Modal from "@dymantic/modal";
 
 export default {
     components: {
@@ -104,6 +130,12 @@ export default {
     },
 
     props: ["menu", "kit"],
+
+    data() {
+        return {
+            showLimitModal: false,
+        };
+    },
 
     methods: {
         kitMealServings(meal_id) {

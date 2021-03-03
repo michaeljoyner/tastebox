@@ -3,7 +3,7 @@
         <div class="flex justify-end">
             <span class="type-b3 mr-4">{{ in_box_status }}</span>
             <button
-                v-show="!show"
+                v-show="!show && (canAddToBox || canChange)"
                 class="type-b4 flex items-center hover:text-green-600"
                 @click="show = true"
             >
@@ -21,6 +21,26 @@
                     />
                 </svg>
             </button>
+            <div v-show="canNotAdd" class="flex items-center">
+                <p class="type-b3 text-gray-600 mr-1">Your box is full</p>
+                <button
+                    @click="$emit('explain-limit')"
+                    class="focus:outline-none"
+                >
+                    <svg
+                        class="h-5 text-green-600 hover:text-green-400"
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 20 20"
+                        fill="currentColor"
+                    >
+                        <path
+                            fill-rule="evenodd"
+                            d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z"
+                            clip-rule="evenodd"
+                        />
+                    </svg>
+                </button>
+            </div>
         </div>
         <div v-show="show" class="flex flex-wrap justify-end items-center my-3">
             <span class="inline-flex items-center">
@@ -44,7 +64,7 @@
 
 <script type="text/babel">
 export default {
-    props: ["meal-id", "current-state", "kit-id"],
+    props: ["meal-id", "current-state", "kit-id", "can-add-to-box"],
 
     data() {
         return {
@@ -73,6 +93,14 @@ export default {
                 this.currentState === this.servings ||
                 (!this.currentState && !this.servings)
             );
+        },
+
+        canChange() {
+            return this.servings > 0;
+        },
+
+        canNotAdd() {
+            return !this.canAddToBox && this.servings === 0;
         },
     },
 
