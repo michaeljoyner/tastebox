@@ -14,11 +14,13 @@ class BatchRoundupSummary extends Mailable
 
     public Batch $batch;
     private string $shopping_list;
+    private bool $has_pending;
 
-    public function __construct(Batch $batch, string $shopping_list)
+    public function __construct(Batch $batch, string $shopping_list, bool $has_pending)
     {
         $this->batch = $batch;
         $this->shopping_list = $shopping_list;
+        $this->has_pending = $has_pending;
     }
 
 
@@ -30,6 +32,7 @@ class BatchRoundupSummary extends Mailable
             ->markdown('email.admin.batch-summary', [
                 'total_kits'  => $this->batch->totalKits(),
                 'total_meals' => $this->batch->totalPackedMeals(),
+                'pending' => $this->has_pending,
             ])
             ->attach($this->shopping_list);
     }

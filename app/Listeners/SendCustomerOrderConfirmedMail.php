@@ -10,22 +10,13 @@ use Illuminate\Support\Facades\Mail;
 
 class SendCustomerOrderConfirmedMail
 {
-    /**
-     * Create the event listener.
-     *
-     * @return void
-     */
+
     public function __construct()
     {
         //
     }
 
-    /**
-     * Handle the event.
-     *
-     * @param OrderConfirmed $event
-     * @return void
-     */
+
     public function handle(OrderConfirmed $event)
     {
         $event->order->load('orderedKits', 'payment');
@@ -37,5 +28,7 @@ class SendCustomerOrderConfirmedMail
                 $event->order->orderedKits->map->summarize(),
                 $event->order->payment->amount_gross
             ));
+
+        $event->order->markNotificationSent();
     }
 }

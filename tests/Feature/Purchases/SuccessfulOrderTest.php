@@ -49,6 +49,8 @@ class SuccessfulOrderTest extends TestCase
 
         $this->assertBasketEmpty();
 
+        $this->assertSame(Order::STATUS_PENDING, $order->fresh()->status);
+
     }
 
     private function assertBasketEmpty()

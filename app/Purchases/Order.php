@@ -3,15 +3,19 @@
 namespace App\Purchases;
 
 use App\DatePresenter;
+use App\Mail\AwaitingPaymentConfirmation;
 use App\Meals\Meal;
 use App\Orders\Menu;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
 
 class Order extends Model
 {
 
+    const STATUS_CREATED = 'created';
     const STATUS_PENDING = 'pending';
     const STATUS_OPEN = 'open';
     const STATUS_COMPLETE = 'complete';
@@ -27,12 +31,29 @@ class Order extends Model
         'is_paid',
     ];
 
-    protected $casts = ['is_paid' => 'boolean'];
+    protected $casts = ['is_paid' => 'boolean', 'confirmation_sent' => 'boolean'];
 
     public function customerFullname(): string
     {
         return trim(sprintf("%s %s", $this->first_name, $this->last_name));
     }
+
+    public function scopeUnconfirmed(Builder $query)
+    {
+        return $query->where('confirmation_sent', false);
+    }
+
+    public function scopePending(Builder $query)
+    {
+        return $query->where('status', static::STATUS_PENDING);
+    }
+
+    public static function hasCurrentPending(): bool
+    {
+        return !! static::pending()->where('created_at', '>=', now()->subDays(7))->count();
+    }
+
+
 
     public static function makeNew(array $customer, Collection $addressed_kits, Discount $discount): Order
     {
@@ -43,7 +64,7 @@ class Order extends Model
             'phone'          => $customer['phone'] ?? 'not given',
             'order_key'      => Str::uuid()->toString(),
             'price_in_cents' => static::checkOrderPrice($addressed_kits) * 100,
-            'status'         => self::STATUS_PENDING,
+            'status'         => self::STATUS_CREATED,
         ]);
 
         $order->applyDiscount($discount);
@@ -178,5 +199,20 @@ class Order extends Model
             'kits'     => $this->orderedKits->map->summarizeForAdmin()->toArray(),
             'customer' => $this->customer()->toArray(),
         ]);
+    }
+
+    public function notifyCustomerAwaitingConfirmation()
+    {
+        if(!$this->confirmation_sent) {
+            Mail::to($this->email)->queue(new AwaitingPaymentConfirmation($this));
+
+            $this->markNotificationSent();
+        }
+    }
+
+    public function markNotificationSent()
+    {
+        $this->confirmation_sent = true;
+        $this->save();
     }
 }

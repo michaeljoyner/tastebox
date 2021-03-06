@@ -49,6 +49,8 @@ class AcceptPayfastPaymentTest extends TestCase
         $this->assertDatabaseHas('orders', [
             'id'      => $order->id,
             'is_paid' => true,
+            'status' => Order::STATUS_OPEN,
+            'confirmation_sent' => true,
         ]);
 
 

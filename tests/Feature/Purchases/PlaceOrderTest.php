@@ -106,6 +106,7 @@ class PlaceOrderTest extends TestCase
             'discount_type'  => DiscountCode::LUMP,
             'discount_value' => 50,
             'is_paid'        => false,
+            'status' => Order::STATUS_CREATED,
         ]);
 
         $this->assertDatabaseHas('discount_codes', [

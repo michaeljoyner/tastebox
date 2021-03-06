@@ -28,3 +28,10 @@ $factory->state(Order::class, 'unpaid', [
     'is_paid' => false,
     'status' => Order::STATUS_PENDING
 ]);
+
+$factory->state(Order::class, 'created', [
+    'is_paid' => false,
+    'status' => Order::STATUS_CREATED
+]);
+
+

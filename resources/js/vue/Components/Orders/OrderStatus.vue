@@ -14,9 +14,10 @@ export default {
     computed: {
         status_colour() {
             const colour_map = {
+                created: "indigo",
                 pending: "gray",
                 open: "green",
-                complete: "purple",
+                complete: "teal",
             };
 
             return colour_map[this.status];

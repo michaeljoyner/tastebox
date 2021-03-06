@@ -13,6 +13,10 @@ class PayfastController extends Controller
         $basket = ShoppingBasket::for(request()->user());
         $basket->clear();
 
+        if(!$order->isPaid()) {
+            $order->update(['status' => Order::STATUS_PENDING]);
+        }
+
         return redirect("/thank-you/{$order->order_key}");
     }
 

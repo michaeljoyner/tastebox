@@ -22,18 +22,18 @@ class OrdersTest extends TestCase
 
 
     /**
-     *@test
+     * @test
      */
     public function make_a_new_order()
     {
         $customer = [
             'first_name' => 'test first name',
-            'last_name' => 'test last name',
-            'email' => 'test@test.test',
-            'phone' => 'test phone',
+            'last_name'  => 'test last name',
+            'email'      => 'test@test.test',
+            'phone'      => 'test phone',
         ];
         $address = Address::fake();
-        $addressed_kits = $this->makeKits()->map(fn ($k) => ['kit' => $k, 'address' => $address]); //2 kits 15 meals
+        $addressed_kits = $this->makeKits()->map(fn($k) => ['kit' => $k, 'address' => $address]); //2 kits 15 meals
         $order = Order::makeNew($customer, $addressed_kits, new NullDiscount());
 
         $this->assertEquals('test first name', $order->first_name);
@@ -42,11 +42,11 @@ class OrdersTest extends TestCase
         $this->assertEquals('test@test.test', $order->email);
         $this->assertTrue(Str::isUuid($order->order_key));
         $this->assertEquals(Meal::SERVING_PRICE * 15 * 100, $order->price_in_cents);
-        $this->assertSame(Order::STATUS_PENDING, $order->status);
+        $this->assertSame(Order::STATUS_CREATED, $order->status);
     }
 
     /**
-     *@test
+     * @test
      */
     public function add_kit_to_order()
     {
@@ -95,16 +95,16 @@ class OrdersTest extends TestCase
         $this->assertEquals($meal_summary, $orderedKit->meal_summary);
 
         $this->assertCount(4, $orderedKit->meals);
-        $this->assertTrue($orderedKit->meals->contains(fn ($meal) => $meal->pivot->servings === 2));
-        $this->assertTrue($orderedKit->meals->contains(fn ($meal) => $meal->pivot->servings === 3));
-        $this->assertTrue($orderedKit->meals->contains(fn ($meal) => $meal->pivot->servings === 4));
-        $this->assertTrue($orderedKit->meals->contains(fn ($meal) => $meal->pivot->servings === 5));
+        $this->assertTrue($orderedKit->meals->contains(fn($meal) => $meal->pivot->servings === 2));
+        $this->assertTrue($orderedKit->meals->contains(fn($meal) => $meal->pivot->servings === 3));
+        $this->assertTrue($orderedKit->meals->contains(fn($meal) => $meal->pivot->servings === 4));
+        $this->assertTrue($orderedKit->meals->contains(fn($meal) => $meal->pivot->servings === 5));
 
 
     }
 
     /**
-     *@test
+     * @test
      */
     public function delete_order_and_its_ordered_kits()
     {
@@ -147,23 +147,23 @@ class OrdersTest extends TestCase
     }
 
     /**
-     *@test
+     * @test
      */
     public function get_customer_full_name()
     {
         $normal = factory(Order::class)->create([
             'first_name' => 'Sammy',
-            'last_name' => 'Snake',
+            'last_name'  => 'Snake',
         ]);
 
         $madonna = factory(Order::class)->create([
             'first_name' => 'Madonna',
-            'last_name' => '',
+            'last_name'  => '',
         ]);
 
         $obama = factory(Order::class)->create([
             'first_name' => '',
-            'last_name' => 'Obama',
+            'last_name'  => 'Obama',
         ]);
 
         $this->assertSame('Sammy Snake', $normal->customerFullname());
@@ -172,7 +172,7 @@ class OrdersTest extends TestCase
     }
 
     /**
-     *@test
+     * @test
      */
     public function check_order_has_payment()
     {
@@ -188,15 +188,15 @@ class OrdersTest extends TestCase
     }
 
     /**
-     *@test
+     * @test
      */
     public function order_can_give_customer()
     {
         $order = factory(Order::class)->state('paid')->create([
             'first_name' => 'Fancy',
-            'last_name' => 'Pants',
-            'email' => 'test@test.test',
-            'phone' => 'test phone',
+            'last_name'  => 'Pants',
+            'email'      => 'test@test.test',
+            'phone'      => 'test phone',
         ]);
 
         $customer = $order->customer();
@@ -204,6 +204,27 @@ class OrdersTest extends TestCase
         $this->assertSame('Fancy Pants', $customer->name);
         $this->assertSame('test@test.test', $customer->email);
         $this->assertSame('test phone', $customer->phone);
+    }
+
+    /**
+     * @test
+     */
+    public function can_check_if_current_pending_orders_exist()
+    {
+        $old = factory(Order::class)
+            ->state('unpaid')
+            ->create(['created_at' => now()->subDays(20)]);
+        $this->assertFalse(Order::hasCurrentPending());
+
+        $not_pending = factory(Order::class)
+            ->state('paid')
+            ->create(['created_at' => now()->subDays(1)]);
+        $this->assertFalse(Order::hasCurrentPending());
+
+        $current = factory(Order::class)
+            ->state('unpaid')
+            ->create(['created_at' => now()->subDays(1)]);
+        $this->assertTrue(Order::hasCurrentPending());
     }
 
     private function makeKits()

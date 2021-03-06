@@ -8,16 +8,19 @@ Your ordered meal kits are below:
 
 
 @foreach($boxes as $index => $box)
+@component('mail::panel')
 **Kit #{{ $index + 1 }}**
 
 Delivery on: {{ $box->delivery_date }}
 
 @foreach($box->meals as $meal)
-{{ $meal['meal'] }} ({{ $meal['servings'] }} servings)
-
+{{ $meal['meal'] }} ({{ $meal['servings'] }} servings) <br>
 @endforeach
-Deliver to: {{ $box->delivery_address }}
 
+
+**Deliver to**: {{ $box->delivery_address }}
+
+@endcomponent
 @endforeach
 
 We will contact you on the given phone number on day of delivery to make final arrangements.
