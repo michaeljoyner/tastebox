@@ -32,6 +32,7 @@ class Kernel extends ConsoleKernel
         $schedule->command('batch:round-up')->weeklyOn(5, '04:30');
         $schedule->command('menus:weekly-recipes')->weeklyOn(2, '04:30');
         $schedule->command('menus:next')->weeklyOn(5, '06:30');
+        $schedule->command('orders:notify-long-pending')->everyThirtyMinutes();
 
     }
 
