@@ -7,7 +7,7 @@
             Remove kit
         </button>
         <modal :show="showForm" @close="showForm = false">
-            <div class="w-full max-w-lg p-6">
+            <div class="w-full max-w-lg mx-auto p-6 bg-white">
                 <p class="type-h2 text-red-600">Are You sure?</p>
                 <p class="my-6">
                     You are about to remove {{ kitName }} from your basket. Are
@@ -35,9 +35,11 @@
 
 <script type="text/babel">
 import SubmitButton from "../UI/SubmitButton";
+import Modal from "../Modal";
 export default {
     components: {
         SubmitButton,
+        Modal,
     },
 
     props: ["kit-name", "kit-id"],

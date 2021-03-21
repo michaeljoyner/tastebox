@@ -82,6 +82,8 @@
 <script type="text/babel">
 import DeleteKit from "./DeleteKit";
 import WarningIcon from "../UI/Icons/WarningIcon";
+import { eventHub } from "../../../libs/eventHub";
+
 export default {
     components: {
         DeleteKit,

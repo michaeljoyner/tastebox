@@ -1,13 +1,8 @@
 require("./bootstrap");
 
-import Vue from "vue";
-import VueRouter from "vue-router";
-import Vuex from "vuex";
-
-Vue.use(VueRouter);
-Vue.use(Vuex);
-
-Vue.config.ignoredElements = ["trix-editor"];
+import { createApp } from "vue";
+import { createStore } from "vuex";
+import { createRouter } from "vue-router";
 
 import me from "./stores/me";
 import meals from "./stores/meals";
@@ -18,7 +13,7 @@ import instagram from "./stores/instagram";
 import discounts from "./stores/discounts";
 import mailinglist from "./stores/mailinglist";
 
-const store = new Vuex.Store({
+const store = createStore({
     modules: {
         me,
         meals,
@@ -36,7 +31,7 @@ import routes from "./routes/admin";
 import Navbar from "./vue/Components/Navbar";
 import NotificationHub from "./vue/Components/NotificationHub";
 
-const router = new VueRouter({
+const router = createRouter({
     routes,
     scrollBehavior(to, from, savedPosition) {
         if (savedPosition) {
@@ -46,25 +41,14 @@ const router = new VueRouter({
         }
     },
 });
-window.app = new Vue({
+window.app = createApp({
     components: {
         Navbar,
         NotificationHub,
     },
 
     el: "#app",
-
-    router,
-
-    store,
-
-    mixins: [
-        {
-            methods: {
-                showSuccess(message) {
-                    this.$store.commit("notifications/addSuccess", message);
-                },
-            },
-        },
-    ],
 });
+
+app.use(store);
+app.use(router);

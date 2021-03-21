@@ -100,6 +100,8 @@
 
 <script type="text/babel">
 import KitBuilder from "./KitBuilder";
+import { eventHub } from "../../../libs/eventHub";
+
 export default {
     components: {
         KitBuilder,

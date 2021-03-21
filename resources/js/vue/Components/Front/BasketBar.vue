@@ -60,6 +60,8 @@
 
 <script type="text/babel">
 import DownChevron from "../UI/Icons/DownChevron";
+import { eventHub } from "../../../libs/eventHub";
+
 export default {
     components: {
         DownChevron,

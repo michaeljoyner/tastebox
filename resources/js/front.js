@@ -1,6 +1,6 @@
 import axios from "axios";
-import Vue from "vue";
 import "lazysizes";
+import { createApp } from "vue";
 
 window.axios = axios;
 window.axios.defaults.headers.common["X-Requested-With"] = "XMLHttpRequest";
@@ -13,16 +13,16 @@ import Modal from "@dymantic/modal";
 import BasketPage from "./vue/Components/Front/BasketPage";
 import ContactPage from "./vue/Components/Front/ContactPage";
 
-Vue.component("modal", Modal);
-Vue.component("kit-manager", KitManager);
-Vue.component("build-kit", BuildKit);
-Vue.component("basket-page", BasketPage);
-Vue.component("basket-bar", BasketBar);
-Vue.component("check-out", CheckOut);
-Vue.component("contact-form", ContactPage);
+const app = createApp({})
+    .component("modal", Modal)
+    .component("kit-manager", KitManager)
+    .component("build-kit", BuildKit)
+    .component("basket-page", BasketPage)
+    .component("basket-bar", BasketBar)
+    .component("check-out", CheckOut)
+    .component("contact-form", ContactPage);
 
-window.eventHub = new Vue();
-window.vue_app = new Vue({ el: "#app" });
+app.mount("#app");
 
 window.addEventListener("load", () => {
     const navTrigger = document.querySelector(".nav-trigger");
