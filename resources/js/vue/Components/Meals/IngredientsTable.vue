@@ -4,7 +4,7 @@
             <tr class="border-b border-gray-300">
                 <th class="p-2 text-left">Qty</th>
                 <th class="p-2 text-left">Ingredient</th>
-                <th class="p-2 text-left whitespace-no-wrap">
+                <th class="p-2 text-left whitespace-nowrap">
                     In Kit
                 </th>
             </tr>

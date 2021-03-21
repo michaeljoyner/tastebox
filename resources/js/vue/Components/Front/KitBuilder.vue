@@ -32,7 +32,7 @@
                             <p
                                 v-for="category in meal.classifications"
                                 :key="category.id"
-                                class="mr-3 border rounded border-black px-2 type-b3 mb-2 whitespace-no-wrap"
+                                class="mr-3 border rounded border-black px-2 type-b3 mb-2 whitespace-nowrap"
                             >
                                 {{ category.name }}
                             </p>

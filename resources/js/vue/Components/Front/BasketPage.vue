@@ -69,8 +69,12 @@
         </div>
 
         <div class="my-20 text-center">
-            <span class="text-lg text-gray-600 mr-6">Look good? </span>
-            <a href="/checkout" class="green-btn">Proceed to Checkout</a>
+            <span class="text-lg text-gray-600 mr-6 mt-2 hidden sm:inline"
+                >Look good?
+            </span>
+            <a href="/checkout" class="green-btn whitespace-nowrap mt-2"
+                >Proceed to Checkout</a
+            >
         </div>
     </div>
 </template>
