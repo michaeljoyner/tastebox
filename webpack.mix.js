@@ -1,5 +1,6 @@
 const mix = require("laravel-mix");
 const tailwindcss = require("tailwindcss");
+const CopyPlugin = require("copy-webpack-plugin");
 
 /*
  |--------------------------------------------------------------------------
@@ -19,5 +20,14 @@ mix.js("resources/js/app.js", "public/js")
     .less("resources/less/front.less", "public/css")
     .options({
         postCss: [tailwindcss("./tailwind.config.js")],
+    })
+    .webpackConfig({
+        plugins: [
+            new CopyPlugin({
+                patterns: [
+                    { from: "node_modules/tinymce/skins", to: "js/skins" },
+                ],
+            }),
+        ],
     })
     .version();

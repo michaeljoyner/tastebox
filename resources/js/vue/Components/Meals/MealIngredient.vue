@@ -84,6 +84,7 @@ export default {
                 quantity: this.quantity,
                 in_kit: this.in_kit,
                 form: this.form,
+                group: this.ingredient.group,
             });
         },
     },

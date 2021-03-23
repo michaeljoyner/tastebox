@@ -21,7 +21,7 @@
                         Cancel
                     </button>
                     <submit-button
-                        @click.native="removeKit"
+                        @click="removeKit"
                         :waiting="waiting"
                         mode="danger"
                     >

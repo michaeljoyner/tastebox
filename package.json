@@ -9,6 +9,7 @@
     },
     "devDependencies": {
         "axios": "^0.19",
+        "copy-webpack-plugin": "^8.1.0",
         "cross-env": "^7.0",
         "resolve-url-loader": "^3.1.0",
         "vue-loader": "^16.1.2"
@@ -28,6 +29,7 @@
         "sortablejs": "^1.10.2",
         "tailwindcss": "^2.0.4",
         "tiny-emitter": "^2.1.0",
+        "tinymce": "^5.7.1",
         "vue": "^3.0.7",
         "vue-router": "^4.0.5",
         "vuejs-datepicker": "^1.6.2",

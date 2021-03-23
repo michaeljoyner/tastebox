@@ -10,13 +10,13 @@
                 :waiting="waiting"
                 mode="dark"
                 role="button"
-                @click.native="submit"
+                @click="submit"
                 >Save</submit-button
             >
         </sub-header>
 
         <div class="my-12">
-            <wysiwyg class="list-disc" v-model="instructions"></wysiwyg>
+            <editor class="list-disc" v-model="instructions"></editor>
         </div>
     </div>
 </template>
@@ -24,10 +24,10 @@
 <script type="text/babel">
 import SubHeader from "../UI/SubHeader";
 import SubmitButton from "../UI/SubmitButton";
-import Wysiwyg from "@dymantic/vue-trix-editor";
+import Editor from "../Editor";
 import { showError, showSuccess } from "../../../libs/notifications";
 export default {
-    components: { SubHeader, SubmitButton, Wysiwyg },
+    components: { SubHeader, SubmitButton, Editor },
 
     props: ["meal"],
 

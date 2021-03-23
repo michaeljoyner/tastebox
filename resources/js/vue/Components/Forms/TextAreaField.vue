@@ -10,19 +10,20 @@
             </p>
             <textarea
                 ref="input"
-                @input="emit"
+                v-model="inputValue"
                 class="form-input"
                 :class="heightClass"
-                >{{ value }}</textarea
-            >
+            ></textarea>
         </label>
     </div>
 </template>
 
 <script type="text/babel">
+import { useModelWrapper } from "../../../libs/useModelWrapper";
+
 export default {
     props: [
-        "value",
+        "modelValue",
         "error-msg",
         "input-name",
         "label",
@@ -30,23 +31,21 @@ export default {
         "help-text",
         "height",
     ],
+    emits: ["update:modelValue"],
 
-    computed: {
-        heightClass() {
-            const lookup = {
-                small: "h-24",
-                regular: "h-32",
-                tall: "h-48",
-            };
+    setup(props, { emit }) {
+        const acceptedHeights = {
+            small: "h-24",
+            regular: "h-32",
+            tall: "h-48",
+        };
 
-            return lookup[this.height] || "h-32";
-        },
-    },
+        const heightClass = acceptedHeights[props.height] || "h-32";
 
-    methods: {
-        emit() {
-            this.$emit("input", this.$refs.input.value);
-        },
+        return {
+            inputValue: useModelWrapper(props, emit),
+            heightClass,
+        };
     },
 };
 </script>

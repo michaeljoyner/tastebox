@@ -21,7 +21,7 @@
                 {{ item }}
             </div>
             <meal-ingredient
-                v-for="ingredient in value"
+                v-for="ingredient in modelValue"
                 :key="ingredient.meal_ingredient_id"
                 :ingredient="ingredient"
                 @remove="remove"
@@ -43,7 +43,8 @@ export default {
         MealIngredient,
     },
 
-    props: ["value"],
+    props: ["modelValue"],
+    emits: ["update:modelValue"],
 
     data() {
         return {
@@ -63,7 +64,10 @@ export default {
                 ingredient.quantity = "";
                 ingredient.in_kit = true;
                 ingredient.meal_ingredient_id = makeId();
-                return this.$emit("input", [ingredient, ...this.value]);
+                return this.$emit("update:modelValue", [
+                    ingredient,
+                    ...this.modelValue,
+                ]);
             }
 
             this.pending.push(ingredient.description);
@@ -79,28 +83,28 @@ export default {
                 (item) =>
                     item.toLowerCase() !== ingredient.description.toLowerCase()
             );
-            return this.$emit("input", [
+            return this.$emit("update:modelValue", [
                 {
                     ...ingredient,
                     in_kit: true,
                     quantity: "",
                     meal_ingredient_id: makeId(),
                 },
-                ...this.value,
+                ...this.modelValue,
             ]);
         },
 
         remove({ id }) {
             return this.$emit(
-                "input",
-                this.value.filter((i) => i.meal_ingredient_id !== id)
+                "update:modelValue",
+                this.modelValue.filter((i) => i.meal_ingredient_id !== id)
             );
         },
 
         updateIngredient(ingredient) {
             return this.$emit(
-                "input",
-                this.value.map((i) =>
+                "update:modelValue",
+                this.modelValue.map((i) =>
                     i.meal_ingredient_id !== ingredient.meal_ingredient_id
                         ? i
                         : ingredient

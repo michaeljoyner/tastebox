@@ -333,11 +333,7 @@
         </div>
 
         <div class="my-12 text-center">
-            <submit-button
-                @click.native="submit"
-                role="button"
-                :waiting="waiting"
-            >
+            <submit-button @click="submit" role="button" :waiting="waiting">
                 <span
                     class="flex items-center leading-none"
                     :class="{ 'opacity-0': waiting }"
@@ -398,7 +394,7 @@
                         Cancel
                     </button>
                     <submit-button
-                        @click.native="checkDiscountCode"
+                        @click="checkDiscountCode"
                         role="button"
                         :waiting="checking_code"
                     >

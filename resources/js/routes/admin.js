@@ -61,7 +61,7 @@ export default [
         path: "/current-batch",
         component: CurrentBatch,
         children: [
-            { path: "/", component: BatchSummary },
+            { path: "", component: BatchSummary },
             { path: "kits", component: BatchKits },
             { path: "meals", component: BatchMeals },
             { path: "ingredients", component: BatchIngredients },

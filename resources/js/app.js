@@ -1,31 +1,9 @@
 require("./bootstrap");
 
 import { createApp } from "vue";
-import { createStore } from "vuex";
-import { createRouter } from "vue-router";
+import { createRouter, createWebHashHistory } from "vue-router";
 
-import me from "./stores/me";
-import meals from "./stores/meals";
-import notifications from "./stores/notifications";
-import menus from "./stores/menus";
-import orders from "./stores/orders";
-import instagram from "./stores/instagram";
-import discounts from "./stores/discounts";
-import mailinglist from "./stores/mailinglist";
-
-const store = createStore({
-    modules: {
-        me,
-        meals,
-        notifications,
-        menus,
-        orders,
-        instagram,
-        discounts,
-        mailinglist,
-    },
-});
-
+import { store } from "./stores/index";
 import routes from "./routes/admin";
 
 import Navbar from "./vue/Components/Navbar";
@@ -33,6 +11,7 @@ import NotificationHub from "./vue/Components/NotificationHub";
 
 const router = createRouter({
     routes,
+    history: createWebHashHistory(),
     scrollBehavior(to, from, savedPosition) {
         if (savedPosition) {
             return savedPosition;
@@ -41,14 +20,11 @@ const router = createRouter({
         }
     },
 });
-window.app = createApp({
-    components: {
-        Navbar,
-        NotificationHub,
-    },
-
-    el: "#app",
-});
+const app = createApp({})
+    .component("navbar", Navbar)
+    .component("notification-hub", NotificationHub);
 
 app.use(store);
 app.use(router);
+
+app.mount("#app");

@@ -5,7 +5,7 @@
                 :waiting="waiting"
                 mode="dark"
                 role="button"
-                @click.native="save"
+                @click="save"
                 >Save</submit-button
             >
         </sub-header>

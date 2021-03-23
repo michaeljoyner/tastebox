@@ -47,7 +47,11 @@
                 </div>
             </div>
 
-            <div :ref="group.key" style="min-height: 5rem;" class="">
+            <div
+                :ref="assignSortableRef(group)"
+                style="min-height: 5rem;"
+                class=""
+            >
                 <div
                     v-for="ingredient in group.ingredients"
                     :key="ingredient.meal_ingredient_id"
@@ -66,7 +70,10 @@
             </div>
         </div>
         <modal :show="showModal" @close="showModal = false">
-            <form @submit.prevent="addGroup" class="w-screen max-w-md p-6">
+            <form
+                @submit.prevent="addGroup"
+                class="w-full mx-auto bg-white max-w-md p-6"
+            >
                 <p class="font-bold">Add new ingredient group</p>
                 <input-field
                     class="mt-6 mb-2"
@@ -102,7 +109,10 @@
             </form>
         </modal>
         <modal :show="showRenameModal" @close="showRenameModal = false">
-            <form @submit.prevent="renameGroup" class="w-screen max-w-md p-6">
+            <form
+                @submit.prevent="renameGroup"
+                class="w-full mx-auto bg-white max-w-md p-6"
+            >
                 <p class="font-bold">Rename this group</p>
                 <input-field
                     class="mt-6 mb-2"
@@ -142,7 +152,7 @@
 
 <script type="text/babel">
 import SubHeader from "../UI/SubHeader";
-import Modal from "@dymantic/modal";
+import Modal from "../Modal";
 import InputField from "../Forms/InputField";
 import Sortable from "sortablejs";
 import { showError, showSuccess } from "../../../libs/notifications";
@@ -184,6 +194,10 @@ export default {
     },
 
     methods: {
+        assignSortableRef(group) {
+            return group.key;
+        },
+
         addGroup() {
             this.showModal = false;
             this.groups = [
@@ -207,7 +221,7 @@ export default {
                 this.sortables.push({
                     name: group.name,
                     bundled: group.bundled,
-                    sortable: Sortable.create(this.$refs[group.key][0], {
+                    sortable: Sortable.create(this.$refs[group.key], {
                         group: "ingredients",
                     }),
                 });

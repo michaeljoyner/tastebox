@@ -10,9 +10,8 @@
             </p>
             <input
                 ref="input"
-                :type="inputType"
-                :value="value"
-                @input="emit"
+                :type="safeType"
+                v-model="inputValue"
                 :placeholder="placeholder"
                 class="form-input"
             />
@@ -21,9 +20,12 @@
 </template>
 
 <script type="text/babel">
+import { useModelWrapper } from "../../../libs/useModelWrapper";
+import { computed } from "vue";
+
 export default {
     props: [
-        "value",
+        "modelValue",
         "error-msg",
         "input-name",
         "label",
@@ -31,17 +33,22 @@ export default {
         "help-text",
         "placeholder",
     ],
+    emit: ["update:modelValue"],
 
-    computed: {
-        inputType() {
-            return this.type || "text";
-        },
-    },
+    setup(props, { emit }) {
+        const safeType = computed(() => {
+            const options = {
+                password: "password",
+                email: "email",
+                text: "text",
+            };
 
-    methods: {
-        emit() {
-            this.$emit("input", this.$refs.input.value);
-        },
+            return options[props.type] || "text";
+        });
+        return {
+            inputValue: useModelWrapper(props, emit),
+            safeType,
+        };
     },
 };
 </script>

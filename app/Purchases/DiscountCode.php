@@ -45,7 +45,7 @@ class DiscountCode extends Model implements Discount
             'valid_from'   => optional($this->valid_from)->format(DatePresenter::STANDARD),
             'valid_until'  => optional($this->valid_until)->format(DatePresenter::STANDARD),
             'valid_dates'  => DatePresenter::range($this->valid_from, $this->valid_until),
-            'is_valid'     => now()->isBetween($this->valid_from, $this->valid_until),
+            'is_valid'     => $this->isValid(),
             'value'        => $this->value,
             'value_string' => $this->valueAsString(),
             'uses'         => $this->uses,

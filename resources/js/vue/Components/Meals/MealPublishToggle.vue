@@ -17,7 +17,7 @@
                 </p>
             </div>
             <waiting-button
-                @click.native="toggleStatus"
+                @click="toggleStatus"
                 class="btn btn-second"
                 :waiting="waiting"
                 >{{ button_text }}</waiting-button
