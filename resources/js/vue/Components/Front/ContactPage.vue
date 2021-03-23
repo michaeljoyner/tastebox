@@ -72,7 +72,7 @@
             </div>
         </form>
         <modal :show="showSuccessModal" @close="showSuccessModal = false">
-            <div class="max-w-lg w-full p-6">
+            <div class="max-w-lg mx-auto bg-white w-full p-6">
                 <p class="text-lg text-center text-green-600 font-bold">
                     Thank You!
                 </p>
@@ -93,7 +93,7 @@
         </modal>
 
         <modal :show="showErrorModal" @close="showErrorModal = false">
-            <div class="max-w-lg w-full rounded-lg p-6">
+            <div class="max-w-lg mx-auto bg-white w-full rounded-lg p-6">
                 <p class="text-lg text-center text-red-600 font-bold">
                     Oh dear :(
                 </p>
@@ -118,7 +118,7 @@
 
 <script type="text/babel">
 import SubmitButton from "./SubmitButton";
-import Modal from "@dymantic/modal";
+import Modal from "../Modal";
 export default {
     components: {
         SubmitButton,

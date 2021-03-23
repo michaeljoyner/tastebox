@@ -9,12 +9,10 @@ import BuildKit from "./vue/Components/Front/BuildKit";
 import BasketBar from "./vue/Components/Front/BasketBar";
 import CheckOut from "./vue/Components/Front/CheckOut";
 import KitManager from "./vue/Components/Front/KitManager";
-import Modal from "@dymantic/modal";
 import BasketPage from "./vue/Components/Front/BasketPage";
 import ContactPage from "./vue/Components/Front/ContactPage";
 
 const app = createApp({})
-    .component("modal", Modal)
     .component("kit-manager", KitManager)
     .component("build-kit", BuildKit)
     .component("basket-page", BasketPage)
