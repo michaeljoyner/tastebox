@@ -788,23 +788,31 @@
         },
         {
             "name": "dymantic/laravel-instagram-feed",
-            "version": "v2.3.2",
+            "version": "v2.4.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Dymantic/laravel-instagram-feed.git",
-                "reference": "5f72ede10bdd6148bf44ceb09920630820c40f88"
+                "reference": "eff05d3d6dbf15db6a0ab36be6b3986737db926f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Dymantic/laravel-instagram-feed/zipball/5f72ede10bdd6148bf44ceb09920630820c40f88",
-                "reference": "5f72ede10bdd6148bf44ceb09920630820c40f88",
+                "url": "https://api.github.com/repos/Dymantic/laravel-instagram-feed/zipball/eff05d3d6dbf15db6a0ab36be6b3986737db926f",
+                "reference": "eff05d3d6dbf15db6a0ab36be6b3986737db926f",
                 "shasum": ""
             },
             "require": {
-                "guzzlehttp/guzzle": "^6.5 | ^7.0"
+                "ext-json": "*",
+                "guzzlehttp/guzzle": "^6.5 | ^7.0",
+                "illuminate/config": "5.8.* | ^6.0 | ^7.0 | ^8.0",
+                "illuminate/console": "5.8.* | ^6.0 | ^7.0 | ^8.0",
+                "illuminate/database": "5.8.* | ^6.0 | ^7.0 | ^8.0",
+                "illuminate/http": "5.8.* | ^6.0 | ^7.0 | ^8.0",
+                "illuminate/mail": "5.8.* | ^6.0 | ^7.0 | ^8.0",
+                "illuminate/support": "5.8.* | ^6.0 | ^7.0 | ^8.0",
+                "php": "^7.1 | ^8.0"
             },
             "require-dev": {
-                "orchestra/testbench": "^3.9"
+                "orchestra/testbench": "^6.0"
             },
             "type": "library",
             "extra": {
@@ -832,9 +840,9 @@
             "description": "Fetches the instagram feed for given authenticated profiles",
             "support": {
                 "issues": "https://github.com/Dymantic/laravel-instagram-feed/issues",
-                "source": "https://github.com/Dymantic/laravel-instagram-feed/tree/v2.3.2"
+                "source": "https://github.com/Dymantic/laravel-instagram-feed/tree/v2.4.3"
             },
-            "time": "2020-10-09T05:54:35+00:00"
+            "time": "2021-03-25T00:36:07+00:00"
         },
         {
             "name": "egulias/email-validator",
