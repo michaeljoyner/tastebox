@@ -37,6 +37,7 @@
 <script type="text/babel">
 import ManageServings from "./ManageServings";
 import CheckIcon from "../UI/Icons/CheckIcon";
+import { eventHub } from "../../../libs/eventHub";
 
 export default {
     components: {

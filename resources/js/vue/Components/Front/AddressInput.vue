@@ -16,7 +16,7 @@
                     type="text"
                     class="block w-full border p-2"
                     v-model="address.line_one"
-                    @input="$emit('input', address)"
+                    @input="$emit('update:modelValue', address)"
                 />
             </label>
             <label class="mb-4 block">
@@ -27,14 +27,14 @@
                     type="text"
                     class="block w-full border p-2"
                     v-model="address.line_two"
-                    @input="$emit('input', address)"
+                    @input="$emit('update:modelValue', address)"
                 />
             </label>
             <label class="mb-4 block">
                 <span class="text-gray-700 font-bold text-sm">Area</span>
                 <select
                     v-model="address.city"
-                    @input="$emit('input', address)"
+                    @input="$emit('update:modelValue', address)"
                     class="block w-full border p-2 bg-white"
                 >
                     <option
@@ -51,7 +51,9 @@
 
 <script type="text/babel">
 export default {
-    props: ["value", "error-msg"],
+    props: ["modelValue", "error-msg"],
+
+    emits: ["update:modelValue"],
 
     data() {
         return {
@@ -65,7 +67,7 @@ export default {
                 "Ashburton",
                 "Camperdown",
                 "Cato Ridge",
-		"Dalton",
+                "Dalton",
                 "Hillcrest",
                 "Hilton",
                 "Howick",

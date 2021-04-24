@@ -8,11 +8,10 @@
             <input
                 ref="radio"
                 type="radio"
-                :name="name"
-                :value="value"
-                @input="emitValue"
+                v-model="inputValue"
                 class="hidden"
-                :checked="checked === value"
+                :checked="inputValue === value"
+                :value="value"
             />
             <div
                 class="ml-3 w-4 h-4 rounded-full border border-black fake-radio"
@@ -25,18 +24,16 @@
 </template>
 
 <script type="text/babel">
+import { useModelWrapper } from "../../../libs/useModelWrapper";
+
 export default {
-    model: {
-        prop: "checked",
-        event: "input",
-    },
+    props: ["modelValue", "error-msg", "label", "help-text", "value"],
+    emits: ["update:modelValue"],
 
-    props: ["checked", "error-msg", "name", "label", "help-text", "value"],
-
-    methods: {
-        emitValue() {
-            this.$emit("input", this.value);
-        },
+    setup(props, { emit }) {
+        return {
+            inputValue: useModelWrapper(props, emit),
+        };
     },
 };
 </script>

@@ -8,7 +8,7 @@
             Delete
         </button>
         <modal :show="showModal" @close="showModal = false">
-            <div class="p-6 max-w-md w-screen">
+            <div class="p-6 max-w-md w-full mx-auto bg-white">
                 <p class="font-bold text-lg">Are you very sure?</p>
                 <p class="my-6">
                     You are about to delete {{ item }}. This may be
@@ -31,8 +31,7 @@
 </template>
 
 <script type="text/babel">
-import Modal from "@dymantic/modal";
-
+import Modal from "../Modal";
 export default {
     components: {
         Modal,

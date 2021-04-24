@@ -333,11 +333,7 @@
         </div>
 
         <div class="my-12 text-center">
-            <submit-button
-                @click.native="submit"
-                role="button"
-                :waiting="waiting"
-            >
+            <submit-button @click="submit" role="button" :waiting="waiting">
                 <span
                     class="flex items-center leading-none"
                     :class="{ 'opacity-0': waiting }"
@@ -369,7 +365,7 @@
             </form>
         </div>
         <modal :show="showDiscountInput" @close="showDiscountInput = false">
-            <div class="w-screen max-w-md p-6">
+            <div class="w-full mx-auto max-w-md p-6 bg-white">
                 <p class="font-bold text-lg mb-6">Use A discount Code</p>
                 <div>
                     <label
@@ -398,7 +394,7 @@
                         Cancel
                     </button>
                     <submit-button
-                        @click.native="checkDiscountCode"
+                        @click="checkDiscountCode"
                         role="button"
                         :waiting="checking_code"
                     >
@@ -413,7 +409,7 @@
 <script type="text/babel">
 import AddressInput from "./AddressInput";
 import SubmitButton from "./SubmitButton";
-import Modal from "@dymantic/modal";
+import Modal from "../Modal";
 import {
     clearValidationErrors,
     setValidationErrors,

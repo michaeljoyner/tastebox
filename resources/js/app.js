@@ -1,43 +1,17 @@
 require("./bootstrap");
 
-import Vue from "vue";
-import VueRouter from "vue-router";
-import Vuex from "vuex";
+import { createApp } from "vue";
+import { createRouter, createWebHashHistory } from "vue-router";
 
-Vue.use(VueRouter);
-Vue.use(Vuex);
-
-Vue.config.ignoredElements = ["trix-editor"];
-
-import me from "./stores/me";
-import meals from "./stores/meals";
-import notifications from "./stores/notifications";
-import menus from "./stores/menus";
-import orders from "./stores/orders";
-import instagram from "./stores/instagram";
-import discounts from "./stores/discounts";
-import mailinglist from "./stores/mailinglist";
-
-const store = new Vuex.Store({
-    modules: {
-        me,
-        meals,
-        notifications,
-        menus,
-        orders,
-        instagram,
-        discounts,
-        mailinglist,
-    },
-});
-
+import { store } from "./stores/index";
 import routes from "./routes/admin";
 
 import Navbar from "./vue/Components/Navbar";
 import NotificationHub from "./vue/Components/NotificationHub";
 
-const router = new VueRouter({
+const router = createRouter({
     routes,
+    history: createWebHashHistory(),
     scrollBehavior(to, from, savedPosition) {
         if (savedPosition) {
             return savedPosition;
@@ -46,25 +20,11 @@ const router = new VueRouter({
         }
     },
 });
-window.app = new Vue({
-    components: {
-        Navbar,
-        NotificationHub,
-    },
+const app = createApp({})
+    .component("navbar", Navbar)
+    .component("notification-hub", NotificationHub);
 
-    el: "#app",
+app.use(store);
+app.use(router);
 
-    router,
-
-    store,
-
-    mixins: [
-        {
-            methods: {
-                showSuccess(message) {
-                    this.$store.commit("notifications/addSuccess", message);
-                },
-            },
-        },
-    ],
-});
+app.mount("#app");

@@ -9,28 +9,34 @@
         </div>
         <div class="flex justify-end items-center">
             <div class="flex items-center">
-                <dropdown
-                    class="text-white font-bold h-16 flex items-center px-6"
-                    name="Marketing"
+                <div
+                    class="relative text-white font-bold h-16 flex items-center px-6"
+                    @click.stop="showMarketingOptions = !showMarketingOptions"
                 >
-                    <div slot="dropdown_content" class="py-3">
+                    <span>Marketing</span>
+                    <down-chevron class="h-5 ml-1"></down-chevron>
+                    <div
+                        class="py-3 absolute top-full left-0 bg-gray-800 text-white w-full text-right"
+                        v-show="showMarketingOptions"
+                        ref="marketingOptionsMenu"
+                    >
                         <router-link
-                            class="text-gray-800 font-bold hover:underline mx-4 mb-2 block"
+                            class="font-bold hover:underline mx-4 mb-2 block"
                             to="/discount-codes"
                             >Discounts</router-link
                         >
                         <router-link
-                            class="text-gray-800 font-bold hover:underline mx-4 mb-2 block"
+                            class="font-bold hover:underline mx-4 mb-2 block"
                             to="/instagram"
                             >Instagram</router-link
                         >
                         <router-link
-                            class="text-gray-800 font-bold hover:underline mx-4 mb-2 block"
+                            class="font-bold hover:underline mx-4 mb-2 block"
                             to="/mailing-list"
                             >Mailing List</router-link
                         >
                     </div>
-                </dropdown>
+                </div>
 
                 <router-link
                     class="text-white font-bold hover:underline mx-4"
@@ -55,11 +61,17 @@
                 >
             </div>
             <div>
-                <dropdown
-                    class="text-white font-bold h-16 bg-gray-700 flex items-center px-6"
-                    :name="username"
+                <div
+                    class="relative text-white font-bold h-16 bg-gray-700 flex items-center px-6"
+                    @click.stop="showUserOptions = !showUserOptions"
                 >
-                    <div slot="dropdown_content" class="py-3">
+                    <span>{{ username }}</span>
+                    <down-chevron class="h-5 ml-1"></down-chevron>
+                    <div
+                        class="py-3 absolute top-full left-0 bg-gray-700 w-full text-right"
+                        v-show="showUserOptions"
+                        ref="userOptionsMenu"
+                    >
                         <form action="/logout" method="post">
                             <input
                                 type="hidden"
@@ -67,35 +79,56 @@
                                 :value="csrf_token"
                             />
                             <button
-                                class="text-gray-800 hover:text-blue-600"
+                                class="text-white hover:underline font-semibold mx-4"
                                 type="submit"
                             >
                                 Logout
                             </button>
                         </form>
                     </div>
-                </dropdown>
+                </div>
             </div>
         </div>
     </div>
 </template>
 
 <script type="text/babel">
-import { Dropdown } from "@dymantic/vuetilities";
-
+import { computed, ref, onMounted } from "vue";
+import { useStore } from "vuex";
+import DownChevron from "./UI/Icons/DownChevron";
 export default {
-    components: {
-        Dropdown,
-    },
+    components: { DownChevron },
+    setup() {
+        const showUserOptions = ref(false);
+        const showMarketingOptions = ref(false);
+        const store = useStore();
 
-    computed: {
-        username() {
-            return this.$store.state.me.username;
-        },
+        const userOptionsMenu = ref(null);
+        const marketingOptionsMenu = ref(null);
 
-        csrf_token() {
-            return document.querySelector("#csrf-token-meta").content;
-        },
+        const username = computed(() => store.state.me.username);
+        const csrf_token = document.querySelector("#csrf-token-meta").content;
+
+        onMounted(() => {
+            window.addEventListener("click", ({ target }) => {
+                if (
+                    !userOptionsMenu.value.contains(target) &&
+                    !marketingOptionsMenu.value.contains(target)
+                ) {
+                    showMarketingOptions.value = false;
+                    showUserOptions.value = false;
+                }
+            });
+        });
+
+        return {
+            showUserOptions,
+            showMarketingOptions,
+            username,
+            csrf_token,
+            userOptionsMenu,
+            marketingOptionsMenu,
+        };
     },
 };
 </script>

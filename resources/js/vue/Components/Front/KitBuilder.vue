@@ -93,7 +93,7 @@
             </div>
         </div>
         <modal :show="showLimitModal" @close="showLimitModal = false">
-            <div class="p-6 w-screen max-w-md">
+            <div class="p-6 w-full max-w-md mx-auto bg-white">
                 <p class="type-h3 text-green-700 mb-6">Your box is full!</p>
                 <p class="type-b3">
                     A box may only contain up to 5 meals. If you really need
@@ -121,12 +121,14 @@
 <script type="text/babel">
 import ManageServings from "./ManageServings";
 import CheckIcon from "../UI/Icons/CheckIcon";
-import Modal from "@dymantic/modal";
+import Modal from "../Modal";
+import { eventHub } from "../../../libs/eventHub";
 
 export default {
     components: {
         ManageServings,
         CheckIcon,
+        Modal,
     },
 
     props: ["menu", "kit"],

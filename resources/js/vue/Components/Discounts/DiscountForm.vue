@@ -105,8 +105,8 @@
 <script type="text/babel">
 import InputField from "../Forms/InputField";
 import RadioInput from "../Forms/RadioInput";
-import DatePicker from "vuejs-datepicker";
 import SubmitButton from "../UI/SubmitButton";
+import DatePicker from "../Forms/DatePicker";
 import { showError, showSuccess } from "../../../libs/notifications";
 import { setValidationErrors } from "../../../libs/forms";
 export default {
@@ -119,8 +119,8 @@ export default {
             waiting: false,
             formData: {
                 code: "",
-                valid_from: new Date(),
-                valid_until: new Date(),
+                valid_from: new Date().toLocaleDateString("en-CA"),
+                valid_until: new Date().toLocaleDateString("en-CA"),
                 type: 1,
                 value: 0,
                 uses: 0,
