@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\Admin\PostsController;
+use App\Http\Controllers\Admin\PublishedPostsController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -116,5 +118,12 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('mailing-list', 'MailingListMembersController@index');
 
         Route::post('fetch-images', 'MenuImagesDownloadController@show');
+
+        Route::post('blog', [PostsController::class, 'store']);
+        Route::post('blog/{post}', [PostsController::class, 'update']);
+        Route::delete('blog/{post}', [PostsController::class, 'delete']);
+
+        Route::post('published-posts', [PublishedPostsController::class, 'store']);
+        Route::delete('published-posts/{post}', [PublishedPostsController::class, 'destroy']);
     });
 });
