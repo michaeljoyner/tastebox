@@ -7,6 +7,7 @@ namespace Tests\Feature\Meals;
 use App\Meals\Meal;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\ParallelTesting;
 use Illuminate\Support\Facades\Storage;
 use Tests\TestCase;
 use Tests\TestsMedia;
