@@ -4,6 +4,7 @@ namespace Tests;
 
 use App\User;
 use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
+use Illuminate\Support\Facades\Storage;
 
 abstract class TestCase extends BaseTestCase
 {
@@ -23,6 +24,11 @@ abstract class TestCase extends BaseTestCase
         $this->assertGuest();
 
         return $this;
+    }
+
+    public function fakeMedia()
+    {
+        Storage::fake('media', config('filesystems.disks.media'));
     }
 
     public function asJson($array, $column)

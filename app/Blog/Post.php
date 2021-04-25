@@ -4,10 +4,20 @@ namespace App\Blog;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Str;
+use Spatie\Image\Manipulations;
+use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\InteractsWithMedia;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
-class Post extends Model
+class Post extends Model implements HasMedia
 {
+
+    use InteractsWithMedia;
+
+    const BODY_IMAGES = 'body-images';
+    const TITLE_IMAGES = 'title-images';
 
     protected $casts = [
         'first_published' => 'date:Y-m-d',
@@ -53,5 +63,39 @@ class Post extends Model
     {
         $this->is_public = false;
         $this->save();
+    }
+
+    public function attachImage(UploadedFile $upload): Media
+    {
+        return $this->addMedia($upload)
+            ->usingFileName($upload->hashName())
+            ->toMediaCollection(static::BODY_IMAGES);
+    }
+
+    public function setTitleImage(UploadedFile $upload): Media
+    {
+        $this->clearTitleImage();
+
+        return $this->addMedia($upload)
+            ->usingFileName($upload->hashName())
+            ->toMediaCollection(static::TITLE_IMAGES);
+    }
+
+    public function clearTitleImage()
+    {
+        $this->clearMediaCollection(static::TITLE_IMAGES);
+    }
+
+    public function registerMediaConversions(Media $media = null): void
+    {
+        $this->addMediaConversion('web')
+             ->fit(Manipulations::FIT_MAX, 1200, 800)
+             ->optimize()
+             ->performOnCollections(self::BODY_IMAGES, static::TITLE_IMAGES);
+
+        $this->addMediaConversion('sharing')
+             ->fit(Manipulations::FIT_CROP, 1200, 630)
+             ->optimize()
+             ->performOnCollections(static::TITLE_IMAGES);
     }
 }
