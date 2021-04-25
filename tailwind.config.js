@@ -1,9 +1,11 @@
 module.exports = {
     purge: [
+        "./storage/framework/views/*.php",
         "./resources/**/*.html",
         "./resources/**/*.vue",
         "./resources/**/*.blade.php",
     ],
+    mode: "jit",
     theme: {
         extend: {
             colors: {
