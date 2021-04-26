@@ -6,6 +6,7 @@ import orders from "./orders";
 import instagram from "./instagram";
 import discounts from "./discounts";
 import mailinglist from "./mailinglist";
+import blog from "./blog";
 import { createStore } from "vuex";
 
 const store = createStore({
@@ -18,6 +19,7 @@ const store = createStore({
         instagram,
         discounts,
         mailinglist,
+        blog,
     },
 });
 
