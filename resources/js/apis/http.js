@@ -30,7 +30,7 @@ function upload(url, file, onProgress, upload_name = "image") {
         const req = new XMLHttpRequest();
         const fd = new FormData();
         fd.append(upload_name, file);
-        fd.append("_token", document.querySelector("meta[name=csrf]").content);
+        fd.append("_token", document.querySelector("#csrf-token-meta").content);
 
         req.upload.addEventListener("progress", (ev) => {
             onProgress(Math.round((ev.loaded / ev.total) * 100));

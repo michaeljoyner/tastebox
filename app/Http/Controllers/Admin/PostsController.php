@@ -9,6 +9,12 @@ use Illuminate\Http\Request;
 
 class PostsController extends Controller
 {
+
+    public function index()
+    {
+        return Post::latest()->get();
+    }
+
     public function store(PostRequest $request)
     {
         return Post::new($request->postInfo());

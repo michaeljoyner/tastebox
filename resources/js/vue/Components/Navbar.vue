@@ -10,7 +10,7 @@
         <div class="flex justify-end items-center">
             <div class="flex items-center">
                 <div
-                    class="relative text-white font-bold h-16 flex items-center px-6"
+                    class="relative text-white font-bold h-16 flex items-center px-6 z-50"
                     @click.stop="showMarketingOptions = !showMarketingOptions"
                 >
                     <span>Marketing</span>
@@ -20,6 +20,11 @@
                         v-show="showMarketingOptions"
                         ref="marketingOptionsMenu"
                     >
+                        <router-link
+                            class="font-bold hover:underline mx-4 mb-2 block"
+                            to="/blog"
+                            >Blog</router-link
+                        >
                         <router-link
                             class="font-bold hover:underline mx-4 mb-2 block"
                             to="/discount-codes"

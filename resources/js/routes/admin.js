@@ -30,7 +30,8 @@ import MailingListIndex from "../vue/Pages/MailingList/MailingListIndex";
 import MenuImages from "../vue/Pages/Menu/MenuImages";
 import BatchShoppingList from "../vue/Components/Batches/BatchShoppingList";
 import CreateManualOrder from "../vue/Components/Batches/CreateManualOrder";
-import PostCreate from "../vue/Pages/Blog/PostCreate";
+import PostsList from "../vue/Pages/Blog/List";
+import PostEdit from "../vue/Pages/Blog/PostEdit";
 
 export default [
     { path: "/meals", component: MealsIndex },
@@ -76,5 +77,6 @@ export default [
     { path: "/discount-codes/:code/edit", component: DiscountEdit },
     { path: "/mailing-list", component: MailingListIndex },
 
-    { path: "/blog/create-post", component: PostCreate },
+    { path: "/blog/", component: PostsList },
+    { path: "/blog/posts/:post/edit", component: PostEdit },
 ];

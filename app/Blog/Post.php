@@ -2,6 +2,7 @@
 
 namespace App\Blog;
 
+use App\DatePresenter;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\UploadedFile;
@@ -18,6 +19,7 @@ class Post extends Model implements HasMedia
 
     const BODY_IMAGES = 'body-images';
     const TITLE_IMAGES = 'title-images';
+    const DEFAULT_IMG = '/images/default-placeholder.svg';
 
     protected $casts = [
         'first_published' => 'date:Y-m-d',
@@ -86,6 +88,12 @@ class Post extends Model implements HasMedia
         $this->clearMediaCollection(static::TITLE_IMAGES);
     }
 
+    public function getTitleImage($conversion = ''): string
+    {
+        $image = $this->getFirstMedia(static::TITLE_IMAGES);
+        return $image ? $image->getUrl($conversion) : static::DEFAULT_IMG;
+    }
+
     public function registerMediaConversions(Media $media = null): void
     {
         $this->addMediaConversion('web')
@@ -97,5 +105,23 @@ class Post extends Model implements HasMedia
              ->fit(Manipulations::FIT_CROP, 1200, 630)
              ->optimize()
              ->performOnCollections(static::TITLE_IMAGES);
+    }
+
+    public function toArray()
+    {
+        return [
+            'id' => $this->id,
+            'title' => $this->title,
+            'intro' => $this->intro,
+            'description' => $this->description,
+            'body' => $this->body,
+            'is_public' => $this->is_public,
+            'title_image' => [
+                'web' => $this->getTitleImage('web'),
+                'sharing' => $this->getTitleImage('sharing'),
+            ],
+            'first_created' => DatePresenter::pretty($this->created_at),
+            'first_published' => DatePresenter::pretty($this->first_published),
+        ];
     }
 }

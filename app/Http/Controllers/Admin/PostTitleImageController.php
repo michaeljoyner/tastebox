@@ -10,6 +10,8 @@ class PostTitleImageController extends Controller
 {
     public function store(Post $post)
     {
-        $post->setTitleImage(request('image'));
+        $image = $post->setTitleImage(request('image'));
+
+        return ['src' => $image->getUrl('sharing')];
     }
 }

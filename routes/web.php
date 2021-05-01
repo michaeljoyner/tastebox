@@ -121,6 +121,7 @@ Route::group(['middleware' => 'auth'], function () {
 
         Route::post('fetch-images', 'MenuImagesDownloadController@show');
 
+        Route::get('blog', [PostsController::class, 'index']);
         Route::post('blog', [PostsController::class, 'store']);
         Route::post('blog/{post}', [PostsController::class, 'update']);
         Route::delete('blog/{post}', [PostsController::class, 'delete']);

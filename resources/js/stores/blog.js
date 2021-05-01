@@ -36,12 +36,15 @@ export default {
 
         refresh({ commit }) {
             return fetchPosts()
-                .then((posts) => commit(posts))
+                .then((posts) => commit("setPosts", posts))
                 .catch(() => showError("failed to fetch posts"));
         },
 
         create({ dispatch }, formData) {
-            return createPost(formData).then(() => dispatch("refresh"));
+            return createPost(formData).then((post) => {
+                dispatch("refresh");
+                return post;
+            });
         },
 
         update({ dispatch }, { post_id, formData }) {
