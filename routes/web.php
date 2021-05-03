@@ -4,6 +4,7 @@ use App\Http\Controllers\Admin\PostBodyImagesController;
 use App\Http\Controllers\Admin\PostsController;
 use App\Http\Controllers\Admin\PostTitleImageController;
 use App\Http\Controllers\Admin\PublishedPostsController;
+use App\Http\Controllers\BlogController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -41,6 +42,9 @@ Route::get('basket-summary', 'BasketSummaryController@show');
 Route::get('faqs', 'FaqsController@show');
 Route::view('team', 'front.story.page');
 Route::view('our-meals', 'front.our-meals.page');
+
+Route::get('blog', [BlogController::class, 'index']);
+Route::get('blog/{post:slug}', [BlogController::class, 'show']);
 
 Route::view('contact', 'front.contact.page');
 

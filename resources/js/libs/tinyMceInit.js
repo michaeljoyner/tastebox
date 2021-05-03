@@ -2,7 +2,7 @@ function tinymceInitConfig(options) {
     return {
         selector: `#${options.id}`,
         plugins: "paste table link lists",
-        toolbar: makeToolbar(options.allow_images),
+        toolbar: makeToolbar(options.allow_images, options.allow_youtube),
         menubar: "",
         content_style: "img {max-width: 100%;}",
         height: options.height,
@@ -23,17 +23,28 @@ function tinymceInitConfig(options) {
                     },
                 });
             }
+
+            if (options.allow_youtube) {
+                editor.ui.registry.addButton("videoBtn", {
+                    icon: "embed",
+                    onAction() {
+                        options.handleVideoBtnClick();
+                    },
+                });
+            }
         },
         images_upload_handler: options.handleUpload,
     };
 }
 
-function makeToolbar(hasImages) {
-    if (hasImages) {
-        return "undo redo | styleselect | link bold italic | bullist numlist table | imageBtn";
+function makeToolbar(hasImages, hasVideo) {
+    if (hasImages || hasVideo) {
+        return `undo redo | styleselect | link bold italic | bullist numlist table | ${
+            hasImages ? "imageBtn " : ""
+        }${hasVideo ? "videoBtn" : ""}`;
     }
 
-    return "undo redo | styleselect | link bold italic | bullist numlist table";
+    return `undo redo | styleselect | link bold italic | bullist numlist table`;
 }
 
 export { tinymceInitConfig };

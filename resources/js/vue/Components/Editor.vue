@@ -9,6 +9,28 @@
                 @input="insertImage"
             />
         </div>
+        <modal :show="showVideoEmbedModal" @close="showVideoEmbedModal = false">
+            <div class="max-w-md w-full mx-auto bg-white rounded-lg p-6">
+                <p class="font-lg font-semibold">Embed a Youtube Video</p>
+                <p class="text-sm text-gray-500 my-3">
+                    Copy in the Youtube embed code below to add a video to your
+                    post.
+                </p>
+                <text-area-field v-model="videoEmbedCode"></text-area-field>
+                <div class="flex justify-end mt-6">
+                    <button type="button" @click="showVideoEmbedModal = false">
+                        Cancel
+                    </button>
+                    <button
+                        type="button"
+                        @click="embedVideo"
+                        class="btn btn-main ml-4"
+                    >
+                        Add Video
+                    </button>
+                </div>
+            </div>
+        </modal>
     </div>
 </template>
 
@@ -27,7 +49,10 @@ import { imageFromFile } from "../../libs/images";
 import { upload } from "../../apis/http";
 import { makeId } from "../../libs/helpers";
 import { tinymceInitConfig } from "../../libs/tinyMceInit";
+import Modal from "./Modal";
+import TextAreaField from "./Forms/TextAreaField";
 export default {
+    components: { TextAreaField, Modal },
     props: {
         modelValue: {
             type: String,
@@ -83,7 +108,9 @@ export default {
             height: props.height,
             content: props.modelValue,
             allow_images: props.uploadTo !== "",
+            allow_youtube: true,
             handleImageBtnClick: () => image_file_input.value.click(),
+            handleVideoBtnClick: () => (showVideoEmbedModal.value = true),
             handleUpload,
             emit,
         };
@@ -93,11 +120,26 @@ export default {
             theEditor = editors[0];
         });
 
+        const showVideoEmbedModal = ref(false);
+        const videoEmbedCode = ref("");
+
+        const embedVideo = () => {
+            const markup = `<div class="video-embed">
+${videoEmbedCode.value}
+</div>`;
+            theEditor.insertContent(markup);
+            videoEmbedCode.value = "";
+            showVideoEmbedModal.value = false;
+        };
+
         return {
             unique_id,
             image_file_input,
             insertImage,
             theEditor,
+            showVideoEmbedModal,
+            videoEmbedCode,
+            embedVideo,
         };
     },
 };

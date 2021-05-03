@@ -18,3 +18,19 @@
     }
 }
 
+@layer utilities {
+    .blog-content {
+        p {
+            @apply my-6;
+        }
+
+        .video-embed {
+            @apply relative pb-16/9;
+
+            iframe {
+                @apply absolute inset-0 w-full h-full;
+            }
+        }
+    }
+}
+

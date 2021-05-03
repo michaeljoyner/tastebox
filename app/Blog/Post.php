@@ -3,6 +3,7 @@
 namespace App\Blog;
 
 use App\DatePresenter;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\UploadedFile;
@@ -42,6 +43,11 @@ class Post extends Model implements HasMedia
             }
             $post->slug = $slug;
         });
+    }
+
+    public function scopePublished(Builder $query)
+    {
+        return $query->where('is_public', true);
     }
 
     protected $guarded = [];
