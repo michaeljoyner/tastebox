@@ -84,6 +84,12 @@
                 ></delete-confirmation>
             </div>
             <div class="">
+                <a
+                    :href="`/admin/blog/posts/${post.id}/preview`"
+                    class="mx-4 text-gray-600 hover:text-green-600"
+                    target="_blank"
+                    >Preview</a
+                >
                 <button class="btn-main btn" type="button" @click="savePost">
                     Save
                 </button>

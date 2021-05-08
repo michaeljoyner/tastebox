@@ -26,7 +26,6 @@ window.addEventListener("DOMContentLoaded", () => {
     const navTrigger = document.querySelector(".nav-trigger");
     const mainNav = document.querySelector(".main-nav");
     navTrigger.addEventListener("click", () => {
-        console.log("clicked");
         mainNav.classList.toggle("open");
     });
 });

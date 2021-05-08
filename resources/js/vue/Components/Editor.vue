@@ -31,6 +31,28 @@
                 </div>
             </div>
         </modal>
+
+        <modal :show="showCodeEmbedModal" @close="showCodeEmbedModal = false">
+            <div class="max-w-md w-full mx-auto bg-white rounded-lg p-6">
+                <p class="font-lg font-semibold">Embed Code</p>
+                <p class="text-sm text-gray-500 my-3">
+                    Paste in the code you need to embed into the box below.
+                </p>
+                <text-area-field v-model="embedCode"></text-area-field>
+                <div class="flex justify-end mt-6">
+                    <button type="button" @click="showCodeEmbedModal = false">
+                        Cancel
+                    </button>
+                    <button
+                        type="button"
+                        @click="insertEmbed"
+                        class="btn btn-main ml-4"
+                    >
+                        Insert
+                    </button>
+                </div>
+            </div>
+        </modal>
     </div>
 </template>
 
@@ -109,8 +131,10 @@ export default {
             content: props.modelValue,
             allow_images: props.uploadTo !== "",
             allow_youtube: true,
+            allow_embeds: true,
             handleImageBtnClick: () => image_file_input.value.click(),
             handleVideoBtnClick: () => (showVideoEmbedModal.value = true),
+            handleEmbedBtnClick: () => (showCodeEmbedModal.value = true),
             handleUpload,
             emit,
         };
@@ -132,6 +156,37 @@ ${videoEmbedCode.value}
             showVideoEmbedModal.value = false;
         };
 
+        const showCodeEmbedModal = ref(false);
+        const embedCode = ref("");
+
+        const insertEmbed = () => {
+            const markup = `<div class="embeded-code">
+${embedCode.value}
+</div>`;
+
+            theEditor.insertContent(markup);
+
+            const exists = theEditor
+                .getWin()
+                .document.getElementById("ig-embed-code-script");
+
+            if (exists) {
+                exists.parentNode.removeChild(exists);
+            }
+
+            const script = embedCode.value.match(/<script.*<\/script>/)[0];
+            const scriptSrc = script.match(/".*\.js/)[0].split('"')[1];
+
+            const scr = document.createElement("script");
+            scr.setAttribute("id", "ig-embed-code-script");
+            scr.setAttribute("src", scriptSrc);
+            scr.setAttribute("type", "text/javascript");
+            const frameHead = theEditor.getWin().document.head;
+            frameHead.appendChild(scr);
+            embedCode.value = "";
+            showCodeEmbedModal.value = false;
+        };
+
         return {
             unique_id,
             image_file_input,
@@ -140,6 +195,9 @@ ${videoEmbedCode.value}
             showVideoEmbedModal,
             videoEmbedCode,
             embedVideo,
+            showCodeEmbedModal,
+            insertEmbed,
+            embedCode,
         };
     },
 };

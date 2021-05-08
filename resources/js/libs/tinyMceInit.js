@@ -2,9 +2,15 @@ function tinymceInitConfig(options) {
     return {
         selector: `#${options.id}`,
         plugins: "paste table link lists",
-        toolbar: makeToolbar(options.allow_images, options.allow_youtube),
+        toolbar: makeToolbar(
+            options.allow_images,
+            options.allow_youtube,
+            options.allow_embeds
+        ),
         menubar: "",
-        content_style: "img {max-width: 100%;}",
+        content_css: "document",
+        content_style:
+            "img {max-width: 100%;} body {max-width: 50rem; margin: 0 auto;}",
         height: options.height,
         setup(editor) {
             editor.on("init", () => {
@@ -32,16 +38,25 @@ function tinymceInitConfig(options) {
                     },
                 });
             }
+
+            if (options.allow_embeds) {
+                editor.ui.registry.addButton("embedBtn", {
+                    icon: "sourcecode",
+                    onAction() {
+                        options.handleEmbedBtnClick();
+                    },
+                });
+            }
         },
         images_upload_handler: options.handleUpload,
     };
 }
 
-function makeToolbar(hasImages, hasVideo) {
-    if (hasImages || hasVideo) {
+function makeToolbar(hasImages, hasVideo, hasEmbed) {
+    if (hasImages || hasVideo || hasEmbed) {
         return `undo redo | styleselect | link bold italic | bullist numlist table | ${
             hasImages ? "imageBtn " : ""
-        }${hasVideo ? "videoBtn" : ""}`;
+        }${hasVideo ? " videoBtn" : ""}${hasEmbed ? " embedBtn" : ""}`;
     }
 
     return `undo redo | styleselect | link bold italic | bullist numlist table`;

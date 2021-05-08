@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\PostBodyImagesController;
+use App\Http\Controllers\Admin\PostPreviewController;
 use App\Http\Controllers\Admin\PostsController;
 use App\Http\Controllers\Admin\PostTitleImageController;
 use App\Http\Controllers\Admin\PublishedPostsController;
@@ -65,6 +66,8 @@ Route::group(['middleware' => 'auth'], function () {
     Route::group(['prefix' => 'admin', 'namespace' => 'Admin'], function () {
         Route::redirect('/', '/admin/dashboard');
         Route::view('dashboard', 'admin.dashboard');
+
+        Route::get('/blog/posts/{post}/preview', [PostPreviewController::class, 'show']);
     });
 
     Route::group(['prefix' => 'admin/api', 'namespace' => 'Admin'], function () {
