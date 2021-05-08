@@ -150,7 +150,7 @@ export default {
         const embedVideo = () => {
             const markup = `<div class="video-embed">
 ${videoEmbedCode.value}
-</div>`;
+</div><p></p>`;
             theEditor.insertContent(markup);
             videoEmbedCode.value = "";
             showVideoEmbedModal.value = false;
@@ -162,7 +162,7 @@ ${videoEmbedCode.value}
         const insertEmbed = () => {
             const markup = `<div class="embeded-code">
 ${embedCode.value}
-</div>`;
+</div><p></p>`;
 
             theEditor.insertContent(markup);
 
