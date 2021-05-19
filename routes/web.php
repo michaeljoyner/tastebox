@@ -44,8 +44,8 @@ Route::get('faqs', 'FaqsController@show');
 Route::view('team', 'front.story.page');
 Route::view('our-meals', 'front.our-meals.page');
 
-//Route::get('blog', [BlogController::class, 'index']);
-//Route::get('blog/{post:slug}', [BlogController::class, 'show']);
+Route::get('blog', [BlogController::class, 'index'])->middleware('auth');
+Route::get('blog/{post:slug}', [BlogController::class, 'show'])->middleware('auth');
 
 Route::view('contact', 'front.contact.page');
 

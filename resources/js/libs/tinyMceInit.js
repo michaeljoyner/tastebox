@@ -1,5 +1,6 @@
 function tinymceInitConfig(options) {
     return {
+        convert_urls: false,
         selector: `#${options.id}`,
         plugins: "paste table link lists",
         toolbar: makeToolbar(

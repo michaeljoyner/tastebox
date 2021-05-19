@@ -15,7 +15,7 @@ class OrderedKitSummary
 
     public function __construct(Carbon $date, array $meals, Address $address)
     {
-        $this->delivery_date = DatePresenter::pretty($date);
+        $this->delivery_date = DatePresenter::prettyWithDay($date);
         $this->meals = collect($meals)
             ->map(fn($meal) => [
                 'meal'     => $meal['name'],

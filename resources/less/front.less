@@ -1,9 +1,12 @@
 @tailwind base;
 
-@import "front/forms";
-@import "front/buttons";
-@import "front/type";
-@import "front/flickity";
+@layer utilities {
+    @import "front/forms";
+    @import "front/buttons";
+    @import "front/type";
+    @import "front/flickity";
+}
+
 
 @tailwind utilities;
 
@@ -20,6 +23,10 @@
 
 @layer utilities {
     .blog-content {
+
+        h1,h2,h3,h4 {
+            @apply type-h3 my-4;
+        }
         p {
             @apply my-6;
         }
@@ -39,6 +46,10 @@
 
         a {
             @apply text-green-600 underline hover:text-green-800;
+        }
+
+        img {
+            @apply mx-auto;
         }
 
         ul {

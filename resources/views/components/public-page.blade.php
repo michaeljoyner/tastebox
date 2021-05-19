@@ -67,6 +67,9 @@
         </div>
         <div class="flex">
             <div class="nav-drawer flex flex-col lg:flex-row lg:pt-0 pt-12 lg:static fixed top-16 left-0 lg:min-h-0 min-h-screen bg-green-200 lg:bg-white w-screen lg:w-auto items-center">
+                @auth
+                    <a class="text-lg font-bold lg:mb-0 mb-6 mx-4 block" href="/blog">Blog</a>
+                @endauth
                 <a class="text-lg font-bold lg:mb-0 mb-6 mx-4 block" href="/our-meals">Our Meals</a>
                 <a class="text-lg font-bold lg:mb-0 mb-6 mx-4 block" href="/team">The Team</a>
                 <a class="text-lg font-bold lg:mb-0 mb-6 mx-4 block" href="/faqs">FAQs</a>

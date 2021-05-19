@@ -51,7 +51,7 @@ class Menu extends Model
             ->each(function ($week) use ($start) {
                 $from = Carbon::parse($start)->addWeeks($week)->startOfWeek();
                 $to = Carbon::parse($start)->addWeeks($week)->startOfWeek()->addDays(3)->endOfDay();
-                $delivery = Carbon::parse($start)->addWeeks($week)->endOfWeek()->addDays(1);
+                $delivery = Carbon::parse($start)->addWeeks($week)->endOfWeek()->addDays(2);
 
                 Menu::create([
                     'current_from'  => $from,
@@ -79,6 +79,22 @@ class Menu extends Model
     public function setMeals(array $meal_ids)
     {
         $this->meals()->sync($meal_ids);
+    }
+
+    public function getDeliveryFromAttribute($value)
+    {
+        $cutoff = Carbon::parse('2021-06-01');
+        $value = Carbon::parse($value);
+
+        if($value->isBefore($cutoff)) {
+            return $value;
+        }
+
+        if($value->isMonday()) {
+            return Carbon::parse($value->addDay());
+        }
+
+        return $value;
     }
 
     public function toArray()

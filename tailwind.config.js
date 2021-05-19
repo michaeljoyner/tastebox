@@ -57,6 +57,18 @@ module.exports = {
             minHeight: {
                 "80": "20rem",
             },
+            animation: {
+                wiggle: "wiggle 2s linear infinite",
+            },
+            keyframes: {
+                wiggle: {
+                    "0%": { transform: "rotate(0deg)" },
+                    "10%": { transform: "rotate(-30deg)" },
+                    "20%": { transform: "rotate(0deg)" },
+                    "30%": { transform: "rotate(30deg)" },
+                    "40%": { transform: "rotate(0deg)" },
+                },
+            },
         },
     },
     variants: {},

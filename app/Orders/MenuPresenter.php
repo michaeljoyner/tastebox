@@ -23,7 +23,7 @@ class MenuPresenter
             'current_to_pretty'      => $menu->current_to->format('jS M, Y'),
             'current_range_pretty'   => DatePresenter::range($menu->current_from, $menu->current_to),
             'delivery_from_date'     => $menu->delivery_from->format('Y-m-d'),
-            'delivery_from_pretty'   => $menu->delivery_from->format('jS M, Y'),
+            'delivery_from_pretty'   => DatePresenter::prettyWithDay($menu->delivery_from),
             'week_number'            => $menu->current_from->week,
             'is_current'             => $menu->isCurrent(),
             'status'                 => Menu::UPCOMING,

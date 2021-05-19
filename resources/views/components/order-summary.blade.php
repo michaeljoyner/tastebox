@@ -18,7 +18,7 @@
             @endforeach
 
             <div class="mt-6 border-t border-gray-200 pt-4">
-                <p>Delivery on <span class="type-b2">{{ $box->delivery_date->format('jS M, Y') }}</span></p>
+                <p>Delivery on <span class="type-b2">{{ $box->delivery_date->format('D, jS M') }}</span></p>
             </div>
 
             <p class="text-xs mt-2 uppercase text-gray-600">Deliver to:</p>

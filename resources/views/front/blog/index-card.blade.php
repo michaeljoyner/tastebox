@@ -13,7 +13,7 @@
                 </p>
 
             </div>
-            <p class="my-4">{{ $post['intro'] }}</p>
+            <p class="my-4 type-b3">{{ $post['intro'] }}</p>
         </div>
         <p class="type-b4">{{ $post['first_published'] }}</p>
     </div>

@@ -58,7 +58,7 @@ class PresentOrderedKitsTest extends TestCase
         ];
 
         $this->assertInstanceOf(OrderedKitSummary::class, $presented);
-        $this->assertSame(DatePresenter::pretty($menu->delivery_from), $presented->delivery_date);
+        $this->assertSame(DatePresenter::prettyWithDay($menu->delivery_from), $presented->delivery_date);
         $this->assertSame($expected_meals, $presented->meals);
         $this->assertSame('123 Test street, Unit A, testville', $presented->delivery_address);
 

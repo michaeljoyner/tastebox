@@ -19,7 +19,7 @@ class BasketPresenter
             'name' => $kit->name,
             'id' => $kit->id,
             'menu_id' => $kit->menu_id,
-            'delivery_date' => DatePresenter::pretty($menu->delivery_from),
+            'delivery_date' => DatePresenter::prettyWithDay($menu->delivery_from),
             'eligible_for_order' => $kit->eligibleForOrder(),
             'meals_count' => $meals->count(),
             'servings_count' => $kit->meals->sum('servings'),

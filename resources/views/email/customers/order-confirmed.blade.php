@@ -4,6 +4,12 @@ Hi {{ $customer_name }}
 
 Your order has been confirmed, and your payment of R{{ $amount_paid / 100 }} has been received. Thank you so much for your support, we really appreciate it.
 
+@component('mail::panel')
+**Note**
+
+Starting from June 8th, TasteBox deliveries will be made on Tuesdays. You may [read more]({{ url('/blog/') }}) here. Thanks.
+@endcomponent
+
 Your ordered meal kits are below:
 
 
