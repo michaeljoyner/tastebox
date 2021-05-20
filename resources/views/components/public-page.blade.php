@@ -22,7 +22,7 @@
         <meta name="robots" content="noindex" />
     @endif
 
-    <meta property="og:image" content="{{ url('/images/sharing_image.jpg') }}"/>
+    <meta property="og:image" content="{{ $ogImage }}"/>
     <meta property="og:url" content="{{ Request::url() }}"/>
     <meta property="og:title" content="{{ $title }}"/>
     <meta property="og:site_name" content="TasteBox"/>

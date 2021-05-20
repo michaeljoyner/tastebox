@@ -1,4 +1,4 @@
-<x-public-page :title="$post['title']" :description="$post['description']">
+<x-public-page :title="$post['title']" :description="$post['description']" :ogImage="url($post['title_image']['sharing'])">
     <div class="pt-20 max-w-3xl mx-auto px-6">
         <h1 class="type-h1 text-center leading-snug">{{ $post['title'] }}</h1>
 

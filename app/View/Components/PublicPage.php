@@ -8,6 +8,7 @@ class PublicPage extends Component
 {
     public string $title;
     public string $description;
+    public ?string $ogImage;
     public string $css;
     public string $javascript;
     public bool $hasSlideshow;
@@ -18,10 +19,11 @@ class PublicPage extends Component
      *
      * @return void
      */
-    public function __construct($title, $description = '', $css = null, $javascript = null, $hasSlideshow = false, $noRobots = false)
+    public function __construct($title, $description = '', $ogImage = null, $css = null, $javascript = null, $hasSlideshow = false, $noRobots = false)
     {
         $this->title = $title;
         $this->description = $description;
+        $this->ogImage = $ogImage ?? url('/images/sharing_image.jpg');
         $this->css = $css ?? mix('css/front.css');
         $this->javascript = $javascript ?? mix('js/front.js');
         $this->hasSlideshow = $hasSlideshow;
