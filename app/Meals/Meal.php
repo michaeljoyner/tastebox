@@ -2,6 +2,7 @@
 
 namespace App\Meals;
 
+use App\Orders\MealTally;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
@@ -286,5 +287,10 @@ class Meal extends Model implements HasMedia
     {
         return RecipeCard::forMeal($this);
 
+    }
+
+    public function tallies()
+    {
+        return $this->hasOne(MealTally::class);
     }
 }

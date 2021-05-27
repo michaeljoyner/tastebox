@@ -32,8 +32,12 @@ import BatchShoppingList from "../vue/Components/Batches/BatchShoppingList";
 import CreateManualOrder from "../vue/Components/Batches/CreateManualOrder";
 import PostsList from "../vue/Pages/Blog/List";
 import PostEdit from "../vue/Pages/Blog/PostEdit";
+import WeeklyBatchReports from "../vue/Pages/Reports/WeeklyBatchReports";
+import MealPopularity from "../vue/Pages/Reports/MealPopularity";
+import HomePage from "../vue/Pages/HomePage";
 
 export default [
+    { path: "/", component: HomePage },
     { path: "/meals", component: MealsIndex },
     { path: "/meals/create", component: CreateMeal },
     {
@@ -79,4 +83,6 @@ export default [
 
     { path: "/blog/", component: PostsList },
     { path: "/blog/posts/:post/edit", component: PostEdit },
+    { path: "/reports/weekly-batch-report", component: WeeklyBatchReports },
+    { path: "/reports/meal-popularity", component: MealPopularity },
 ];

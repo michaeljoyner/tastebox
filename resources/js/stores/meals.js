@@ -31,6 +31,12 @@ export default {
                         b.last_touched_timestamp - a.last_touched_timestamp
                 )
                 .slice(0, 5),
+
+        byPopularity: (state) => {
+            return state.meals
+                .filter((m) => m.total_ordered > 0)
+                .sort((a, b) => b.total_servings - a.total_servings);
+        },
     },
 
     mutations: {

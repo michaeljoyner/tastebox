@@ -5,6 +5,7 @@ use App\Http\Controllers\Admin\PostPreviewController;
 use App\Http\Controllers\Admin\PostsController;
 use App\Http\Controllers\Admin\PostTitleImageController;
 use App\Http\Controllers\Admin\PublishedPostsController;
+use App\Http\Controllers\Admin\WeeklyBatchReportsController;
 use App\Http\Controllers\BlogController;
 use Illuminate\Support\Facades\Route;
 
@@ -138,5 +139,7 @@ Route::group(['middleware' => 'auth'], function () {
 
         Route::post('published-posts', [PublishedPostsController::class, 'store']);
         Route::delete('published-posts/{post}', [PublishedPostsController::class, 'destroy']);
+
+        Route::get('reports/weekly-batches', [WeeklyBatchReportsController::class, 'index']);
     });
 });

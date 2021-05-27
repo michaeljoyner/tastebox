@@ -7,6 +7,8 @@ import instagram from "./instagram";
 import discounts from "./discounts";
 import mailinglist from "./mailinglist";
 import blog from "./blog";
+import reports from "./reports";
+import quotes from "./quotes";
 import { createStore } from "vuex";
 
 const store = createStore({
@@ -20,6 +22,8 @@ const store = createStore({
         discounts,
         mailinglist,
         blog,
+        reports,
+        quotes,
     },
 });
 

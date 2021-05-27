@@ -127,6 +127,7 @@ class MenuBatchTest extends TestCase
         $this->assertSame(3, $batch->totalKits());
         $this->assertSame(9, $batch->totalPackedMeals());
         $this->assertSame(31, $batch->totalServings());
+
     }
 
     /**

@@ -17,6 +17,7 @@
     "dependencies": {
         "@vue/compiler-sfc": "^3.0.7",
         "autoprefixer": "^10.2.5",
+        "chart.js": "^3.3.0",
         "laravel-mix": "^6.0.13",
         "lazysizes": "^5.3.0",
         "less": "^3.11.1",

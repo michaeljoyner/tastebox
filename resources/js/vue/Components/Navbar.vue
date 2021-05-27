@@ -43,6 +43,30 @@
                     </div>
                 </div>
 
+                <div
+                    class="relative text-white font-bold h-16 flex items-center px-6 z-50"
+                    @click.stop="showReportOptions = !showReportOptions"
+                >
+                    <span>Reports</span>
+                    <down-chevron class="h-5 ml-1"></down-chevron>
+                    <div
+                        class="py-3 absolute top-full left-0 bg-gray-800 text-white w-full text-right"
+                        v-show="showReportOptions"
+                        ref="reportsMenu"
+                    >
+                        <router-link
+                            class="font-bold hover:underline mx-4 mb-2 block"
+                            to="/reports/meal-popularity"
+                            >Meal Stats</router-link
+                        >
+                        <router-link
+                            class="font-bold hover:underline mx-4 mb-2 block"
+                            to="/reports/weekly-batch-report"
+                            >Week by Week</router-link
+                        >
+                    </div>
+                </div>
+
                 <router-link
                     class="text-white font-bold hover:underline mx-4"
                     to="/meals"
@@ -106,10 +130,12 @@ export default {
     setup() {
         const showUserOptions = ref(false);
         const showMarketingOptions = ref(false);
+        const showReportOptions = ref(false);
         const store = useStore();
 
         const userOptionsMenu = ref(null);
         const marketingOptionsMenu = ref(null);
+        const reportsMenu = ref(null);
 
         const username = computed(() => store.state.me.username);
         const csrf_token = document.querySelector("#csrf-token-meta").content;
@@ -118,10 +144,12 @@ export default {
             window.addEventListener("click", ({ target }) => {
                 if (
                     !userOptionsMenu.value.contains(target) &&
-                    !marketingOptionsMenu.value.contains(target)
+                    !marketingOptionsMenu.value.contains(target) &&
+                    !reportsMenu.value.contains(target)
                 ) {
                     showMarketingOptions.value = false;
                     showUserOptions.value = false;
+                    showReportOptions.value = false;
                 }
             });
         });
@@ -133,6 +161,8 @@ export default {
             csrf_token,
             userOptionsMenu,
             marketingOptionsMenu,
+            showReportOptions,
+            reportsMenu,
         };
     },
 };

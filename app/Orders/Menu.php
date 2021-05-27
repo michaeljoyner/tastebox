@@ -163,5 +163,22 @@ class Menu extends Model
         );
     }
 
+    public function batchReport()
+    {
+        return $this->hasOne(BatchReport::class);
+    }
+
+    public function reportBatch()
+    {
+        $batch = $this->getBatch();
+
+        $this->batchReport()->create([
+            'week' => $batch->week,
+            'total_kits' => $batch->totalKits(),
+            'total_meals' => $batch->totalPackedMeals(),
+            'total_servings' => $batch->totalServings(),
+        ]);
+    }
+
 
 }

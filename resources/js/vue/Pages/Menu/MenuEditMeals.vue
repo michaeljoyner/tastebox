@@ -75,25 +75,46 @@
                         placeholder="Filter meals"
                     />
                 </div>
-                <div class="divide-y divide-gray-200 h-100 overflow-auto">
-                    <div
-                        v-for="meal in meal_choices"
-                        :key="meal.id"
-                        class="flex my-2 pt-2 hover:bg-blue-100"
-                    >
-                        <p class="flex-1 mr-4 text-sm">
-                            {{ meal.name }}
-                        </p>
-                        <p class="mr-4 text-sm text-gray-600">
-                            {{ meal.last_used_ago }}
-                        </p>
-                        <button
-                            @click="addMeal(meal)"
-                            class="font-bold text-gray-600 hover:text-blue-500 text-xs"
-                        >
-                            Select
-                        </button>
-                    </div>
+                <div class="h-100 overflow-auto">
+                    <table class="w-full">
+                        <thead>
+                            <tr>
+                                <th class="p-2 text-xs text-left">Meal</th>
+                                <th class="p-2 text-xs text-left">
+                                    Times Offered
+                                </th>
+                                <th class="p-2 text-xs text-left">
+                                    Kits Ordered
+                                </th>
+                                <th class="p-2 text-xs text-left">
+                                    Last Offered
+                                </th>
+                                <th class="p-2 text-xs text-left"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr
+                                v-for="meal in meal_choices"
+                                :key="meal.id"
+                                class="border-b border-gray-300"
+                            >
+                                <td class="px-2 py-2">{{ meal.name }}</td>
+                                <td class="p-2">{{ meal.times_offered }}</td>
+                                <td class="p-2">{{ meal.total_ordered }}</td>
+                                <td class="p-2 whitespace-nowrap">
+                                    {{ meal.last_offered_ago }}
+                                </td>
+                                <td>
+                                    <button
+                                        @click="addMeal(meal)"
+                                        class="font-bold text-gray-600 hover:text-blue-500 text-xs"
+                                    >
+                                        Select
+                                    </button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>
