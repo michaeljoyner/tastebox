@@ -30,6 +30,7 @@ class Kernel extends ConsoleKernel
         $schedule->command('instagram-feed:refresh')->dailyAt('02:00');
         $schedule->command('instagram-feed:refresh-tokens')->monthly();
         $schedule->command('batch:round-up')->weeklyOn(5, '04:30');
+        $schedule->command('batch:report-latest')->weeklyOn(5, '05:00');
         $schedule->command('menus:weekly-recipes')->weeklyOn(2, '04:30');
         $schedule->command('menus:next')->weeklyOn(5, '06:30');
         $schedule->command('orders:notify-long-pending')->everyThirtyMinutes();
