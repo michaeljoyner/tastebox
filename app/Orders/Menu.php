@@ -138,7 +138,7 @@ class Menu extends Model
 
     public function ordersCloseDate()
     {
-        return Carbon::parse($this->current_to)->subDay();
+        return Carbon::parse($this->current_to);
     }
 
     public function orderedKits()

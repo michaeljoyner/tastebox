@@ -10,7 +10,7 @@
     @include('front.home.numbered-card', [
         'number' => 2,
         'title' => 'We Pack and Deliver',
-        'text' => "We do the shopping and chopping so you don’t have to. All the ingredients are perfectly portioned to avoid waste and delivered every Monday at a time convenient to you."
+        'text' => "We do the shopping and chopping so you don’t have to. All the ingredients are perfectly portioned to avoid waste and delivered every Tuesday at a time convenient to you."
     ])
 
     @include('front.home.numbered-card', [

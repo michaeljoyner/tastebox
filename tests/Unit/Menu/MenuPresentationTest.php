@@ -21,7 +21,7 @@ class MenuPresentationTest extends TestCase
     {
         $current_from = Carbon::today()->addWeek()->startOfWeek();
         $current_to = Carbon::today()->addWeek()->startOfWeek()->addDays(5);
-        $delivery_from = Carbon::today()->addWeek()->endOfWeek()->addDay();
+        $delivery_from = Carbon::today()->addWeek()->endOfWeek()->addDays(2);
 
         $menu = factory(Menu::class)->create([
             'current_from' => $current_from,
@@ -30,7 +30,7 @@ class MenuPresentationTest extends TestCase
             'can_order' => false,
         ]);
 
-        $orders_close = Carbon::parse($current_to)->subDay();
+        $orders_close = Carbon::parse($current_to);
 
         $expected = [
             'id' => $menu->id,
