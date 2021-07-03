@@ -42,13 +42,13 @@ class MealsPresenter
             'gallery'                => $gallery->all(),
             'classifications'        => $meal->classifications->map->toArray()->all(),
             'last_touched_timestamp' => max($meal->created_at->timestamp, $meal->updated_at->timestamp),
-            'last_used'              => DatePresenter::pretty($last_used),
-            'last_used_ago' => optional($last_used)->diffForHumans() ?? 'Never used',
-            'times_offered' => optional($meal->tallies)->times_offered,
-            'total_ordered' => optional($meal->tallies)->total_ordered,
-            'total_servings' => optional($meal->tallies)->total_servings,
-            'last_offered' => DatePresenter::pretty(optional($meal->tallies)->last_offered),
-            'last_offered_ago' => $meal->tallies ? $meal->tallies->last_offered->diffForHumans() : 'Never used',
+            'recent_inclusion'       => DatePresenter::pretty($last_used),
+            'upcoming'               => $last_used?->isFuture() ? $last_used?->diffForHumans() : false,
+            'times_offered'          => optional($meal->tallies)->times_offered,
+            'total_ordered'          => optional($meal->tallies)->total_ordered,
+            'total_servings'         => optional($meal->tallies)->total_servings,
+            'last_offered'           => DatePresenter::pretty(optional($meal->tallies)->last_offered),
+            'last_offered_ago'       => $meal->tallies ? $meal->tallies->last_offered->diffForHumans() : 'Never used',
         ];
     }
 
@@ -89,7 +89,8 @@ class MealsPresenter
             'prep_time'       => $meal->prep_time,
             'cook_time'       => $meal->cook_time,
             'instructions'    => $meal->instructions,
-            'required' => $meal->ingredients()->orderBy('position')->get()->map->toArray()->reject(fn ($i) => $i['in_kit'])->all(),
+            'required'        => $meal->ingredients()->orderBy('position')->get()->map->toArray()->reject(fn($i
+            ) => $i['in_kit'])->all(),
             'ingredients'     => $meal->recipeCardIngredients(),
             'title_image'     => $title_image['web'],
             'thumb_img'       => $title_image['thumb'],

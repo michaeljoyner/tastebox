@@ -13,7 +13,17 @@ class MealsController extends Controller
 
     public function index()
     {
+        $sel = DB::raw('meal_menu.meal_id, max(meal_menu.menu_id), max(menus.current_from) as last_used');
+        $lastUsed = DB::table('meal_menu')->select($sel)
+                      ->leftJoin('menus', 'menus.id', '=', 'meal_menu.menu_id')
+                      ->groupBy('meal_menu.meal_id');
+
         return Meal::with('ingredients', 'classifications', 'tallies')
+                   ->leftJoinSub(
+                       $lastUsed,
+                       'recent_inclusion',
+                       fn($join) => $join->on('meals.id', '=', 'recent_inclusion.meal_id')
+                   )
                    ->get()->map->asArrayForAdmin();
     }
 

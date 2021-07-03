@@ -101,8 +101,14 @@
                                 <td class="px-2 py-2">{{ meal.name }}</td>
                                 <td class="p-2">{{ meal.times_offered }}</td>
                                 <td class="p-2">{{ meal.total_ordered }}</td>
-                                <td class="p-2 whitespace-nowrap">
-                                    {{ meal.last_offered_ago }}
+                                <td class="p-2 whitespace-nowrap text-xs">
+                                    <colour-label
+                                        v-if="meal.upcoming"
+                                        colour="green"
+                                        :text="meal.upcoming"
+                                        :small="true"
+                                    ></colour-label>
+                                    <p v-else>{{ meal.last_offered_ago }}</p>
                                 </td>
                                 <td>
                                     <button
@@ -126,9 +132,11 @@ import Page from "../../Components/UI/Page";
 import PageHeader from "../../Components/PageHeader";
 import SearchIcon from "../../Components/UI/Icons/Search";
 import { showError, showSuccess } from "../../../libs/notifications";
+import ColourLabel from "../../Components/UI/ColourLabel";
 
 export default {
     components: {
+        ColourLabel,
         Page,
         PageHeader,
         SearchIcon,
