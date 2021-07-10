@@ -9,6 +9,7 @@ use App\Http\Controllers\Admin\PostTitleImageController;
 use App\Http\Controllers\Admin\PublishedPostsController;
 use App\Http\Controllers\Admin\WeeklyBatchReportsController;
 use App\Http\Controllers\BlogController;
+use App\Http\Controllers\RegistrationsController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -63,6 +64,15 @@ Route::get('payfast/cancel/{order:order_key}', 'PayfastController@cancelled');
 Route::post('payfast/notify/{order:order_key}', 'PaymentsController@store');
 
 Route::get('thank-you/{order:order_key}', 'ThankYouController@show');
+
+Route::view('register', 'front.register.page');
+Route::post('register', [RegistrationsController::class, 'store']);
+
+
+Route::group(['prefix' => 'me', 'middleware' => 'auth', 'namespace' => 'Members'], function() {
+    Route::view('email/verify', 'members.verify-email')->name('verification.verify');
+    Route::view('home', 'members.home.page');
+});
 
 Route::group(['middleware' => 'auth'], function () {
 
