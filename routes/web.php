@@ -8,7 +8,10 @@ use App\Http\Controllers\Admin\PostsController;
 use App\Http\Controllers\Admin\PostTitleImageController;
 use App\Http\Controllers\Admin\PublishedPostsController;
 use App\Http\Controllers\Admin\WeeklyBatchReportsController;
+use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\BlogController;
+use App\Http\Controllers\EmailVerificationController;
+use App\Http\Controllers\EmailVerificationLinkRequestController;
 use App\Http\Controllers\RegistrationsController;
 use Illuminate\Support\Facades\Route;
 
@@ -24,7 +27,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 
-Route::view('admin/login', 'auth.admin-login')->name('login');
+Route::view('admin/login', 'auth.admin-login');
 
 Route::post('admin/login', 'Auth\LoginController@login');
 Route::post('logout', 'Auth\LoginController@logout')->middleware('auth');
@@ -67,11 +70,25 @@ Route::get('thank-you/{order:order_key}', 'ThankYouController@show');
 
 Route::view('register', 'front.register.page');
 Route::post('register', [RegistrationsController::class, 'store']);
+Route::view('me/email/verify', 'members.auth.verify-email')
+     ->middleware('auth')
+     ->name('verification.notice');
+
+Route::get('me/email/verify/{id}/{hash}', [EmailVerificationController::class, 'store'])
+     ->middleware(['auth', 'signed'])
+     ->name('verification.verify');
+
+Route::post(
+    '/email/verification-notification', [EmailVerificationLinkRequestController::class, 'store']
+)
+     ->middleware(['auth', 'throttle:6,1'])
+     ->name('verification.send');
+Route::post('login', [LoginController::class, 'login']);
 
 
-Route::group(['prefix' => 'me', 'middleware' => 'auth', 'namespace' => 'Members'], function() {
-    Route::view('email/verify', 'members.verify-email')->name('verification.verify');
-    Route::view('home', 'members.home.page');
+Route::group(['prefix' => 'me', 'middleware' => 'auth', 'namespace' => 'Members'], function () {
+
+    Route::view('home', 'members.home.page')->middleware('verified');
 });
 
 Route::group(['middleware' => 'auth'], function () {

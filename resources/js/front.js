@@ -11,8 +11,10 @@ import CheckOut from "./vue/Components/Front/CheckOut";
 import KitManager from "./vue/Components/Front/KitManager";
 import BasketPage from "./vue/Components/Front/BasketPage";
 import ContactPage from "./vue/Components/Front/ContactPage";
+import NavMenu from "./vue/Components/Front/NavMenu";
 
 const app = createApp({})
+    .component("nav-menu", NavMenu)
     .component("kit-manager", KitManager)
     .component("build-kit", BuildKit)
     .component("basket-page", BasketPage)
