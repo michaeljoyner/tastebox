@@ -50,17 +50,17 @@
                     <span>Reports</span>
                     <down-chevron class="h-5 ml-1"></down-chevron>
                     <div
-                        class="py-3 absolute top-full left-0 bg-gray-800 text-white w-full text-right"
+                        class="py-3 absolute top-full left-0 bg-gray-800 text-white text-right"
                         v-show="showReportOptions"
                         ref="reportsMenu"
                     >
                         <router-link
-                            class="font-bold hover:underline mx-4 mb-2 block"
+                            class="font-bold hover:underline mx-4 mb-2 block whitespace-nowrap"
                             to="/reports/meal-popularity"
                             >Meal Stats</router-link
                         >
                         <router-link
-                            class="font-bold hover:underline mx-4 mb-2 block"
+                            class="font-bold hover:underline mx-4 mb-2 block whitespace-nowrap"
                             to="/reports/weekly-batch-report"
                             >Week by Week</router-link
                         >
@@ -73,15 +73,33 @@
                     >Meals</router-link
                 >
                 <router-link
-                    class="text-white font-bold hover:underline mx-4"
+                    class="text-white font-bold hover:underline mx-4 px-2"
                     to="/menus"
                     >Menus</router-link
                 >
-                <router-link
-                    class="text-white font-bold hover:underline mx-4"
-                    to="/recent-orders"
-                    >Orders</router-link
+                <div
+                    class="relative text-white font-bold h-16 flex items-center px-6 z-50"
+                    @click.stop="showOrdersDropdown = !showOrdersDropdown"
                 >
+                    <span>Orders</span>
+                    <down-chevron class="h-5 ml-1"></down-chevron>
+                    <div
+                        class="py-3 absolute top-full left-0 bg-gray-800 text-white text-right"
+                        v-show="showOrdersDropdown"
+                        ref="ordersDropdown"
+                    >
+                        <router-link
+                            class="font-bold hover:underline mx-4 mb-2 block whitespace-nowrap"
+                            to="/recent-orders"
+                            >Recent Orders</router-link
+                        >
+                        <router-link
+                            class="font-bold hover:underline mx-4 mb-2 block whitespace-nowrap"
+                            to="/orders/upcoming-kits"
+                            >Ordered Kits</router-link
+                        >
+                    </div>
+                </div>
 
                 <router-link
                     class="text-white font-bold hover:underline mx-4"
@@ -137,6 +155,9 @@ export default {
         const marketingOptionsMenu = ref(null);
         const reportsMenu = ref(null);
 
+        const ordersDropdown = ref(null);
+        const showOrdersDropdown = ref(false);
+
         const username = computed(() => store.state.me.username);
         const csrf_token = document.querySelector("#csrf-token-meta").content;
 
@@ -163,6 +184,8 @@ export default {
             marketingOptionsMenu,
             showReportOptions,
             reportsMenu,
+            ordersDropdown,
+            showOrdersDropdown,
         };
     },
 };

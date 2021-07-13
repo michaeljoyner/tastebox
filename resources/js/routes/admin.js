@@ -35,6 +35,8 @@ import PostEdit from "../vue/Pages/Blog/PostEdit";
 import WeeklyBatchReports from "../vue/Pages/Reports/WeeklyBatchReports";
 import MealPopularity from "../vue/Pages/Reports/MealPopularity";
 import HomePage from "../vue/Pages/HomePage";
+import UpcomingKits from "../vue/Pages/Orders/UpcomingKits";
+import OrderedKit from "../vue/Pages/Orders/OrderedKit";
 
 export default [
     { path: "/", component: HomePage },
@@ -63,6 +65,8 @@ export default [
     { path: "/menus/:menu/images", component: MenuImages },
     { path: "/recent-orders", component: RecentOrders },
     { path: "/recent-orders/:id", component: Order },
+    { path: "/orders/upcoming-kits", component: UpcomingKits },
+    { path: "/orders/upcoming-kits/:kit/show", component: OrderedKit },
     {
         path: "/current-batch",
         component: CurrentBatch,

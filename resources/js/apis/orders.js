@@ -8,4 +8,8 @@ function fetchById(id) {
     return get(`/admin/api/recent-orders/${id}`);
 }
 
-export { fetchRecentOrders, fetchById };
+function fetchOrderedKits() {
+    return get("/admin/api/ordered-kits");
+}
+
+export { fetchRecentOrders, fetchById, fetchOrderedKits };

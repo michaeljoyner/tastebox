@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\OrderedKitsController;
 use App\Http\Controllers\Admin\PostBodyImagesController;
 use App\Http\Controllers\Admin\PostPreviewController;
 use App\Http\Controllers\Admin\PostsController;
@@ -111,6 +112,7 @@ Route::group(['middleware' => 'auth'], function () {
 
         Route::get('recent-orders', 'OrdersController@index');
         Route::get('recent-orders/{order}', 'OrdersController@show');
+        Route::get('ordered-kits', [OrderedKitsController::class, 'index']);
 
         Route::get('current-batch', 'CurrentBatchController@show');
 

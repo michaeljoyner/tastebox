@@ -32,6 +32,15 @@ class Address
         ];
     }
 
+    public function asString()
+    {
+        if($this->line_two) {
+            return sprintf("%s, %s, %s", $this->line_one, $this->line_two, $this->city);
+        }
+
+        return sprintf("%s, %s", $this->line_one, $this->city);
+    }
+
     public static function fake(): Address
     {
         return new self([
