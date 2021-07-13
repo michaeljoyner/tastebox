@@ -3,7 +3,15 @@
         <page-header title="Ordered Kit"></page-header>
 
         <div class="my-12">
-            <p class="text-xl font-semibold">{{ kit.customer_name }}</p>
+            <div class="divide-x space-x-4">
+                <span class="text-xl font-semibold">{{
+                    kit.customer_name
+                }}</span>
+                <span class="text-xl font-semibold pl-4"
+                    >MENU #{{ kit.menu_week }}</span
+                >
+            </div>
+
             <p class="my-2 text-gray-500">{{ kit.address }}</p>
             <div>
                 <colour-label
