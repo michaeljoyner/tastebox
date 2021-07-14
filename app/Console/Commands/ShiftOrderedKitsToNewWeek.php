@@ -35,19 +35,6 @@ class ShiftOrderedKitsToNewWeek extends Command
                 $kit->save();
             });
 
-
-//        $menus->each(function(Menu $menu) {
-//           $menu
-//               ->orderedKits
-//               ->each(function($kit) use ($menu) {
-//                   $next_menu = Menu::find($menu->id + 1);
-//                   $kit->menu_id = $next_menu->id;
-//                   $kit->delivery_date = $next_menu->delivery_from;
-//                   $kit->menu_week_number = $next_menu->weekOfYear();
-//                   $kit->save();
-//                   $this->info("moved kit {$kit->id} to menu {$next_menu->weekOfYear()}");
-//               });
-//        });
         return 0;
     }
 }
