@@ -2,7 +2,10 @@
 
 namespace App;
 
+use App\Memberships\MemberProfile;
+use App\Purchases\MemberShoppingBasket;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
@@ -40,5 +43,15 @@ class User extends Authenticatable implements MustVerifyEmail
     public static function addAdmin($options)
     {
         return static::create(array_merge($options, ['is_admin' => true]));
+    }
+
+    public function shoppingBasket(): HasOne
+    {
+        return $this->hasOne(MemberShoppingBasket::class);
+    }
+
+    public function profile(): HasOne
+    {
+        return $this->hasOne(MemberProfile::class);
     }
 }

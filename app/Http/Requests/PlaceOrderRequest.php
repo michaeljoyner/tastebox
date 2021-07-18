@@ -23,25 +23,42 @@ class PlaceOrderRequest extends FormRequest
 
     public function rules()
     {
+        if(!$this->user()) {
+            return [
+                'first_name' => ['required_without:last_name'],
+                'last_name' => ['required_without:first_name'],
+                'email' => ['required', 'email'],
+                'delivery' => ['required', 'array'],
+                'delivery.*' => [new ForExistingKit()],
+                'delivery.*.line_one' => ['required'],
+                'delivery.*.city' => ['required'],
+                'discount_code' => [new \App\Rules\DiscountCode()],
+                'subscribe_to_newsletter' => ['boolean', 'nullable']
+            ];
+        }
+
         return [
-            'first_name' => ['required_without:last_name'],
-            'last_name' => ['required_without:first_name'],
-            'email' => ['required', 'email'],
-            'delivery' => ['required', 'array'],
-            'delivery.*' => [new ForExistingKit()],
-            'delivery.*.line_one' => ['required'],
-            'delivery.*.city' => ['required'],
             'discount_code' => [new \App\Rules\DiscountCode()],
-            'subscribe_to_newsletter' => ['boolean', 'nullable']
         ];
+
     }
 
     public function customerDetails(): array
     {
+        if($this->user()) {
+            $profile = $this->user()->profile;
+            return  [
+                'user_id' => $this->user()->id,
+                'first_name' => $profile->first_name,
+                'last_name' => $profile->last_name,
+                'email' => $profile->email,
+                'phone' => $profile->phone,
+            ];
+        }
         return $this->all('first_name', 'last_name', 'email', 'phone');
     }
 
-    public function adressedKits(Collection $kits): Collection
+    public function addressedKits(Collection $kits): Collection
     {
         return $kits
             ->map(fn ($kit) => [
@@ -52,7 +69,8 @@ class PlaceOrderRequest extends FormRequest
 
     private function addressForKit($kit_id)
     {
-        $address = $this->delivery[$kit_id] ?? $this->delivery[array_key_first($this->delivery)];
+        $base = $this->delivery ? $this->delivery[array_key_first($this->delivery)] : $this->user()->profile->addressInfo();
+        $address = $this->delivery[$kit_id] ?? $base;
         return new Address($address);
     }
 

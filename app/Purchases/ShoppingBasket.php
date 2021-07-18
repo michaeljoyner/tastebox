@@ -9,16 +9,25 @@ use Illuminate\Support\Str;
 
 class ShoppingBasket
 {
-    public $kits;
+    const SESSION = 'session';
+    const DB = 'db';
 
-    public function __construct(Collection $kits)
-    {
-        $this->kits = $kits;
-    }
+
+    public function __construct(public Collection $kits, private string $storage_type, private ?User $owner = null)
+    {}
 
     public static function for(?User $user): ShoppingBasket
     {
-        return new ShoppingBasket(collect(session('basket.kits', [])));
+        if(!$user) {
+            return new ShoppingBasket(collect(session('basket.kits', [])), self::SESSION);
+        }
+
+        if(!$user->shoppingBasket) {
+            $user->shoppingBasket()->create(['contents' => serialize([])]);
+        }
+        $contents = unserialize($user->fresh()->shoppingBasket->contents);
+        return new ShoppingBasket(collect($contents), self::DB, $user);
+
     }
 
     public function getKit(string $kit_id): ?Kit
@@ -100,7 +109,13 @@ class ShoppingBasket
 
     private function save()
     {
-        session(['basket.kits' => $this->kits->all()]);
+        if($this->storage_type === self::SESSION) {
+            session(['basket.kits' => $this->kits->all()]);
+        }
+
+        if($this->storage_type === self::DB) {
+            $this->owner->fresh()->shoppingBasket->update(['contents' => serialize($this->kits->all())]);
+        }
     }
 
     public function price(): float

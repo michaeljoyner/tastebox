@@ -29,6 +29,7 @@ class Order extends Model
         'price_in_cents',
         'status',
         'is_paid',
+        'user_id'
     ];
 
     protected $casts = ['is_paid' => 'boolean', 'confirmation_sent' => 'boolean'];
@@ -50,14 +51,14 @@ class Order extends Model
 
     public static function hasCurrentPending(): bool
     {
-        return !! static::pending()->where('created_at', '>=', now()->subDays(7))->count();
+        return !!static::pending()->where('created_at', '>=', now()->subDays(7))->count();
     }
-
 
 
     public static function makeNew(array $customer, Collection $addressed_kits, Discount $discount): Order
     {
         $order = static::create([
+            'user_id'        => $customer['user_id'] ?? null,
             'first_name'     => $customer['first_name'],
             'last_name'      => $customer['last_name'],
             'email'          => $customer['email'] ?? '',
@@ -203,7 +204,7 @@ class Order extends Model
 
     public function notifyCustomerAwaitingConfirmation()
     {
-        if(!$this->confirmation_sent) {
+        if (!$this->confirmation_sent) {
             Mail::to($this->email)->queue(new AwaitingPaymentConfirmation($this));
 
             $this->markNotificationSent();
