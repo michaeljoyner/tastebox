@@ -12,7 +12,9 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\BlogController;
 use App\Http\Controllers\EmailVerificationController;
 use App\Http\Controllers\EmailVerificationLinkRequestController;
+use App\Http\Controllers\Members\HomePageController;
 use App\Http\Controllers\Members\MemberProfileController;
+use App\Http\Controllers\Members\OrdersController;
 use App\Http\Controllers\RegistrationsController;
 use Illuminate\Support\Facades\Route;
 
@@ -89,9 +91,12 @@ Route::post('login', [LoginController::class, 'login']);
 
 Route::group(['prefix' => 'me', 'middleware' => 'auth', 'namespace' => 'Members'], function () {
 
-    Route::view('home', 'members.home.page')->middleware('verified');
+    Route::get('home', [HomePageController::class, 'show'])->middleware('verified');
 
+    Route::get('edit-profile', [MemberProfileController::class, 'edit']);
     Route::post('profile', [MemberProfileController::class, 'update']);
+
+    Route::get('orders', [OrdersController::class, 'index']);
 });
 
 Route::group(['middleware' => 'auth'], function () {

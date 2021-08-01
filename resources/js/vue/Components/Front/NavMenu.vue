@@ -27,23 +27,20 @@
                 class="my-3 border-b border-gray-300 w-full pb-3"
             >
                 <p class="text-xs uppercase text-right">
-                    Carol Yeh
+                    {{ user }}
                 </p>
             </MenuItem>
             <MenuItem v-slot="{ active }" class="my-3 w-full text-right">
                 <a
                     :class="{ 'text-green-600': active }"
-                    href="/account-settings"
+                    href="/me/edit-profile"
                 >
                     Account settings
                 </a>
             </MenuItem>
             <MenuItem v-slot="{ active }" class="my-3 w-full text-right">
-                <a
-                    :class="{ 'text-green-600': active }"
-                    href="/account-settings"
-                >
-                    Documentation
+                <a :class="{ 'text-green-600': active }" href="/me/home">
+                    Home
                 </a>
             </MenuItem>
             <MenuItem v-slot="{ active }" class="my-3 w-full text-right">
@@ -72,7 +69,9 @@ export default {
             document.querySelector("#logout-form").submit();
         };
 
-        return { logout };
+        const user = window.appMember.name;
+
+        return { logout, user };
     },
 };
 </script>

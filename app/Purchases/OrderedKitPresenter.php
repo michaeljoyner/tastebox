@@ -5,6 +5,7 @@ namespace App\Purchases;
 
 
 use App\DatePresenter;
+use App\Meals\MealsPresenter;
 use App\Orders\Menu;
 
 class OrderedKitPresenter
@@ -33,6 +34,17 @@ class OrderedKitPresenter
             'delivery_date' => DatePresenter::pretty($kit->delivery_date),
             'menu_week' => $kit->menu_week_number,
             'meals' => $kit->meal_summary,
+        ];
+    }
+
+    public static function forMember(OrderedKit $kit)
+    {
+        return [
+            'address' => $kit->deliveryAddress()->asString(),
+            'delivery_date' => DatePresenter::pretty($kit->delivery_date),
+            'menu_week' => $kit->menu_week_number,
+            'meals' => $kit->meals->map(fn ($m) => MealsPresenter::forPublic($m)),
+            'meal_summary' => $kit->meal_summary,
         ];
     }
 }

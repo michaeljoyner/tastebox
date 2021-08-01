@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\Events\OrderConfirmed;
+use App\Listeners\CreateMemberProfile;
 use App\Listeners\SendAdminOrderConfirmedMail;
 use App\Listeners\SendCustomerOrderConfirmedMail;
 use Illuminate\Auth\Events\Registered;
@@ -19,6 +20,7 @@ class EventServiceProvider extends ServiceProvider
      */
     protected $listen = [
         Registered::class => [
+            CreateMemberProfile::class,
             SendEmailVerificationNotification::class,
         ],
         OrderConfirmed::class => [

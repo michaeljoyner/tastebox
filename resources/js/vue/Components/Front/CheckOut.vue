@@ -4,7 +4,10 @@
             class="flex flex-col md:flex-row items-center md:items-start justify-around px-6"
         >
             <div>
-                <p class="type-h2 my-12 text-center">Your Order</p>
+                <p v-if="profile" class="type-h2 my-12 text-center">
+                    Hi {{ profile.first_name }}, this is your Order
+                </p>
+                <p v-else class="type-h2 my-12 text-center">Your Order</p>
                 <div
                     v-for="kit in eligible_kits"
                     :key="kit.id"
@@ -78,7 +81,7 @@
                     </button>
                 </div>
             </div>
-            <div class="w-full md:w-auto">
+            <div class="w-full md:w-auto" v-if="!profile">
                 <p class="type-h2 my-12 text-center">Your Details</p>
 
                 <div class="w-full max-w-md mx-auto">
@@ -181,64 +184,117 @@
 
         <div class="px-6">
             <p class="type-h2 text-center mt-12 mb-8">Delivery</p>
-            <p class="max-w-lg mx-auto text-center mb-8">
-                Note: We currently ONLY deliver in Pietermaritzburg and
-                surrounding areas, including Nottingham Road, Kloof and
-                Pinetown. If you are unsure if you will receive your delivery,
-                please contact us before you place your order.
-            </p>
 
-            <div
-                v-if="has_multiple_kits"
-                class="flex flex-col md:flex-row justify-around items-center my-8 md:my-12"
-            >
-                <p class="mb-4 max-w-sm">
-                    You have ordered more than one box. Would you like to have
-                    any of the boxes sent to different address?
+            <div v-if="use_profile_address">
+                <p>
+                    We will delivery to your address at
+                    {{ profile.full_address }}
                 </p>
-                <div>
-                    <label class="block mb-4">
-                        <input
-                            type="radio"
-                            :value="false"
-                            v-model="use_multiple_addresses"
-                        />
-                        <span
-                            ><strong>No</strong>, use the same address for all
-                            boxes.</span
-                        >
-                    </label>
-
-                    <label class="block mb-4">
-                        <input
-                            type="radio"
-                            :value="true"
-                            v-model="use_multiple_addresses"
-                        />
-                        <span
-                            ><strong>Yes</strong>, I need to send to different
-                            addresses.</span
-                        >
-                    </label>
+                <div class="flex justify-end py-3">
+                    <button
+                        @click="use_profile_address = false"
+                        class="text-gray-500 hover:text-green-600 type-b3"
+                    >
+                        Use a different address
+                    </button>
                 </div>
             </div>
+            <div v-else>
+                <p class="max-w-lg mx-auto text-center mb-8">
+                    Note: We currently ONLY deliver in Pietermaritzburg and
+                    surrounding areas, including Nottingham Road, Kloof and
+                    Pinetown. If you are unsure if you will receive your
+                    delivery, please contact us before you place your order.
+                </p>
 
-            <div v-if="use_multiple_addresses === true">
                 <div
-                    v-for="kit in basket.kits"
-                    :key="kit.id"
-                    class="flex flex-col md:flex-row justify-around p-6 border md:border-0"
+                    v-if="has_multiple_kits"
+                    class="flex flex-col md:flex-row justify-around items-center my-8 md:my-12"
                 >
-                    <div class="mb-4 md:w-64">
-                        <p class="font-bold">{{ kit.name }}</p>
+                    <p class="mb-4 max-w-sm">
+                        You have ordered more than one box. Would you like to
+                        have any of the boxes sent to different address?
+                    </p>
+                    <div>
+                        <label class="block mb-4">
+                            <input
+                                type="radio"
+                                :value="false"
+                                class="text-green-500 mr-2 focus:outline-none"
+                                v-model="use_multiple_addresses"
+                            />
+                            <span
+                                ><strong>No</strong>, use the same address for
+                                all boxes.</span
+                            >
+                        </label>
+
+                        <label class="block mb-4">
+                            <input
+                                type="radio"
+                                :value="true"
+                                class="text-green-500 mr-2 focus:outline-none"
+                                v-model="use_multiple_addresses"
+                            />
+                            <span
+                                ><strong>Yes</strong>, I need to send to
+                                different addresses.</span
+                            >
+                        </label>
+                    </div>
+                </div>
+
+                <div v-if="use_multiple_addresses === true">
+                    <div
+                        v-for="kit in basket.kits"
+                        :key="kit.id"
+                        class="flex flex-col md:flex-row justify-around p-6 border md:border-0"
+                    >
+                        <div class="mb-4 md:w-64">
+                            <p class="font-bold">{{ kit.name }}</p>
+                            <p>
+                                Delivery from:
+                                <span class="font-bold text-gray-700">{{
+                                    kit.delivery_date
+                                }}</span>
+                            </p>
+                            <p
+                                v-for="meal in kit.meals"
+                                :key="meal.id"
+                                class="text-sm"
+                            >
+                                {{ meal.name }} (for {{ meal.servings }})
+                            </p>
+                        </div>
+                        <address-input
+                            class="max-w-md"
+                            v-model="formData.delivery[kit.id]"
+                            :error-msg="isInvalidAddress(kit.id)"
+                        ></address-input>
+                    </div>
+                </div>
+                <div
+                    v-if="use_multiple_addresses === false"
+                    class="flex flex-col items-center md:items-start md:flex-row justify-around"
+                >
+                    <div v-if="has_multiple_kits" class="md:w-64">
+                        <p class="mb-4">
+                            You have ordered
+                            <span class="font-bold"
+                                >{{ basket.kits.length }} meal kits</span
+                            >. They will all be delivered to this address.
+                        </p>
+                    </div>
+                    <div v-else class="hidden md:block md:w-64">
+                        <p class="font-bold">{{ basket.kits[0].name }}</p>
                         <p>
                             Delivery from:
                             <span class="font-bold text-gray-700">{{
-                                kit.delivery_date
+                                basket.kits[0].delivery_date
                             }}</span>
                         </p>
                         <p
-                            v-for="meal in kit.meals"
+                            v-for="meal in basket.kits[0].meals"
                             :key="meal.id"
                             class="text-sm"
                         >
@@ -247,48 +303,14 @@
                     </div>
                     <address-input
                         class="max-w-md"
-                        v-model="formData.delivery[kit.id]"
-                        :error-msg="isInvalidAddress(kit.id)"
+                        v-model="formData.main_address"
+                        :error-msg="invalidAddresses.length"
                     ></address-input>
                 </div>
             </div>
-            <div
-                v-if="use_multiple_addresses === false"
-                class="flex flex-col items-center md:items-start md:flex-row justify-around"
-            >
-                <div v-if="has_multiple_kits" class="md:w-64">
-                    <p class="mb-4">
-                        You have ordered
-                        <span class="font-bold"
-                            >{{ basket.kits.length }} meal kits</span
-                        >. They will all be delivered to this address.
-                    </p>
-                </div>
-                <div v-else class="hidden md:block md:w-64">
-                    <p class="font-bold">{{ basket.kits[0].name }}</p>
-                    <p>
-                        Delivery from:
-                        <span class="font-bold text-gray-700">{{
-                            basket.kits[0].delivery_date
-                        }}</span>
-                    </p>
-                    <p
-                        v-for="meal in basket.kits[0].meals"
-                        :key="meal.id"
-                        class="text-sm"
-                    >
-                        {{ meal.name }} (for {{ meal.servings }})
-                    </p>
-                </div>
-                <address-input
-                    class="max-w-md"
-                    v-model="formData.main_address"
-                    :error-msg="invalidAddresses.length"
-                ></address-input>
-            </div>
         </div>
 
-        <div class="my-12">
+        <div class="my-12" v-if="!profile">
             <p class="text-center type-h3 mb-3">Keep up to date.</p>
             <div>
                 <div>
@@ -365,8 +387,7 @@
             </form>
         </div>
         <modal :show="showDiscountInput" @close="showDiscountInput = false">
-            <div class="w-full mx-auto max-w-md p-6 bg-white">
-                <p class="font-bold text-lg mb-6">Use A discount Code</p>
+            <div class="w-full mx-auto max-w-md py-6 px-3 bg-white rounded-lg">
                 <div>
                     <label
                         class="text-sm font-bold text-gray-700"
@@ -421,10 +442,11 @@ export default {
         Modal,
     },
 
-    props: ["basket", "payfast-url"],
+    props: ["basket", "payfast-url", "profile"],
 
     data() {
         return {
+            use_profile_address: !!this.profile,
             use_multiple_addresses: false,
             showDiscountInput: false,
             check_discount_code: "",
@@ -539,22 +561,30 @@ export default {
                 discount_code: this.formData.discount_code,
                 subscribe_to_newsletter: this.formData.subscribe_to_newsletter,
                 get_sms_reminder: this.formData.get_sms_reminder,
-                delivery: {},
+                delivery: this.getDeliveryDetails(),
             };
 
-            if (this.use_multiple_addresses === true) {
-                fd.delivery = this.formData.delivery;
-            }
-
-            if (this.use_multiple_addresses === false) {
-                fd.delivery[
-                    this.basket.kits[0].id
-                ] = this.formData.main_address;
-            }
             axios
                 .post("/checkout", fd)
                 .then(({ data }) => this.onSuccess(data))
                 .catch(({ response }) => this.onError(response));
+        },
+
+        getDeliveryDetails() {
+            if (this.use_profile_address) {
+                return null;
+            }
+
+            if (this.use_multiple_addresses === true) {
+                return this.formData.delivery;
+            }
+
+            if (this.use_multiple_addresses === false) {
+                const del = {};
+
+                del[this.basket.kits[0].id] = this.formData.main_address;
+                return del;
+            }
         },
 
         onSuccess(payfast_data) {

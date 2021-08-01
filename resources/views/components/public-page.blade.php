@@ -22,6 +22,7 @@
         <meta name="robots" content="noindex" />
     @endif
 
+
     <meta property="og:image" content="{{ $ogImage }}"/>
     <meta property="og:url" content="{{ Request::url() }}"/>
     <meta property="og:title" content="{{ $title }}"/>
@@ -40,6 +41,14 @@
     <meta name="theme-color" content="#ffffff">
 
     @include('front.partials.ga-tracking')
+    @auth()
+        <script>
+            window.appMember = {
+                name: '{{ auth()->user()->profile->first_name }}'
+            }
+        </script>
+    @endauth
+
     @include('front.partials.fb-pixel')
     @stack('head_scripts')
 </head>

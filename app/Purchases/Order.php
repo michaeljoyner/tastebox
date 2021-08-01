@@ -49,6 +49,13 @@ class Order extends Model
         return $query->where('status', static::STATUS_PENDING);
     }
 
+    public function scopeUpcoming(Builder $query): Builder
+    {
+        return $query->where('delivery_date', '>=', now()->startOfDay())
+            ->where('is_paid', true)
+            ->where('status', self::STATUS_OPEN);
+    }
+
     public static function hasCurrentPending(): bool
     {
         return !!static::pending()->where('created_at', '>=', now()->subDays(7))->count();

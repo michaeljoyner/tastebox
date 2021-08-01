@@ -1,6 +1,6 @@
 <div class="main-nav bg-white px-6 shadow w-screen h-16 flex justify-between items-center fixed top-0 left-0">
     <div class="type-h4">
-        <a href="/">
+        <a href="/me/home">
             @include('svg.logos.logo_small', ['classes' => 'h-8 text-green-600 hover:text-green-500'])
         </a>
     </div>
@@ -8,8 +8,8 @@
         <div class="nav-drawer flex flex-col lg:flex-row lg:pt-0 pt-12 lg:static fixed top-16 left-0 lg:min-h-0 min-h-screen bg-green-200 lg:bg-white w-screen lg:w-auto items-start lg:items-center">
             <a class="text-lg font-bold lg:mb-0 mb-6 mx-4 block" href="/blog">Blog</a>
             <a class="text-lg font-bold lg:mb-0 mb-6 mx-4 block" href="/me/recipes">Recipes</a>
-            <a class="text-lg font-bold lg:mb-0 mb-6 mx-4 block" href="/team">Orders</a>
-            <a class="lg:hidden text-lg font-bold lg:mb-0 mb-6 mx-4 block" href="/blog">Account Settings</a>
+            <a class="text-lg font-bold lg:mb-0 mb-6 mx-4 block" href="/me/orders">Orders</a>
+            <a class="lg:hidden text-lg font-bold lg:mb-0 mb-6 mx-4 block" href="/me/edit-profile">Account Settings</a>
             <a class="lg:hidden text-lg font-bold lg:mb-0 mb-6 mx-4 block" href="/me/recipes">Other Stuff</a>
 
             <a href="/build-a-box"

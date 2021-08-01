@@ -10,7 +10,8 @@ class CheckoutController extends Controller
 {
     public function show()
     {
-        $basket = ShoppingBasket::for(request()->user());
+        $user = request()->user();
+        $basket = ShoppingBasket::for($user);
 
         if($basket->price() < 3 * Meal::SERVING_PRICE) {
             return view('front.checkout.nothing-to-checkout', [
@@ -19,7 +20,8 @@ class CheckoutController extends Controller
         }
 
         return view('front.checkout.page', [
-            'basket' => $basket->presentForReview()
+            'basket' => $basket->presentForReview(),
+            'profile' => $user->profile->toArray(),
         ]);
     }
 }

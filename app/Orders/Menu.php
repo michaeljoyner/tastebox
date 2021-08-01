@@ -32,12 +32,21 @@ class Menu extends Model
     }
 
 
-
     public static function nextUp(): Menu
     {
-        $next =  self::where('delivery_from', '>=', Carbon::today()->startOfDay())
-                     ->orderBy('delivery_from')
-                     ->first();
+        $next = self::where('delivery_from', '>=', Carbon::today()->startOfDay())
+                    ->orderBy('delivery_from')
+                    ->first();
+
+        return $next ?? new self;
+    }
+
+    public static function nextAvailable(): Menu
+    {
+        $next = self::where('delivery_from', '>=', Carbon::today()->startOfDay())
+                    ->where('current_to', '>', now())
+                    ->orderBy('delivery_from')
+                    ->first();
 
         return $next ?? new self;
     }
@@ -94,11 +103,11 @@ class Menu extends Model
         $cutoff = Carbon::parse('2021-06-01');
         $value = Carbon::parse($value);
 
-        if($value->isBefore($cutoff)) {
+        if ($value->isBefore($cutoff)) {
             return $value;
         }
 
-        if($value->isMonday()) {
+        if ($value->isMonday()) {
             return Carbon::parse($value->addDay());
         }
 
@@ -161,7 +170,7 @@ class Menu extends Model
             ->with('order')
             ->due()
             ->get()
-            ->filter(fn (OrderedKit $kit) => $kit->order->status === Order::STATUS_OPEN);
+            ->filter(fn(OrderedKit $kit) => $kit->order->status === Order::STATUS_OPEN);
 
         return new Batch(
             $kits,
@@ -181,9 +190,9 @@ class Menu extends Model
         $batch = $this->getBatch();
 
         $this->batchReport()->create([
-            'week' => $batch->week,
-            'total_kits' => $batch->totalKits(),
-            'total_meals' => $batch->totalPackedMeals(),
+            'week'           => $batch->week,
+            'total_kits'     => $batch->totalKits(),
+            'total_meals'    => $batch->totalPackedMeals(),
             'total_servings' => $batch->totalServings(),
         ]);
     }

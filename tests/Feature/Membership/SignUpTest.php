@@ -41,6 +41,11 @@ class SignUpTest extends TestCase
         $this->assertTrue(auth()->user()->is($user));
         $this->assertTrue(Hash::check('password', $user->password));
 
+        $this->assertNotNull($user->profile);
+        $this->assertSame('test', $user->profile->first_name);
+        $this->assertSame('name', $user->profile->last_name);
+        $this->assertSame('test@test.test', $user->profile->email);
+
         Notification::assertSentTo($user, VerifyEmail::class);
 
 

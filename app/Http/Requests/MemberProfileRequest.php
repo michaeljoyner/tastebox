@@ -17,7 +17,11 @@ class MemberProfileRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'first_name' => ['required_without:last_name'],
+            'last_name' => ['required_without:first_name'],
+            'email' => ['email', 'nullable'],
+            'phone' => []
+
         ];
     }
 

@@ -19,4 +19,13 @@ $factory->define(MemberProfile::class, function (Faker $faker) {
     ];
 });
 
+$factory->state(MemberProfile::class, 'complete', []);
+
+$factory->state(MemberProfile::class, 'incomplete', [
+    'email'            => '',
+    'phone'            => '',
+    'address_line_one' => '',
+    'address_line_two' => '',
+    'address_city'     => '',
+]);
 
