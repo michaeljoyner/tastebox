@@ -32,7 +32,7 @@ class UpdateMemberProfileTest extends TestCase
             'address_line_two' => 'test line two',
             'address_city' => 'test city',
         ]);
-        $response->assertSuccessful();
+        $response->assertRedirect('me/home');
 
         $this->assertDatabaseHas('member_profiles', [
             'first_name' => 'test first name',
