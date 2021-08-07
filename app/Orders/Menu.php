@@ -42,6 +42,14 @@ class Menu extends Model
         return $next ?? new self;
     }
 
+    public static function nextToPrep()
+    {
+        $next = self::available()->where('delivery_from', '>=', now()->startOfDay())
+            ->orderBy('delivery_from')->first();
+
+        return $next ?? new self;
+    }
+
     public static function generateWeekly($number_of_weeks)
     {
         $latest = Menu::latest('current_from')->first();

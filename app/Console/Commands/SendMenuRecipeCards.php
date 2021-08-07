@@ -27,7 +27,7 @@ class SendMenuRecipeCards extends Command
 
     public function handle()
     {
-        $menu = Menu::nextUp();
+        $menu = Menu::nextToPrep();
 
         if(!$menu->id) {
             $this->warn('menu is not prepared');
