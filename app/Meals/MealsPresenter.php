@@ -5,6 +5,7 @@ namespace App\Meals;
 
 
 use App\DatePresenter;
+use App\Orders\MealTally;
 use Illuminate\Support\Carbon;
 
 class MealsPresenter
@@ -22,6 +23,7 @@ class MealsPresenter
                         ])->values();
 
         $last_used = $meal->last_used ? Carbon::parse($meal->last_used) : null;
+        $recent_usage = self::getMostRecentUsedDate($last_used, $meal->tallies);
 
         return [
             'id'                     => $meal->id,
@@ -47,9 +49,26 @@ class MealsPresenter
             'times_offered'          => optional($meal->tallies)->times_offered,
             'total_ordered'          => optional($meal->tallies)->total_ordered,
             'total_servings'         => optional($meal->tallies)->total_servings,
-            'last_offered'           => DatePresenter::pretty(optional($meal->tallies)->last_offered),
-            'last_offered_ago'       => $meal->tallies ? $meal->tallies->last_offered->diffForHumans() : 'Never used',
+            'last_offered'           => DatePresenter::pretty($recent_usage),
+            'last_offered_ago'       => $recent_usage ? $recent_usage->diffForHumans() : 'Never used',
         ];
+    }
+
+    private static function getMostRecentUsedDate(?Carbon $last_used, ?MealTally $tally)
+    {
+        if(!$last_used && !$last_used) {
+            return null;
+        }
+
+        if(!$last_used && $tally) {
+            return $tally->last_offered;
+        }
+
+        if($last_used && !$tally) {
+            return $last_used;
+        }
+
+        return $last_used->gt($tally->last_offered) ? $last_used : $tally->last_offered;
     }
 
     public static function forPublic(Meal $meal): array
