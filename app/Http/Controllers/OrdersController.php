@@ -18,7 +18,6 @@ class OrdersController extends Controller
         $basket = ShoppingBasket::for(request()->user());
         $kits = $basket->kits->filter(fn (Kit $kit) => $kit->eligibleForOrder());
 
-
         $order = Order::makeNew(
             $request->customerDetails(), $request->addressedKits($kits), $request->discount()
         );

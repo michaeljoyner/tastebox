@@ -4,6 +4,7 @@
 namespace Tests\Unit\Purchases;
 
 
+use App\Purchases\Discount;
 use App\Purchases\DiscountCode;
 use App\Purchases\NullDiscount;
 use Carbon\Carbon;
@@ -24,14 +25,14 @@ class DiscountCodesTest extends TestCase
         $this->assertSame(0, $null_code->discount(0));
         $this->assertSame(88, $null_code->discount(88));
 
-        $lump = factory(DiscountCode::class)->create(['type' => DiscountCode::LUMP, 'value' => 50]);
+        $lump = factory(DiscountCode::class)->create(['type' => Discount::LUMP, 'value' => 50]);
 
         $this->assertSame(0, $lump->discount(5000));
         $this->assertSame(0, $lump->discount(3300));
         $this->assertSame(100, $lump->discount(5100));
         $this->assertSame(8800, $lump->discount(13800));
 
-        $percent = factory(DiscountCode::class)->create(['type' => DiscountCode::PERCENTAGE, 'value' => 5]);
+        $percent = factory(DiscountCode::class)->create(['type' => Discount::PERCENTAGE, 'value' => 5]);
 
         $this->assertSame(95, $percent->discount(100));
         $this->assertSame(316, $percent->discount(333));

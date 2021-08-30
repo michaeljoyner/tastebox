@@ -3,7 +3,9 @@
 namespace App;
 
 use App\Memberships\MemberProfile;
+use App\Orders\DiscountCodeInfo;
 use App\Orders\Menu;
+use App\Purchases\MemberDiscount;
 use App\Purchases\MemberShoppingBasket;
 use App\Purchases\Order;
 use App\Purchases\OrderedKit;
@@ -107,5 +109,15 @@ class User extends Authenticatable implements MustVerifyEmail
             'address_line_two' => '',
             'address_city'     => '',
         ]);
+    }
+
+    public function discounts(): HasMany
+    {
+        return $this->hasMany(MemberDiscount::class);
+    }
+
+    public function awardDiscount(DiscountCodeInfo $codeInfo): MemberDiscount
+    {
+        return $this->discounts()->create($codeInfo->forMember());
     }
 }

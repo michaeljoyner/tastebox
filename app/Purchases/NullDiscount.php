@@ -19,7 +19,7 @@ class NullDiscount implements Discount
 
     public function getType(): int
     {
-        return DiscountCode::LUMP;
+        return Discount::LUMP;
     }
 
     public function isValid(): bool

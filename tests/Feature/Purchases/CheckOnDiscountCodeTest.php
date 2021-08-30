@@ -4,6 +4,7 @@
 namespace Tests\Feature\Purchases;
 
 
+use App\Purchases\Discount;
 use App\Purchases\DiscountCode;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
@@ -18,7 +19,7 @@ class CheckOnDiscountCodeTest extends TestCase
     public function check_on_a_valid_code()
     {
         $this->withoutExceptionHandling();
-        $code = factory(DiscountCode::class)->create(['type' => DiscountCode::LUMP, 'value' => 50]);
+        $code = factory(DiscountCode::class)->create(['type' => Discount::LUMP, 'value' => 50]);
 
         $response = $this->asGuest()->postJson("/discount-code-status", [
             'discount_code' => $code->code,
@@ -42,7 +43,7 @@ class CheckOnDiscountCodeTest extends TestCase
     public function check_on_an_expired_code()
     {
         $this->withoutExceptionHandling();
-        $code = factory(DiscountCode::class)->state('expired')->create(['type' => DiscountCode::LUMP]);
+        $code = factory(DiscountCode::class)->state('expired')->create(['type' => Discount::LUMP]);
 
         $response = $this->asGuest()->postJson("/discount-code-status", [
             'discount_code' => $code->code,
@@ -66,7 +67,7 @@ class CheckOnDiscountCodeTest extends TestCase
     public function check_on_a_used_code()
     {
         $this->withoutExceptionHandling();
-        $code = factory(DiscountCode::class)->state('used')->create(['type' => DiscountCode::LUMP]);
+        $code = factory(DiscountCode::class)->state('used')->create(['type' => Discount::LUMP]);
 
         $response = $this->asGuest()->postJson("/discount-code-status", [
             'discount_code' => $code->code,

@@ -4,6 +4,7 @@
 namespace Tests\Feature\DiscountCodes;
 
 
+use App\Purchases\Discount;
 use App\Purchases\DiscountCode;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\Response;
@@ -26,7 +27,7 @@ class UpdateDiscountCodeTest extends TestCase
             'code' => 'NEWTESTCODE',
             'valid_from' => now()->addDays(3)->format('Y-m-d'),
             'valid_until' => now()->addWeeks(2)->format('Y-m-d'),
-            'type' => DiscountCode::LUMP,
+            'type' => Discount::LUMP,
             'value' => 66,
             'uses' => 88
         ]);
@@ -37,7 +38,7 @@ class UpdateDiscountCodeTest extends TestCase
             'code' => 'NEWTESTCODE',
             'valid_from' => now()->addDays(3)->format('Y-m-d'),
             'valid_until' => now()->addWeeks(2)->format('Y-m-d'),
-            'type' => DiscountCode::LUMP,
+            'type' => Discount::LUMP,
             'value' => 66,
             'uses' => 88
         ]);
@@ -56,7 +57,7 @@ class UpdateDiscountCodeTest extends TestCase
             'code' => $code->code,
             'valid_from' => now()->addDays(3)->format('Y-m-d'),
             'valid_until' => now()->addWeeks(2)->format('Y-m-d'),
-            'type' => DiscountCode::LUMP,
+            'type' => Discount::LUMP,
             'value' => 66,
             'uses' => 88
         ]);
@@ -67,7 +68,7 @@ class UpdateDiscountCodeTest extends TestCase
             'code' => $code->code,
             'valid_from' => now()->addDays(3)->format('Y-m-d'),
             'valid_until' => now()->addWeeks(2)->format('Y-m-d'),
-            'type' => DiscountCode::LUMP,
+            'type' => Discount::LUMP,
             'value' => 66,
             'uses' => 88
         ]);
@@ -156,7 +157,7 @@ class UpdateDiscountCodeTest extends TestCase
             'code' => 'NEWTESTCODE',
             'valid_from' => now()->addDays(3)->format('Y-m-d'),
             'valid_until' => now()->addWeeks(2)->format('Y-m-d'),
-            'type' => DiscountCode::LUMP,
+            'type' => Discount::LUMP,
             'value' => 66,
             'uses' => 88
         ];

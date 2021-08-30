@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Purchases\Discount;
 use App\Purchases\DiscountCode;
 use Illuminate\Http\Request;
 
@@ -25,7 +26,7 @@ class DiscountCodeStatusController extends Controller
                 'code' => $code->code,
                 'is_valid' => $code->isValid(),
                 'message' => $this->reasonInvalid($code),
-                'type' => $code->type === DiscountCode::LUMP ? 'lump' : 'percent',
+                'type' => $code->type === Discount::LUMP ? 'lump' : 'percent',
                 'value' => $code->value,
             ];
     }

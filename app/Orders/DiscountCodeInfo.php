@@ -36,4 +36,15 @@ class DiscountCodeInfo
             'uses'        => $this->uses,
         ];
     }
+
+    public function forMember(): array
+    {
+        return [
+            'code'        => $this->code,
+            'type'        => $this->type,
+            'valid_from'  => $this->valid_from,
+            'valid_until' => $this->valid_until,
+            'value'       => $this->value,
+        ];
+    }
 }

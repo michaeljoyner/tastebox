@@ -6,6 +6,9 @@ namespace App\Purchases;
 
 interface Discount
 {
+    const LUMP = 1;
+    const PERCENTAGE = 2;
+
     public function getCode(): string;
 
     public function getValue(): int;

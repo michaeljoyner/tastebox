@@ -7,7 +7,9 @@ namespace Tests\Feature\Purchases;
 use App\Meals\Meal;
 use App\Memberships\MemberProfile;
 use App\Orders\Menu;
+use App\Purchases\Discount;
 use App\Purchases\DiscountCode;
+use App\Purchases\MemberDiscount;
 use App\Purchases\Order;
 use App\Purchases\OrderedKit;
 use App\Purchases\ShoppingBasket;
@@ -29,9 +31,8 @@ class MemberPlaceOrderTest extends TestCase
 
         $profile = factory(MemberProfile::class)->create();
 
-        $discount_code = factory(DiscountCode::class)->create([
-            'uses'  => 5,
-            'type'  => DiscountCode::LUMP,
+        $discount_code = factory(MemberDiscount::class)->create([
+            'type'  => Discount::LUMP,
             'value' => 50
         ]);
 
@@ -68,7 +69,7 @@ class MemberPlaceOrderTest extends TestCase
 
 
         $response = $this->actingAs($profile->user)->post("/checkout", [
-            'discount_code' => $discount_code->code,
+            'member_discount_id' => $discount_code->id,
         ]);
         $response->assertSuccessful();
 
@@ -80,16 +81,13 @@ class MemberPlaceOrderTest extends TestCase
             'phone'          => $profile->phone,
             'price_in_cents' => ((21 * Meal::SERVING_PRICE) - 50) * 100,
             'discount_code'  => $discount_code->code,
-            'discount_type'  => DiscountCode::LUMP,
+            'discount_type'  => Discount::LUMP,
             'discount_value' => 50,
             'is_paid'        => false,
             'status'         => Order::STATUS_CREATED,
         ]);
 
-        $this->assertDatabaseHas('discount_codes', [
-            'id'   => $discount_code->id,
-            'uses' => 4
-        ]);
+        $this->assertDeleted($discount_code);
 
         $order = Order::where('email', $profile->email)->first();
 

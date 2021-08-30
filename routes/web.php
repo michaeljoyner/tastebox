@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\MealNotesController;
+use App\Http\Controllers\Admin\MemberDiscountsController;
 use App\Http\Controllers\Admin\OrderedKitsController;
 use App\Http\Controllers\Admin\PostBodyImagesController;
 use App\Http\Controllers\Admin\PostPreviewController;
@@ -181,5 +182,7 @@ Route::group(['middleware' => 'auth'], function () {
         Route::delete('published-posts/{post}', [PublishedPostsController::class, 'destroy']);
 
         Route::get('reports/weekly-batches', [WeeklyBatchReportsController::class, 'index']);
+
+        Route::post('/members/{member}/discounts', [MemberDiscountsController::class, 'store']);
     });
 });

@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\DiscountCodes;
 
+use App\Purchases\Discount;
 use App\Purchases\DiscountCode;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\Response;
@@ -22,7 +23,7 @@ class CreateDiscountCodeTest extends TestCase
             'code' => 'TESTCODE',
             'valid_from' => now()->format('Y-m-d'),
             'valid_until' => now()->addWeek()->format('Y-m-d'),
-            'type' => DiscountCode::LUMP,
+            'type' => Discount::LUMP,
             'value' => 10,
             'uses' => 10
         ]);
@@ -32,7 +33,7 @@ class CreateDiscountCodeTest extends TestCase
             'code' => 'TESTCODE',
             'valid_from' => now()->format('Y-m-d'),
             'valid_until' => now()->addWeek()->format('Y-m-d'),
-            'type' => DiscountCode::LUMP,
+            'type' => Discount::LUMP,
             'value' => 10,
             'uses' => 10
         ]);
@@ -49,7 +50,7 @@ class CreateDiscountCodeTest extends TestCase
             'code' => 'TESTCODE',
             'valid_from' => null,
             'valid_until' => null,
-            'type' => DiscountCode::LUMP,
+            'type' => Discount::LUMP,
             'value' => null,
             'uses' => null
         ]);
@@ -59,7 +60,7 @@ class CreateDiscountCodeTest extends TestCase
             'code' => 'TESTCODE',
             'valid_from' => now()->format('Y-m-d'),
             'valid_until' => now()->addWeek()->format('Y-m-d'),
-            'type' => DiscountCode::LUMP,
+            'type' => Discount::LUMP,
             'value' => 0,
             'uses' => 0
         ]);
@@ -146,7 +147,7 @@ class CreateDiscountCodeTest extends TestCase
             'code' => 'TESTCODE',
             'valid_from' => now()->format('Y-m-d'),
             'valid_until' => now()->addWeek()->format('Y-m-d'),
-            'type' => DiscountCode::LUMP,
+            'type' => Discount::LUMP,
             'value' => 10,
             'uses' => 10
         ];

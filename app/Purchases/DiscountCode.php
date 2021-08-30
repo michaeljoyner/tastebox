@@ -9,8 +9,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class DiscountCode extends Model implements Discount
 {
-    const LUMP = 1;
-    const PERCENTAGE = 2;
+
 
     protected $fillable = [
         'code',

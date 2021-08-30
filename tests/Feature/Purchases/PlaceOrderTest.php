@@ -6,6 +6,7 @@ namespace Tests\Feature\Purchases;
 
 use App\Meals\Meal;
 use App\Orders\Menu;
+use App\Purchases\Discount;
 use App\Purchases\DiscountCode;
 use App\Purchases\Kit;
 use App\Purchases\Order;
@@ -28,7 +29,7 @@ class PlaceOrderTest extends TestCase
 
         $discount_code = factory(DiscountCode::class)->create([
             'uses'  => 5,
-            'type'  => DiscountCode::LUMP,
+            'type'  => Discount::LUMP,
             'value' => 50
         ]);
 
@@ -103,7 +104,7 @@ class PlaceOrderTest extends TestCase
             'phone'          => '0798888888',
             'price_in_cents' => ((21 * Meal::SERVING_PRICE) - 50) * 100,
             'discount_code'  => $discount_code->code,
-            'discount_type'  => DiscountCode::LUMP,
+            'discount_type'  => Discount::LUMP,
             'discount_value' => 50,
             'is_paid'        => false,
             'status' => Order::STATUS_CREATED,
