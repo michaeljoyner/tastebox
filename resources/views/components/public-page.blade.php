@@ -39,7 +39,9 @@
     <meta name="msapplication-TileColor" content="#da532c">
     <meta name="theme-color" content="#ffffff">
 
+    @include('front.partials.ga-tracking')
     @include('front.partials.fb-pixel')
+    @stack('head_scripts')
 </head>
 <body class="font-sans text-gray-800 h-full pt-16">
 <div id="app" class="min-h-full flex flex-col">
@@ -95,6 +97,6 @@
 @endif
 <script src="{{ mix('js/manifest.js') }}"></script>
 <script src="{{ $javascript }}"></script>
-@include('front.partials.ga-tracking')
+
 </body>
 </html>

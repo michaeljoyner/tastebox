@@ -36,6 +36,7 @@ return [
 
     'google' => [
         'analytics' => env('GA_TRACKING_ID'),
+        'ad_words' => env('GA_AD_WORDS'),
     ],
 
     'nexmo' => [
