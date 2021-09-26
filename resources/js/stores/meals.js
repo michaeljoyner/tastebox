@@ -1,5 +1,6 @@
 import { showError } from "../libs/notifications";
 import {
+    addMealNote,
     copyMeal,
     createNewMeal,
     deleteMeal,
@@ -181,6 +182,12 @@ export default {
 
         organiseIngredients({ dispatch }, { meal_id, formData }) {
             return updateIngredientPositions(meal_id, formData).then(() =>
+                dispatch("refresh")
+            );
+        },
+
+        addNote({ dispatch }, { meal_id, formData }) {
+            return addMealNote(meal_id, formData).then(() =>
                 dispatch("refresh")
             );
         },

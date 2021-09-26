@@ -42,6 +42,10 @@ function updateIngredientPositions(meal_id, formData) {
     });
 }
 
+function addMealNote(meal_id, formData) {
+    return post(`/admin/api/meals/${meal_id}/notes`, formData);
+}
+
 export {
     deleteMeal,
     copyMeal,
@@ -53,4 +57,5 @@ export {
     updateMealIngredients,
     updateMealInstructions,
     updateIngredientPositions,
+    addMealNote,
 };

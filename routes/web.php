@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\MealNotesController;
 use App\Http\Controllers\Admin\OrderedKitsController;
 use App\Http\Controllers\Admin\PostBodyImagesController;
 use App\Http\Controllers\Admin\PostPreviewController;
@@ -89,6 +90,8 @@ Route::group(['middleware' => 'auth'], function () {
         Route::post('meals/{meal}/nutritional-info', 'MealNutritionalInfoController@update');
         Route::post('meals/{meal}/ingredients', 'MealIngredientsController@update');
         Route::post('meals/{meal}/instructions', 'MealInstructionsController@update');
+
+        Route::post('meals/{meal}/notes', [MealNotesController::class, 'store']);
 
         Route::post('meals/{meal}/organise-ingredients', 'OrganisedMealIngredientsController@update');
 

@@ -37,6 +37,7 @@ import MealPopularity from "../vue/Pages/Reports/MealPopularity";
 import HomePage from "../vue/Pages/HomePage";
 import UpcomingKits from "../vue/Pages/Orders/UpcomingKits";
 import OrderedKit from "../vue/Pages/Orders/OrderedKit";
+import MealNotes from "../vue/Pages/Meals/MealNotes";
 
 export default [
     { path: "/", component: HomePage },
@@ -57,6 +58,7 @@ export default [
             { path: "instructions/edit", component: EditMealInstructions },
             { path: "photos", component: MealGallery },
             { path: "actions", component: MealActionsPage },
+            { path: "notes", component: MealNotes },
         ],
     },
     { path: "/menus", component: MenuIndex },

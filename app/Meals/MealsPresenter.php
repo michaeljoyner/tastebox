@@ -51,20 +51,21 @@ class MealsPresenter
             'total_servings'         => optional($meal->tallies)->total_servings,
             'last_offered'           => DatePresenter::pretty($recent_usage),
             'last_offered_ago'       => $recent_usage ? $recent_usage->diffForHumans() : 'Never used',
+            'notes'                  => $meal->notes->map->toArray(),
         ];
     }
 
     private static function getMostRecentUsedDate(?Carbon $last_used, ?MealTally $tally)
     {
-        if(!$last_used && !$last_used) {
+        if (!$last_used && !$last_used) {
             return null;
         }
 
-        if(!$last_used && $tally) {
+        if (!$last_used && $tally) {
             return $tally->last_offered;
         }
 
-        if($last_used && !$tally) {
+        if ($last_used && !$tally) {
             return $last_used;
         }
 

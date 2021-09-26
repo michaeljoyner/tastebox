@@ -56,6 +56,15 @@
                         >Actions</router-link
                     >
                 </div>
+
+                <div class="mb-2">
+                    <router-link
+                        :to="`/meals/${$route.params.meal}/manage/notes`"
+                        class="font-bold hover:text-blue-600"
+                        active-class="text-blue-600"
+                        >Notes</router-link
+                    >
+                </div>
             </div>
             <div class="flex-1">
                 <router-view :meal="meal"></router-view>

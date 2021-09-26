@@ -18,7 +18,7 @@ class MealsController extends Controller
                       ->leftJoin('menus', 'menus.id', '=', 'meal_menu.menu_id')
                       ->groupBy('meal_menu.meal_id');
 
-        return Meal::with('ingredients', 'classifications', 'tallies')
+        return Meal::with('ingredients', 'classifications', 'tallies', 'notes')
                    ->leftJoinSub(
                        $lastUsed,
                        'recent_inclusion',

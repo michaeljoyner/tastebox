@@ -88,6 +88,10 @@ export default {
             type: String,
             default: "",
         },
+        compact: {
+            type: Boolean,
+            default: false,
+        },
     },
     emits: [
         "update:modelValue",
@@ -137,6 +141,7 @@ export default {
             handleEmbedBtnClick: () => (showCodeEmbedModal.value = true),
             handleUpload,
             emit,
+            is_compact: props.compact,
         };
 
         onMounted(async () => {

@@ -10,8 +10,9 @@ function tinymceInitConfig(options) {
         ),
         menubar: "",
         content_css: "document",
-        content_style:
-            "img {max-width: 100%;} body {max-width: 50rem; margin: 0 auto;}",
+        content_style: options.is_compact
+            ? "img {max-width: 100%;} body {max-width: 50rem; margin: 0 auto;  padding: 1rem;}"
+            : "img {max-width: 100%;} body {max-width: 50rem; margin: 0 auto;}",
         height: options.height,
         setup(editor) {
             editor.on("init", () => {

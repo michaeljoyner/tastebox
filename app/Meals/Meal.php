@@ -2,6 +2,7 @@
 
 namespace App\Meals;
 
+use App\HasNotes;
 use App\Orders\MealTally;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\UploadedFile;
@@ -15,7 +16,7 @@ use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class Meal extends Model implements HasMedia
 {
-    use InteractsWithMedia;
+    use InteractsWithMedia, HasNotes;
 
     const GALLERY = 'gallery';
     const DEFAULT_IMAGE = '/images/logos/tastebox_logo.jpg';
