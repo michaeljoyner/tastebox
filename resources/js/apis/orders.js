@@ -1,7 +1,7 @@
 import { get } from "./http";
 
-function fetchRecentOrders() {
-    return get("/admin/api/recent-orders");
+function fetchOrders(page) {
+    return get(`/admin/api/orders?page=${page}`);
 }
 
 function fetchById(id) {
@@ -12,4 +12,4 @@ function fetchOrderedKits() {
     return get("/admin/api/ordered-kits");
 }
 
-export { fetchRecentOrders, fetchById, fetchOrderedKits };
+export { fetchOrders, fetchById, fetchOrderedKits };

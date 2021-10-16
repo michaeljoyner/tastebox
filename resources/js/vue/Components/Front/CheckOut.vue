@@ -185,12 +185,12 @@
         <div class="px-6">
             <p class="type-h2 text-center mt-12 mb-8">Delivery</p>
 
-            <div v-if="use_profile_address">
+            <div v-if="use_profile_address" class="text-center">
                 <p>
                     We will delivery to your address at
                     {{ profile.full_address }}
                 </p>
-                <div class="flex justify-end py-3">
+                <div class="flex justify-center py-3">
                     <button
                         @click="use_profile_address = false"
                         class="text-gray-500 hover:text-green-600 type-b3"
@@ -388,6 +388,15 @@
         </div>
         <modal :show="showDiscountInput" @close="showDiscountInput = false">
             <div class="w-full mx-auto max-w-md py-6 px-3 bg-white rounded-lg">
+                <div class="flex justify-end">
+                    <button
+                        type="button"
+                        @click="showDiscountInput = false"
+                        class="mr-4"
+                    >
+                        Close
+                    </button>
+                </div>
                 <div>
                     <label
                         class="text-sm font-bold text-gray-700"
@@ -400,28 +409,42 @@
                     >
                         {{ discount_status_error }}
                     </p>
-                    <input
-                        class="block p-2 border w-full"
-                        type="text"
-                        v-model="check_discount_code"
-                    />
-                </div>
-                <div class="flex justify-end mt-6">
-                    <button
-                        type="button"
-                        @click="showDiscountInput = false"
-                        class="mr-4"
+                    <div
+                        class="flex border border-green-500 rounded-md focus-within:ring-green-500 focus-within:ring-1"
                     >
-                        Cancel
-                    </button>
-                    <submit-button
-                        @click="checkDiscountCode"
-                        role="button"
-                        :waiting="checking_code"
-                    >
-                        Apply Code
-                    </submit-button>
+                        <input
+                            class="block rounded-md border-none p-2 flex-1 focus:ring-0"
+                            type="text"
+                            v-model="check_discount_code"
+                        />
+                        <submit-button
+                            @click="checkDiscountCode"
+                            role="button"
+                            :waiting="checking_code"
+                        >
+                            Apply
+                        </submit-button>
+                    </div>
                 </div>
+                <div v-if="profile" class="mt-6">
+                    <p class="font-semibold text-gray-500 text-sm mb-4">
+                        Available discounts for you:
+                    </p>
+                    <div
+                        v-for="discount in discounts"
+                        :key="discount.id"
+                        class="flex justify-between py-2"
+                    >
+                        <p class="font-bold">{{ discount.value_string }} off</p>
+                        <button
+                            @click="applyMemberDiscount(discount)"
+                            class="text-xs bg-green-100 hover:bg-green-200 border border-green-700 text-green-700 px-2 py-1 rounded-full"
+                        >
+                            apply
+                        </button>
+                    </div>
+                </div>
+                <div class="flex justify-end mt-6"></div>
             </div>
         </modal>
     </div>
@@ -442,7 +465,7 @@ export default {
         Modal,
     },
 
-    props: ["basket", "payfast-url", "profile"],
+    props: ["basket", "payfast-url", "profile", "discounts"],
 
     data() {
         return {
@@ -470,6 +493,7 @@ export default {
                 delivery: {},
                 subscribe_to_newsletter: false,
                 get_sms_reminder: false,
+                member_discount_id: null,
             },
             formErrors: {
                 first_name: "",
@@ -559,6 +583,7 @@ export default {
                 email: this.formData.email,
                 phone: this.formData.phone,
                 discount_code: this.formData.discount_code,
+                member_discount_id: this.formData.member_discount_id,
                 subscribe_to_newsletter: this.formData.subscribe_to_newsletter,
                 get_sms_reminder: this.formData.get_sms_reminder,
                 delivery: this.getDeliveryDetails(),
@@ -647,6 +672,14 @@ export default {
             this.showDiscountInput = false;
         },
 
+        applyMemberDiscount(code) {
+            this.formData.member_discount_id = code.id;
+            this.discount_value = code.value;
+            this.discount_type = code.type;
+            this.check_discount_code = "";
+            this.showDiscountInput = false;
+        },
+
         handleInvalidCode(code) {
             this.discount_status_error = code.message;
         },
@@ -658,6 +691,7 @@ export default {
 
         clearDiscount() {
             this.formData.discount_code = "";
+            this.formData.member_discount_id = null;
             this.check_discount_code = "";
             this.discount_value = 0;
             this.discount_type = "";

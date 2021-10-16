@@ -17,6 +17,14 @@ class MemberProfile extends Model
         return $this->belongsTo(User::class);
     }
 
+    public function getFullNameAttribute(): string
+    {
+        return collect([$this->first_name, $this->last_name])
+            ->map(fn ($name) => trim($name))
+            ->filter(fn ($name) => !! $name)
+            ->join(" ");
+    }
+
     public function addressInfo(): array
     {
         return [

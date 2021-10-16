@@ -52,6 +52,11 @@ class User extends Authenticatable implements MustVerifyEmail
         'email_verified_at' => 'datetime',
     ];
 
+    public function scopeMembers(Builder $query)
+    {
+        $query->where('is_admin', false);
+    }
+
     public static function addAdmin($options)
     {
         return static::create(array_merge($options, ['is_admin' => true]));

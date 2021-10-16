@@ -9,6 +9,11 @@
         </div>
         <div class="flex justify-end items-center">
             <div class="flex items-center">
+                <router-link
+                    class="text-white font-bold hover:underline mx-4"
+                    to="/memberships/members"
+                    >Members</router-link
+                >
                 <div
                     class="relative text-white font-bold h-16 flex items-center px-6 z-50"
                     @click.stop="showMarketingOptions = !showMarketingOptions"
@@ -90,8 +95,8 @@
                     >
                         <router-link
                             class="font-bold hover:underline mx-4 mb-2 block whitespace-nowrap"
-                            to="/recent-orders"
-                            >Recent Orders</router-link
+                            to="/orders"
+                            >Orders</router-link
                         >
                         <router-link
                             class="font-bold hover:underline mx-4 mb-2 block whitespace-nowrap"

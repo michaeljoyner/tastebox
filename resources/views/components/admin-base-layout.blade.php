@@ -23,11 +23,12 @@
         </script>
 </head>
 <body class="font-sans text-gray-800 h-full">
-<div id="app" class="min-h-full">
-    <navbar></navbar>
-    {{ $slot }}
-    <notification-hub></notification-hub>
+
+<div id="app" class="h-full">
+
 </div>
+<div id="side-panels" class="relative z-40"></div>
+<div id="notification" class="relative z-50"></div>
 <script src="{{ mix('js/manifest.js') }}"></script>
 <script src="{{ mix('js/vendor.js') }}"></script>
 <script src="{{ $javascript }}"></script>

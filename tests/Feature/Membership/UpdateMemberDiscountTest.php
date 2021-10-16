@@ -3,41 +3,41 @@
 namespace Tests\Feature\Membership;
 
 use App\Purchases\Discount;
-use App\Purchases\DiscountCode;
-use App\User;
+use App\Purchases\MemberDiscount;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\Response;
 use Tests\TestCase;
 
-class CreateMemberDiscountTest extends TestCase
+class UpdateMemberDiscountTest extends TestCase
 {
     use RefreshDatabase;
 
     /**
      * @test
      */
-    public function create_a_member_discount_for_an_existing_member()
+    public function update_an_existing_member_discount()
     {
         $this->withoutExceptionHandling();
 
-        $member = factory(User::class)->state('member')->create();
+        $discount = factory(MemberDiscount::class)->create();
 
-        $response = $this->asAdmin()->postJson("/admin/api/members/{$member->id}/discounts", [
-            'code'        => 'TESTCODE',
-            'valid_from'  => now()->format('Y-m-d'),
-            'valid_until' => now()->addWeek()->format('Y-m-d'),
+        $response = $this->asAdmin()->postJson("/admin/api/member-discounts/{$discount->id}", [
+            'code'        => 'NEWTEST',
+            'valid_from'  => now()->addWeek()->format('Y-m-d'),
+            'valid_until' => now()->addMonth()->format('Y-m-d'),
             'type'        => Discount::LUMP,
-            'value'       => 10,
+            'value'       => 66,
         ]);
-
         $response->assertSuccessful();
 
+
         $this->assertDatabaseHas('member_discounts', [
-            'code'        => 'TESTCODE',
-            'valid_from'  => now()->format('Y-m-d'),
-            'valid_until' => now()->addWeek()->format('Y-m-d'),
+            'id'          => $discount->id,
+            'code'        => 'NEWTEST',
+            'valid_from'  => now()->addWeek()->format('Y-m-d'),
+            'valid_until' => now()->addMonth()->format('Y-m-d'),
             'type'        => Discount::LUMP,
-            'value'       => 10,
+            'value'       => 66,
         ]);
     }
 
@@ -102,20 +102,19 @@ class CreateMemberDiscountTest extends TestCase
 
     private function assertFieldIsInvalid(array $field)
     {
-        $member = factory(User::class)->state('member')->create();
+        $discount = factory(MemberDiscount::class)->create();
 
         $valid = [
-            'code'        => 'TESTCODE',
-            'valid_from'  => now()->format('Y-m-d'),
-            'valid_until' => now()->addWeek()->format('Y-m-d'),
+            'code'        => 'NEWTEST',
+            'valid_from'  => now()->addWeek()->format('Y-m-d'),
+            'valid_until' => now()->addMonth()->format('Y-m-d'),
             'type'        => Discount::LUMP,
-            'value'       => 10,
+            'value'       => 66,
         ];
 
         $response = $this
             ->asAdmin()
-            ->postJson("/admin/api/members/{$member->id}/discounts", array_merge($valid, $field));
-
+            ->postJson("/admin/api/member-discounts/{$discount->id}", array_merge($valid, $field));
         $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
         $response->assertJsonValidationErrors(array_key_first($field));
     }

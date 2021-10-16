@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\AdminOrderResource;
+use App\Http\Resources\AdminOrderResourceCollection;
 use App\Purchases\Order;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
@@ -12,15 +14,14 @@ class OrdersController extends Controller
     public function index()
     {
         $orders = Order::with('orderedKits')
-                       ->where('created_at', '>', Carbon::today()->subMonths(3))
-                       ->latest()
-                       ->get()->map->summarizeForAdmin();
+            ->latest()
+            ->paginate(25);
 
-        return $orders->groupBy(fn($order) => $order['batch'])->toArray();
+        return  new AdminOrderResourceCollection($orders);
     }
 
     public function show(Order $order)
     {
-        return $order->presentForAdmin();
+        return new AdminOrderResource($order);
     }
 }

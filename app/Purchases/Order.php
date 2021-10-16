@@ -32,6 +32,10 @@ class Order extends Model
         'user_id'
     ];
 
+    protected $appends = [
+        'order_date'
+    ];
+
     protected $casts = ['is_paid' => 'boolean', 'confirmation_sent' => 'boolean'];
 
     public function customerFullname(): string
@@ -199,6 +203,11 @@ class Order extends Model
             'batch'             => sprintf("Week %s, %s", $this->created_at->week,
                 DatePresenter::range($this->created_at->startOfWeek(), $this->created_at->endOfWeek()))
         ];
+    }
+
+    public function getOrderDateAttribute(): string
+    {
+        return DatePresenter::pretty($this->created_at);
     }
 
     public function presentForAdmin(): array

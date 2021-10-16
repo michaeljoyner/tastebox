@@ -9,6 +9,7 @@ import mailinglist from "./mailinglist";
 import blog from "./blog";
 import reports from "./reports";
 import quotes from "./quotes";
+import members from "./members";
 import { createStore } from "vuex";
 
 const store = createStore({
@@ -24,6 +25,7 @@ const store = createStore({
         blog,
         reports,
         quotes,
+        members,
     },
 });
 

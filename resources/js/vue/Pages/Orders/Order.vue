@@ -50,14 +50,11 @@ import OrderStatus from "../../Components/Orders/OrderStatus";
 import OrderedKitStatus from "../../Components/Orders/OrderedKitStatus";
 import { fetchById } from "../../../apis/orders";
 import { showError } from "../../../libs/notifications";
+import { useStore } from "vuex";
+import { computed, onMounted } from "vue";
+import { useRoute } from "vue-router";
 
 export default {
-    data() {
-        return {
-            order: null,
-        };
-    },
-
     components: {
         Page,
         PageHeader,
@@ -65,10 +62,16 @@ export default {
         OrderedKitStatus,
     },
 
-    mounted() {
-        fetchById(this.$route.params.id)
-            .then((order) => (this.order = order))
-            .catch(() => showError("Unable to fetch order"));
+    setup() {
+        const store = useStore();
+        const route = useRoute();
+        const order = computed(() => store.state.orders.active);
+
+        onMounted(() => {
+            store.dispatch("orders/fetchActive", route.params.order);
+        });
+
+        return { order };
     },
 };
 </script>

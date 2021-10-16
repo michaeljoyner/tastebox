@@ -1,6 +1,22 @@
 @tailwind base;
 
-@import "front/forms";
-@import "admin/buttons";
+
 
 @tailwind utilities;
+
+@layer base {
+    @import "front/forms";
+    @import "admin/buttons";
+
+    .type-h1 {
+        @apply text-4xl font-black;
+    }
+
+    .type-h3 {
+        @apply uppercase font-semibold;
+    }
+
+    .type-b3 {
+        @apply text-sm;
+    }
+}

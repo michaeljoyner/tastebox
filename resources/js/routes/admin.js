@@ -3,7 +3,6 @@ import MealGallery from "../vue/Pages/Meals/MealGallery";
 import MenuIndex from "../vue/Pages/Menu/MenuIndex";
 import MenuShow from "../vue/Pages/Menu/MenuShow";
 import MenuEditMeals from "../vue/Pages/Menu/MenuEditMeals";
-import RecentOrders from "../vue/Pages/Orders/RecentOrders";
 import Order from "../vue/Pages/Orders/Order";
 import CurrentBatch from "../vue/Pages/Batches/CurrentBatch";
 import BatchKits from "../vue/Components/Batches/BatchKits";
@@ -38,6 +37,9 @@ import HomePage from "../vue/Pages/HomePage";
 import UpcomingKits from "../vue/Pages/Orders/UpcomingKits";
 import OrderedKit from "../vue/Pages/Orders/OrderedKit";
 import MealNotes from "../vue/Pages/Meals/MealNotes";
+import Members from "../vue/Pages/Memberships/Members";
+import Member from "../vue/Pages/Memberships/Member";
+import Orders from "../vue/Pages/Orders/Orders";
 
 export default [
     { path: "/", component: HomePage },
@@ -65,8 +67,8 @@ export default [
     { path: "/menus/:id", component: MenuShow },
     { path: "/menus/:id/edit-meals", component: MenuEditMeals },
     { path: "/menus/:menu/images", component: MenuImages },
-    { path: "/recent-orders", component: RecentOrders },
-    { path: "/recent-orders/:id", component: Order },
+    { path: "/orders", component: Orders },
+    { path: "/orders/:order", component: Order },
     { path: "/orders/upcoming-kits", component: UpcomingKits },
     { path: "/orders/upcoming-kits/:kit/show", component: OrderedKit },
     {
@@ -91,4 +93,6 @@ export default [
     { path: "/blog/posts/:post/edit", component: PostEdit },
     { path: "/reports/weekly-batch-report", component: WeeklyBatchReports },
     { path: "/reports/meal-popularity", component: MealPopularity },
+    { path: "/memberships/members", component: Members },
+    { path: "/memberships/members/:member/show", component: Member },
 ];

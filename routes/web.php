@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\MealNotesController;
 use App\Http\Controllers\Admin\MemberDiscountsController;
+use App\Http\Controllers\Admin\MembersController;
 use App\Http\Controllers\Admin\OrderedKitsController;
 use App\Http\Controllers\Admin\PostBodyImagesController;
 use App\Http\Controllers\Admin\PostPreviewController;
@@ -149,7 +150,7 @@ Route::group(['middleware' => 'auth'], function () {
 
         Route::post('completed-ordered-kits', 'CompletedOrderedKitsController@store');
 
-        Route::get('recent-orders', 'OrdersController@index');
+        Route::get('orders', 'OrdersController@index');
         Route::get('recent-orders/{order}', 'OrdersController@show');
         Route::get('ordered-kits', [OrderedKitsController::class, 'index']);
 
@@ -183,6 +184,11 @@ Route::group(['middleware' => 'auth'], function () {
 
         Route::get('reports/weekly-batches', [WeeklyBatchReportsController::class, 'index']);
 
+        Route::get('members', [MembersController::class, 'index']);
+        Route::get('members/{member}', [MembersController::class, 'show']);
+
         Route::post('/members/{member}/discounts', [MemberDiscountsController::class, 'store']);
+        Route::post('/member-discounts/{discount}', [MemberDiscountsController::class, 'update']);
+        Route::delete('/member-discounts/{discount}', [MemberDiscountsController::class, 'delete']);
     });
 });

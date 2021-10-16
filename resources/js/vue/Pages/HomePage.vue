@@ -1,18 +1,12 @@
 <template>
-    <page>
+    <page class="">
         <div
-            class="mt-48 py-24 px-12 bg-yellow-400 flex justify-center items-center relative shadow-lg"
+            class="bg-gradient-to-r from-indigo-500 to-pink-500 p-8 rounded-xl text-white"
         >
-            <div
-                class="absolute inset-0 transform rotate-3 bg-red-400"
-                style="z-index: -1;"
-            ></div>
-            <p class="text-6xl text-gray-700 font-black">
+            <p class="text-3xl font-black">
                 {{ quote.message }}
             </p>
-            <p class="absolute bottom-0 right-0 m-4 font-semibold">
-                - {{ quote.author }}
-            </p>
+            <p class="mt-6 text-right">- {{ quote.author }}</p>
         </div>
     </page>
 </template>

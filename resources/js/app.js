@@ -1,3 +1,5 @@
+import AppShell from "./vue/AppShell";
+
 require("./bootstrap");
 
 import { createApp } from "vue";
@@ -20,9 +22,7 @@ const router = createRouter({
         }
     },
 });
-const app = createApp({})
-    .component("navbar", Navbar)
-    .component("notification-hub", NotificationHub);
+const app = createApp(AppShell);
 
 app.use(store);
 app.use(router);

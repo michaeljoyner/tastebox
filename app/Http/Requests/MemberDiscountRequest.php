@@ -4,11 +4,10 @@ namespace App\Http\Requests;
 
 use App\Orders\DiscountCodeInfo;
 use App\Purchases\Discount;
-use App\Purchases\DiscountCode;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
-class DiscountCodeRequest extends FormRequest
+class MemberDiscountRequest extends FormRequest
 {
 
     public function authorize()
@@ -20,11 +19,10 @@ class DiscountCodeRequest extends FormRequest
     public function rules()
     {
         return [
-            'code'       => ['required', Rule::unique('discount_codes', 'code')->ignore($this->route('code')), 'alpha_num'],
+            'code'       => ['required', 'alpha_num'],
             'valid_from' => ['date', 'nullable'],
             'valid_until' => ['date', 'after_or_equal:valid_from', 'nullable'],
             'type' => [Rule::in([Discount::PERCENTAGE, Discount::LUMP])],
-            'uses' => ['integer', 'min:1', 'nullable'],
             'value' => ['integer', 'min:1', 'nullable'],
         ];
     }
@@ -37,7 +35,6 @@ class DiscountCodeRequest extends FormRequest
             'valid_from',
             'valid_until',
             'value',
-            'uses',
         ]));
     }
 }

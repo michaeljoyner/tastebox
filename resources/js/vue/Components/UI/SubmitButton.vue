@@ -2,7 +2,7 @@
     <button
         :type="role"
         :disabled="waiting"
-        class="btn relative px-3 py-1 shadow rounded font-bold text-white"
+        class="btn relative px-4 py-2 shadow rounded-md font-semibold text-white"
         :class="btnClass"
     >
         <span :class="{ 'opacity-0': waiting, 'opacity-100': !waiting }">
@@ -45,7 +45,7 @@ export default {
     computed: {
         btnClass() {
             const lookup = {
-                main: "bg-green-600 hover:bg-green-500",
+                main: "bg-indigo-600 hover:bg-indigo-500",
                 danger: "bg-red-600 hover:bg-red-500",
                 dark: "bg-gray-800 hover:bg-gray-700",
             };
