@@ -31,6 +31,8 @@ class UpdateMemberProfileTest extends TestCase
             'address_line_one' => 'test line one',
             'address_line_two' => 'test line two',
             'address_city' => 'test city',
+            'sms_reminders' => false,
+            'email_reminders' => true,
         ]);
         $response->assertRedirect('me/home');
 
@@ -42,6 +44,8 @@ class UpdateMemberProfileTest extends TestCase
             'address_line_one' => 'test line one',
             'address_line_two' => 'test line two',
             'address_city' => 'test city',
+            'sms_reminders' => false,
+            'email_reminders' => true,
         ]);
 
     }
@@ -76,6 +80,24 @@ class UpdateMemberProfileTest extends TestCase
         $this->assertFieldIsInvalid(['email' => 'not-a-valid-email']);
     }
 
+    /**
+     *@test
+     */
+    public function the_sms_reminders_value_must_be_a_bool()
+    {
+        $this->assertFieldIsInvalid(['sms_reminders' => null]);
+        $this->assertFieldIsInvalid(['sms_reminders' => 'not-a-boolean']);
+    }
+
+    /**
+     *@test
+     */
+    public function email_reminders_is_required_as_a_boolean()
+    {
+        $this->assertFieldIsInvalid(['email_reminders' => null]);
+        $this->assertFieldIsInvalid(['email_reminders' => 'not-a-boolean']);
+    }
+
 
 
 
@@ -91,6 +113,8 @@ class UpdateMemberProfileTest extends TestCase
             'address_line_one' => 'test line one',
             'address_line_two' => 'test line two',
             'address_city' => 'test city',
+            'sms_reminders' => false,
+            'email_reminders' => true,
         ];
 
         $response = $this

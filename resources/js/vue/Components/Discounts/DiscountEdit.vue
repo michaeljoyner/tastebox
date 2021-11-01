@@ -53,8 +53,17 @@ export default {
     methods: {
         deleteCode() {
             this.waiting_on_delete = true;
+
+            const action = this.code.is_member_discount
+                ? "members/deleteGeneralDiscount"
+                : "discounts/delete";
             this.$store
-                .dispatch("discounts/delete", this.code.id)
+                .dispatch(
+                    action,
+                    this.code.is_member_discount
+                        ? this.code.discount_tag
+                        : this.code.id
+                )
                 .then(() => {
                     showSuccess("Code deleted.");
                     this.$router.push("/discount-codes");

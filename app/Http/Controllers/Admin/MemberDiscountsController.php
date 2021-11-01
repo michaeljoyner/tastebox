@@ -8,6 +8,7 @@ use App\Http\Requests\MemberDiscountRequest;
 use App\Purchases\MemberDiscount;
 use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 
 class MemberDiscountsController extends Controller
 {
@@ -18,6 +19,7 @@ class MemberDiscountsController extends Controller
 
     public function update(MemberDiscountRequest $request, MemberDiscount $discount)
     {
+        abort_if($discount->discount_tag, Response::HTTP_FORBIDDEN);
         $discount->update($request->codeInfo()->forMember());
     }
 

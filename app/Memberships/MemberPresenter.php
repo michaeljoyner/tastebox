@@ -23,7 +23,7 @@ class MemberPresenter
             'member_since' => DatePresenter::pretty($member->profile->created_at),
             'signed_up' => $member->profile->created_at->diffForHumans(),
             'orders' => $member->orders,
-            'discounts' => $member->discounts,
+            'discounts' => $member->discounts->map->toArray(),
         ];
     }
 }

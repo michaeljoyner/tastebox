@@ -12,6 +12,11 @@ class MemberProfile extends Model
 {
     protected $guarded = [];
 
+    protected $casts = [
+        'sms_reminders' => 'boolean',
+        'email_reminders' => 'boolean',
+    ];
+
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
@@ -20,8 +25,8 @@ class MemberProfile extends Model
     public function getFullNameAttribute(): string
     {
         return collect([$this->first_name, $this->last_name])
-            ->map(fn ($name) => trim($name))
-            ->filter(fn ($name) => !! $name)
+            ->map(fn($name) => trim($name))
+            ->filter(fn($name) => !!$name)
             ->join(" ");
     }
 
@@ -70,6 +75,8 @@ class MemberProfile extends Model
             'address_city'     => $this->address_city,
             'is_complete'      => $this->isComplete(),
             'full_address'     => $this->formattedAddress(),
+            'sms_reminders'    => $this->sms_reminders,
+            'email_reminders'  => $this->email_reminders,
         ];
     }
 }

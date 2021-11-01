@@ -20,5 +20,7 @@ class HomePageController extends Controller
             'upcoming_kits' => $upcoming_kits,
             'has_next_order' => $has_placed_order,
         ]);
+
+
     }
 }

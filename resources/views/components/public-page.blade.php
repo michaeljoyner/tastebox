@@ -44,7 +44,7 @@
     @auth()
         <script>
             window.appMember = {
-                name: '{{ auth()->user()->profile->first_name }}'
+                name: '{{ auth()->user()->profile?->first_name }}'
             }
         </script>
     @endauth
@@ -71,8 +71,18 @@
         <p class="text-center text-green-100">&copy; {{ date('Y') }}</p>
     </div>
     <x-nav-bar></x-nav-bar>
+    <toast-alerts></toast-alerts>
 </div>
 @yield('afterVue')
+
+@if(session()->has('toast'))
+    <script>
+        window.toastMessage = {
+            type: '{{ session('toast')['type'] }}',
+            text: '{{ session('toast')['text'] }}',
+        }
+    </script>
+@endif
 @if($hasSlideshow)
     <script src="https://unpkg.com/flickity@2/dist/flickity.pkgd.min.js"></script>
 @endif

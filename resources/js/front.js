@@ -12,6 +12,7 @@ import KitManager from "./vue/Components/Front/KitManager";
 import BasketPage from "./vue/Components/Front/BasketPage";
 import ContactPage from "./vue/Components/Front/ContactPage";
 import NavMenu from "./vue/Components/Front/NavMenu";
+import ToastAlerts from "./vue/Components/Front/ToastAlerts";
 
 const app = createApp({})
     .component("nav-menu", NavMenu)
@@ -20,7 +21,8 @@ const app = createApp({})
     .component("basket-page", BasketPage)
     .component("basket-bar", BasketBar)
     .component("check-out", CheckOut)
-    .component("contact-form", ContactPage);
+    .component("contact-form", ContactPage)
+    .component("toast-alerts", ToastAlerts);
 
 app.mount("#app");
 

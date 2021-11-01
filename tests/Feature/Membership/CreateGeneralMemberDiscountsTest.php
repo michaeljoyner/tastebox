@@ -3,45 +3,41 @@
 namespace Tests\Feature\Membership;
 
 use App\Purchases\Discount;
-use App\Purchases\DiscountCode;
 use App\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\Response;
-use Illuminate\Support\Str;
 use Tests\TestCase;
 
-class CreateMemberDiscountTest extends TestCase
+class CreateGeneralMemberDiscountsTest extends TestCase
 {
     use RefreshDatabase;
 
     /**
-     * @test
+     *@test
      */
-    public function create_a_member_discount_for_an_existing_member()
+    public function create_a_discount_for_all_members()
     {
         $this->withoutExceptionHandling();
 
-        $member = factory(User::class)->state('member')->create();
+        $members = factory(User::class)->state('member')->times(3)->create();
 
-        $response = $this->asAdmin()->postJson("/admin/api/members/{$member->id}/discounts", [
+        $response = $this->asAdmin()->postJson("/admin/api/general-member-discounts", [
             'code'        => 'TESTCODE',
             'valid_from'  => now()->format('Y-m-d'),
             'valid_until' => now()->addWeek()->format('Y-m-d'),
             'type'        => Discount::LUMP,
             'value'       => 10,
         ]);
-
         $response->assertSuccessful();
 
-        $this->assertDatabaseHas('member_discounts', [
-            'code'        => 'TESTCODE',
-            'valid_from'  => now()->format('Y-m-d'),
-            'valid_until' => now()->addWeek()->format('Y-m-d'),
-            'type'        => Discount::LUMP,
-            'value'       => 10,
-        ]);
-
-        $this->assertNull($member->discounts->first()->discount_tag);
+        $members->each(function(User $user) {
+            $this->assertCount(1, $user->discounts);
+            $this->assertSame('TESTCODE', $user->discounts->first()->code);
+            $this->assertSame(10, $user->discounts->first()->value);
+            $this->assertSame(Discount::LUMP, $user->discounts->first()->type);
+            $this->assertTrue($user->discounts->first()->valid_from->isSameDay(now()));
+            $this->assertTrue($user->discounts->first()->valid_until->isSameDay(now()->addWeek()));
+        });
     }
 
     /**
@@ -105,8 +101,6 @@ class CreateMemberDiscountTest extends TestCase
 
     private function assertFieldIsInvalid(array $field)
     {
-        $member = factory(User::class)->state('member')->create();
-
         $valid = [
             'code'        => 'TESTCODE',
             'valid_from'  => now()->format('Y-m-d'),
@@ -117,8 +111,7 @@ class CreateMemberDiscountTest extends TestCase
 
         $response = $this
             ->asAdmin()
-            ->postJson("/admin/api/members/{$member->id}/discounts", array_merge($valid, $field));
-
+            ->postJson("/admin/api/general-member-discounts", array_merge($valid, $field));
         $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
         $response->assertJsonValidationErrors(array_key_first($field));
     }

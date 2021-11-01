@@ -20,8 +20,9 @@ class MemberProfileRequest extends FormRequest
             'first_name' => ['required_without:last_name'],
             'last_name' => ['required_without:first_name'],
             'email' => ['email', 'nullable'],
-            'phone' => []
-
+            'phone' => [],
+            'sms_reminders' => ['boolean'],
+            'email_reminders' => ['boolean'],
         ];
     }
 
@@ -35,6 +36,8 @@ class MemberProfileRequest extends FormRequest
             'address_line_one',
             'address_line_two',
             'address_city',
+            'sms_reminders',
+            'email_reminders',
         ]));
     }
 }

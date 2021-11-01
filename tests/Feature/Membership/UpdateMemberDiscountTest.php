@@ -39,6 +39,24 @@ class UpdateMemberDiscountTest extends TestCase
             'type'        => Discount::LUMP,
             'value'       => 66,
         ]);
+
+    }
+
+    /**
+     *@test
+     */
+    public function cannot_update_a_tagged_member_discount()
+    {
+        $discount = factory(MemberDiscount::class)->state('tagged')->create();
+
+        $response = $this->asAdmin()->postJson("/admin/api/member-discounts/{$discount->id}", [
+            'code'        => 'NEWTEST',
+            'valid_from'  => now()->addWeek()->format('Y-m-d'),
+            'valid_until' => now()->addMonth()->format('Y-m-d'),
+            'type'        => Discount::LUMP,
+            'value'       => 66,
+        ]);
+        $response->assertForbidden();
     }
 
     /**

@@ -5,7 +5,7 @@
         </page-header>
 
         <div class="my-12">
-            <div class="grid grid-cols-4">
+            <div class="grid grid-cols-4 gap-3">
                 <div v-for="image in feed">
                     <img :src="image.url" class="w-full h-full object-cover" />
                 </div>

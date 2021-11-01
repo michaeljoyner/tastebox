@@ -20,10 +20,25 @@ const deleteMemberDiscount = (discount_id) => {
     return del(`/admin/api/member-discounts/${discount_id}`);
 };
 
+const createGeneralMemberDiscounts = (formData) => {
+    return post("/admin/api/general-member-discounts", formData);
+};
+
+const updateGeneralMemberDiscounts = (tag, formData) => {
+    return post(`/admin/api/general-member-discounts/${tag}`, formData);
+};
+
+const deleteGeneralMemberDiscounts = (tag) => {
+    return del(`/admin/api/general-member-discounts/${tag}`);
+};
+
 export {
     fetchMembers,
     fetchMember,
     createMemberDiscount,
     updateMemberDiscount,
     deleteMemberDiscount,
+    createGeneralMemberDiscounts,
+    updateGeneralMemberDiscounts,
+    deleteGeneralMemberDiscounts,
 };

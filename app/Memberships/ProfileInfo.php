@@ -14,6 +14,8 @@ class ProfileInfo
     public string $address_line_one;
     public string $address_line_two;
     public string $address_city;
+    public bool $sms_reminders;
+    public bool $email_reminders;
 
     public function __construct(array $info)
     {
@@ -24,6 +26,8 @@ class ProfileInfo
         $this->address_line_one = $info['address_line_one'] ?? '';
         $this->address_line_two = $info['address_line_two'] ?? '';
         $this->address_city = $info['address_city'] ?? '';
+        $this->sms_reminders = $info['sms_reminders'] ?? false;
+        $this->email_reminders = $info['email_reminders'] ?? false;
     }
 
     public function toArray(): array
@@ -36,6 +40,8 @@ class ProfileInfo
             'address_line_one' => $this->address_line_one,
             'address_line_two' => $this->address_line_two,
             'address_city'     => $this->address_city,
+            'sms_reminders'    => $this->sms_reminders,
+            'email_reminders'  => $this->email_reminders,
         ];
     }
 }

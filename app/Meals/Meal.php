@@ -80,7 +80,7 @@ class Meal extends Model implements HasMedia
                 'in_kit'   => $ingredient['in_kit'],
                 'bundled'  => $ingredient['bundled'],
                 'form'     => $ingredient['form'],
-                'quantity'     => $ingredient['quantity'],
+                'quantity' => $ingredient['quantity'],
             ]));
 
 
@@ -293,5 +293,21 @@ class Meal extends Model implements HasMedia
     public function tallies()
     {
         return $this->hasOne(MealTally::class);
+    }
+
+    public function asRecipe(): array
+    {
+        $this->load('ingredients', 'classifications');
+
+        return [
+            'slug'         => $this->unique_id,
+            'image'        => $this->titleImage('web'),
+            'name'         => $this->name,
+            'description'  => $this->description,
+            'ingredients'  => $this->ingredients,
+            'instructions' => $this->instructions,
+            'cooking_time' => ($this->cook_time + $this->prep_time) . "mins",
+            'categories'   => $this->classifications,
+        ];
     }
 }

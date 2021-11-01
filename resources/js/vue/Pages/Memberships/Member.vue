@@ -114,9 +114,25 @@
             :show="showDiscountPanel"
             @close="showDiscountPanel = false"
         >
-            <p class="type-h3">Create a Discount</p>
+            <p v-if="selectedDiscount" class="type-h3">Edit this Discount</p>
+            <p v-else class="type-h3">Create a Discount</p>
+
+            <p
+                class="my-6 text-gray-600"
+                v-if="selectedDiscount && selectedDiscount.discount_tag"
+            >
+                This discount was created for all members to use and cannot be
+                edited on as per person basis. If you wish to edit the discount
+                for all members,
+                <router-link
+                    :to="`/discount-codes`"
+                    class="text-blue-500 hover:underline"
+                    >head over here</router-link
+                >
+            </p>
 
             <discount-form
+                v-show="!selectedDiscount || !selectedDiscount.discount_tag"
                 :discount="selectedDiscount"
                 @saved="showDiscountPanel = false"
             ></discount-form>

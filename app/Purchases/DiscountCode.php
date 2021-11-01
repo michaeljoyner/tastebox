@@ -48,6 +48,7 @@ class DiscountCode extends Model implements Discount
             'value'        => $this->value,
             'value_string' => $this->valueAsString(),
             'uses'         => $this->uses,
+            'timestamp'    => $this->created_at->unix(),
         ];
 
     }
@@ -93,12 +94,12 @@ class DiscountCode extends Model implements Discount
 
     public function discount(int $amount): int
     {
-        if($this->type === static::LUMP) {
+        if ($this->type === static::LUMP) {
             return max($amount - ($this->value * 100), 0);
         }
 
-        if($this->type === static::PERCENTAGE) {
-            return intval(round($amount * (100 - $this->value)/100));
+        if ($this->type === static::PERCENTAGE) {
+            return intval(round($amount * (100 - $this->value) / 100));
         }
 
         return $amount;

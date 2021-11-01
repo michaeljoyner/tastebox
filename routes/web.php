@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\GeneralMemberDiscountsController;
 use App\Http\Controllers\Admin\MealNotesController;
 use App\Http\Controllers\Admin\MemberDiscountsController;
 use App\Http\Controllers\Admin\MembersController;
@@ -15,8 +16,10 @@ use App\Http\Controllers\BlogController;
 use App\Http\Controllers\EmailVerificationController;
 use App\Http\Controllers\EmailVerificationLinkRequestController;
 use App\Http\Controllers\Members\HomePageController;
+use App\Http\Controllers\Members\MemberPasswordController;
 use App\Http\Controllers\Members\MemberProfileController;
 use App\Http\Controllers\Members\OrdersController;
+use App\Http\Controllers\Members\RecipesController;
 use App\Http\Controllers\RegistrationsController;
 use Illuminate\Support\Facades\Route;
 
@@ -92,13 +95,17 @@ Route::post('login', [LoginController::class, 'login']);
 
 
 Route::group(['prefix' => 'me', 'middleware' => 'auth', 'namespace' => 'Members'], function () {
-
+    Route::view('reset-password', 'members.password.reset');
+    Route::post('reset-password', [MemberPasswordController::class, 'update']);
     Route::get('home', [HomePageController::class, 'show'])->middleware('verified');
 
     Route::get('edit-profile', [MemberProfileController::class, 'edit']);
     Route::post('profile', [MemberProfileController::class, 'update']);
 
     Route::get('orders', [OrdersController::class, 'index']);
+
+    Route::get('recipes', [RecipesController::class, 'index']);
+    Route::get('recipes/{meal:unique_id}', [RecipesController::class, 'show']);
 });
 
 Route::group(['middleware' => 'auth'], function () {
@@ -186,6 +193,10 @@ Route::group(['middleware' => 'auth'], function () {
 
         Route::get('members', [MembersController::class, 'index']);
         Route::get('members/{member}', [MembersController::class, 'show']);
+
+        Route::post('general-member-discounts', [GeneralMemberDiscountsController::class, 'store']);
+        Route::post('general-member-discounts/{tag}', [GeneralMemberDiscountsController::class, 'update']);
+        Route::delete('general-member-discounts/{tag}', [GeneralMemberDiscountsController::class, 'delete']);
 
         Route::post('/members/{member}/discounts', [MemberDiscountsController::class, 'store']);
         Route::post('/member-discounts/{discount}', [MemberDiscountsController::class, 'update']);

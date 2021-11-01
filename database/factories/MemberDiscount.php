@@ -17,12 +17,17 @@ $factory->define(MemberDiscount::class, function (Faker $faker) {
         'valid_until' => now()->addWeek(),
         'type' => $faker->randomElement([Discount::LUMP, Discount::PERCENTAGE]),
         'value' => $faker->numberBetween(10, 25),
+        'discount_tag' => null,
     ];
 });
 
 $factory->state(MemberDiscount::class, 'expired', [
     'valid_from' => now()->subWeek(),
     'valid_until' => now()->subDay(),
+]);
+
+$factory->state(MemberDiscount::class, 'tagged', [
+    'discount_tag' => Str::uuid()->toString(),
 ]);
 
 

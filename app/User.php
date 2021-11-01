@@ -16,6 +16,7 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Hash;
 
 class User extends Authenticatable implements MustVerifyEmail
 {
@@ -65,6 +66,12 @@ class User extends Authenticatable implements MustVerifyEmail
     public function shoppingBasket(): HasOne
     {
         return $this->hasOne(MemberShoppingBasket::class);
+    }
+
+    public function resetPassword(string $password)
+    {
+        $this->password = Hash::make($password);
+        $this->save();
     }
 
     public function orders(): HasMany
@@ -121,8 +128,10 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->hasMany(MemberDiscount::class);
     }
 
-    public function awardDiscount(DiscountCodeInfo $codeInfo): MemberDiscount
+    public function awardDiscount(DiscountCodeInfo $codeInfo, $tag = null): MemberDiscount
     {
-        return $this->discounts()->create($codeInfo->forMember());
+        return $this
+            ->discounts()
+            ->create(array_merge($codeInfo->forMember(), ['discount_tag' => $tag]));
     }
 }

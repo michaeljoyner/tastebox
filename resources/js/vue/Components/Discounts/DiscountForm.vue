@@ -1,11 +1,34 @@
 <template>
-    <form @submit.prevent="submit" class="max-w-lg">
+    <form @submit.prevent="save" class="max-w-lg">
+        <div class="my-6" v-show="!code">
+            <p class="form-label">Who is this discount for?</p>
+            <p class="type-b3 text-gray-500 my-1">
+                Choose whether this discount is for members or the general
+                public.
+            </p>
+            <div class="my-4 flex space-x-6">
+                <radio-input
+                    class="mb-2"
+                    label="Everyone"
+                    value="public"
+                    v-model="form.data.award_to"
+                ></radio-input>
+
+                <radio-input
+                    class="mb-2"
+                    label="Members"
+                    value="members"
+                    v-model="form.data.award_to"
+                ></radio-input>
+            </div>
+        </div>
+
         <input-field
             class="my-6"
-            v-model="formData.code"
+            v-model="form.data.code"
             label="The Code"
             help-text="Use uppercase, only letters and numbers, and no spaces"
-            :error-msg="formErrors.code"
+            :error-msg="form.errors.code"
         ></input-field>
 
         <div class="my-6">
@@ -13,40 +36,40 @@
             <div class="flex">
                 <div
                     :class="{
-                        'border-b border-red-500': formErrors.valid_from,
+                        'border-b border-red-500': form.errors.valid_from,
                     }"
                     class="mr-6"
                 >
                     <p class="form-label">Valid from:</p>
                     <p
-                        v-show="formErrors.valid_from"
+                        v-show="form.errors.valid_from"
                         class="text-sm text-red-600"
                     >
-                        {{ formErrors.valid_from }}
+                        {{ form.errors.valid_from }}
                     </p>
                     <date-picker
                         :inline="true"
                         input-class="p-2 bg-gray-100"
-                        v-model="formData.valid_from"
+                        v-model="form.data.valid_from"
                     ></date-picker>
                 </div>
 
                 <div
                     :class="{
-                        'border-b border-red-500': formErrors.valid_from,
+                        'border-b border-red-500': form.errors.valid_from,
                     }"
                 >
                     <p class="form-label">Valid Until:</p>
                     <p
-                        v-show="formErrors.valid_until"
+                        v-show="form.errors.valid_until"
                         class="text-sm text-red-600"
                     >
-                        {{ formErrors.valid_until }}
+                        {{ form.errors.valid_until }}
                     </p>
                     <date-picker
                         :inline="true"
                         input-class="p-2 bg-gray-100"
-                        v-model="formData.valid_until"
+                        v-model="form.data.valid_until"
                     ></date-picker>
                 </div>
             </div>
@@ -58,12 +81,12 @@
                 class="mb-2"
                 label="Lump sum discount"
                 :value="1"
-                v-model="formData.type"
+                v-model="form.data.type"
             ></radio-input>
             <radio-input
                 label="Percentage discount"
                 :value="2"
-                v-model="formData.type"
+                v-model="form.data.type"
             ></radio-input>
         </div>
 
@@ -75,9 +98,9 @@
             </p>
             <input-field
                 class="w-42"
-                v-model="formData.value"
+                v-model="form.data.value"
                 type="number"
-                :error-msg="formErrors.value"
+                :error-msg="form.errors.value"
             ></input-field>
         </div>
 
@@ -88,14 +111,14 @@
             </p>
             <input-field
                 class="w-42"
-                v-model="formData.uses"
+                v-model="form.data.uses"
                 type="number"
-                :error-msg="formErrors.uses"
+                :error-msg="form.errors.uses"
             ></input-field>
         </div>
 
         <div class="my-12">
-            <submit-button :waiting="waiting" mode="dark"
+            <submit-button :waiting="saving" mode="dark"
                 >Save Discount Code</submit-button
             >
         </div>
@@ -109,78 +132,94 @@ import SubmitButton from "../UI/SubmitButton";
 import DatePicker from "../Forms/DatePicker";
 import { showError, showSuccess } from "../../../libs/notifications";
 import { setValidationErrors } from "../../../libs/forms";
+import { useStore } from "vuex";
+import { useForm } from "../../../libs/useForm";
+import { computed, watchEffect } from "vue";
+import { httpAction } from "../../../libs/httpAction";
+import { useRouter } from "vue-router";
 export default {
     components: { RadioInput, InputField, DatePicker, SubmitButton },
 
     props: ["code"],
 
-    data() {
-        return {
-            waiting: false,
-            formData: {
-                code: "",
-                valid_from: new Date().toLocaleDateString("en-CA"),
-                valid_until: new Date().toLocaleDateString("en-CA"),
-                type: 1,
-                value: 0,
-                uses: 0,
-            },
-            formErrors: {
-                code: "",
-                valid_from: "",
-                valid_until: "",
-                type: "",
-                value: "",
-                uses: "",
-            },
-        };
-    },
+    setup(props, { emit }) {
+        const store = useStore();
+        const router = useRouter();
 
-    mounted() {
-        if (this.code) {
-            return (this.formData = {
-                code: this.code.code,
-                valid_from: new Date(this.code.valid_from),
-                valid_until: new Date(this.code.valid_until),
-                type: this.code.type,
-                value: this.code.value,
-                uses: this.code.uses,
-            });
-        }
-    },
+        const { form, setFormErrors, clearFormErrors } = useForm({
+            code: "",
+            valid_from: new Date().toLocaleDateString("en-CA"),
+            valid_until: new Date().toLocaleDateString("en-CA"),
+            type: 1,
+            value: 0,
+            uses: 0,
+            award_to: "public",
+        });
 
-    methods: {
-        submit() {
-            this.waiting = true;
-            const action = this.code ? "discounts/update" : "discounts/create";
-            const payload = this.code
-                ? {
-                      code_id: this.code.id,
-                      formData: this.formData,
-                  }
-                : this.formData;
-
-            this.$store
-                .dispatch(action, payload)
-                .then(this.onSuccess)
-                .catch(this.onError)
-                .then(() => (this.waiting = false));
-        },
-
-        onSuccess() {
-            showSuccess("Discount code saved");
-            this.$router.push("/discount-codes");
-        },
-
-        onError({ status, data }) {
-            if (status === 422) {
-                return (this.formErrors = setValidationErrors(
-                    this.formErrors,
-                    data.errors
-                ));
+        watchEffect(() => {
+            if (props.code) {
+                form.data = {
+                    code: props.code.code,
+                    valid_from: new Date(
+                        props.code.valid_from
+                    ).toLocaleDateString("en-CA"),
+                    valid_until: new Date(
+                        props.code.valid_until
+                    ).toLocaleDateString("en-CA"),
+                    type: props.code.type,
+                    value: props.code.value,
+                    uses: props.code.uses,
+                };
             }
-            showError("Failed to save discount code");
-        },
+        });
+
+        const forMembers = computed(() =>
+            props.code
+                ? props.code.is_member_discount
+                : form.data.award_to === "members"
+        );
+
+        const getAction = () => {
+            if (forMembers.value) {
+                return props.code
+                    ? "members/updateGeneralDiscount"
+                    : "members/createGeneralDiscount";
+            }
+
+            return props.code ? "discounts/update" : "discounts/create";
+        };
+
+        const getPayload = () => {
+            if (forMembers.value) {
+                return props.code
+                    ? {
+                          discount_tag: props.code.discount_tag,
+                          formData: form.data,
+                      }
+                    : form.data;
+            }
+
+            return props.code
+                ? {
+                      code_id: props.code.id,
+                      formData: form.data,
+                  }
+                : form.data;
+        };
+
+        const [saving, save] = httpAction(
+            () => store.dispatch(getAction(), getPayload()),
+            () => {
+                showSuccess("Discount saved");
+                router.push("/discount-codes");
+            },
+            (resp) => {
+                console.log(resp);
+                showError("Failed to save discount");
+            }
+        );
+
+        return { form, save, saving };
     },
 };
 </script>

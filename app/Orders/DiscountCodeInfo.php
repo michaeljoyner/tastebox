@@ -5,6 +5,7 @@ namespace App\Orders;
 
 
 use Carbon\Carbon;
+use Illuminate\Support\Str;
 
 class DiscountCodeInfo
 {
@@ -47,4 +48,6 @@ class DiscountCodeInfo
             'value'       => $this->value,
         ];
     }
+
+
 }

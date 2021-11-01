@@ -10,7 +10,7 @@
             <div
                 v-for="code in codes"
                 :key="code.id"
-                class="my-6 max-w-lg shadow rounded-lg p-6"
+                class="my-6 max-w-lg shadow rounded-lg p-6 flex flex-col items-start"
             >
                 <p class="text-xl font-bold mb-2">
                     <router-link
@@ -28,7 +28,13 @@
                     {{ code.value_string }}
                     <span class="text-gray-500 font-black uppercase">off</span>
                 </p>
-                <p class="my-2 text-gray-600">
+                <div
+                    v-if="code.is_member_discount"
+                    class="bg-gradient-to-r from-indigo-500 to-pink-500 text-white text-sm font-semibold px-4 py-1 rounded-lg mt-3"
+                >
+                    Members Only
+                </div>
+                <p v-else class="my-2 text-gray-600">
                     {{ code.uses }} uses remaining.
                 </p>
             </div>

@@ -12,14 +12,16 @@ class MemberDiscountResource extends JsonResource
     public function toArray($request)
     {
         return [
-            'id'          => $this->id,
-            'code'        => $this->code,
-            'valid_dates' => DatePresenter::range($this->valid_from, $this->valid_until),
-            'valid_from'  => DatePresenter::standard($this->valid_from),
-            'valid_until' => DatePresenter::standard($this->valid_until),
-            'type'        => $this->type,
-            'value'       => $this->value,
-            'summary'     => $this->summarize($this)
+            'id'                 => $this->id,
+            'discount_tag'       => $this->discount_tag,
+            'code'               => $this->code,
+            'valid_dates'        => DatePresenter::range($this->valid_from, $this->valid_until),
+            'valid_from'         => DatePresenter::standard($this->valid_from),
+            'valid_until'        => DatePresenter::standard($this->valid_until),
+            'type'               => $this->type,
+            'value'              => $this->value,
+            'summary'            => $this->summarize($this),
+            'is_member_discount' => true,
         ];
     }
 

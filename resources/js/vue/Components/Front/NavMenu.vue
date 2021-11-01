@@ -39,6 +39,14 @@
                 </a>
             </MenuItem>
             <MenuItem v-slot="{ active }" class="my-3 w-full text-right">
+                <a
+                    :class="{ 'text-green-600': active }"
+                    href="/me/reset-password"
+                >
+                    Reset Password
+                </a>
+            </MenuItem>
+            <MenuItem v-slot="{ active }" class="my-3 w-full text-right">
                 <a :class="{ 'text-green-600': active }" href="/me/home">
                     Home
                 </a>

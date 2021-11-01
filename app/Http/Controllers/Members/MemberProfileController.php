@@ -18,6 +18,7 @@ class MemberProfileController extends Controller
     {
         $request->user()->profile->update($request->profileInfo()->toArray());
 
-        return redirect('/me/home');
+        return redirect('/me/home')
+            ->with('toast', ['type' => 'success', 'text' => 'Your information has been updated']);
     }
 }

@@ -1,8 +1,11 @@
 import {
+    createGeneralMemberDiscounts,
     createMemberDiscount,
+    deleteGeneralMemberDiscounts,
     deleteMemberDiscount,
     fetchMember,
     fetchMembers,
+    updateGeneralMemberDiscounts,
     updateMemberDiscount,
 } from "../apis/members";
 import { showError } from "../libs/notifications";
@@ -67,6 +70,9 @@ export default {
         },
 
         refreshActive({ state, commit, dispatch }) {
+            if (!state.active_member) {
+                return;
+            }
             const in_store = state.list.find(
                 (m) => m.id === state.active_member.id
             );
@@ -96,6 +102,35 @@ export default {
             return deleteMemberDiscount(discount_id).then(() =>
                 dispatch("refreshActive")
             );
+        },
+
+        createGeneralDiscount({ dispatch }, formData) {
+            return createGeneralMemberDiscounts(formData).then(() => {
+                dispatch("refreshActive");
+                dispatch("discounts/refresh", null, {
+                    root: true,
+                });
+            });
+        },
+
+        updateGeneralDiscount({ dispatch }, { discount_tag, formData }) {
+            return updateGeneralMemberDiscounts(discount_tag, formData).then(
+                () => {
+                    dispatch("refreshActive");
+                    dispatch("discounts/refresh", null, {
+                        root: true,
+                    });
+                }
+            );
+        },
+
+        deleteGeneralDiscount({ dispatch }, tag) {
+            return deleteGeneralMemberDiscounts(tag).then(() => {
+                dispatch("refreshActive");
+                dispatch("discounts/refresh", null, {
+                    root: true,
+                });
+            });
         },
     },
 };

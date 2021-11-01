@@ -3,6 +3,7 @@
 namespace App\Purchases;
 
 use App\DatePresenter;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -14,6 +15,11 @@ class MemberDiscount extends Model implements Discount
         'valid_from'  => 'date:Y-m-d',
         'valid_until' => 'date:Y-m-d',
     ];
+
+    public function scopeTagged(Builder $query)
+    {
+        $query->whereNotNull('discount_tag');
+    }
 
 
     public function getCode(): string
@@ -71,8 +77,9 @@ class MemberDiscount extends Model implements Discount
     {
         return [
             'id'                 => $this->id,
+            'discount_tag'       => $this->discount_tag,
             'code'               => $this->code,
-            'type'               => $this->type === Discount::LUMP ? 'lump' : 'percent',
+            'type'               => $this->type,
             'valid_from'         => optional($this->valid_from)->format(DatePresenter::STANDARD),
             'valid_until'        => optional($this->valid_until)->format(DatePresenter::STANDARD),
             'valid_dates'        => DatePresenter::range($this->valid_from, $this->valid_until),
@@ -81,6 +88,7 @@ class MemberDiscount extends Model implements Discount
             'value_string'       => $this->valueAsString(),
             'uses'               => $this->uses,
             'is_member_discount' => true,
+            'timestamp'          => $this->created_at->unix(),
         ];
 
     }
