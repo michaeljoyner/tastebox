@@ -21,7 +21,7 @@ class Meal extends Model implements HasMedia
     const GALLERY = 'gallery';
     const DEFAULT_IMAGE = '/images/logos/tastebox_logo.jpg';
 
-    const SERVING_PRICE = 75;
+    const SERVING_PRICE = 85;
 
     protected $fillable = [
         'unique_id',
