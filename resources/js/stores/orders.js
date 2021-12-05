@@ -1,4 +1,4 @@
-import { fetchById, fetchOrderedKits, fetchOrders } from "../apis/orders";
+import { fetchById, fetchUpcomingKits, fetchOrders } from "../apis/orders";
 import { showError } from "../libs/notifications";
 
 export default {
@@ -95,7 +95,7 @@ export default {
         },
 
         fetchKits({ commit }) {
-            return fetchOrderedKits().then((kits) =>
+            return fetchUpcomingKits().then((kits) =>
                 commit("setUpcomingKits", kits)
             );
         },

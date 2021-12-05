@@ -16,11 +16,15 @@
         <div class="my-12">
             <div
                 v-for="(kit, index) in order.kits"
-                :key="kit.id"
+                :key="kit.kit_id"
                 class="my-8 shadow relative"
             >
                 <div class="p-6">
-                    <p class="font-bold mb-3">Kit {{ index + 1 }}</p>
+                    <p class="font-bold mb-3">
+                        <router-link :to="`/ordered-kits/${kit.kit_id}/show`"
+                            >Kit {{ index + 1 }}</router-link
+                        >
+                    </p>
 
                     <div>
                         <div v-for="meal in kit.meals">

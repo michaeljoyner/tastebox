@@ -22,7 +22,7 @@ export default {
 
     mutations: {
         setMembers(state, { data, meta }) {
-            state.current_page = meta.page;
+            state.current_page = meta.current_page;
             state.list = data;
             state.total_pages = meta.last_page;
         },

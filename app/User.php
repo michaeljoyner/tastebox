@@ -58,6 +58,11 @@ class User extends Authenticatable implements MustVerifyEmail
         $query->where('is_admin', false);
     }
 
+    public function isMember(): bool
+    {
+        return ! $this->is_admin;
+    }
+
     public static function addAdmin($options)
     {
         return static::create(array_merge($options, ['is_admin' => true]));

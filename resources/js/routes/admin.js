@@ -40,6 +40,7 @@ import MealNotes from "../vue/Pages/Meals/MealNotes";
 import Members from "../vue/Pages/Memberships/Members";
 import Member from "../vue/Pages/Memberships/Member";
 import Orders from "../vue/Pages/Orders/Orders";
+import OrderedKits from "../vue/Pages/Orders/OrderedKits";
 
 export default [
     { path: "/", component: HomePage },
@@ -69,8 +70,9 @@ export default [
     { path: "/menus/:menu/images", component: MenuImages },
     { path: "/orders", component: Orders },
     { path: "/orders/:order", component: Order },
+    { path: "/ordered-kits", component: OrderedKits },
     { path: "/orders/upcoming-kits", component: UpcomingKits },
-    { path: "/orders/upcoming-kits/:kit/show", component: OrderedKit },
+    { path: "/ordered-kits/:kit/show", component: OrderedKit },
     {
         path: "/current-batch",
         component: CurrentBatch,
@@ -83,6 +85,7 @@ export default [
             { path: "manual-order", component: CreateManualOrder },
         ],
     },
+
     { path: "/instagram", component: InstagramIndex },
     { path: "/discount-codes/create", component: CreateDiscountCode },
     { path: "/discount-codes", component: DiscountsIndex },

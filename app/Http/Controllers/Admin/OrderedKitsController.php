@@ -3,21 +3,42 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\UpdateOrderedKitRequest;
+use App\Http\Resources\AdminOrderedKitsResource;
+use App\Http\Resources\AdminOrderedKitsResourceCollection;
+use App\Purchases\Adjustment;
 use App\Purchases\OrderedKit;
-use App\Purchases\OrderedKitPresenter;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 
 class OrderedKitsController extends Controller
 {
+
+    public function show(OrderedKit $kit)
+    {
+        return new AdminOrderedKitsResource($kit);
+    }
+
     public function index()
     {
-        $kits = OrderedKit::with('order')
-            ->where('delivery_date', '>=', now())
-            ->whereHas('order', fn (Builder $query) => $query->where('is_paid', true))
-            ->get()
-            ->map(fn (OrderedKit $kit) => OrderedKitPresenter::forAdmin($kit));
+        $kits = OrderedKit::latest('delivery_date')
+            ->paginate(40);
 
-        return $kits;
+        return new AdminOrderedKitsResourceCollection($kits);
+    }
+
+    public function update(UpdateOrderedKitRequest $request, OrderedKit $kit)
+    {
+        $original_value = $kit->value();
+
+        $kit->setMeals($request->meals());
+
+
+        Adjustment::new(
+            $original_value,
+            $kit->fresh()->value(),
+            $kit->order,
+            $request->reason ?? '',
+            $request->user(),
+        );
     }
 }

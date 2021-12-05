@@ -22,7 +22,7 @@
                             <td class="p-2">
                                 <router-link
                                     class="absolute inset-0"
-                                    :to="`/orders/upcoming-kits/${kit.id}/show`"
+                                    :to="`/ordered-kits/${kit.id}/show`"
                                     ><span class="sr-only">{{
                                         kit.customer_name
                                     }}</span></router-link

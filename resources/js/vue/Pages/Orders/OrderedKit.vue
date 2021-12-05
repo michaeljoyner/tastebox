@@ -49,14 +49,10 @@ export default {
         const store = useStore();
         const route = useRoute();
 
-        const kit = computed(() =>
-            store.getters["orders/kitById"](route.params.kit)
-        );
+        const kit = computed(() => store.state.kits.active);
 
         onMounted(() => {
-            store
-                .dispatch("orders/fetchKits")
-                .catch(() => showError("unable to fetch kits"));
+            store.dispatch("kits/fetchActive", route.params.kit);
         });
 
         return { kit };

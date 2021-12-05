@@ -5,6 +5,7 @@ use App\Http\Controllers\Admin\MealNotesController;
 use App\Http\Controllers\Admin\MemberDiscountsController;
 use App\Http\Controllers\Admin\MembersController;
 use App\Http\Controllers\Admin\OrderedKitsController;
+use App\Http\Controllers\Admin\UpcomingKitsController;
 use App\Http\Controllers\Admin\PostBodyImagesController;
 use App\Http\Controllers\Admin\PostPreviewController;
 use App\Http\Controllers\Admin\PostsController;
@@ -159,7 +160,11 @@ Route::group(['middleware' => 'auth'], function () {
 
         Route::get('orders', 'OrdersController@index');
         Route::get('recent-orders/{order}', 'OrdersController@show');
+        Route::get('upcoming-ordered-kits', [UpcomingKitsController::class, 'index']);
+
         Route::get('ordered-kits', [OrderedKitsController::class, 'index']);
+        Route::get('ordered-kits/{kit}', [OrderedKitsController::class, 'show']);
+        Route::post('ordered-kits/{kit}', [OrderedKitsController::class, 'update']);
 
         Route::get('current-batch', 'CurrentBatchController@show');
 

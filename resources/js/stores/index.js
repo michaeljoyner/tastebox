@@ -10,6 +10,7 @@ import blog from "./blog";
 import reports from "./reports";
 import quotes from "./quotes";
 import members from "./members";
+import kits from "./kits";
 import { createStore } from "vuex";
 
 const store = createStore({
@@ -26,6 +27,7 @@ const store = createStore({
         reports,
         quotes,
         members,
+        kits,
     },
 });
 

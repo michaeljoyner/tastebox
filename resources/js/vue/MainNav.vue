@@ -97,6 +97,11 @@
                     <router-link
                         class="font-bold hover:underline mb-1 block whitespace-nowrap"
                         to="/orders/upcoming-kits"
+                        >Upcoming Kits
+                    </router-link>
+                    <router-link
+                        class="font-bold hover:underline mb-1 block whitespace-nowrap"
+                        to="/ordered-kits"
                         >Ordered Kits
                     </router-link>
                 </div>

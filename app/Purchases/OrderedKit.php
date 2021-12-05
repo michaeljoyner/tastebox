@@ -124,4 +124,13 @@ class OrderedKit extends Model
     {
         return $this->belongsTo(Menu::class);
     }
+
+    public function value(): int
+    {
+        if($this->meals->count() === 0) {
+            return 0;
+        }
+
+        return $this->meals->sum(fn ($meal) => $meal->pivot->servings * Meal::SERVING_PRICE * 100);
+    }
 }

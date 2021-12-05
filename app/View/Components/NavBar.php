@@ -23,7 +23,7 @@ class NavBar extends Component
      */
     public function render()
     {
-        $blade = auth()->check() ? 'components.member-navbar' : 'components.guest-navbar';
+        $blade = auth()->user()?->isMember() ? 'components.member-navbar' : 'components.guest-navbar';
         return view($blade);
     }
 }

@@ -18,6 +18,7 @@ class OrderedKitPresenter
     public static function adminSummary(OrderedKit $kit): OrderedKitAdminSummary
     {
         return new OrderedKitAdminSummary(
+            $kit->id,
             $kit->menu->delivery_from,
             $kit->meal_summary,
             $kit->deliveryAddress(),
