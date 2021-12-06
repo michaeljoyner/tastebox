@@ -8,9 +8,9 @@
             -
         </button>
         <p
-            class="text-2xl"
+            class="text-2xl font-black"
             :class="{
-                'text-green-600': modelValue >= 1,
+                'text-indigo-600': modelValue >= 1,
                 'text-gray-500': modelValue === 0,
             }"
         >
@@ -50,7 +50,7 @@ export default {
                 return;
             }
             emit(
-                "input",
+                "update:modelValue",
                 props.options[props.options.indexOf(props.modelValue) - 1]
             );
         };

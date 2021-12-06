@@ -28,6 +28,7 @@
 
 </div>
 <div id="side-panels" class="relative z-40"></div>
+<div id="modals" class="relative z-40"></div>
 <div id="notification" class="relative z-50"></div>
 <script src="{{ mix('js/manifest.js') }}"></script>
 <script src="{{ mix('js/vendor.js') }}"></script>

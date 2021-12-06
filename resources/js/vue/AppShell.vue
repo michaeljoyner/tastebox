@@ -35,7 +35,7 @@
             <router-view></router-view>
         </div>
         <div
-            class="bg-indigo-500 min-h-full fixed left-0 top-0 bottom-0 w-64 transform lg:transform-none transition overflow-y-auto text-white z-50"
+            class="bg-indigo-500 min-h-full fixed left-0 top-0 bottom-0 w-64 transform lg:transform-none transition overflow-y-auto text-white z-30"
             :class="{ 'translate-x-0': showNav, '-translate-x-64': !showNav }"
         >
             <main-nav></main-nav>

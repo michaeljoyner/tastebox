@@ -15,13 +15,16 @@ class OrderedKitsController extends Controller
 
     public function show(OrderedKit $kit)
     {
+        $kit->load('menu.meals');
+
         return new AdminOrderedKitsResource($kit);
     }
 
     public function index()
     {
         $kits = OrderedKit::latest('delivery_date')
-            ->paginate(40);
+                          ->with('menu.meals')
+                          ->paginate(40);
 
         return new AdminOrderedKitsResourceCollection($kits);
     }

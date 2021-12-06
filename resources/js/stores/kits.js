@@ -1,4 +1,4 @@
-import { fetchKitById, fetchOrderedKits } from "../apis/kits";
+import { fetchKitById, fetchOrderedKits, updateKitMeals } from "../apis/kits";
 import { showError } from "../libs/notifications";
 
 export default {
@@ -70,6 +70,12 @@ export default {
             return fetchKitById(kit_id)
                 .then(({ data }) => commit("setActive", data))
                 .catch(() => showError("Failed to fetch kit"));
+        },
+
+        updateMeals({ dispatch }, { kit_id, formData }) {
+            return updateKitMeals(kit_id, formData).then(() =>
+                dispatch("refreshActive", kit_id)
+            );
         },
     },
 };

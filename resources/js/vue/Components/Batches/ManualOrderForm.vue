@@ -71,7 +71,7 @@
                         {{ meal.name }}
                     </p>
                     <up-downer
-                        :options="[0, 1, 2, 4]"
+                        :options="[0, 1, 2, 4, 6]"
                         v-model="meal.servings"
                     ></up-downer>
                 </div>

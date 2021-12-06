@@ -41,6 +41,7 @@ import Members from "../vue/Pages/Memberships/Members";
 import Member from "../vue/Pages/Memberships/Member";
 import Orders from "../vue/Pages/Orders/Orders";
 import OrderedKits from "../vue/Pages/Orders/OrderedKits";
+import EditOrderedKit from "../vue/Pages/Orders/EditOrderedKit";
 
 export default [
     { path: "/", component: HomePage },
@@ -73,6 +74,7 @@ export default [
     { path: "/ordered-kits", component: OrderedKits },
     { path: "/orders/upcoming-kits", component: UpcomingKits },
     { path: "/ordered-kits/:kit/show", component: OrderedKit },
+    { path: "/ordered-kits/:kit/edit", component: EditOrderedKit },
     {
         path: "/current-batch",
         component: CurrentBatch,
