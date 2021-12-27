@@ -42,6 +42,8 @@ import Member from "../vue/Pages/Memberships/Member";
 import Orders from "../vue/Pages/Orders/Orders";
 import OrderedKits from "../vue/Pages/Orders/OrderedKits";
 import EditOrderedKit from "../vue/Pages/Orders/EditOrderedKit";
+import Adjustments from "../vue/Pages/Orders/Adjustments";
+import Adjustment from "../vue/Pages/Orders/Adjustment";
 
 export default [
     { path: "/", component: HomePage },
@@ -100,4 +102,6 @@ export default [
     { path: "/reports/meal-popularity", component: MealPopularity },
     { path: "/memberships/members", component: Members },
     { path: "/memberships/members/:member/show", component: Member },
+    { path: "/adjustments", component: Adjustments },
+    { path: "/adjustments/:adjustment/show", component: Adjustment },
 ];

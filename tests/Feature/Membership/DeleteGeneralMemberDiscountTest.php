@@ -8,6 +8,7 @@ use App\Purchases\Discount;
 use App\Purchases\MemberDiscount;
 use App\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Str;
 use Tests\TestCase;
 
 class DeleteGeneralMemberDiscountTest extends TestCase
@@ -30,8 +31,9 @@ class DeleteGeneralMemberDiscountTest extends TestCase
             'type'        => Discount::LUMP,
             'value'       => 15,
         ]);
-        $members->each(fn(User $user) => $user->awardDiscount($discountInfo));
-        $tag = $discountInfo->discount_tag;
+
+        $tag = Str::uuid()->toString();
+        $members->each(fn(User $user) => $user->awardDiscount($discountInfo, $tag));
 
         $this->assertDatabaseCount('member_discounts', 4);
 

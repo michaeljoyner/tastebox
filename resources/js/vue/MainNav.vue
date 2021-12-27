@@ -104,6 +104,11 @@
                         to="/ordered-kits"
                         >Ordered Kits
                     </router-link>
+                    <router-link
+                        class="font-bold hover:underline mb-1 block whitespace-nowrap"
+                        to="/adjustments"
+                        >Adjustments
+                    </router-link>
                 </div>
             </div>
         </div>

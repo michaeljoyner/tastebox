@@ -1,10 +1,14 @@
 <?php
 
+use App\Http\Controllers\Admin\ActivityLogsController;
+use App\Http\Controllers\Admin\AdjustmentsController;
 use App\Http\Controllers\Admin\GeneralMemberDiscountsController;
 use App\Http\Controllers\Admin\MealNotesController;
 use App\Http\Controllers\Admin\MemberDiscountsController;
 use App\Http\Controllers\Admin\MembersController;
 use App\Http\Controllers\Admin\OrderedKitsController;
+use App\Http\Controllers\Admin\ResolvedAdjustmentsController;
+use App\Http\Controllers\Admin\UnresolvedAdjustmentsController;
 use App\Http\Controllers\Admin\UpcomingKitsController;
 use App\Http\Controllers\Admin\PostBodyImagesController;
 use App\Http\Controllers\Admin\PostPreviewController;
@@ -206,5 +210,13 @@ Route::group(['middleware' => 'auth'], function () {
         Route::post('/members/{member}/discounts', [MemberDiscountsController::class, 'store']);
         Route::post('/member-discounts/{discount}', [MemberDiscountsController::class, 'update']);
         Route::delete('/member-discounts/{discount}', [MemberDiscountsController::class, 'delete']);
+
+        Route::get('adjustments', [AdjustmentsController::class, 'index']);
+        Route::get('adjustments/{adjustment}', [AdjustmentsController::class, 'show']);
+
+        Route::post('resolved-adjustments', [ResolvedAdjustmentsController::class, 'store']);
+        Route::get('unresolved-adjustments', [UnresolvedAdjustmentsController::class, 'index']);
+
+        Route::get('activity-logs', [ActivityLogsController::class, 'index']);
     });
 });

@@ -1,6 +1,12 @@
 <template>
     <page v-if="kit">
-        <page-header title="Ordered Kit"></page-header>
+        <page-header title="Ordered Kit">
+            <router-link
+                :to="`/ordered-kits/${kit.id}/edit`"
+                class="muted-text-btn"
+                >Adjust Kit</router-link
+            >
+        </page-header>
 
         <div class="my-12">
             <div class="divide-x space-x-4">

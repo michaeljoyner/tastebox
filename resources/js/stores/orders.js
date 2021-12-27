@@ -85,7 +85,7 @@ export default {
             );
 
             if (in_store) {
-                commit("setActive", in_store);
+                commit("setActive", { data: in_store });
                 return Promise.resolve();
             }
 

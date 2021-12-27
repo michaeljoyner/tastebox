@@ -11,6 +11,7 @@ class DatePresenter
 
     const PRETTY_DMY = 'jS M, Y';
     const PRETTY_DMY_DAY = 'D, jS M';
+    const PRETTY_DATETIME = 'jS M, h:i';
     const STANDARD = 'Y-m-d';
 
     public static function range(Carbon $from, Carbon $to, $separator = '-')
@@ -31,6 +32,11 @@ class DatePresenter
     {
         return $date === null ? '' : $date->format(self::PRETTY_DMY);
     }
+    public static function prettyDateTime(?Carbon $date): string
+    {
+        return $date === null ? '' : $date->format(self::PRETTY_DATETIME);
+    }
+
 
     public static function prettyWithDay(? Carbon $date): string
     {

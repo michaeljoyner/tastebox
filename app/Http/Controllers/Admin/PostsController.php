@@ -17,7 +17,11 @@ class PostsController extends Controller
 
     public function store(PostRequest $request)
     {
-        return Post::new($request->postInfo());
+        $post = Post::new($request->postInfo());
+
+        $post->logCreateActivity($request->user()->name);
+
+        return $post;
     }
 
     public function update(PostRequest $request, Post $post)

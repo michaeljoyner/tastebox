@@ -10,7 +10,12 @@ class PublishedMealsController extends Controller
 {
     public function store()
     {
-        Meal::findOrFail(request('meal_id'))->publish();
+        /* @var \App\Meals\Meal $meal */
+        $meal = Meal::findOrFail(request('meal_id'));
+
+        $meal->publish();
+
+        $meal->logPublishActivity(request()->user()->name);
     }
 
     public function destroy(Meal $meal)

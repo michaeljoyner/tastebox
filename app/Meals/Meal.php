@@ -3,6 +3,8 @@
 namespace App\Meals;
 
 use App\HasNotes;
+use App\Loggable;
+use App\LogsActivities;
 use App\Orders\MealTally;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\UploadedFile;
@@ -14,9 +16,9 @@ use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
-class Meal extends Model implements HasMedia
+class Meal extends Model implements HasMedia, Loggable
 {
-    use InteractsWithMedia, HasNotes;
+    use InteractsWithMedia, HasNotes, LogsActivities;
 
     const GALLERY = 'gallery';
     const DEFAULT_IMAGE = '/images/logos/tastebox_logo.jpg';
@@ -309,5 +311,22 @@ class Meal extends Model implements HasMedia
             'cooking_time' => ($this->cook_time + $this->prep_time) . "mins",
             'categories'   => $this->classifications,
         ];
+    }
+
+    public function getActivityItemUrl(): string
+    {
+        return "/meals/{$this->id}/manage/info";
+    }
+
+    public function logCreateActivity($name)
+    {
+        $action = sprintf("%s created a new meal '%s'", $name, $this->name);
+        $this->logActivity($name, $action, $this->getActivityItemUrl());
+    }
+
+    public function logPublishActivity($name)
+    {
+        $action = sprintf("%s published '%s'", $name, $this->name);
+        $this->logActivity($name, $action, $this->getActivityItemUrl());
     }
 }

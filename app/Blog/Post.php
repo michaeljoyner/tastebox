@@ -3,6 +3,8 @@
 namespace App\Blog;
 
 use App\DatePresenter;
+use App\Loggable;
+use App\LogsActivities;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -13,10 +15,10 @@ use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
-class Post extends Model implements HasMedia
+class Post extends Model implements HasMedia, Loggable
 {
 
-    use InteractsWithMedia;
+    use InteractsWithMedia, LogsActivities;
 
     const BODY_IMAGES = 'body-images';
     const TITLE_IMAGES = 'title-images';
@@ -54,7 +56,10 @@ class Post extends Model implements HasMedia
 
     public static function new(PostInfo $postInfo): self
     {
-        return static::create($postInfo->toArray());
+        $post = static::create($postInfo->toArray());
+
+
+        return $post;
     }
 
     public function publish()
@@ -129,5 +134,28 @@ class Post extends Model implements HasMedia
             'first_created' => DatePresenter::pretty($this->created_at),
             'first_published' => DatePresenter::pretty($this->first_published),
         ];
+    }
+
+    public function logCreateActivity($name)
+    {
+        $action = sprintf("%s started a new post!", $name, $this->title);
+        $this->logActivity($name, $action, $this->getActivityItemUrl());
+    }
+
+    public function logPublishActivity($name)
+    {
+        $action = sprintf("%s published '%s'", $name, $this->title);
+        $this->logActivity($name, $action, $this->getActivityItemUrl());
+    }
+
+    public function logRetractActivity($name)
+    {
+        $action = sprintf("%s retracted '%s'", $name, $this->title);
+        $this->logActivity($name, $action, $this->getActivityItemUrl());
+    }
+
+    public function getActivityItemUrl(): string
+    {
+        return "/blog/posts/{$this->id}/edit";
     }
 }

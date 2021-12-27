@@ -6,8 +6,10 @@ use App\DatePresenter;
 use App\Mail\AwaitingPaymentConfirmation;
 use App\Meals\Meal;
 use App\Orders\Menu;
+use App\User;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
@@ -63,6 +65,11 @@ class Order extends Model
     public static function hasCurrentPending(): bool
     {
         return !!static::pending()->where('created_at', '>=', now()->subDays(7))->count();
+    }
+
+    public function member(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'user_id');
     }
 
 
@@ -131,6 +138,11 @@ class Order extends Model
 
     public function customer(): Customer
     {
+        if($this->member) {
+            $profile = $this->member->profile;
+            return new Customer($profile->full_name, $profile->email, $profile->phone);
+        }
+
         return new Customer($this->customerFullname(), $this->email, $this->phone);
     }
 

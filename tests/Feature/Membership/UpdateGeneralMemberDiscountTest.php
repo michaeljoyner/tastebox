@@ -30,8 +30,8 @@ class UpdateGeneralMemberDiscountTest extends TestCase
             'type' => Discount::LUMP,
             'value' => 15,
         ]);
-        $members->each(fn(User $user) => $user->awardDiscount($discountInfo));
-        $tag = $discountInfo->discount_tag;
+        $tag = Str::uuid()->toString();
+        $members->each(fn(User $user) => $user->awardDiscount($discountInfo, $tag));
 
         $response = $this->asAdmin()->postJson("/admin/api/general-member-discounts/{$tag}", [
             'code' => 'TESTCODE2',

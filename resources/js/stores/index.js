@@ -11,6 +11,8 @@ import reports from "./reports";
 import quotes from "./quotes";
 import members from "./members";
 import kits from "./kits";
+import adjustments from "./adjustments";
+import activityLogs from "./activity-logs";
 import { createStore } from "vuex";
 
 const store = createStore({
@@ -28,6 +30,8 @@ const store = createStore({
         quotes,
         members,
         kits,
+        adjustments,
+        activityLogs,
     },
 });
 

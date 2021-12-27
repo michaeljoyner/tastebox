@@ -36,7 +36,10 @@ class MealsController extends Controller
     {
         $data = $request->formData();
 
-        return Meal::createNew($data['meal_attributes'], $data['classifications']);
+        $meal =  Meal::createNew($data['meal_attributes'], $data['classifications']);
+        $meal->logCreateActivity($request->user()->name);
+
+        return $meal;
     }
 
     public function update(Meal $meal, MealFormRequest $request)
@@ -50,5 +53,4 @@ class MealsController extends Controller
     }
 }
 
-//select * from `meals` inner join (select `meal_menu`.`meal_id, max(meal_menu`.`menu_id), max(menus`.`current_from)` as `last_used` from `meal_menus` left join `menus` on `menus`.`id` = `meal_menu`.`menu`.`id` group by `meal_menu`.`meal_id`) as `lastused` on `meals`.`id` = `lastused`.`meal_id`)"
-//trace: [,…]
+
