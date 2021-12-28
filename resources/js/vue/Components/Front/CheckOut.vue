@@ -426,7 +426,7 @@
                         </submit-button>
                     </div>
                 </div>
-                <div v-if="profile" class="mt-6">
+                <div v-if="profile && discounts.length" class="mt-6">
                     <p class="font-semibold text-gray-500 text-sm mb-4">
                         Available discounts for you:
                     </p>

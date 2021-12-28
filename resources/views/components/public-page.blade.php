@@ -72,9 +72,10 @@
     </div>
     <x-nav-bar></x-nav-bar>
     <toast-alerts></toast-alerts>
+
 </div>
 @yield('afterVue')
-
+<div id="modals" class="relative z-40"></div>
 @if(session()->has('toast'))
     <script>
         window.toastMessage = {

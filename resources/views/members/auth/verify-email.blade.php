@@ -1,6 +1,6 @@
 <x-public-page title="Verify Your Email">
     <div class="max-w-5xl mx-auto py-20 px-8">
-        <p class="type-h1">Werify you email, asshole.</p>
+        <p class="type-h1">Please verify your email.</p>
         <div class="my-6">Hi {{ auth()->user()?->name ??  'there'}}. Please verify your account by clicking on the link in the email we have sent to you at {{ auth()->user()?->email ??  'your email' }}. Once you are verified you will have full access to your account. Thanks.</div>
 
         <div>
