@@ -10,10 +10,10 @@ class InstagramController extends Controller
 {
     public function show()
     {
-        $profile = Profile::where('username', 'tastebox')->first();
+        $profile = Profile::for('tastebox');
         return [
             'auth_url' => $profile->getInstagramAuthUrl(),
-            'feed' => $profile->feed(),
+            'feed' => $profile->feed()->collect()->map->toArray(),
         ];
     }
 }

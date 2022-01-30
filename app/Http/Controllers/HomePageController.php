@@ -12,7 +12,7 @@ class HomePageController extends Controller
     {
         $menus = Menu::available()->with('meals')->orderBy('current_from')->get();
         $current = $menus->first(fn (Menu $menu) => $menu->isCurrent());
-        $instagrams = Profile::where('username', 'tastebox')->first()->feed();
+        $instagrams = Profile::for('tastebox')->feed();
 
 
         if(!$current) {
@@ -21,7 +21,7 @@ class HomePageController extends Controller
         return view('front.home.page', [
             'current' => optional($current)->presentForPublic(),
             'menus' => $menus->reject(fn (Menu $menu) => $menu->is($current))->map->presentForPublic(),
-            'instagrams' => $instagrams->take(8),
+            'instagrams' => $instagrams->collect()->map->toArray()->take(8),
         ]);
     }
 }

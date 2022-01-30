@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "580ef3159f16ca046b8a4aeb6309e1a1",
+    "content-hash": "54449ca0d3182ef0363b6e5f86343c08",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -1013,28 +1013,28 @@
         },
         {
             "name": "dymantic/laravel-instagram-feed",
-            "version": "v2.6.0",
+            "version": "v3.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Dymantic/laravel-instagram-feed.git",
-                "reference": "88d5c69034a8690b0056cb91f8139cfadc552724"
+                "reference": "2d4844c3de757d606641deaf3fff1677ee943bb6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Dymantic/laravel-instagram-feed/zipball/88d5c69034a8690b0056cb91f8139cfadc552724",
-                "reference": "88d5c69034a8690b0056cb91f8139cfadc552724",
+                "url": "https://api.github.com/repos/Dymantic/laravel-instagram-feed/zipball/2d4844c3de757d606641deaf3fff1677ee943bb6",
+                "reference": "2d4844c3de757d606641deaf3fff1677ee943bb6",
                 "shasum": ""
             },
             "require": {
                 "ext-json": "*",
-                "guzzlehttp/guzzle": "^6.5 | ^7.0",
-                "illuminate/config": "5.8.* | ^6.0 | ^7.0 | ^8.0",
-                "illuminate/console": "5.8.* | ^6.0 | ^7.0 | ^8.0",
-                "illuminate/database": "5.8.* | ^6.0 | ^7.0 | ^8.0",
-                "illuminate/http": "5.8.* | ^6.0 | ^7.0 | ^8.0",
-                "illuminate/mail": "5.8.* | ^6.0 | ^7.0 | ^8.0",
-                "illuminate/support": "5.8.* | ^6.0 | ^7.0 | ^8.0",
-                "php": "^7.1 | ^8.0"
+                "guzzlehttp/guzzle": "^7.0.1",
+                "illuminate/config": "^7.0 | ^8.0",
+                "illuminate/console": "^7.0 | ^8.0",
+                "illuminate/database": "^7.0 | ^8.0",
+                "illuminate/http": "^7.0 | ^8.0",
+                "illuminate/mail": "^7.0 | ^8.0",
+                "illuminate/support": "^7.0 | ^8.0",
+                "php": "^8.0"
             },
             "require-dev": {
                 "orchestra/testbench": "^6.0"
@@ -1065,9 +1065,9 @@
             "description": "Fetches the instagram feed for given authenticated profiles",
             "support": {
                 "issues": "https://github.com/Dymantic/laravel-instagram-feed/issues",
-                "source": "https://github.com/Dymantic/laravel-instagram-feed/tree/v2.6.0"
+                "source": "https://github.com/Dymantic/laravel-instagram-feed/tree/v3.0.0"
             },
-            "time": "2021-07-25T02:24:37+00:00"
+            "time": "2021-10-01T02:06:29+00:00"
         },
         {
             "name": "egulias/email-validator",
