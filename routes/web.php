@@ -81,7 +81,7 @@ Route::post('payfast/notify/{order:order_key}', 'PaymentsController@store');
 
 Route::get('thank-you/{order:order_key}', 'ThankYouController@show');
 
-Route::view('register', 'front.register.page');
+Route::view('register', 'front.register.page')->middleware('auth');
 Route::post('register', [RegistrationsController::class, 'store']);
 Route::view('me/email/verify', 'members.auth.verify-email')
      ->middleware('auth')
