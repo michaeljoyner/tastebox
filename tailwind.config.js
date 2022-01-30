@@ -1,14 +1,16 @@
+const colours = require("tailwindcss/colors");
+
 module.exports = {
-    purge: [
+    content: [
         "./storage/framework/views/*.php",
         "./resources/**/*.html",
         "./resources/**/*.vue",
         "./resources/**/*.blade.php",
     ],
-    mode: "jit",
     theme: {
         extend: {
             colors: {
+                green: colours.emerald,
                 opaque: "rgba(255,255,255,.8)",
             },
             fontFamily: {
