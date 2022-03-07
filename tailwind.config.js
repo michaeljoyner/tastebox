@@ -11,6 +11,7 @@ module.exports = {
         extend: {
             colors: {
                 green: colours.emerald,
+                gray: colours.stone,
                 opaque: "rgba(255,255,255,.8)",
             },
             fontFamily: {

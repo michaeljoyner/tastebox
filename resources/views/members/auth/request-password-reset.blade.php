@@ -1,7 +1,7 @@
 <x-public-page title="Reset Your Password">
-    <div class="max-w-5xl mx-auto px-6 py-20">
-        <p class="type-h1">Hey, you forgot your password</p>
-        <p>Not to worry, it happens to the best of us. Tell us which email you used to log in and we will get you back on track.</p>
+    <div class="max-w-md mx-auto px-6 py-20">
+        <p class="type-h2 text-center">Password slipped your mind?</p>
+        <p class="my-4 text-gray-500 text-center">Tell us which email you used to log in and we will get you back on track.</p>
 
         @if(session('status'))
             <div class="my-12 max-w-md mx-auto p-4 border border-green-700 text-green-700 rounded-xl shadow bg-green-100">

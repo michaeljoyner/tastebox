@@ -52,7 +52,7 @@
     @include('front.partials.fb-pixel')
     @stack('head_scripts')
 </head>
-<body class="font-sans text-gray-800 h-full pt-16">
+<body class="font-sans text-gray-800 h-full bg-gray-50 pt-16">
 <div id="app" class="min-h-full flex flex-col">
     <div class="flex-1">
         {{ $slot }}

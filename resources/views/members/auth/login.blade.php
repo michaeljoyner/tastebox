@@ -1,6 +1,8 @@
 <x-public-page title="Login">
-    <div class="my-20 max-w-5xl mx-auto">
-        <p class="type-h1">Welcome, please login</p>
+    <div class="my-20 max-w-4xl mx-auto">
+        <p class="type-h2 text-center">Welcome, please login</p>
+
+        <p class="text-center text-gray-500 my-4">Don't have an account yet? <a class="font-semibold text-green-700 hover:text-green-500" href="/register">Sign up</a> for free now.</p>
 
         @if(session('status'))
             <div class="my-12 max-w-md mx-auto p-4 border border-green-700 text-green-700 rounded-xl shadow bg-green-100">
@@ -21,16 +23,23 @@
             </div>
 
             <div class="my-6">
-                <label class="type-b4" for="password">Choose a password</label>
+                <label class="type-b4" for="password">Password</label>
                 @error('email')
                 <span class="text-sm text-red-600">{{ $message }}</span>
                 @enderror
                 <input type="password" name="password" id="password" class="w-full p-2 border">
             </div>
 
+            <div class="my-2">
+                <label for="remember" class="flex items-center space-x-2">
+                    <input name="remember" id="remember" type="checkbox" class="text-green-500 rounded focus:ring-0">
+                    <span class="text-sm">Remember me</span>
+                </label>
+            </div>
+
             <button type="submit" class="block w-full py-3 bg-green-600 text-white hover:bg-green-500 rounded-lg shadow-lg my-6 font-semibold">Log In</button>
-            <div>
-                <a href="/forgot-password">Forgot your Password?</a>
+            <div class="text-center">
+                <a href="/forgot-password" class="text-gray-500 hover:text-green-700 text-sm font-semibold">Forgot your Password?</a>
             </div>
         </form>
     </div>

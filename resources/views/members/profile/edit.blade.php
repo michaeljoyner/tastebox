@@ -5,7 +5,7 @@
         <form action="/me/profile"
               method="POST">
             {!! csrf_field() !!}
-            <div class="my-12 flex flex-col md:flex-row justify-between bg-green-50 md:space-x-12 p-6 rounded-lg">
+            <div class="my-12 flex flex-col md:flex-row justify-between bg-white md:shadow-lg md:space-x-12 md:px-6 py-6 rounded-lg">
                 <div class="md:max-w-sm">
                     <p class="type-h3">Personal Details</p>
                     <p class="my-6">This let's us know how to address you, and how to contact you if we need to.</p>
@@ -42,7 +42,7 @@
                 </div>
             </div>
 
-            <div class="my-12 flex flex-col md:flex-row justify-between bg-green-50 md:space-x-12 p-6 rounded-lg">
+            <div class="my-12 flex flex-col md:flex-row justify-between bg-white md:shadow-lg md:space-x-12 md:px-6 py-6 rounded-lg">
                 <div class="md:max-w-sm">
                     <p class="type-h3">Delivery Info</p>
                     <p class="my-6">Set your delivery address here, and then you don't need to worry about at checkout.</p>
@@ -83,7 +83,7 @@
                 </div>
             </div>
 
-            <div class="my-12 flex flex-col md:flex-row justify-between bg-green-50 md:space-x-12 p-6 rounded-lg">
+            <div class="my-12 flex flex-col md:flex-row justify-between bg-white md:shadow-lg md:space-x-12 md:px-6 py-6 rounded-lg">
                 <div class="md:max-w-sm">
                     <p class="type-h3">Order Reminders</p>
                     <p class="my-6 text-gray-600 type-b1">We can send you a helpful reminder to place your order before cutoff on Thursdays, if you haven't done so already. </p>

@@ -3,21 +3,23 @@
         <h1>Welcome home, {{ $profile['first_name'] }}</h1>
 
         @if(!$profile['is_complete'])
-            <div class="shadow-lg text-white bg-green-600 p-6 rounded-lg">
-                <p class="type-h2">Ahoy, let's get that profile complete.</p>
-                <p class="my-4">We need to get some basic info from you, so that you can check out smoothly. It won't take a minute.</p>
-                <a href="/me/edit-profile"
-                   class="rounded px-6 py-2 text-green-600 bg-white hover:bg-green-50 font-semibold text-sm">Set my info</a>
-            </div>
+            <x-action-box
+                title="Ahoy, let's get that profile complete."
+                text="We need to get some basic info from you, so that you can check out smoothly. It won't take a minute."
+                action="/me/edit-profile"
+                button="Set my info"
+            />
+
         @endif
 
         @if(!$has_next_order && $profile['is_complete'])
-            <div class="shadow-lg text-white bg-green-600 p-6 rounded-lg">
-                <p class="type-h2">Don't forget to place your order</p>
-                <p class="my-4">You haven't placed an order yet for the next available menu. If you'd like, you can do that now.</p>
-                <a href="/build-a-box"
-                   class="rounded px-6 py-2 text-green-600 bg-white hover:bg-green-50 font-semibold text-sm">See menus</a>
-            </div>
+            <x-action-box
+                title="Don't forget to place your order"
+                text="You haven't placed an order yet for the next available menu. If you'd like, you can do that now."
+                action="/build-a-box"
+                button="See menus"
+            />
+
         @endif
 
         @if($profile['is_complete'] || $upcoming_kits->count())
