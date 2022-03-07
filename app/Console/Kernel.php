@@ -34,6 +34,7 @@ class Kernel extends ConsoleKernel
         $schedule->command('menus:weekly-recipes')->weeklyOn(2, '04:30');
         $schedule->command('menus:next')->weeklyOn(5, '06:30');
         $schedule->command('orders:notify-long-pending')->everyThirtyMinutes();
+        $schedule->command('newsletter:sync')->weekly()->thursdays()->at('07:00');
 
     }
 
