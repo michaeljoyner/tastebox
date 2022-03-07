@@ -12,7 +12,7 @@
                 <div
                     v-for="menu in menus"
                     :key="menu.id"
-                    class="p-4 shadow my-8 max-w-lg mx-6 w-full"
+                    class="p-4 shadow-lg my-8 max-w-lg mx-6 w-full bg-white rounded-lg"
                 >
                     <div class="">
                         <div>

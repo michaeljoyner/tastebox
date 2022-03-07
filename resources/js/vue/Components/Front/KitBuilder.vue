@@ -15,7 +15,7 @@
             <div
                 v-for="meal in menu.meals"
                 :key="meal.id"
-                class="w-5/5 max-w-3xl my-12 mx-auto shadow relative"
+                class="w-5/5 max-w-3xl my-12 mx-auto shadow md:shadow-lg bg-white relative"
             >
                 <div class="flex flex-col md:flex-row border-b border-gray-200">
                     <div class="w-full h-auto md:w-80">
