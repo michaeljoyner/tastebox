@@ -38,8 +38,18 @@
                             v-for="meal in menu.meals"
                             :key="meal.id"
                             :src="meal.title_image['thumb']"
-                            class="w-16 h-16 rounded-full object-cover mr-4 inline-block"
+                            class="w-12 h-12 rounded-full object-cover mr-4 inline-block"
                         />
+                    </div>
+                    <div class="border-t border-gray-200 pt-4 mt-6">
+                        <ColourLabel
+                            :colour="
+                                menu.free_recipe_meals.length > 2
+                                    ? 'green'
+                                    : 'yellow'
+                            "
+                            :text="`${menu.free_recipe_meals.length} Free Recipes`"
+                        ></ColourLabel>
                     </div>
                 </div>
             </div>

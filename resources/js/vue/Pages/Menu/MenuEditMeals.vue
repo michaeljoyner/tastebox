@@ -51,77 +51,10 @@
             </div>
             <div class="flex-1 ml-6">
                 <p class="text-lg font-bold">Available Meals</p>
-                <div class="my-3">
-                    <button
-                        v-for="category in classifications"
-                        :key="category.id"
-                        class="mr-4 px-3 border border-black text-sm hover:border-green-600 rounded focus:outline-none"
-                        :class="{
-                            'bg-green-200': selected_category === category.id,
-                        }"
-                        @click="setCategory(category.id)"
-                    >
-                        {{ category.name }}
-                    </button>
-                </div>
-                <div class="flex items-center bg-gray-100 px-2">
-                    <search-icon
-                        class="h-6 bg-gray-100 text-gray-700"
-                    ></search-icon>
-                    <input
-                        type="text"
-                        v-model="search"
-                        class="form-input mt-0 focus:outline-none"
-                        placeholder="Filter meals"
-                    />
-                </div>
-                <div class="h-100 overflow-auto">
-                    <table class="w-full">
-                        <thead>
-                            <tr>
-                                <th class="p-2 text-xs text-left">Meal</th>
-                                <th class="p-2 text-xs text-left">
-                                    Times Offered
-                                </th>
-                                <th class="p-2 text-xs text-left">
-                                    Kits Ordered
-                                </th>
-                                <th class="p-2 text-xs text-left">
-                                    Last Offered
-                                </th>
-                                <th class="p-2 text-xs text-left"></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr
-                                v-for="meal in meal_choices"
-                                :key="meal.id"
-                                class="border-b border-gray-300"
-                            >
-                                <td class="px-2 py-2">{{ meal.name }}</td>
-                                <td class="p-2">{{ meal.times_offered }}</td>
-                                <td class="p-2">{{ meal.total_ordered }}</td>
-                                <td class="p-2 whitespace-nowrap text-xs">
-                                    <colour-label
-                                        v-if="meal.upcoming"
-                                        colour="green"
-                                        :text="meal.upcoming"
-                                        :small="true"
-                                    ></colour-label>
-                                    <p v-else>{{ meal.last_offered_ago }}</p>
-                                </td>
-                                <td>
-                                    <button
-                                        @click="addMeal(meal)"
-                                        class="font-bold text-gray-600 hover:text-blue-500 text-xs"
-                                    >
-                                        Select
-                                    </button>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
+                <meal-selector
+                    :excludes="selected_meals.map((m) => m.id)"
+                    @selected="addMeal"
+                ></meal-selector>
             </div>
         </div>
     </page>
@@ -133,6 +66,7 @@ import PageHeader from "../../Components/PageHeader";
 import SearchIcon from "../../Components/UI/Icons/Search";
 import { showError, showSuccess } from "../../../libs/notifications";
 import ColourLabel from "../../Components/UI/ColourLabel";
+import MealSelector from "../../Components/Meals/MealSelector";
 
 export default {
     components: {
@@ -140,14 +74,13 @@ export default {
         Page,
         PageHeader,
         SearchIcon,
+        MealSelector,
     },
 
     data() {
         return {
             selected_meals: [],
-            search: "",
             showSelected: false,
-            selected_category: null,
         };
     },
 
@@ -155,38 +88,10 @@ export default {
         menu() {
             return this.$store.getters["menus/byId"](this.$route.params.id);
         },
-
-        meals() {
-            return this.$store.state.meals.meals;
-        },
-
-        meal_choices() {
-            return this.meals
-                .filter(
-                    (meal) =>
-                        !this.selected_meals.map((m) => m.id).includes(meal.id)
-                )
-                .filter((meal) =>
-                    meal.name.toLowerCase().includes(this.search.toLowerCase())
-                )
-                .filter(
-                    (meal) =>
-                        this.selected_category === null ||
-                        meal.classifications.some(
-                            (c) => c.id === this.selected_category
-                        )
-                );
-        },
-
-        classifications() {
-            return this.$store.state.meals.classifications;
-        },
     },
 
     mounted() {
         this.$store.dispatch("menus/fetchMenus").catch(showError);
-        this.$store.dispatch("meals/fetchMeals").catch(showError);
-        this.$store.dispatch("meals/fetchClassifications");
     },
 
     watch: {

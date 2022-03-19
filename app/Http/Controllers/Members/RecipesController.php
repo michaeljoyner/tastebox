@@ -3,19 +3,23 @@
 namespace App\Http\Controllers\Members;
 
 use App\Http\Controllers\Controller;
+use App\Meals\FreeRecipeMeal;
 use App\Meals\Meal;
+use App\Orders\Menu;
 use Illuminate\Http\Request;
 
 class RecipesController extends Controller
 {
     public function index()
     {
-        $recipes = request()
+        $customer_recipes = request()
             ->user()
             ->upcomingKits()
             ->flatMap(fn ($kit) => $kit->meals)
             ->map(fn (Meal $meal) => $meal->asRecipe());
-        return view('members.recipes.index', ['recipes' => $recipes]);
+
+        $free_recipes = Menu::nextUp()->freeRecipeMeals->map(fn (FreeRecipeMeal $meal) => $meal->meal->asRecipe());
+        return view('members.recipes.index', ['recipes' => $customer_recipes->merge($free_recipes)]);
     }
 
     public function show(Meal $meal)
@@ -25,7 +29,9 @@ class RecipesController extends Controller
             ->upcomingKits()
             ->flatMap(fn ($kit) => $kit->meals);
 
-        if($ordered_meals->contains(fn ($m) => $meal->id === $m->id)) {
+        $free_recipes = Menu::nextUp()->freeRecipeMeals->map(fn (FreeRecipeMeal $meal) => $meal->meal);
+
+        if($ordered_meals->contains(fn ($m) => $meal->id === $m->id) || $free_recipes->contains($meal)) {
             return view('members.recipes.show', ['recipe' => $meal->asRecipe()]);
         }
 

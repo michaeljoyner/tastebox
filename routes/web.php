@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\ActivityLogsController;
 use App\Http\Controllers\Admin\AdjustmentsController;
+use App\Http\Controllers\Admin\FreeRecipesController;
 use App\Http\Controllers\Admin\GeneralMemberDiscountsController;
 use App\Http\Controllers\Admin\MealNotesController;
 use App\Http\Controllers\Admin\MemberDiscountsController;
@@ -126,6 +127,8 @@ Route::group(['middleware' => 'auth'], function () {
 
         Route::get('upcoming-menus', 'UpcomingMenusController@index');
         Route::post('menus/{menu}/meals', 'MenuMealsController@store');
+
+        Route::post('menus/{menu}/free-recipes', [FreeRecipesController::class, 'store']);
 
         Route::post('orderable-menus', 'OrderableMenusController@create');
         Route::delete('orderable-menus/{menu}', 'OrderableMenusController@destroy');

@@ -168,7 +168,7 @@ class ShoppingBasketTest extends TestCase
     public function get_the_price_from_the_basket()
     {
         $basket = ShoppingBasket::for(null);
-        $menu = factory(Menu::class)->create();
+        $menu = factory(Menu::class)->state('current')->create();
         $mealA = factory(Meal::class)->create();
         $mealB = factory(Meal::class)->create();
         $mealC = factory(Meal::class)->create();
@@ -188,7 +188,7 @@ class ShoppingBasketTest extends TestCase
     public function basket_price_does_not_include_ineligible_kits()
     {
         $basket = ShoppingBasket::for(null);
-        $menu = factory(Menu::class)->create();
+        $menu = factory(Menu::class)->state('current')->create();
         $mealA = factory(Meal::class)->create();
         $mealB = factory(Meal::class)->create();
         $mealC = factory(Meal::class)->create();
@@ -205,6 +205,38 @@ class ShoppingBasketTest extends TestCase
 
 
         $this->assertEquals(12 * Meal::SERVING_PRICE, $basket->price());
+    }
+
+    /**
+     *@test
+     */
+    public function kits_are_not_eligible_if_not_for_available_menu()
+    {
+        $mealA = factory(Meal::class)->create();
+        $mealB = factory(Meal::class)->create();
+        $mealC = factory(Meal::class)->create();
+        $basket = ShoppingBasket::for(null);
+        $menuA = factory(Menu::class)->state('current')->create();
+        $menuB = factory(Menu::class)->state('old')->create();
+
+        $menuA->setMeals([$mealA->id, $mealB->id, $mealC->id]);
+        $menuB->setMeals([$mealA->id, $mealB->id, $mealC->id]);
+
+
+        $current = $basket->addKit($menuA->id);
+        $current->setMeal($mealA->id, 3);
+        $current->setMeal($mealB->id, 3);
+        $current->setMeal($mealC->id, 3);
+
+        $too_old = $basket->addKit($menuB->id);
+        $too_old->setMeal($mealA->id, 3);
+        $too_old->setMeal($mealB->id, 3);
+        $too_old->setMeal($mealC->id, 3);
+
+        $this->assertTrue($current->eligibleForOrder());
+        $this->assertFalse($too_old->eligibleForOrder());
+
+
     }
 
 

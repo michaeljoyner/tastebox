@@ -50,7 +50,8 @@ class Kit
 
     public function eligibleForOrder(): bool
     {
-        return $this->meals->count() > 2;
+        $menu_available = Menu::available()->where('id', $this->menu_id)->count();
+        return $menu_available && ($this->meals->count() > 2);
     }
 
     public function setMeal(int $meal_id, int $servings)

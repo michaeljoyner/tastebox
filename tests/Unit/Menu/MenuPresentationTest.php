@@ -48,6 +48,7 @@ class MenuPresentationTest extends TestCase
             'is_current' => false,
             'status' => Menu::UPCOMING,
             'meals' => [],
+            'free_recipe_meals' => $menu->freeRecipeMeals,
         ];
 
         $this->assertEquals($expected, $menu->toArray());

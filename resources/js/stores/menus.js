@@ -1,4 +1,5 @@
 import {
+    assignMenuFreeRecipes,
     closeMenuForOrders,
     getCurrentBatch,
     openMenuForOrders,
@@ -100,6 +101,14 @@ export default {
             return placeManualOrder(formData).then(() =>
                 dispatch("fetchCurrentBatch").catch(() =>
                     showError("unable to refresh batch")
+                )
+            );
+        },
+
+        assignFreeRecipes({ dispatch }, { menu_id, meal_ids }) {
+            return assignMenuFreeRecipes(menu_id, meal_ids).then(() =>
+                dispatch("fetchMenus").catch(() =>
+                    showError("Unable to fetch current menus.")
                 )
             );
         },

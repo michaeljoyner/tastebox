@@ -1,6 +1,6 @@
 <x-public-page title="My Recipes">
 
-    <div class="pb-20 md:pt-12 max-w-3xl mx-auto">
+    <div class="pb-20 md:pt-12 max-w-3xl mx-auto bg-white">
 
 
         <img src="{{ $recipe['image'] }}"

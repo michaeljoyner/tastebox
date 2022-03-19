@@ -3,11 +3,14 @@
 namespace App\Orders;
 
 use App\DatePresenter;
+use App\Meals\FreeRecipeMeal;
 use App\Meals\Meal;
 use App\Purchases\Order;
 use App\Purchases\OrderedKit;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Collection;
 
 class Menu extends Model
 {
@@ -133,6 +136,7 @@ class Menu extends Model
             'is_current'             => $this->isCurrent(),
             'status'                 => Menu::UPCOMING,
             'meals'                  => $this->meals->map->asArrayForAdmin()->all(),
+            'free_recipe_meals' => $this->freeRecipeMeals->map(fn($m) => $m->meal->asArrayForAdmin()),
         ];
     }
 
@@ -195,6 +199,22 @@ class Menu extends Model
             'total_meals'    => $batch->totalPackedMeals(),
             'total_servings' => $batch->totalServings(),
         ]);
+    }
+
+    public function freeRecipeMeals(): HasMany
+    {
+        return $this->hasMany(FreeRecipeMeal::class);
+    }
+
+    public function addFreeRecipes(Collection $meals)
+    {
+        $this->freeRecipeMeals()->delete();
+        $meals->each(fn (Meal $meal) => $this->addFreeRecipeMeal($meal));
+    }
+
+    public function addFreeRecipeMeal(Meal $meal): FreeRecipeMeal
+    {
+        return $this->freeRecipeMeals()->create(['meal_id' => $meal->id]);
     }
 
 

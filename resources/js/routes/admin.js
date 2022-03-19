@@ -44,6 +44,7 @@ import OrderedKits from "../vue/Pages/Orders/OrderedKits";
 import EditOrderedKit from "../vue/Pages/Orders/EditOrderedKit";
 import Adjustments from "../vue/Pages/Orders/Adjustments";
 import Adjustment from "../vue/Pages/Orders/Adjustment";
+import SetFreeRecipes from "../vue/Pages/Menu/SetFreeRecipes";
 
 export default [
     { path: "/", component: HomePage },
@@ -70,6 +71,7 @@ export default [
     { path: "/menus", component: MenuIndex },
     { path: "/menus/:id", component: MenuShow },
     { path: "/menus/:id/edit-meals", component: MenuEditMeals },
+    { path: "/menus/:menu/free-recipes", component: SetFreeRecipes },
     { path: "/menus/:menu/images", component: MenuImages },
     { path: "/orders", component: Orders },
     { path: "/orders/:order", component: Order },

@@ -20,10 +20,15 @@ function placeManualOrder(formData) {
     return post("/admin/api/current-batch/manual-orders", formData);
 }
 
+function assignMenuFreeRecipes(menu_id, meal_ids) {
+    return post(`/admin/api/menus/${menu_id}/free-recipes`, { meal_ids });
+}
+
 export {
     setMenuMeals,
     openMenuForOrders,
     closeMenuForOrders,
     getCurrentBatch,
     placeManualOrder,
+    assignMenuFreeRecipes,
 };
