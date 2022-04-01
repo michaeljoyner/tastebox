@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use App\Events\OrderConfirmed;
 use App\Listeners\CreateMemberProfile;
+use App\Listeners\DispatchRewardSignup;
 use App\Listeners\SendAdminOrderConfirmedMail;
 use App\Listeners\SendCustomerOrderConfirmedMail;
 use Illuminate\Auth\Events\Registered;
@@ -22,6 +23,7 @@ class EventServiceProvider extends ServiceProvider
         Registered::class => [
             CreateMemberProfile::class,
             SendEmailVerificationNotification::class,
+            DispatchRewardSignup::class,
         ],
         OrderConfirmed::class => [
             SendCustomerOrderConfirmedMail::class,

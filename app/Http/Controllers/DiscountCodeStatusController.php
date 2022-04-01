@@ -26,7 +26,7 @@ class DiscountCodeStatusController extends Controller
                 'code' => $code->code,
                 'is_valid' => $code->isValid(),
                 'message' => $this->reasonInvalid($code),
-                'type' => $code->type === Discount::LUMP ? 'lump' : 'percent',
+                'type' => $code->type,
                 'value' => $code->value,
             ];
     }

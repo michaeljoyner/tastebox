@@ -2,9 +2,11 @@
 
 namespace Tests\Feature\Membership;
 
+use App\Jobs\RewardSignUp;
 use App\User;
 use Illuminate\Auth\Notifications\VerifyEmail;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Bus;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Notification;
 use Tests\TestCase;
@@ -20,6 +22,7 @@ class SignUpTest extends TestCase
     {
         $this->withoutExceptionHandling();
         Notification::fake();
+        Bus::fake();
 
         $response = $this->asGuest()->post('/register', [
             'name'                  => 'test name',
@@ -47,6 +50,11 @@ class SignUpTest extends TestCase
         $this->assertSame('test@test.test', $user->profile->email);
 
         Notification::assertSentTo($user, VerifyEmail::class);
+
+        Bus::assertDispatched(function(RewardSignUp $job) use ($user) {
+            $this->assertTrue($job->member->is($user));
+            return true;
+        });
 
 
     }

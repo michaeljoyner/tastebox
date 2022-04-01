@@ -60,7 +60,7 @@ class MemberDiscount extends Model implements Discount
         return $amount;
     }
 
-    private function valueAsString(): string
+    public function valueAsString(): string
     {
         if ($this->type === static::LUMP) {
             return sprintf("R%.2f", $this->value);

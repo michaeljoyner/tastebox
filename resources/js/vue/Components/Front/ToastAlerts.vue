@@ -64,11 +64,17 @@ export default {
             }
         );
 
+        const addSuccessMessage = ({ detail: text }) => {
+            queue.value.push({ type: "success", text });
+        };
+
         onMounted(() => {
             const toast = window.toastMessage;
             if (toast) {
                 queue.value.push(toast);
             }
+
+            window.addEventListener("toasties:success", addSuccessMessage);
         });
 
         return { message };

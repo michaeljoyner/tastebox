@@ -1,6 +1,6 @@
 <x-public-page title="TasteBox | Home">
     <div class="max-w-5xl mx-auto py-20 px-8">
-        <h1>Welcome home, {{ $profile['first_name'] }}</h1>
+        <h1 class="type-h1 mb-8">Welcome home, {{ $profile['first_name'] }}</h1>
 
         @if(!$profile['is_complete'])
             <x-action-box
@@ -56,6 +56,29 @@
                 @endforeach
             </div>
         @endif
+
+        <div>
+            <p class="type-h2">Discounts</p>
+
+            @if(!$discounts->count())
+                <p class="my-6 text-gray-500">You currently do not have any discounts awarded to your account.</p>
+            @else
+
+                <p class="text-gray-500 my-6">You have the following discounts available to you when you checkout.</p>
+            <div class="flex flex-wrap gap-12">
+
+                @foreach($discounts as $discount)
+                    <div class="inline-block p-6 rounded-lg shadow-lg bg-green-100">
+                        <p class="text-3xl">{{ $discount->valueAsString() }}</p>
+                        @if($discount->valid_until)
+                            <p class="text-xs text-gray-500">Valid until {{ $discount->valid_until->format(\App\DatePresenter::PRETTY_DMY) }}</p>
+                        @endif
+                    </div>
+                @endforeach
+            </div>
+
+            @endif
+        </div>
     </div>
 
 

@@ -22,7 +22,7 @@ class CheckoutController extends Controller
         return view('front.checkout.page', [
             'basket' => $basket->presentForReview(),
             'profile' => $user?->profile->toArray(),
-            'discounts' => $user?->discounts->toArray(),
+            'discounts' => $user?->discounts->filter(fn ($discount) => $discount->isValid())->map(fn ($discount) => $discount->toArray())->values(),
         ]);
     }
 }

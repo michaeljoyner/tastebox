@@ -57,7 +57,7 @@
                     <button
                         v-show="!using_discount"
                         @click="showDiscountInput = true"
-                        class="text-sm text-green-600 flex items-center leading-none"
+                        class="text-sm text-green-600 flex items-center leading-none focus:ring-0 focus:outline-none"
                     >
                         <svg
                             xmlns="http://www.w3.org/2000/svg"
@@ -185,6 +185,17 @@
         <div class="px-6">
             <p class="type-h2 text-center mt-12 mb-8">Delivery</p>
 
+            <div
+                v-if="profile && !profile.is_complete"
+                class="max-w-sm mx-auto text-sm p-6 mb-6 rounded-lg border border-green-600 text-green-700 bg-green-100"
+            >
+                You may
+                <a href="/me/edit-profile" class="underline"
+                    >fill out your address and profile info</a
+                >
+                to avoid having to fill add delivery details each time.
+            </div>
+
             <div v-if="use_profile_address" class="text-center">
                 <p>
                     We will delivery to your address at
@@ -200,7 +211,7 @@
                 </div>
             </div>
             <div v-else>
-                <p class="max-w-lg mx-auto text-center mb-8">
+                <p class="max-w-lg mx-auto text-center mb-8 text-sm">
                     Note: We currently ONLY deliver in Pietermaritzburg and
                     surrounding areas, including Nottingham Road, Kloof and
                     Pinetown. If you are unsure if you will receive your
@@ -388,33 +399,65 @@
         </div>
         <modal :show="showDiscountInput" @close="showDiscountInput = false">
             <div class="w-full mx-auto max-w-md py-6 px-3 bg-white rounded-lg">
-                <div class="flex justify-end">
+                <div
+                    class="flex justify-between border-b border-gray-200 pb-2 mb-4"
+                >
+                    <p class="type-h4">Add a Discount</p>
                     <button
                         type="button"
                         @click="showDiscountInput = false"
-                        class="mr-4"
+                        class="mr-4 text-gray-500 hover:text-green-600 grid place-items-center"
                     >
-                        Close
+                        <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            class="h-5 w-5 fill-current"
+                            viewBox="0 0 20 20"
+                            fill="currentColor"
+                        >
+                            <path
+                                fill-rule="evenodd"
+                                d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                                clip-rule="evenodd"
+                            />
+                        </svg>
                     </button>
                 </div>
-                <div>
-                    <label
-                        class="text-sm font-bold text-gray-700"
-                        for="discount_code"
-                        >Enter your Discount Code</label
-                    >
-                    <p
-                        v-show="discount_status_error"
-                        class="text-sm text-red-600"
-                    >
-                        {{ discount_status_error }}
+                <div v-if="profile && discounts.length" class="mt-6 mb-8">
+                    <p class="font-semibold text-gray-500 text-sm mb-4">
+                        Available discounts for you:
                     </p>
+                    <div class="border-y border-gray-200 divide-y">
+                        <div
+                            v-for="discount in discounts"
+                            :key="discount.id"
+                            class="flex justify-between py-3"
+                        >
+                            <p class="font-bold">
+                                {{ discount.value_string }} off
+                            </p>
+                            <button
+                                @click="applyMemberDiscount(discount)"
+                                class="text-xs bg-green-100 hover:bg-green-200 border border-green-700 text-green-700 px-2 py-1 rounded-full"
+                            >
+                                Use
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div>
+                    <p class="font-semibold text-gray-500 text-sm mb-4">
+                        Enter a discount code:
+                    </p>
+
                     <div
-                        class="flex border border-green-500 rounded-md focus-within:ring-green-500 focus-within:ring-1"
+                        class="flex border border-green-500 rounded-full focus-within:ring-green-500 focus-within:ring-1 overflow-hidden"
                     >
                         <input
-                            class="block rounded-md border-none p-2 flex-1 focus:ring-0"
+                            class="block rounded-md border-none py-2 pl-4 flex-1 focus:ring-0"
                             type="text"
+                            id="discount_code"
+                            placeholder="Discount code"
                             v-model="check_discount_code"
                         />
                         <submit-button
@@ -422,28 +465,17 @@
                             role="button"
                             :waiting="checking_code"
                         >
-                            Apply
+                            Use
                         </submit-button>
                     </div>
-                </div>
-                <div v-if="profile && discounts.length" class="mt-6">
-                    <p class="font-semibold text-gray-500 text-sm mb-4">
-                        Available discounts for you:
-                    </p>
-                    <div
-                        v-for="discount in discounts"
-                        :key="discount.id"
-                        class="flex justify-between py-2"
+                    <p
+                        v-show="discount_status_error"
+                        class="text-sm text-red-600 text-center"
                     >
-                        <p class="font-bold">{{ discount.value_string }} off</p>
-                        <button
-                            @click="applyMemberDiscount(discount)"
-                            class="text-xs bg-green-100 hover:bg-green-200 border border-green-700 text-green-700 px-2 py-1 rounded-full"
-                        >
-                            apply
-                        </button>
-                    </div>
+                        {{ discount_status_error }}
+                    </p>
                 </div>
+
                 <div class="flex justify-end mt-6"></div>
             </div>
         </modal>
@@ -469,7 +501,7 @@ export default {
 
     data() {
         return {
-            use_profile_address: !!this.profile,
+            use_profile_address: this.profile && this.profile.is_complete,
             use_multiple_addresses: false,
             showDiscountInput: false,
             check_discount_code: "",
@@ -524,16 +556,20 @@ export default {
         },
 
         using_discount() {
-            return this.formData.discount_code && this.discount_value > 0;
+            return (
+                (this.formData.discount_code ||
+                    this.formData.member_discount_id) &&
+                this.discount_value > 0
+            );
         },
 
         amount_discounted() {
             const price = this.basket.total_price;
-            if (this.discount_type === "lump") {
+            if (this.discount_type === 1) {
                 return this.discount_value;
             }
 
-            if (this.discount_type === "percent") {
+            if (this.discount_type === 2) {
                 const percent = this.discount_value / 100;
                 return parseInt(price * percent);
             }
@@ -670,6 +706,7 @@ export default {
             this.discount_type = code.type;
             this.check_discount_code = "";
             this.showDiscountInput = false;
+            this.dispatchSuccessEvent("Discount applied!");
         },
 
         applyMemberDiscount(code) {
@@ -678,6 +715,14 @@ export default {
             this.discount_type = code.type;
             this.check_discount_code = "";
             this.showDiscountInput = false;
+            this.dispatchSuccessEvent("Discount applied!");
+        },
+
+        dispatchSuccessEvent(text) {
+            const ev = new CustomEvent("toasties:success", {
+                detail: text,
+            });
+            window.dispatchEvent(ev);
         },
 
         handleInvalidCode(code) {
@@ -695,6 +740,7 @@ export default {
             this.check_discount_code = "";
             this.discount_value = 0;
             this.discount_type = "";
+            this.dispatchSuccessEvent("Discount removed");
         },
     },
 };
