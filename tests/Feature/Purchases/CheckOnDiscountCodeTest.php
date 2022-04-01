@@ -30,7 +30,7 @@ class CheckOnDiscountCodeTest extends TestCase
             'code' => $code->code,
             'is_valid' => true,
             'message' => '',
-            'type' => 'lump',
+            'type' => Discount::LUMP,
             'value' => 50
         ];
 
@@ -54,7 +54,7 @@ class CheckOnDiscountCodeTest extends TestCase
             'code' => $code->code,
             'is_valid' => false,
             'message' => "{$code->code} has expired.",
-            'type' => 'lump',
+            'type' => Discount::LUMP,
             'value' => $code->value,
         ];
 
@@ -78,7 +78,7 @@ class CheckOnDiscountCodeTest extends TestCase
             'code' => $code->code,
             'is_valid' => false,
             'message' => "{$code->code} has already been used.",
-            'type' => 'lump',
+            'type' => Discount::LUMP,
             'value' => $code->value,
         ];
 
