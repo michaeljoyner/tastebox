@@ -25,10 +25,10 @@ class RewardSignUp implements ShouldQueue
     {
         $discountInfo = new DiscountCodeInfo([
             'code' => 'WELCOME!',
-            'type' => Discount::LUMP,
+            'type' => Discount::PERCENTAGE,
             'valid_from' => now(),
             'valid_until' => now()->addMonth(),
-            'value' => 100,
+            'value' => 20,
         ]);
 
         $this->member->awardDiscount($discountInfo);

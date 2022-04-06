@@ -27,7 +27,7 @@ class UpdateMemberProfileTest extends TestCase
             'first_name' => 'test first name',
             'last_name' => 'test last name',
             'email' => 'test@test.test',
-            'phone' => 'test phone',
+            'phone' => '0831234567',
             'address_line_one' => 'test line one',
             'address_line_two' => 'test line two',
             'address_city' => 'test city',
@@ -40,7 +40,7 @@ class UpdateMemberProfileTest extends TestCase
             'first_name' => 'test first name',
             'last_name' => 'test last name',
             'email' => 'test@test.test',
-            'phone' => 'test phone',
+            'phone' => '0831234567',
             'address_line_one' => 'test line one',
             'address_line_two' => 'test line two',
             'address_city' => 'test city',
@@ -98,6 +98,17 @@ class UpdateMemberProfileTest extends TestCase
         $this->assertFieldIsInvalid(['email_reminders' => 'not-a-boolean']);
     }
 
+    /**
+     *@test
+     */
+    public function the_phone_number_must_be_a_valid_cell_number()
+    {
+        $this->assertFieldIsInvalid(['phone' => 'not a number']);
+        $this->assertFieldIsInvalid(['phone' => '9999999999']); //incorrect prefix
+        $this->assertFieldIsInvalid(['phone' => '08999999']); //too short
+        $this->assertFieldIsInvalid(['phone' => '08999999999999999999']); //too long
+    }
+
 
 
 
@@ -109,7 +120,7 @@ class UpdateMemberProfileTest extends TestCase
             'first_name' => 'test first name',
             'last_name' => 'test last name',
             'email' => 'test@test.test',
-            'phone' => 'test phone',
+            'phone' => '',
             'address_line_one' => 'test line one',
             'address_line_two' => 'test line two',
             'address_city' => 'test city',

@@ -1,6 +1,6 @@
 <x-public-page title="Sign-up for Tastebox" description="Become a member">
     <div class="my-20 max-w-5xl mx-auto">
-        <p class="type-h1 mb-8">Become a Tastebox member today, and a better person tomorrow.</p>
+        <p class="type-h1 mb-8">Become a Tastebox member today, for free.</p>
 
         <div class="flex bg-white shadow-lg p-6 rounded-lg">
             <div class="w-1/2 pt-6 border-r border-gray-200">

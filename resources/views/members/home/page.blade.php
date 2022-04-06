@@ -27,7 +27,7 @@
                 <p class="type-h2">Your upcoming Kits</p>
 
                 @if(!$upcoming_kits->count())
-                    <p class="text-gray-500 my-6 max-w-xl">You have not have any kits ordered for the upcoming weeks. Take a look at our <a href="/build-a-box" class="hover:text-green-600 underline">upcoming menus</a> to see what is available.</p>
+                    <p class="text-gray-500 my-6 max-w-xl">You have not have any kits ordered for the upcoming weeks. Take a look at our <a href="/build-a-box" class="font-semibold text-green-600 hover:underline">upcoming menus</a> to see what is available.</p>
                 @endif
 
                 @foreach($upcoming_kits as $kit)
@@ -57,7 +57,7 @@
             </div>
         @endif
 
-        <div>
+        <div class="my-12">
             <p class="type-h2">Discounts</p>
 
             @if(!$discounts->count())

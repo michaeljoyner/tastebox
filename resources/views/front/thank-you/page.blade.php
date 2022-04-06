@@ -8,5 +8,11 @@
     @endpush
     <x-order-summary :order="$order"></x-order-summary>
 
+    @auth
+        <div class="my-12 flex justify-center">
+            <a href="/me/home" class="btn btn-main green-btn">Back Home</a>
+        </div>
+    @endauth
+
 
 </x-public-page>

@@ -1,7 +1,7 @@
 <x-public-page title="Verify Your Email">
     <div class="max-w-lg mx-auto py-20 px-8">
         <p class="type-h2 text-center">Please verify your email.</p>
-        <div class="my-6"><strong>Hi {{ auth()->user()?->name ??  'there'}},</strong> welcome to Tastebox. To get access your account please verify your email by clicking on the link we have sent to you at {{ auth()->user()?->email ??  'your email' }}. Thanks.</div>
+        <div class="my-6"><strong>Hi {{ auth()->user()?->name ??  'there'}},</strong> welcome to Tastebox. To get access your account please verify your email by clicking on the link we have sent to you at {{ auth()->user()?->email ??  'your email' }}. </div>
 
         <div>
 

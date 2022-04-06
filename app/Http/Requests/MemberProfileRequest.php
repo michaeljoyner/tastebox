@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use App\Memberships\ProfileInfo;
+use App\Rules\CellNumber;
 use Illuminate\Foundation\Http\FormRequest;
 
 class MemberProfileRequest extends FormRequest
@@ -20,7 +21,7 @@ class MemberProfileRequest extends FormRequest
             'first_name' => ['required_without:last_name'],
             'last_name' => ['required_without:first_name'],
             'email' => ['email', 'nullable'],
-            'phone' => [],
+            'phone' => [new CellNumber(), 'nullable'],
             'sms_reminders' => ['boolean'],
             'email_reminders' => ['boolean'],
         ];

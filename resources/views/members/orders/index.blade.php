@@ -1,6 +1,10 @@
 <x-public-page title="TasteBox | Home">
     <div class="max-w-5xl mx-auto py-20 px-8">
-        <h1>Your orders</h1>
+        <h1 class="type-h1">Your orders</h1>
+
+        @if(!$orders->count())
+            <p class="text-gray-500 my-6">You don't have any orders on record. Take a look at <a href="/build-a-box" class="font-semibold text-green-600 hover:underline">our available menus</a> if you'd like to place an order.</p>
+        @endif
 
         <div class="my-12">
             @foreach($orders as $order)
