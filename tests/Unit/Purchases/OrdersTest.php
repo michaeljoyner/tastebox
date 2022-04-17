@@ -229,7 +229,7 @@ class OrdersTest extends TestCase
 
     private function makeKits()
     {
-        $menu = factory(Menu::class)->state('current')->create();
+        $menu = factory(Menu::class)->state('upcoming')->create();
         $mealA = factory(Meal::class)->create();
         $mealB = factory(Meal::class)->create();
         $mealC = factory(Meal::class)->create();

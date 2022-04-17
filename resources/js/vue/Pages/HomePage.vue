@@ -95,7 +95,7 @@ export default {
             () => store.state.adjustments.unresolved
         );
 
-        const activities = computed(() => store.state.activityLogs.all);
+        const activities = computed(() => store.getters["activityLogs/latest"]);
 
         const batch = computed(() => store.state.menus.current_batch);
 

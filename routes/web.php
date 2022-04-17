@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\ActivityLogsController;
 use App\Http\Controllers\Admin\AdjustmentsController;
+use App\Http\Controllers\Admin\CancelledKitsController;
 use App\Http\Controllers\Admin\FreeRecipesController;
 use App\Http\Controllers\Admin\GeneralMemberDiscountsController;
 use App\Http\Controllers\Admin\MealNotesController;
@@ -172,6 +173,7 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('ordered-kits', [OrderedKitsController::class, 'index']);
         Route::get('ordered-kits/{kit}', [OrderedKitsController::class, 'show']);
         Route::post('ordered-kits/{kit}', [OrderedKitsController::class, 'update']);
+        Route::post('cancelled-kits', [CancelledKitsController::class, 'store']);
 
         Route::get('current-batch', 'CurrentBatchController@show');
 

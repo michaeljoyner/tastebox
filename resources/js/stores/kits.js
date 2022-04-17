@@ -1,4 +1,9 @@
-import { fetchKitById, fetchOrderedKits, updateKitMeals } from "../apis/kits";
+import {
+    cancelKit,
+    fetchKitById,
+    fetchOrderedKits,
+    updateKitMeals,
+} from "../apis/kits";
 import { showError } from "../libs/notifications";
 
 export default {
@@ -74,6 +79,12 @@ export default {
 
         updateMeals({ dispatch }, { kit_id, formData }) {
             return updateKitMeals(kit_id, formData).then(() =>
+                dispatch("refreshActive", kit_id)
+            );
+        },
+
+        cancel({ dispatch }, { kit_id, reason }) {
+            return cancelKit(kit_id, reason).then(() =>
                 dispatch("refreshActive", kit_id)
             );
         },

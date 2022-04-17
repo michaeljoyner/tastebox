@@ -14,8 +14,8 @@ class AdjustmentResource extends JsonResource
         return [
             'id'              => $this->id,
             'value_in_cents'  => $this->value_in_cents,
-            'amount'          => sprintf("%sR%s", $this->value_in_cents <= 0 ? "-" : "",
-                abs($this->value_in_cents / 100)),
+            'credit'          => $this->value_in_cents > 0,
+            'amount'          => sprintf("R%s", abs($this->value_in_cents / 100)),
             'order_id'        => $this->order_id,
             'reason'          => $this->reason,
             'is_resolved'     => $this->status === Adjustment::STATUS_RESOLVED,

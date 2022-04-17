@@ -103,6 +103,8 @@ class UpdateOrderedKitMealsTest extends TestCase
         $this->assertSame($member_profile->full_name, $adjustment->customer_name);
         $this->assertSame($member_profile->email, $adjustment->customer_email);
         $this->assertSame($member_profile->phone, $adjustment->customer_phone);
+
+        $this->assertCount(1, $ordered_kit->activityLogs()->get());
     }
 
     /**

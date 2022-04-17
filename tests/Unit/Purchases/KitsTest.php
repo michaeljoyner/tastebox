@@ -117,7 +117,7 @@ class KitsTest extends TestCase
      */
     public function kits_with_less_than_three_meals_is_not_legible_for_order()
     {
-        $menu = factory(Menu::class)->state('current')->create();
+        $menu = factory(Menu::class)->state('upcoming')->create();
 
         $mealA = factory(Meal::class)->create();
         $mealB = factory(Meal::class)->create();

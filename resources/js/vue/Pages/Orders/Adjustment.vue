@@ -23,14 +23,17 @@
                 <p v-show="!adjustment.user_id" class="text-sm">
                     {{ adjustment.customer_name }}
                 </p>
-                <p v-show="adjustment.user_id" class="text-sm flex space-x-1 items-center">
+                <div
+                    v-show="adjustment.user_id"
+                    class="text-sm flex space-x-1 items-center"
+                >
                     <div class="w-2 h-2 bg-indigo-700 rounded-full"></div>
                     <router-link
                         :to="`/memberships/members/${adjustment.user_id}/show`"
                         class="hover:text-blue-500"
                         >{{ adjustment.customer_name }}</router-link
                     >
-                </p>
+                </div>
                 <p class="text-sm">{{ adjustment.customer_email }}</p>
                 <p class="text-sm">{{ adjustment.customer_phone }}</p>
             </div>
@@ -127,7 +130,7 @@ export default {
         const adjustment = computed(() => store.state.adjustments.active);
 
         const summary = computed(() => {
-            return adjustment.value.value_in_cents > 0
+            return adjustment.value.credit
                 ? `Tastebox needs to claim ${adjustment.value.amount} from ${adjustment.value.customer_name}`
                 : `Tastebox needs to pay ${adjustment.value.customer_name} to grand sum of  ${adjustment.value.amount}`;
         });

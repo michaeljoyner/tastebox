@@ -47,6 +47,10 @@
                         <td class="px-2 py-1">
                             <router-link
                                 class="hover:text-indigo-700"
+                                :class="{
+                                    'text-gray-400 line-through':
+                                        kit.is_cancelled,
+                                }"
                                 :to="`/ordered-kits/${kit.id}/show`"
                             >
                                 {{ kit.customer_name }}

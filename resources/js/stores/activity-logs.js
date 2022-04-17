@@ -8,6 +8,10 @@ export default {
         all: [],
     },
 
+    getters: {
+        latest: (state) => state.all.slice(0, 10),
+    },
+
     mutations: {
         setLogs(state, logs) {
             state.all = logs;

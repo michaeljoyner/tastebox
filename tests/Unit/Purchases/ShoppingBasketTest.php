@@ -168,7 +168,7 @@ class ShoppingBasketTest extends TestCase
     public function get_the_price_from_the_basket()
     {
         $basket = ShoppingBasket::for(null);
-        $menu = factory(Menu::class)->state('current')->create();
+        $menu = factory(Menu::class)->state('upcoming')->create();
         $mealA = factory(Meal::class)->create();
         $mealB = factory(Meal::class)->create();
         $mealC = factory(Meal::class)->create();
@@ -188,7 +188,7 @@ class ShoppingBasketTest extends TestCase
     public function basket_price_does_not_include_ineligible_kits()
     {
         $basket = ShoppingBasket::for(null);
-        $menu = factory(Menu::class)->state('current')->create();
+        $menu = factory(Menu::class)->state('upcoming')->create();
         $mealA = factory(Meal::class)->create();
         $mealB = factory(Meal::class)->create();
         $mealC = factory(Meal::class)->create();
@@ -216,7 +216,7 @@ class ShoppingBasketTest extends TestCase
         $mealB = factory(Meal::class)->create();
         $mealC = factory(Meal::class)->create();
         $basket = ShoppingBasket::for(null);
-        $menuA = factory(Menu::class)->state('current')->create();
+        $menuA = factory(Menu::class)->state('upcoming')->create();
         $menuB = factory(Menu::class)->state('old')->create();
 
         $menuA->setMeals([$mealA->id, $mealB->id, $mealC->id]);

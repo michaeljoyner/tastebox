@@ -12,4 +12,7 @@ const updateKitMeals = (kit_id, formData) => {
     return post(`/admin/api/ordered-kits/${kit_id}`, formData);
 };
 
-export { fetchOrderedKits, fetchKitById, updateKitMeals };
+const cancelKit = (kit_id, reason) =>
+    post("/admin/api/cancelled-kits", { kit_id, reason });
+
+export { fetchOrderedKits, fetchKitById, updateKitMeals, cancelKit };
