@@ -16,7 +16,10 @@ class MemberProfileController extends Controller
 
     public function update(MemberProfileRequest $request)
     {
-        $request->user()->profile->update($request->profileInfo()->toArray());
+        $profile = $request->user()->profile;
+        $profile->update($request->profileInfo()->toArray());
+
+        $request->user()->update(['email' => $profile->fresh()->email]);
 
         return redirect('/me/home')
             ->with('toast', ['type' => 'success', 'text' => 'Your information has been updated']);

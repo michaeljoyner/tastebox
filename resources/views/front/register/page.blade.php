@@ -37,7 +37,7 @@
                     <label class="type-b4"
                            for="name">Your name</label>
                     @error('name')
-                    <span class="text-sm text-red-600">{{ $message }}</span>
+                    <p class="text-sm text-red-600">{{ $message }}</p>
                     @enderror
                     <input type="text"
                            name="name"
@@ -50,7 +50,7 @@
                     <label class="type-b4"
                            for=email>Your email address</label>
                     @error('email')
-                    <span class="text-sm text-red-600">{{ $message }}</span>
+                    <p class="text-sm text-red-600">{{ $message }}</p>
                     @enderror
                     <input type="email"
                            name="email"
@@ -61,9 +61,9 @@
 
                 <div class="my-6">
                     <label class="type-b4"
-                           for="password">Choose a password</label>
-                    @error('email')
-                    <span class="text-sm text-red-600">{{ $message }}</span>
+                           for="password">Choose a password <span class="text-gray-500 text-sm">(Must be at least 8 characters)</span></label>
+                    @error('password')
+                    <p class="text-sm text-red-600">{{ $message }}</p>
                     @enderror
                     <input type="password"
                            name="password"

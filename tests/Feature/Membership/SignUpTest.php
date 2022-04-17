@@ -77,6 +77,16 @@ class SignUpTest extends TestCase
     }
 
     /**
+     *@test
+     */
+    public function the_email_must_be_unique()
+    {
+        factory(User::class)->create(['email' => 'used@test.test']);
+
+        $this->assertFieldIsInvalid(['email' => 'used@test.test']);
+    }
+
+    /**
      * @test
      */
     public function the_password_is_required()

@@ -5,6 +5,7 @@ namespace App\Http\Requests;
 use App\Memberships\ProfileInfo;
 use App\Rules\CellNumber;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class MemberProfileRequest extends FormRequest
 {
@@ -20,7 +21,12 @@ class MemberProfileRequest extends FormRequest
         return [
             'first_name' => ['required_without:last_name'],
             'last_name' => ['required_without:first_name'],
-            'email' => ['email', 'nullable'],
+            'email' => [
+                'email',
+                'nullable',
+                Rule::unique('users', 'email')->ignore($this->user()),
+                Rule::unique('member_profiles', 'email')->ignore($this->user()->profile),
+            ],
             'phone' => [new CellNumber(), 'nullable'],
             'sms_reminders' => ['boolean'],
             'email_reminders' => ['boolean'],
