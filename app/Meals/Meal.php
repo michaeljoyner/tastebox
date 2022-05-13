@@ -36,7 +36,8 @@ class Meal extends Model implements HasMedia, Loggable
         'serving_energy',
         'serving_carbs',
         'serving_fat',
-        'serving_protein'
+        'serving_protein',
+        'public_recipe_notes',
     ];
 
     protected $casts = [
@@ -308,6 +309,7 @@ class Meal extends Model implements HasMedia, Loggable
             'description'  => $this->description,
             'ingredients'  => $this->ingredients,
             'instructions' => $this->instructions,
+            'public_notes' => $this->public_recipe_notes,
             'cooking_time' => ($this->cook_time + $this->prep_time) . "mins",
             'categories'   => $this->classifications,
         ];

@@ -41,6 +41,15 @@
 
                 <div class="mb-2">
                     <router-link
+                        :to="`/meals/${$route.params.meal}/manage/public-recipe-notes`"
+                        class="font-bold hover:text-blue-600"
+                        active-class="text-blue-600"
+                        >Public Recipe Notes</router-link
+                    >
+                </div>
+
+                <div class="mb-2">
+                    <router-link
                         :to="`/meals/${$route.params.meal}/manage/photos`"
                         class="font-bold hover:text-blue-600"
                         active-class="text-blue-600"

@@ -32,6 +32,12 @@ function updateMealNutritionalInfo(meal_id, formData) {
     return post(`/admin/api/meals/${meal_id}/nutritional-info`, formData);
 }
 
+function updateMealPublicRecipeNotes(meal_id, public_recipe_notes) {
+    return post(`/admin/api/meals/${meal_id}/public-recipe-notes`, {
+        public_recipe_notes,
+    });
+}
+
 function copyMeal(meal_id, name) {
     return post(`/admin/api/meals/${meal_id}/copies`, { name });
 }
@@ -56,6 +62,7 @@ export {
     updateMealNutritionalInfo,
     updateMealIngredients,
     updateMealInstructions,
+    updateMealPublicRecipeNotes,
     updateIngredientPositions,
     addMealNote,
 };

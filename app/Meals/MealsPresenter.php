@@ -52,6 +52,7 @@ class MealsPresenter
             'last_offered'           => DatePresenter::pretty($recent_usage),
             'last_offered_ago'       => $recent_usage ? $recent_usage->diffForHumans() : 'Never used',
             'notes'                  => $meal->notes->map->toArray(),
+            'public_recipe_notes'    => $meal->public_recipe_notes,
         ];
     }
 

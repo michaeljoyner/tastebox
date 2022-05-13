@@ -10,6 +10,7 @@ import {
     updateMealIngredients,
     updateMealInstructions,
     updateMealNutritionalInfo,
+    updateMealPublicRecipeNotes,
 } from "../apis/meals";
 
 export default {
@@ -98,6 +99,16 @@ export default {
             return updateMealInstructions(meal_id, instructions).then(() =>
                 dispatch("refresh")
             );
+        },
+
+        updatePublicRecipeNotes(
+            { dispatch },
+            { meal_id, public_recipe_notes }
+        ) {
+            return updateMealPublicRecipeNotes(
+                meal_id,
+                public_recipe_notes
+            ).then(() => dispatch("refresh"));
         },
 
         saveMealGalleryOrder({ dispatch }, { id, image_ids }) {

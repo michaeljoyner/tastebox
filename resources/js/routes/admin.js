@@ -21,6 +21,8 @@ import MealActionsPage from "../vue/Pages/Meals/MealActionsPage";
 import CreateMeal from "../vue/Components/Meals/CreateMeal";
 import ShowMealIngredients from "../vue/Components/Meals/ShowMealIngredients";
 import OrganiseIngredients from "../vue/Components/Meals/OrganiseIngredients";
+import MealPublicRecipeNotes from "../vue/Pages/Meals/MealPublicRecipeNotes";
+import EditPublicRecipeNotes from "../vue/Pages/Meals/EditPublicRecipeNotes";
 import InstagramIndex from "../vue/Pages/Instagram/InstagramIndex";
 import CreateDiscountCode from "../vue/Components/Discounts/CreateDiscountCode";
 import DiscountsIndex from "../vue/Components/Discounts/DiscountsIndex";
@@ -66,6 +68,11 @@ export default [
             { path: "photos", component: MealGallery },
             { path: "actions", component: MealActionsPage },
             { path: "notes", component: MealNotes },
+            { path: "public-recipe-notes", component: MealPublicRecipeNotes },
+            {
+                path: "public-recipe-notes/edit",
+                component: EditPublicRecipeNotes,
+            },
         ],
     },
     { path: "/menus", component: MenuIndex },

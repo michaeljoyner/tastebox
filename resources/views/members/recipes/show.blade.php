@@ -20,6 +20,15 @@
             </ul>
         </div>
 
+        @if($recipe['public_notes'])
+            <div class="my-8 p-8">
+                <p class="type-h3 mb-6">Notes:</p>
+                <div class="prose">
+                    {!! $recipe['public_notes'] !!}
+                </div>
+            </div>
+        @endif
+
         <div class="p-8">
             <p class="type-h3 mb-6">Instructions:</p>
             <div class="prose">

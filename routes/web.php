@@ -6,6 +6,7 @@ use App\Http\Controllers\Admin\CancelledKitsController;
 use App\Http\Controllers\Admin\FreeRecipesController;
 use App\Http\Controllers\Admin\GeneralMemberDiscountsController;
 use App\Http\Controllers\Admin\MealNotesController;
+use App\Http\Controllers\Admin\MealRecipeNotesController;
 use App\Http\Controllers\Admin\MemberDiscountsController;
 use App\Http\Controllers\Admin\MembersController;
 use App\Http\Controllers\Admin\OrderedKitsController;
@@ -139,6 +140,8 @@ Route::group(['middleware' => 'auth'], function () {
         Route::post('meals', 'MealsController@store');
         Route::post('meals/{meal}', 'MealsController@update');
         Route::delete('meals/{meal}', 'MealsController@delete');
+
+        Route::post('meals/{meal}/public-recipe-notes', [MealRecipeNotesController::class, 'store']);
 
         Route::post('meals/{meal}/nutritional-info', 'MealNutritionalInfoController@update');
         Route::post('meals/{meal}/ingredients', 'MealIngredientsController@update');

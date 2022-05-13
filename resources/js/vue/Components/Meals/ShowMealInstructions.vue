@@ -8,7 +8,7 @@
             >
         </sub-header>
 
-        <div class="my-12">
+        <div class="my-12 prose">
             <div v-html="meal.instructions"></div>
         </div>
     </div>
