@@ -22,6 +22,6 @@ class DeleteMemberDiscountTest extends TestCase
         $response = $this->asAdmin()->deleteJson("/admin/api/member-discounts/{$discount->id}");
         $response->assertSuccessful();
 
-        $this->assertDeleted($discount);
+        $this->assertModelMissing($discount);
     }
 }

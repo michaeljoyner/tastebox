@@ -87,7 +87,7 @@ class MemberPlaceOrderTest extends TestCase
             'status'         => Order::STATUS_CREATED,
         ]);
 
-        $this->assertDeleted($discount_code);
+        $this->assertModelMissing($discount_code);
 
         $order = Order::where('email', $profile->email)->first();
 

@@ -55,7 +55,7 @@ class MemberDiscountsTest extends TestCase
 
         $member_discount->use();
 
-        $this->assertDeleted($member_discount);
+        $this->assertModelMissing($member_discount);
     }
 
     /**
