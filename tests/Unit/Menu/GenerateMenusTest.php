@@ -26,7 +26,8 @@ class GenerateMenusTest extends TestCase
 
         $menus->each(function($menu, $index) {
             $this->assertTrue(Carbon::today()->addWeeks($index + 1)->startOfWeek()->isSameDay($menu->current_from));
-            $this->assertTrue(Carbon::today()->addWeeks($index + 1)->startOfWeek()->addDays(3)->endOfDay()->isSameDay($menu->current_to));
+            $this->assertTrue(Carbon::today()->addWeeks($index + 1)->startOfWeek()->addDays(2)->endOfDay()->isSameDay($menu->current_to));
+            $this->assertSame(Carbon::WEDNESDAY, $menu->current_to->dayOfWeek);
             $this->assertTrue(Carbon::today()->addWeeks($index + 1)->endOfWeek()->addDays(2)->isSameDay($menu->delivery_from));
         });
 

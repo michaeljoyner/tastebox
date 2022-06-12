@@ -70,7 +70,7 @@ class Menu extends Model
         collect(range(1, $number_of_weeks))
             ->each(function ($week) use ($start) {
                 $from = Carbon::parse($start)->addWeeks($week)->startOfWeek();
-                $to = Carbon::parse($start)->addWeeks($week)->startOfWeek()->addDays(3)->endOfDay();
+                $to = Carbon::parse($start)->addWeeks($week)->startOfWeek()->addDays(2)->endOfDay();
                 $delivery = Carbon::parse($start)->addWeeks($week)->endOfWeek()->addDays(2);
 
                 Menu::create([
