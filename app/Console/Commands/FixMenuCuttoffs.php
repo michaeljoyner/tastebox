@@ -36,7 +36,7 @@ class FixMenuCuttoffs extends Command
     public function handle()
     {
         Menu::all()->each(function( Menu $menu) {
-           $menu->current_to = Carbon::parse($menu->current_to)->subDays(2)->endOfDay();
+           $menu->current_to = Carbon::parse($menu->current_to)->subDays(1)->endOfDay();
            $menu->save();
         });
         return 0;
