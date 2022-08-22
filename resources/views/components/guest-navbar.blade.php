@@ -10,7 +10,7 @@
             <a class="text-lg font-bold lg:mb-0 mb-6 mx-4 block" href="/our-meals">Our Meals</a>
             <a class="text-lg font-bold lg:mb-0 mb-6 mx-4 block" href="/team">The Team</a>
             <a class="text-lg font-bold lg:mb-0 mb-6 mx-4 block" href="/faqs">FAQs</a>
-            <a class="text-lg font-bold lg:mb-0 mb-6 mx-4 block" href="/contact">Contact Us</a>
+            <a class="text-lg font-bold lg:mb-0 mb-6 mx-4 block" href="/login">Login</a>
             <a href="/build-a-box"
                class="lg:mb-0 mb-6 mx-4 green-btn">See Menus</a>
         </div>

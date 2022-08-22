@@ -10,7 +10,6 @@
             <a class="text-lg font-bold lg:mb-0 mb-6 mx-4 block" href="/me/orders">Orders</a>
             <a class="text-lg font-bold lg:mb-0 mb-6 mx-4 block" href="/blog">Blog</a>
             <a class="lg:hidden text-lg font-bold lg:mb-0 mb-6 mx-4 block" href="/me/edit-profile">Account Settings</a>
-            <a class="lg:hidden text-lg font-bold lg:mb-0 mb-6 mx-4 block" href="/me/recipes">Other Stuff</a>
 
             <a href="/build-a-box"
                class="lg:mb-0 mb-6 mx-4 green-btn">See Menus</a>

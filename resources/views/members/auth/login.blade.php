@@ -1,5 +1,5 @@
 <x-public-page title="Login">
-    <div class="my-20 max-w-4xl mx-auto">
+    <div class="my-20 max-w-4xl mx-auto px-6">
         <p class="type-h2 text-center">Welcome, please login</p>
 
         <p class="text-center text-gray-500 my-4">Don't have an account yet? <a class="font-semibold text-green-700 hover:text-green-500" href="/register">Sign up</a> for free now.</p>
@@ -10,7 +10,7 @@
             </div>
         @endif
 
-        <form action="/login" method="POST" class="max-w-md mx-auto px-6">
+        <form action="/login" method="POST" class="max-w-md mx-auto">
             {!! csrf_field() !!}
 
 
