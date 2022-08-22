@@ -7,7 +7,7 @@
                  <p class="type-h0 text-gray-700 font-bold border-b-2 border-green-500">TasteBox</p>
              </div>
 
-            <p class="type-h2 mb-8">Healthy, ready-to-cook meal kits, delivered to your door.</p>
+            <p class="type-h2 mb-8">Healthy, ready-to-cook meal kits, delivered to your door, for only R85 per person.</p>
         <div class="flex justify-between">
 
             <div class="flex justify-start items-center">

@@ -7,11 +7,14 @@ namespace Tests\Unit\RecipeCards;
 use App\Meals\Meal;
 use App\Meals\RecipeCard;
 use App\Orders\Menu;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Storage;
 use Tests\TestCase;
 
 class RecipeCardsCleanUpTest extends TestCase
 {
+    use RefreshDatabase;
+
     /**
      *@test
      */
