@@ -4,6 +4,7 @@
 namespace App\Purchases;
 
 
+use App\DeliveryAddress;
 use App\Meals\Meal;
 use App\Orders\Menu;
 use Illuminate\Support\Collection;
@@ -12,16 +13,12 @@ use Illuminate\Support\Str;
 class Kit
 {
 
-    public int $menu_id;
     public string $id;
-    public Collection $meals;
     public string $name;
 
-    public function __construct(int $menu_id, ?Collection $meals = null, int $place = 0)
+    public function __construct(public int $menu_id, public Collection $meals, public DeliveryAddress $delivery_address, int $place = 0 )
     {
         $this->id = Str::uuid()->toString();
-        $this->menu_id = $menu_id;
-        $this->meals = $meals ?? collect([]);
         $this->name = $this->getName($place);
     }
 

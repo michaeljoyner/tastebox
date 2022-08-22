@@ -2,6 +2,7 @@
 
 namespace App\Purchases;
 
+use App\DeliveryAddress;
 use App\Orders\Menu;
 use App\User;
 use Illuminate\Support\Collection;
@@ -37,7 +38,8 @@ class ShoppingBasket
 
     public function addKit(int $menu_id)
     {
-        $kit = new Kit($menu_id, null, $this->kits->count());
+
+        $kit = new Kit($menu_id, collect([]), DeliveryAddress::for($this->owner), $this->kits->count());
 
         $this->kits->push($kit);
 
