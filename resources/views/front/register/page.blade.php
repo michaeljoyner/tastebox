@@ -2,8 +2,8 @@
     <div class="my-20 max-w-5xl mx-auto px-6">
         <p class="type-h1 mb-8">Become a Tastebox member today, for free.</p>
 
-        <div class="flex md:flex-row flex-col bg-white md:shadow-lg md:p-6 rounded-lg">
-            <div class="w-full md:w-1/2 pt-6 border-r border-gray-200">
+        <div class="flex md:flex-row flex-col md:bg-white md:shadow-lg md:p-6 rounded-lg">
+            <div class="w-full md:w-1/2 pt-6 md:border-r md:border-gray-200">
                 <p class="type-h2 mb-6">By signing up for free, you get:</p>
 
                 <ul>
