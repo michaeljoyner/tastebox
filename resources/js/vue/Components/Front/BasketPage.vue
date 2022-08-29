@@ -33,6 +33,11 @@
                     </li>
                 </ul>
 
+                <KitDeliveryAddress
+                    :kit="kit"
+                    :suggested-addresses="suggested_addresses"
+                />
+
                 <div
                     v-if="!kit.eligible_for_order"
                     class="my-6 pl-12 pr-6 py-4 rounded-lg border border-red-600 text-red-700 relative"
@@ -82,12 +87,14 @@
 <script type="text/babel">
 import DeleteKit from "./DeleteKit";
 import WarningIcon from "../UI/Icons/WarningIcon";
+import KitDeliveryAddress from "./KitDeliveryAddress";
 import { eventHub } from "../../../libs/eventHub";
 
 export default {
     components: {
         DeleteKit,
         WarningIcon,
+        KitDeliveryAddress,
     },
 
     props: ["initial-basket"],
@@ -95,11 +102,13 @@ export default {
     data() {
         return {
             kits: [],
+            suggested_addresses: [],
         };
     },
 
     mounted() {
         this.kits = this.initialBasket.kits;
+        this.suggested_addresses = this.initialBasket.suggested_addresses;
     },
 
     methods: {

@@ -5,11 +5,16 @@ namespace App\Purchases;
 
 
 use App\DatePresenter;
+use App\DeliveryArea;
 use App\Meals\Meal;
 use App\Orders\Menu;
 
 class BasketPresenter
 {
+    public function __construct(private ShoppingBasket $basket)
+    {
+    }
+
     public function presentKit(Kit $kit)
     {
         $meals = Meal::find($kit->meals->pluck('id'));
@@ -24,6 +29,10 @@ class BasketPresenter
             'meals_count' => $meals->count(),
             'servings_count' => $kit->meals->sum('servings'),
             'price' => $kit->price(),
+            'delivery_area' => $kit->delivery_address->area->name,
+            'delivery_address' => $kit->delivery_address->address,
+            'deliver_with' => $this->basket->getKitName($kit->deliver_with),
+            'can_deliver' => ($kit->delivery_address->area !== DeliveryArea::NOT_SET) && $kit->delivery_address->address,
             'meals' => $meals->map(fn (Meal $meal) => [
                 'id' => $meal->id,
                 'name' => $meal->name,

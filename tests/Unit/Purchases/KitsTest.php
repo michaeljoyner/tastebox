@@ -4,8 +4,11 @@
 namespace Tests\Unit\Purchases;
 
 
+use App\DeliveryAddress;
+use App\DeliveryArea;
 use App\Meals\Meal;
 use App\Orders\Menu;
+use App\Purchases\Kit;
 use App\Purchases\KitMeal;
 use App\Purchases\KitMealSummary;
 use App\Purchases\ShoppingBasket;
@@ -135,5 +138,21 @@ class KitsTest extends TestCase
 
         $kit->setMeal($mealC->id, 3);
         $this->assertTrue($kit->eligibleForOrder());
+    }
+
+    /**
+     *@test
+     */
+    public function can_set_the_delivery_address_for_a_kit()
+    {
+        $menu = factory(Menu::class)->create();
+        $kit = new Kit($menu->id, collect([]), DeliveryAddress::fake());
+
+        $new_address = new DeliveryAddress(DeliveryArea::HILTON, '123 test street');
+
+        $kit->setDeliveryAddress($new_address);
+
+        $this->assertSame(DeliveryArea::HILTON, $kit->delivery_address->area);
+        $this->assertSame('123 test street', $kit->delivery_address->address);
     }
 }

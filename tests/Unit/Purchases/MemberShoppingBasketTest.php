@@ -22,6 +22,7 @@ class MemberShoppingBasketTest extends TestCase
     public function add_kit_to_members_shopping_basket()
     {
         $member = factory(User::class)->state('member')->create();
+        $member->initiateProfile();
         $basket = ShoppingBasket::for($member);
         $menu = factory(Menu::class)->create();
 

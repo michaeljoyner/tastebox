@@ -2,12 +2,14 @@
 
 namespace App\Providers;
 
+use App\Events\KitAddressUpdated;
 use App\Events\OrderConfirmed;
 use App\Listeners\CreateMemberProfile;
 use App\Listeners\DispatchRewardSignup;
 use App\Listeners\SendAdminOrderConfirmedMail;
 use App\Listeners\SendCustomerOrderConfirmedMail;
 use App\Listeners\SendWelcomeEmail;
+use App\Listeners\UpdateSecondaryKitAddresses;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Events\Verified;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
@@ -33,7 +35,11 @@ class EventServiceProvider extends ServiceProvider
         OrderConfirmed::class => [
             SendCustomerOrderConfirmedMail::class,
             SendAdminOrderConfirmedMail::class
-        ]
+        ],
+
+        KitAddressUpdated::class => [
+            UpdateSecondaryKitAddresses::class
+        ],
 
     ];
 

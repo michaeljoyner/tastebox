@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\Purchases;
 
+use App\DeliveryAddress;
 use App\Meals\Meal;
 use App\Memberships\MemberProfile;
 use App\Orders\Menu;
@@ -47,7 +48,7 @@ class CancelOrderedKitTest extends TestCase
         $member_profile = factory(MemberProfile::class)->create(['user_id' => $member->id]);
         $order = factory(Order::class)->create(['user_id' => $member->id]);
 
-        $kit = new Kit($menu->id, $kits_meals);
+        $kit = new Kit($menu->id, $kits_meals, DeliveryAddress::fake());
         $ordered_kit = $order->addKit($kit, Address::fake());
 
         $response = $this->asAdmin()->postJson("/admin/api/cancelled-kits", [

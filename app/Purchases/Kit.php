@@ -5,6 +5,7 @@ namespace App\Purchases;
 
 
 use App\DeliveryAddress;
+use App\Events\KitAddressUpdated;
 use App\Meals\Meal;
 use App\Orders\Menu;
 use Illuminate\Support\Collection;
@@ -15,6 +16,7 @@ class Kit
 
     public string $id;
     public string $name;
+    public ?string $deliver_with = null;
 
     public function __construct(public int $menu_id, public Collection $meals, public DeliveryAddress $delivery_address, int $place = 0 )
     {
@@ -67,6 +69,23 @@ class Kit
         $this->meals = $this->meals->reject(
             fn ($m) => $m['id'] === $meal_id
         );
+    }
+
+    public function setDeliveryAddress(DeliveryAddress $address)
+    {
+        $this->delivery_address = $address;
+        $this->deliver_with = null;
+
+        KitAddressUpdated::dispatch($this->id, $address);
+    }
+
+    public function deliverWith(Kit $kit)
+    {
+        $this->delivery_address = $kit->delivery_address;
+
+        if($kit->menu_id === $this->menu_id) {
+            $this->deliver_with = $kit->id;
+        }
     }
 
     public function price(): int

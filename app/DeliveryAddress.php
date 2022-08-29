@@ -21,4 +21,9 @@ class DeliveryAddress
 
         return new self($area, $address);
     }
+
+    public static function fake(): self
+    {
+        return new self(DeliveryArea::NOT_SET, "");
+    }
 }

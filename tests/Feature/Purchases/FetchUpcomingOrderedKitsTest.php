@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\Purchases;
 
+use App\DeliveryAddress;
 use App\Meals\Meal;
 use App\Memberships\MemberProfile;
 use App\Orders\Menu;
@@ -45,7 +46,7 @@ class FetchUpcomingOrderedKitsTest extends TestCase
 
         $order = factory(Order::class)->create(['is_paid' => false, 'status' => Order::STATUS_CREATED]);
 
-        $kit = new Kit($menu->id, $original_meals);
+        $kit = new Kit($menu->id, $original_meals, DeliveryAddress::fake());
         $ordered_kit = $order->addKit($kit, Address::fake());
 
         $response = $this->asAdmin()->getJson("/admin/api/upcoming-ordered-kits");

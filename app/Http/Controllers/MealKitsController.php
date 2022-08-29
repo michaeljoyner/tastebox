@@ -18,7 +18,7 @@ class MealKitsController extends Controller
         $basket = ShoppingBasket::for(request()->user());
         $kit = $basket->addKit(request('menu_id'));
 
-        return (new BasketPresenter())->presentKit($kit);
+        return (new BasketPresenter($basket))->presentKit($kit);
     }
 
     public function destroy($kit_id)
