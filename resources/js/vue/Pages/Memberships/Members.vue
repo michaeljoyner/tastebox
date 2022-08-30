@@ -27,6 +27,8 @@
                         <th class="p-2">Name</th>
                         <th class="p-2">Location</th>
                         <th class="p-2">Signed up</th>
+                        <th class="p-2">Verified</th>
+                        <th class="p-2">Profile Info</th>
                     </tr>
                 </thead>
                 <tbody v-show="!fetching">
@@ -45,6 +47,18 @@
                         </td>
                         <td class="px-2 py-1">{{ member.location }}</td>
                         <td class="px-2 py-1">{{ member.signed_up }}</td>
+                        <td>
+                            <div
+                                class="w-2 h-2 mx-auto rounded-full bg-green-500"
+                                v-show="member.verified"
+                            ></div>
+                        </td>
+                        <td>
+                            <div
+                                class="w-2 h-2 mx-auto rounded-full bg-green-500"
+                                v-show="member.profile_complete"
+                            ></div>
+                        </td>
                     </tr>
                 </tbody>
             </table>

@@ -25,6 +25,8 @@ class AdminMemberResource extends JsonResource
             'signed_up'    => $this->profile->created_at->diffForHumans(),
             'orders'       => $this->orders()->with('orderedKits')->latest()->get()->map->toArray(),
             'discounts'    => MemberDiscountResource::collection($this->discounts),
+            'verified' => !!$this->email_verified_at,
+            'profile_complete' => $this->profile?->isComplete(),
         ];
     }
 }
