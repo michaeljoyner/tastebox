@@ -4,6 +4,7 @@
 namespace Tests\Feature\Membership;
 
 
+use App\DeliveryArea;
 use App\Memberships\MemberProfile;
 use App\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -29,8 +30,8 @@ class UpdateMemberProfileTest extends TestCase
             'email' => 'test@test.test',
             'phone' => '0831234567',
             'address_line_one' => 'test line one',
-            'address_line_two' => 'test line two',
-            'address_city' => 'test city',
+//            'address_line_two' => 'test line two',
+            'address_city' => DeliveryArea::HOWICK->value,
             'sms_reminders' => false,
             'email_reminders' => true,
         ]);
@@ -42,8 +43,8 @@ class UpdateMemberProfileTest extends TestCase
             'email' => 'test@test.test',
             'phone' => '0831234567',
             'address_line_one' => 'test line one',
-            'address_line_two' => 'test line two',
-            'address_city' => 'test city',
+            'address_line_two' => '',
+            'address_city' => DeliveryArea::HOWICK->value,
             'sms_reminders' => false,
             'email_reminders' => true,
         ]);
@@ -66,7 +67,7 @@ class UpdateMemberProfileTest extends TestCase
             'phone' => '0831234567',
             'address_line_one' => 'test line one',
             'address_line_two' => 'test line two',
-            'address_city' => 'test city',
+            'address_city' => DeliveryArea::HOWICK->value,
             'sms_reminders' => false,
             'email_reminders' => true,
         ]);
@@ -79,7 +80,7 @@ class UpdateMemberProfileTest extends TestCase
             'phone' => '0831234567',
             'address_line_one' => 'test line one',
             'address_line_two' => 'test line two',
-            'address_city' => 'test city',
+            'address_city' => DeliveryArea::HOWICK->value,
             'sms_reminders' => false,
             'email_reminders' => true,
         ]);
@@ -103,7 +104,7 @@ class UpdateMemberProfileTest extends TestCase
             'phone' => '0831234567',
             'address_line_one' => 'test line one',
             'address_line_two' => 'test line two',
-            'address_city' => 'test city',
+            'address_city' => DeliveryArea::HOWICK->value,
             'sms_reminders' => false,
             'email_reminders' => true,
         ]);
@@ -116,7 +117,7 @@ class UpdateMemberProfileTest extends TestCase
             'phone' => '0831234567',
             'address_line_one' => 'test line one',
             'address_line_two' => 'test line two',
-            'address_city' => 'test city',
+            'address_city' => DeliveryArea::HOWICK->value,
             'sms_reminders' => false,
             'email_reminders' => true,
         ]);
@@ -201,6 +202,14 @@ class UpdateMemberProfileTest extends TestCase
         $this->assertFieldIsInvalid(['phone' => '08999999999999999999']); //too long
     }
 
+    /**
+     *@test
+     */
+    public function the_delivery_area_must_be_a_valid_area()
+    {
+        $this->assertFieldIsInvalid(['address_city' => 'not-a-valid-delivery-area']);
+    }
+
 
 
 
@@ -215,7 +224,7 @@ class UpdateMemberProfileTest extends TestCase
             'phone' => '',
             'address_line_one' => 'test line one',
             'address_line_two' => 'test line two',
-            'address_city' => 'test city',
+            'address_city' => DeliveryArea::HOWICK->value,
             'sms_reminders' => false,
             'email_reminders' => true,
         ];

@@ -23,6 +23,7 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\BlogController;
 use App\Http\Controllers\EmailVerificationController;
 use App\Http\Controllers\EmailVerificationLinkRequestController;
+use App\Http\Controllers\KitDeliveryAddressController;
 use App\Http\Controllers\Members\HomePageController;
 use App\Http\Controllers\Members\MemberPasswordController;
 use App\Http\Controllers\Members\MemberProfileController;
@@ -74,6 +75,8 @@ Route::view('contact', 'front.contact.page');
 
 
 Route::post('contact', 'ContactMessageController@store');
+
+Route::post('api/kits/{kit_id}/delivery-address', [KitDeliveryAddressController::class, 'update']);
 
 Route::get('checkout', 'CheckoutController@show');
 Route::post('checkout', 'OrdersController@store');

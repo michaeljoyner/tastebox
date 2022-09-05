@@ -32,7 +32,7 @@ class BasketPresenter
             'delivery_area' => $kit->delivery_address->area->name,
             'delivery_address' => $kit->delivery_address->address,
             'deliver_with' => $this->basket->getKitName($kit->deliver_with),
-            'can_deliver' => ($kit->delivery_address->area !== DeliveryArea::NOT_SET) && $kit->delivery_address->address,
+            'can_deliver' => !$kit->requiresAddress(),
             'meals' => $meals->map(fn (Meal $meal) => [
                 'id' => $meal->id,
                 'name' => $meal->name,

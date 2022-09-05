@@ -50,30 +50,30 @@
                 <div class="flex-1 md:max-w-md">
                     <x-forms.text-field name="address_line_one"
                                         class="my-6"
-                                        label="Address line one"
+                                        label="Delivery Address"
                                         :value="old('address_line_one') ?? $profile['address_line_one']"
                                         :error="$errors->first('address_line_one')"
                     ></x-forms.text-field>
 
-                    <x-forms.text-field name="address_line_two"
-                                        class="my-6"
-                                        label="Address line two"
-                                        :value="old('address_line_two') ?? $profile['address_line_two']"
-                                        :error="$errors->first('address_line_two')"
-                    ></x-forms.text-field>
+{{--                    <x-forms.text-field name="address_line_two"--}}
+{{--                                        class="my-6"--}}
+{{--                                        label="Address line two"--}}
+{{--                                        :value="old('address_line_two') ?? $profile['address_line_two']"--}}
+{{--                                        :error="$errors->first('address_line_two')"--}}
+{{--                    ></x-forms.text-field>--}}
 
                     <div class="my-6">
                         <label>
-                            <span class="type-b4">Address City</span>
+                            <span class="type-b4">Delivery Area</span>
                             @error('address_city')
                             <span class="type-b3 text-red-500">{{ $message }}</span>
                             @enderror
 
                             <select name="address_city"
                                     class="block w-full mt-1">
-                                @foreach(['Ashburton','Camperdown','Cato Ridge','Dalton','Hillcrest','Hilton','Howick','Kloof','Nottingham Road','Pietermaritzburg','Pinetown','Wartburg',] as $city)
+                                @foreach($available_delivery_areas as $value => $city)
                                     <option @if((old('address_city') ?? $profile['address_city']) === $city) selected
-                                            @endif value="{{ $city }}">{{ $city }}</option>
+                                            @endif value="{{ $value }}">{{ $city }}</option>
                                 @endforeach
 
                             </select>

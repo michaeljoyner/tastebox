@@ -170,4 +170,59 @@ class ShoppingBasketKitDeliveryTest extends TestCase
         $this->assertSame('original address', $kitB->delivery_address->address);
         $this->assertNull($kitB->deliver_with);
     }
+
+    /**
+     *@test
+     */
+    public function adding_a_kit_for_a_second_menu_will_use_address_from_previous_kit_if_set()
+    {
+        $basket = ShoppingBasket::for(null);
+        $menuA = factory(Menu::class)->state('upcoming')->create();
+        $menuB = factory(Menu::class)->state('upcoming')->create();
+
+        $test_address = new DeliveryAddress(DeliveryArea::HILTON, '123 test street');
+
+        $kitA = $basket->addKit($menuA->id);
+        $kitA->setDeliveryAddress($test_address);
+
+        $kitB = $basket->addKit($menuB->id);
+
+
+        $this->assertSame(DeliveryArea::HILTON, $kitB->delivery_address->area);
+        $this->assertSame('123 test street', $kitB->delivery_address->address);
+        $this->assertNull($kitB->deliver_with);
+
+
+    }
+
+    /**
+     *@test
+     */
+    public function can_set_address_for_all_unset_kits()
+    {
+        $basket = ShoppingBasket::for(null);
+        $menuA = factory(Menu::class)->state('upcoming')->create();
+        $menuB = factory(Menu::class)->state('upcoming')->create();
+
+        $test_address = new DeliveryAddress(DeliveryArea::HILTON, '123 test street');
+
+        $kitA = $basket->addKit($menuA->id);
+        $kitB = $basket->addKit($menuB->id);
+        $kitC = $basket->addKit($menuB->id);
+
+        $basket->setAddressForUnsetKits($test_address);
+
+
+        $this->assertSame(DeliveryArea::HILTON, $kitA->delivery_address->area);
+        $this->assertSame('123 test street', $kitA->delivery_address->address);
+        $this->assertNull($kitA->deliver_with);
+
+        $this->assertSame(DeliveryArea::HILTON, $kitB->delivery_address->area);
+        $this->assertSame('123 test street', $kitB->delivery_address->address);
+        $this->assertNull($kitB->deliver_with);
+
+        $this->assertSame(DeliveryArea::HILTON, $kitC->delivery_address->area);
+        $this->assertSame('123 test street', $kitC->delivery_address->address);
+        $this->assertSame($kitB->id, $kitC->deliver_with);
+    }
 }

@@ -1,6 +1,17 @@
 <template>
-    <div class="py-6">
-        <div v-if="showMenus">
+    <div class="pb-6">
+        <div v-if="!registered" class="bg-green-700 p-4 md:p-6 text-white">
+            <p class="text-left md:text-center">
+                Already a member? Don't forget to
+                <a
+                    href="/login"
+                    class="font-bold underline hover:text-green-300"
+                    >sign in</a
+                >
+                to get the most out of your account.
+            </p>
+        </div>
+        <div v-if="showMenus" class="py-6">
             <p class="type-h1 text-center">Choose a Menu</p>
             <p class="my-6 max-w-xl text-gray-600 mx-auto px-6">
                 Each week has its own unique menu from which you can choose the
@@ -101,13 +112,15 @@
 <script type="text/babel">
 import KitBuilder from "./KitBuilder";
 import { eventHub } from "../../../libs/eventHub";
+import HandIcon from "../Icons/HandIcon";
 
 export default {
     components: {
+        HandIcon,
         KitBuilder,
     },
 
-    props: ["menus", "initial-basket", "initial-kit"],
+    props: ["menus", "initial-basket", "initial-kit", "registered"],
 
     data() {
         return {
@@ -180,6 +193,7 @@ export default {
                 `/build-a-box?kit=${kit_id}`
             );
             this.selected_kit_id = kit_id;
+            window.scrollTo(0, 0);
         },
     },
 };

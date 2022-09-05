@@ -5,6 +5,8 @@ namespace App\Purchases;
 
 
 use App\DeliveryAddress;
+use App\DeliveryArea;
+use App\Events\AddressGivenForAllUnsetKits;
 use App\Events\KitAddressUpdated;
 use App\Meals\Meal;
 use App\Orders\Menu;
@@ -71,12 +73,23 @@ class Kit
         );
     }
 
-    public function setDeliveryAddress(DeliveryAddress $address)
+    public function requiresAddress(): bool
+    {
+        return ($this->delivery_address->area === DeliveryArea::NOT_SET) || !$this->delivery_address->address;
+    }
+
+    public function setDeliveryAddress(DeliveryAddress $address, bool $as_secondary = false)
     {
         $this->delivery_address = $address;
-        $this->deliver_with = null;
+
+        if(!$as_secondary) {
+            $this->deliver_with = null;
+        }
+
 
         KitAddressUpdated::dispatch($this->id, $address);
+
+
     }
 
     public function deliverWith(Kit $kit)

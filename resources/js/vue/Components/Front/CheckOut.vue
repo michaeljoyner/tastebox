@@ -86,7 +86,7 @@
 
                 <div class="w-full max-w-md mx-auto">
                     <div
-                        class="my-4 w-full md:w-64"
+                        class="my-4 w-full md:w-80"
                         :class="{
                             'border-b border-red-400': formErrors.first_name,
                         }"
@@ -110,7 +110,7 @@
                         />
                     </div>
                     <div
-                        class="my-4 md:w-64"
+                        class="my-4 md:w-80"
                         :class="{
                             'border-b border-red-400': formErrors.last_name,
                         }"
@@ -135,7 +135,7 @@
                     </div>
 
                     <div
-                        class="my-4 md:w-64"
+                        class="my-4 md:w-80"
                         :class="{ 'border-b border-red-400': formErrors.email }"
                     >
                         <label
@@ -157,7 +157,7 @@
                         />
                     </div>
                     <div
-                        class="my-4 md:w-64"
+                        class="my-4 md:w-80"
                         :class="{ 'border-b border-red-400': formErrors.phone }"
                     >
                         <label
@@ -182,145 +182,6 @@
             </div>
         </div>
 
-        <div class="px-6">
-            <p class="type-h2 text-center mt-12 mb-8">Delivery</p>
-
-            <div
-                v-if="profile && !profile.is_complete"
-                class="max-w-sm mx-auto text-sm p-6 mb-6 rounded-lg border border-green-600 text-green-700 bg-green-100"
-            >
-                You may
-                <a href="/me/edit-profile" class="underline"
-                    >fill out your address and profile info</a
-                >
-                to avoid having to fill add delivery details each time.
-            </div>
-
-            <div v-if="use_profile_address" class="text-center">
-                <p>
-                    We will delivery to your address at
-                    {{ profile.full_address }}
-                </p>
-                <div class="flex justify-center py-3">
-                    <button
-                        @click="use_profile_address = false"
-                        class="text-gray-500 hover:text-green-600 type-b3"
-                    >
-                        Use a different address
-                    </button>
-                </div>
-            </div>
-            <div v-else>
-                <p class="max-w-lg mx-auto text-center mb-8 text-sm">
-                    Note: We currently ONLY deliver in Pietermaritzburg and
-                    surrounding areas, including Nottingham Road, Kloof and
-                    Pinetown. If you are unsure if you will receive your
-                    delivery, please contact us before you place your order.
-                </p>
-
-                <div
-                    v-if="has_multiple_kits"
-                    class="flex flex-col md:flex-row justify-around items-center my-8 md:my-12"
-                >
-                    <p class="mb-4 max-w-sm">
-                        You have ordered more than one box. Would you like to
-                        have any of the boxes sent to different address?
-                    </p>
-                    <div>
-                        <label class="block mb-4">
-                            <input
-                                type="radio"
-                                :value="false"
-                                class="text-green-500 mr-2 focus:outline-none"
-                                v-model="use_multiple_addresses"
-                            />
-                            <span
-                                ><strong>No</strong>, use the same address for
-                                all boxes.</span
-                            >
-                        </label>
-
-                        <label class="block mb-4">
-                            <input
-                                type="radio"
-                                :value="true"
-                                class="text-green-500 mr-2 focus:outline-none"
-                                v-model="use_multiple_addresses"
-                            />
-                            <span
-                                ><strong>Yes</strong>, I need to send to
-                                different addresses.</span
-                            >
-                        </label>
-                    </div>
-                </div>
-
-                <div v-if="use_multiple_addresses === true">
-                    <div
-                        v-for="kit in basket.kits"
-                        :key="kit.id"
-                        class="flex flex-col md:flex-row justify-around p-6 border md:border-0"
-                    >
-                        <div class="mb-4 md:w-64">
-                            <p class="font-bold">{{ kit.name }}</p>
-                            <p>
-                                Delivery from:
-                                <span class="font-bold text-gray-700">{{
-                                    kit.delivery_date
-                                }}</span>
-                            </p>
-                            <p
-                                v-for="meal in kit.meals"
-                                :key="meal.id"
-                                class="text-sm"
-                            >
-                                {{ meal.name }} (for {{ meal.servings }})
-                            </p>
-                        </div>
-                        <address-input
-                            class="max-w-md"
-                            v-model="formData.delivery[kit.id]"
-                            :error-msg="isInvalidAddress(kit.id)"
-                        ></address-input>
-                    </div>
-                </div>
-                <div
-                    v-if="use_multiple_addresses === false"
-                    class="flex flex-col items-center md:items-start md:flex-row justify-around"
-                >
-                    <div v-if="has_multiple_kits" class="md:w-64">
-                        <p class="mb-4">
-                            You have ordered
-                            <span class="font-bold"
-                                >{{ basket.kits.length }} meal kits</span
-                            >. They will all be delivered to this address.
-                        </p>
-                    </div>
-                    <div v-else class="hidden md:block md:w-64">
-                        <p class="font-bold">{{ basket.kits[0].name }}</p>
-                        <p>
-                            Delivery from:
-                            <span class="font-bold text-gray-700">{{
-                                basket.kits[0].delivery_date
-                            }}</span>
-                        </p>
-                        <p
-                            v-for="meal in basket.kits[0].meals"
-                            :key="meal.id"
-                            class="text-sm"
-                        >
-                            {{ meal.name }} (for {{ meal.servings }})
-                        </p>
-                    </div>
-                    <address-input
-                        class="max-w-md"
-                        v-model="formData.main_address"
-                        :error-msg="invalidAddresses.length"
-                    ></address-input>
-                </div>
-            </div>
-        </div>
-
         <div class="my-12" v-if="!profile">
             <p class="text-center type-h3 mb-3">Keep up to date.</p>
             <div>
@@ -332,6 +193,7 @@
                         <input
                             type="checkbox"
                             id="newsletter_signup"
+                            class="mr-2"
                             v-model="formData.subscribe_to_newsletter"
                         />
                         <span class="type-b3"
@@ -516,13 +378,6 @@ export default {
                 email: "",
                 phone: "",
                 discount_code: "",
-                main_address: {
-                    line_one: "",
-                    line_two: "",
-                    city: "",
-                    postal_code: "",
-                },
-                delivery: {},
                 subscribe_to_newsletter: false,
                 get_sms_reminder: false,
                 member_discount_id: null,
@@ -533,26 +388,17 @@ export default {
                 email: "",
                 phone: "",
             },
-            invalidAddresses: [],
             payfast: {},
         };
     },
 
     computed: {
-        has_multiple_kits() {
-            return this.eligible_kits.length > 1;
-        },
-
         eligible_kits() {
             return this.basket.kits.filter((kit) => kit.eligible_for_order);
         },
 
         ineligible_kits() {
             return this.basket.kits.filter((kit) => !kit.eligible_for_order);
-        },
-
-        hasInvalidAddress() {
-            return this.invalidAddresses.length > 0;
         },
 
         using_discount() {
@@ -582,22 +428,6 @@ export default {
         },
     },
 
-    created() {
-        this.formData.delivery = this.basket.kits.reduce((carry, kit) => {
-            carry[kit.id] = {
-                line_one: "",
-                line_two: "",
-                city: "",
-                postal_code: "",
-            };
-            return carry;
-        }, {});
-
-        if (this.basket.kits.length === 1) {
-            this.use_multiple_addresses = false;
-        }
-    },
-
     mounted() {
         try {
             fbq("track", "InitiateCheckout", {
@@ -611,7 +441,6 @@ export default {
         submit() {
             this.waiting = true;
             this.formErrors = clearValidationErrors(this.formErrors);
-            this.clearInvalidAddresses();
 
             const fd = {
                 first_name: this.formData.first_name,
@@ -622,30 +451,12 @@ export default {
                 member_discount_id: this.formData.member_discount_id,
                 subscribe_to_newsletter: this.formData.subscribe_to_newsletter,
                 get_sms_reminder: this.formData.get_sms_reminder,
-                delivery: this.getDeliveryDetails(),
             };
 
             axios
                 .post("/checkout", fd)
                 .then(({ data }) => this.onSuccess(data))
                 .catch(({ response }) => this.onError(response));
-        },
-
-        getDeliveryDetails() {
-            if (this.use_profile_address) {
-                return null;
-            }
-
-            if (this.use_multiple_addresses === true) {
-                return this.formData.delivery;
-            }
-
-            if (this.use_multiple_addresses === false) {
-                const del = {};
-
-                del[this.basket.kits[0].id] = this.formData.main_address;
-                return del;
-            }
         },
 
         onSuccess(payfast_data) {
@@ -659,29 +470,11 @@ export default {
         onError({ status, data }) {
             this.waiting = false;
             if (status === 422) {
-                this.setInvalidAddresses(data.errors);
                 return (this.formErrors = setValidationErrors(
                     this.formErrors,
                     data.errors
                 ));
             }
-        },
-
-        setInvalidAddresses(errors) {
-            const invalid = new Set(
-                Object.keys(errors)
-                    .filter((key) => key.indexOf("delivery.") === 0)
-                    .map((key) => key.slice(9, 45))
-            );
-            this.invalidAddresses = [...invalid];
-        },
-
-        clearInvalidAddresses() {
-            this.invalidAddresses = [];
-        },
-
-        isInvalidAddress(kit_id) {
-            return this.invalidAddresses.includes(kit_id);
         },
 
         checkDiscountCode() {

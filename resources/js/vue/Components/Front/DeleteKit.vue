@@ -2,9 +2,9 @@
     <span>
         <button
             @click="showForm = true"
-            class="text-gray-600 hover:text-red-600 font-bold mr-4"
+            class="text-gray-600 hover:text-red-600 font-bold mr-4 mt-3"
         >
-            Remove kit
+            <TrashIcon class="text-gray-600 hover:text-red-500 w-6 h-6" />
         </button>
         <modal :show="showForm" @close="showForm = false">
             <div class="w-full max-w-lg mx-auto p-6 bg-white">
@@ -36,8 +36,10 @@
 <script type="text/babel">
 import SubmitButton from "../UI/SubmitButton";
 import Modal from "../Modal";
+import TrashIcon from "../Icons/TrashIcon";
 export default {
     components: {
+        TrashIcon,
         SubmitButton,
         Modal,
     },

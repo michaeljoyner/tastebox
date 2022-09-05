@@ -2,8 +2,10 @@
 
 namespace App\Providers;
 
+use App\Events\AddressGivenForAllUnsetKits;
 use App\Events\KitAddressUpdated;
 use App\Events\OrderConfirmed;
+use App\Listeners\ApplyAddressForAllUnsetKits;
 use App\Listeners\CreateMemberProfile;
 use App\Listeners\DispatchRewardSignup;
 use App\Listeners\SendAdminOrderConfirmedMail;
@@ -40,6 +42,9 @@ class EventServiceProvider extends ServiceProvider
         KitAddressUpdated::class => [
             UpdateSecondaryKitAddresses::class
         ],
+
+
+
 
     ];
 

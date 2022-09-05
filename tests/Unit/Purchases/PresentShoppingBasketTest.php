@@ -142,6 +142,7 @@ class PresentShoppingBasketTest extends TestCase
                     'delivery_address' => $kitA->delivery_address->address,
                 ],
             ],
+            'available_delivery_areas' => DeliveryArea::activeAreas(),
 
         ];
 
@@ -209,7 +210,8 @@ class PresentShoppingBasketTest extends TestCase
                     'thumb'    => $mealC->titleImage('thumb'),
                     'servings' => 3,
                 ],
-            ]
+            ],
+
         ];
 
         $this->assertSame($expected, (new BasketPresenter($basket))->presentKit($kitB));

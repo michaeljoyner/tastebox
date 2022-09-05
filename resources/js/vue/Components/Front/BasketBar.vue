@@ -23,7 +23,7 @@
         </div>
         <p class="flex items-center" v-show="has_kits">
             <span class="font-bold text-green-600">{{
-                basket.total_boxes
+                basket.kits.length
             }}</span>
             <down-chevron class="text-grey-700 h-4 ml-2"></down-chevron>
         </p>

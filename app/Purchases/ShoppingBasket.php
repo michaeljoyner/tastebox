@@ -8,6 +8,8 @@ use App\Orders\Menu;
 use App\User;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
+use Intervention\Image\Exception\NotFoundException;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class ShoppingBasket
 {
@@ -39,6 +41,17 @@ class ShoppingBasket
         return $this->kits->first(fn(Kit $kit) => $kit->id === $kit_id);
     }
 
+    public function getKitOrFail(string $kit_id): Kit
+    {
+        $kit = $this->kits->first(fn(Kit $kit) => $kit->id === $kit_id);
+
+        if (!$kit) {
+            throw new NotFoundHttpException("No kit exists with that id");
+        }
+
+        return $kit;
+    }
+
     private function firstKitForMenu(int $menu_id): ?Kit
     {
         return $this->kits->first(fn(Kit $kit) => $kit->menu_id === $menu_id);
@@ -48,9 +61,14 @@ class ShoppingBasket
     {
         $address = null;
         $existing_menu_kit = $this->firstKitForMenu($menu_id);
+        $existing_kit = $this->kits->first();
 
         if ($existing_menu_kit) {
             $address = $existing_menu_kit->delivery_address;
+        }
+
+        if (!$existing_menu_kit && $existing_kit) {
+            $address = $existing_kit->delivery_address;
         }
 
         $kit = new Kit($menu_id, collect([]), $address ?: DeliveryAddress::for($this->owner), $this->kits->count());
@@ -117,8 +135,23 @@ class ShoppingBasket
 
     public function updateSecondaryKitAddresses(string $kit_id, DeliveryAddress $address)
     {
-        $this->kits->filter(fn(Kit $kit) => $kit->deliver_with === $kit_id)
-                   ->each(fn(Kit $kit) => $kit->setDeliveryAddress($address));
+        $this->kits->filter(fn(Kit $kit) => ($kit->deliver_with === $kit_id) && (!$kit->delivery_address->isSameAs($address)))
+                   ->each(fn(Kit $kit) => $kit->setDeliveryAddress($address, true));
+    }
+
+    public function setAddressForUnsetKits(DeliveryAddress $address)
+    {
+        $this->kits->filter(fn(Kit $kit) => $kit->requiresAddress())
+                   ->each(function(Kit $kit) use ($address) {
+                       $original = $this->primaryKitForAddress($address, $kit->menu_id);
+
+                       $original ? $kit->deliverWith($original) : $kit->setDeliveryAddress($address);
+                   } );
+    }
+
+    private function primaryKitForAddress(DeliveryAddress $address, int $menu_id): ?Kit
+    {
+        return $this->kits->first(fn(Kit $kit) => ($kit->menu_id === $menu_id) && $kit->delivery_address->isSameAs($address));
     }
 
     private function adjustDeliverWithKits(string $kit_id)
@@ -179,21 +212,22 @@ class ShoppingBasket
                     ->map(fn(Kit $kit) => (new BasketPresenter($this))->presentKit($kit))->values()->all();
 
         return [
-            'total_boxes'         => $this->kits->count(),
-            'total_price'         => $this->price(),
-            'kits'                => $kits,
-            'suggested_addresses' => $this->kits->filter(fn(Kit $kit
+            'total_boxes'              => $this->kits->count(),
+            'total_price'              => $this->price(),
+            'kits'                     => $kits,
+            'suggested_addresses'      => $this->kits->filter(fn(Kit $kit
             ) => $kit->delivery_address->area !== DeliveryArea::NOT_SET)
-                                                ->unique(fn(Kit $kit
-                                                ) => $kit->delivery_address->area->name . $kit->delivery_address->address)
-                                                ->map(fn(Kit $kit) => [
-                                                    'kit_id'           => $kit->id,
-                                                    'delivery_area'    => [
-                                                        'key'   => $kit->delivery_address->area->value,
-                                                        'value' => $kit->delivery_address->area->name,
-                                                    ],
-                                                    'delivery_address' => $kit->delivery_address->address,
-                                                ])->values()->all(),
+                                                     ->unique(fn(Kit $kit
+                                                     ) => $kit->delivery_address->area->name . $kit->delivery_address->address)
+                                                     ->map(fn(Kit $kit) => [
+                                                         'kit_id'           => $kit->id,
+                                                         'delivery_area'    => [
+                                                             'key'   => $kit->delivery_address->area->value,
+                                                             'value' => $kit->delivery_address->area->name,
+                                                         ],
+                                                         'delivery_address' => $kit->delivery_address->address,
+                                                     ])->values()->all(),
+            'available_delivery_areas' => DeliveryArea::activeAreas(),
         ];
     }
 

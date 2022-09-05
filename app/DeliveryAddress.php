@@ -22,6 +22,11 @@ class DeliveryAddress
         return new self($area, $address);
     }
 
+    public function isSameAs(DeliveryAddress $address): bool
+    {
+        return ($this->area === $address->area) && ($this->address === $address->address);
+    }
+
     public static function fake(): self
     {
         return new self(DeliveryArea::NOT_SET, "");

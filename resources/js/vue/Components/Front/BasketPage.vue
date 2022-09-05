@@ -2,6 +2,16 @@
     <div>
         <h1 class="type-h1 text-center my-20">My Basket</h1>
 
+        <div v-show="!kits.length">
+            <p class="max-w-xl mx-auto">
+                You don't have any kits added to your basket yet. Get started by
+                checking out our
+                <a href="/build-a-box" class="text-green-700 hover:underline"
+                    >menus.</a
+                >
+            </p>
+        </div>
+
         <div class="px-6">
             <div
                 v-for="kit in kits"
@@ -17,11 +27,18 @@
                     >
                 </p>
                 <p class="my-3 type-b1">
-                    Delivery from
+                    Delivery on
                     <span class="type-b2">{{ kit.delivery_date }}</span>
                 </p>
 
-                <p class="type-h3 underline">Meals</p>
+                <p class="type-h3 underline">
+                    Meals
+                    <a
+                        :href="`/build-a-box?kit=${kit.id}`"
+                        class="type-b3 text-gray-500 hover:text-green-600"
+                        >(edit)</a
+                    >
+                </p>
                 <ul class="">
                     <li
                         v-for="meal in kit.meals"
@@ -36,6 +53,9 @@
                 <KitDeliveryAddress
                     :kit="kit"
                     :suggested-addresses="suggested_addresses"
+                    :available-areas="available_delivery_areas"
+                    :one-of-many="has_many_unset"
+                    @updated="onAddressUpdated"
                 />
 
                 <div
@@ -63,17 +83,37 @@
                         :kit-id="kit.id"
                         :kit-name="kit.name"
                     ></delete-kit>
-
-                    <a
-                        :href="`/build-a-box?kit=${kit.id}`"
-                        class="type-b2 mr-4 text-green-600 hover:text-green-500"
-                        >Go to kit</a
-                    >
                 </div>
             </div>
         </div>
 
-        <div class="my-20 text-center">
+        <div
+            v-if="!delivery_all_set"
+            class="w-9/12 my-20 max-w-md mx-auto border border-blue-700 rounded-lg bg-blue-100 p-4 text-sm"
+        >
+            <p>
+                Please set a delivery address for each of your kits before
+                proceeding to checkout. Thanks.
+            </p>
+
+            <p class="mt-6">
+                Note: We currently ONLY deliver in Pietermaritzburg and
+                surrounding areas, including Nottingham Road, Kloof and
+                Pinetown. If you are unsure if you will receive your delivery,
+                please contact us before you place your order.
+            </p>
+        </div>
+
+        <div class="my-20 text-center" v-show="kits.length && delivery_all_set">
+            <div
+                class="max-w-xl w-9/12 mx-auto mb-10 border border-blue-700 bg-blue-100 p-4 rounded-lg text-sm flex space-x-2 items-center flex-col md:flex-row space-y-4 md:space-y-0"
+            >
+                <TruckIcon class="text-blue-700 w-5 h-5" />
+                <p>
+                    Please check your delivery details are correct before
+                    proceeding.
+                </p>
+            </div>
             <span class="text-lg text-gray-600 mr-6 mt-2 hidden sm:inline"
                 >Look good?
             </span>
@@ -89,9 +129,11 @@ import DeleteKit from "./DeleteKit";
 import WarningIcon from "../UI/Icons/WarningIcon";
 import KitDeliveryAddress from "./KitDeliveryAddress";
 import { eventHub } from "../../../libs/eventHub";
+import TruckIcon from "../Icons/TruckIcon";
 
 export default {
     components: {
+        TruckIcon,
         DeleteKit,
         WarningIcon,
         KitDeliveryAddress,
@@ -103,17 +145,35 @@ export default {
         return {
             kits: [],
             suggested_addresses: [],
+            available_delivery_areas: [],
         };
+    },
+
+    computed: {
+        delivery_all_set() {
+            return this.kits.every((k) => k.can_deliver);
+        },
+
+        has_many_unset() {
+            return this.kits.filter((k) => !k.can_deliver).length > 1;
+        },
     },
 
     mounted() {
         this.kits = this.initialBasket.kits;
         this.suggested_addresses = this.initialBasket.suggested_addresses;
+        this.available_delivery_areas = this.initialBasket.available_delivery_areas;
     },
 
     methods: {
         updateKits(kits) {
             this.kits = kits;
+            eventHub.$emit("basket-updated");
+        },
+
+        onAddressUpdated({ kits, suggested_addresses }) {
+            this.kits = kits;
+            this.suggested_addresses = suggested_addresses;
             eventHub.$emit("basket-updated");
         },
     },

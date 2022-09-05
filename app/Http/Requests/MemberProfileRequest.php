@@ -2,10 +2,12 @@
 
 namespace App\Http\Requests;
 
+use App\DeliveryArea;
 use App\Memberships\ProfileInfo;
 use App\Rules\CellNumber;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
+use Illuminate\Validation\Rules\Enum;
 
 class MemberProfileRequest extends FormRequest
 {
@@ -30,6 +32,7 @@ class MemberProfileRequest extends FormRequest
             'phone' => [new CellNumber(), 'nullable'],
             'sms_reminders' => ['boolean'],
             'email_reminders' => ['boolean'],
+            'address_city' => [new Enum(DeliveryArea::class)],
         ];
     }
 
