@@ -24,7 +24,7 @@ class PayFast
             'return_url'         => config('payfast.return_url') . "/{$order->order_key}",
             'cancel_url'         => config('payfast.cancel_url') . "/{$order->order_key}",
             'notify_url'         => config('payfast.notify_url') . "/{$order->order_key}",
-//            'notify_url'         => "https://f1e2-122-118-55-183.ngrok.io/payfast/notify/{$order->order_key}",
+//            'notify_url'         => "https://d03d-114-35-78-197.ngrok.io/payfast/notify/{$order->order_key}",
             'name_first'         => $order->first_name,
             'name_last'          => $order->last_name,
             'email_address'      => $order->email,

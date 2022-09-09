@@ -5,6 +5,8 @@ namespace Tests\Unit\Purchases;
 
 
 use App\DatePresenter;
+use App\DeliveryAddress;
+use App\DeliveryArea;
 use App\Meals\Meal;
 use App\Orders\Menu;
 use App\Purchases\Address;
@@ -40,13 +42,11 @@ class PresentOrderedKitsTest extends TestCase
         $kit->setMeal($mealC->id, 5);
         $kit->setMeal($mealD->id, 6);
 
+        $test_address = new DeliveryAddress(DeliveryArea::HOWICK, '123 Test street');
+        $kit->setDeliveryAddress($test_address);
+
         $order = factory(Order::class)->create();
-        $ordered_kit = $order->addKit($kit, new Address([
-            'line_one' => '123 Test street',
-            'line_two' => 'Unit A',
-            'city' => 'testville',
-            'postal_code' => '402',
-        ]));
+        $ordered_kit = $order->addKit($kit);
 
         $presented = $ordered_kit->summarize();
 
@@ -60,7 +60,7 @@ class PresentOrderedKitsTest extends TestCase
         $this->assertInstanceOf(OrderedKitSummary::class, $presented);
         $this->assertSame(DatePresenter::prettyWithDay($menu->delivery_from), $presented->delivery_date);
         $this->assertSame($expected_meals, $presented->meals);
-        $this->assertSame('123 Test street, Unit A, testville', $presented->delivery_address);
+        $this->assertSame($test_address->toString(), $presented->delivery_address);
 
     }
 
@@ -83,13 +83,12 @@ class PresentOrderedKitsTest extends TestCase
         $kit->setMeal($mealC->id, 5);
         $kit->setMeal($mealD->id, 6);
 
+        $test_address = new DeliveryAddress(DeliveryArea::HOWICK, '123 Test street');
+        $kit->setDeliveryAddress($test_address);
+
+
         $order = factory(Order::class)->create();
-        $ordered_kit = $order->addKit($kit, new Address([
-            'line_one' => '123 Test street',
-            'line_two' => 'Unit A',
-            'city' => 'testville',
-            'postal_code' => '402',
-        ]));
+        $ordered_kit = $order->addKit($kit);
 
         $presented = $ordered_kit->summarizeForAdmin();
 
@@ -103,7 +102,7 @@ class PresentOrderedKitsTest extends TestCase
         $this->assertInstanceOf(OrderedKitAdminSummary::class, $presented);
         $this->assertSame(DatePresenter::pretty($menu->delivery_from), $presented->delivery_date);
         $this->assertSame($expected_meals, $presented->meals);
-        $this->assertSame('123 Test street, Unit A, testville', $presented->delivery_address);
+        $this->assertSame($test_address->toString(), $presented->delivery_address);
         $this->assertSame(OrderedKit::STATUS_DUE, $presented->status);
     }
 }

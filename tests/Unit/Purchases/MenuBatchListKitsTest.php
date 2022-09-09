@@ -4,6 +4,8 @@
 namespace Tests\Unit\Purchases;
 
 
+use App\DeliveryAddress;
+use App\DeliveryArea;
 use App\Meals\Meal;
 use App\Orders\Menu;
 use App\Purchases\Address;
@@ -57,16 +59,14 @@ class MenuBatchListKitsTest extends TestCase
         $kitC->setMeal($mealC->id, 2);
         $kitC->setMeal($mealE->id, 3);
 
-        $test_address = new Address([
-            'line_one'    => '123 Test rd',
-            'line_two'    => 'Fakerton',
-            'city'        => 'Testville',
-            'postal_code' => '3201',
-        ]);
+        $test_address = new DeliveryAddress(DeliveryArea::HOWICK, '123 test street');
+        $kitA->setDeliveryAddress($test_address);
+        $kitB->setDeliveryAddress($test_address);
+        $kitC->setDeliveryAddress($test_address);
 
-        $orderA->addKit($kitA,$test_address);
-        $orderB->addKit($kitB,$test_address);
-        $orderC->addKit($kitC,$test_address);
+        $orderA->addKit($kitA);
+        $orderB->addKit($kitB);
+        $orderC->addKit($kitC);
 
         $batch = $menu->getBatch();
 

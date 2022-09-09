@@ -2,6 +2,7 @@
 
 /** @var \Illuminate\Database\Eloquent\Factory $factory */
 
+use App\DeliveryArea;
 use App\Memberships\MemberProfile;
 use App\User;
 use Faker\Generator as Faker;
@@ -14,8 +15,8 @@ $factory->define(MemberProfile::class, function (Faker $faker) {
         'email'            => $faker->email,
         'phone'            => $faker->phoneNumber,
         'address_line_one' => $faker->streetAddress,
-        'address_line_two' => $faker->streetName,
-        'address_city'     => $faker->city,
+        'address_line_two' => '',
+        'address_city'     => $faker->randomElement([DeliveryArea::HILTON, DeliveryArea::HOWICK]),
     ];
 });
 

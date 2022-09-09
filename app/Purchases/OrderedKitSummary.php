@@ -5,6 +5,7 @@ namespace App\Purchases;
 
 
 use App\DatePresenter;
+use App\DeliveryAddress;
 use Illuminate\Support\Carbon;
 
 class OrderedKitSummary
@@ -13,7 +14,7 @@ class OrderedKitSummary
     public array $meals;
     public string $delivery_address;
 
-    public function __construct(Carbon $date, array $meals, Address $address)
+    public function __construct(Carbon $date, array $meals, DeliveryAddress $address)
     {
         $this->delivery_date = DatePresenter::prettyWithDay($date);
         $this->meals = collect($meals)
@@ -21,12 +22,7 @@ class OrderedKitSummary
                 'meal'     => $meal['name'],
                 'servings' => $meal['servings']
             ])->all();
-        $this->delivery_address = sprintf(
-            "%s, %s, %s",
-            $address->line_one,
-            $address->line_two,
-            $address->city
-        );
+        $this->delivery_address = $address->toString();
     }
 
     public function toArray(): array

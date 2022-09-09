@@ -73,7 +73,7 @@ class Order extends Model
     }
 
 
-    public static function makeNew(array $customer, Collection $addressed_kits, Discount $discount): Order
+    public static function makeNew(array $customer, Collection $kits, Discount $discount): Order
     {
         $order = static::create([
             'user_id'        => $customer['user_id'] ?? null,
@@ -82,19 +82,19 @@ class Order extends Model
             'email'          => $customer['email'] ?? '',
             'phone'          => $customer['phone'] ?? 'not given',
             'order_key'      => Str::uuid()->toString(),
-            'price_in_cents' => static::checkOrderPrice($addressed_kits) * 100,
+            'price_in_cents' => static::checkOrderPrice($kits) * 100,
             'status'         => self::STATUS_CREATED,
         ]);
 
         $order->applyDiscount($discount);
 
-        $addressed_kits->each(fn($kit) => $order->addKit($kit['kit'], $kit['address']));
+        $kits->each(fn($kit) => $order->addKit($kit));
 
         return $order;
 
     }
 
-    public static function manual(array $customer, Address $address, Kit $kit): self
+    public static function manual(array $customer, Kit $kit): self
     {
         $order = static::create([
             'first_name'     => $customer['first_name'],
@@ -107,7 +107,7 @@ class Order extends Model
             'is_paid'        => true,
         ]);
 
-        $order->addKit($kit, $address);
+        $order->addKit($kit);
 
         return $order;
     }
@@ -115,7 +115,6 @@ class Order extends Model
     private static function checkOrderPrice(Collection $kits)
     {
         return $kits
-            ->map(fn($k) => $k['kit'])
             ->filter(fn(Kit $kit) => $kit->eligibleForOrder())
             ->sum(fn(Kit $kit) => $kit->price());
     }
@@ -151,9 +150,9 @@ class Order extends Model
         return $this->hasMany(OrderedKit::class);
     }
 
-    public function addKit(Kit $kit, Address $address): OrderedKit
+    public function addKit(Kit $kit): OrderedKit
     {
-        return OrderedKit::new($this, $kit, $address);
+        return OrderedKit::new($this, $kit);
     }
 
     public function payment()

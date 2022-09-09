@@ -2,6 +2,8 @@
 
 namespace App\Purchases;
 
+use App\DeliveryAddress;
+use App\DeliveryArea;
 use App\LogsActivities;
 use App\Meals\Meal;
 use App\Orders\Menu;
@@ -50,7 +52,7 @@ class OrderedKit extends Model
                     ->withPivot('servings');
     }
 
-    public static function new(Order $order, Kit $kit, Address $address): self
+    public static function new(Order $order, Kit $kit): self
     {
         $menu = Menu::find($kit->menu_id);
         $meals = Meal::find($kit->meals->pluck('id'));
@@ -61,11 +63,11 @@ class OrderedKit extends Model
             'menu_week_number' => $menu->current_from->week,
             'delivery_date'    => $menu->delivery_from,
             'meal_summary'     => [],
-            'line_one'         => $address->line_one,
-            'line_two'         => $address->line_two,
-            'city'             => $address->city,
-            'postal_code'      => $address->postal_code,
-            'delivery_notes'   => $address->notes,
+            'line_one'         => $kit->delivery_address->address,
+            'line_two'         => '',
+            'city'             => $kit->delivery_address->area->value,
+            'postal_code'      => '',
+            'delivery_notes'   => '',
             'status'           => self::STATUS_DUE,
         ]);
 
@@ -114,14 +116,12 @@ class OrderedKit extends Model
         return OrderedKitPresenter::adminSummary($this);
     }
 
-    public function deliveryAddress(): Address
+    public function deliveryAddress(): DeliveryAddress
     {
-        return new Address([
-            'line_one'    => $this->line_one,
-            'line_two'    => $this->line_two ?? '',
-            'city'        => $this->city,
-            'postal_code' => $this->postal_code,
-        ]);
+        return new DeliveryAddress(
+            DeliveryArea::tryFrom($this->city) ?? DeliveryArea::NOT_SET,
+            $this->line_one
+        );
     }
 
     public function menu()

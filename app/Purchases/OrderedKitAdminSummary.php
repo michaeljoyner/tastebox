@@ -5,6 +5,7 @@ namespace App\Purchases;
 
 
 use App\DatePresenter;
+use App\DeliveryAddress;
 use Illuminate\Support\Carbon;
 
 class OrderedKitAdminSummary
@@ -15,7 +16,7 @@ class OrderedKitAdminSummary
     public string $delivery_address;
     public string $status;
 
-    public function __construct(int $kit_id, Carbon $date, array $meals, Address $address, string $status)
+    public function __construct(int $kit_id, Carbon $date, array $meals, DeliveryAddress $address, string $status)
     {
         $this->kit_id = $kit_id;
         $this->delivery_date = DatePresenter::pretty($date);
@@ -24,12 +25,7 @@ class OrderedKitAdminSummary
                 'meal'     => $meal['name'],
                 'servings' => $meal['servings']
             ])->all();
-        $this->delivery_address = sprintf(
-            "%s, %s, %s",
-            $address->line_one,
-            $address->line_two,
-            $address->city
-        );
+        $this->delivery_address = $address->toString();
         $this->status = $status;
     }
 

@@ -31,7 +31,7 @@ class OrderedKitPresenter
         return [
             'id' => $kit->id,
             'customer_name' => $kit->order->customerFullname(),
-            'address' => $kit->deliveryAddress()->asString(),
+            'address' => $kit->deliveryAddress()->toString(),
             'delivery_date' => DatePresenter::pretty($kit->delivery_date),
             'menu_week' => $kit->menu_week_number,
             'meals' => $kit->meal_summary,
@@ -41,7 +41,7 @@ class OrderedKitPresenter
     public static function forMember(OrderedKit $kit)
     {
         return [
-            'address' => $kit->deliveryAddress()->asString(),
+            'address' => $kit->deliveryAddress()->toString(),
             'delivery_date' => DatePresenter::pretty($kit->delivery_date),
             'menu_week' => $kit->menu_week_number,
             'meals' => $kit->meals->map(fn ($m) => MealsPresenter::forPublic($m)),

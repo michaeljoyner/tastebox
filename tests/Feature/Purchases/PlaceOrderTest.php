@@ -4,6 +4,8 @@
 namespace Tests\Feature\Purchases;
 
 
+use App\DeliveryAddress;
+use App\DeliveryArea;
 use App\Meals\Meal;
 use App\Orders\Menu;
 use App\Purchases\Discount;
@@ -63,6 +65,12 @@ class PlaceOrderTest extends TestCase
         $kitB->setMeal($mealE->id, 4);
         $kitB->setMeal($mealF->id, 5);
 
+        $test_addressA = new DeliveryAddress(DeliveryArea::HOWICK, '123 test street');
+        $test_addressB = new DeliveryAddress(DeliveryArea::HILTON, '456 test street');
+
+        $kitA->setDeliveryAddress($test_addressA);
+        $kitB->setDeliveryAddress($test_addressB);
+
         $response = $this->asGuest()->post("/checkout", [
             'first_name'              => 'test first name',
             'last_name'               => 'test last name',
@@ -71,18 +79,7 @@ class PlaceOrderTest extends TestCase
             'discount_code'           => $discount_code->code,
             'subscribe_to_newsletter' => true,
             'get_sms_reminder'       => true,
-            'delivery'                => [
-                $kitA->id => [
-                    'line_one' => 'test road',
-                    'line_two' => 'test district',
-                    'city'     => 'test city',
-                ],
-                $kitB->id => [
-                    'line_one' => 'test road',
-                    'line_two' => 'test district',
-                    'city'     => 'test city',
-                ],
-            ],
+
         ]);
         $response->assertSuccessful();
 
@@ -123,9 +120,9 @@ class PlaceOrderTest extends TestCase
             'menu_id'          => $menuA->id,
             'delivery_date'    => $menuA->delivery_from->format("Y-m-d"),
             'menu_week_number' => $menuA->current_from->week,
-            'line_one'         => 'test road',
-            'line_two'         => 'test district',
-            'city'             => 'test city',
+            'line_one'         => $test_addressA->address,
+            'line_two'         => '',
+            'city'             => $test_addressA->area->value,
             'postal_code'      => '',
             'delivery_notes'   => '',
             'meal_summary'     => $this->asJson([
@@ -141,9 +138,9 @@ class PlaceOrderTest extends TestCase
             'menu_id'          => $menuB->id,
             'delivery_date'    => $menuB->delivery_from->format('Y-m-d'),
             'menu_week_number' => $menuB->current_from->week,
-            'line_one'         => 'test road',
-            'line_two'         => 'test district',
-            'city'             => 'test city',
+            'line_one'         => $test_addressB->address,
+            'line_two'         => '',
+            'city'             => $test_addressB->area->value,
             'postal_code'      => '',
             'delivery_notes'   => '',
             'meal_summary'     => $this->asJson([
@@ -225,28 +222,18 @@ class PlaceOrderTest extends TestCase
         $kitB->setMeal($mealE->id, 4);
         $kitB->setMeal($mealF->id, 5);
 
+        $test_addressA = new DeliveryAddress(DeliveryArea::HOWICK, '123 test street');
+        $test_addressB = new DeliveryAddress(DeliveryArea::HILTON, '456 test street');
+
+        $kitA->setDeliveryAddress($test_addressA);
+        $kitB->setDeliveryAddress($test_addressB);
+
         $response = $this->asGuest()->post("/checkout", [
             'first_name'    => 'test first name',
             'last_name'     => 'test last name',
             'email'         => 'test@test.test',
             'phone'         => '0798888888',
             'discount_code' => null,
-            'delivery'      => [
-                $kitA->id => [
-                    'line_one'    => 'test road',
-                    'line_two'    => 'test district',
-                    'city'        => 'test city',
-                    'postal_code' => 'test code',
-                    'notes'       => 'test notes',
-                ],
-                $kitB->id => [
-                    'line_one'    => 'test road',
-                    'line_two'    => 'test district',
-                    'city'        => 'test city',
-                    'postal_code' => 'test code',
-                    'notes'       => 'test notes',
-                ],
-            ],
         ]);
         $response->assertSuccessful();
 
@@ -309,95 +296,7 @@ class PlaceOrderTest extends TestCase
         $this->assertFieldIsInvalid($kit, ['email' => 'not-a-real-email']);
     }
 
-    /**
-     * @test
-     */
-    public function a_delivery_is_required()
-    {
-        $kit = $this->setKit();
 
-        $this->assertFieldIsInvalid($kit, ['delivery' => null]);
-    }
-
-    /**
-     * @test
-     */
-    public function delivery_must_be_an_array()
-    {
-        $kit = $this->setKit();
-
-        $this->assertFieldIsInvalid($kit, ['delivery' => 'just-text']);
-    }
-
-    /**
-     * @test
-     */
-    public function delivery_cannot_be_empty_array()
-    {
-        $kit = $this->setKit();
-
-        $this->assertFieldIsInvalid($kit, ['delivery' => []]);
-    }
-
-    /**
-     * @test
-     */
-    public function delivery_keys_must_match_existing_kit_id()
-    {
-        $kit = $this->setKit();
-
-        $this->assertFieldIsInvalid($kit, [
-            'delivery' => [
-                'not-kit-id' => [
-                    'line_one'    => 'test road',
-                    'line_two'    => 'test district',
-                    'city'        => 'test city',
-                    'postal_code' => 'test code',
-                    'notes'       => 'test notes',
-                ]
-            ]
-        ], 'delivery.not-kit-id');
-    }
-
-    /**
-     * @test
-     */
-    public function delivery_needs_line_one()
-    {
-        $kit = $this->setKit();
-
-        $this->assertFieldIsInvalid($kit, [
-            'delivery' => [
-                $kit->id => [
-                    'line_one'    => null,
-                    'line_two'    => 'test district',
-                    'city'        => 'test city',
-                    'postal_code' => 'test code',
-                    'notes'       => 'test notes',
-                ]
-            ]
-        ], "delivery.{$kit->id}.line_one");
-    }
-
-    /**
-     * @test
-     */
-    public function delivery_needs_city()
-    {
-        $kit = $this->setKit();
-
-        $this->assertFieldIsInvalid($kit, [
-            'delivery' => [
-                $kit->id => [
-                    'line_one'    => 'test road',
-                    'line_two'    => 'test district',
-                    'city'        => null,
-                    'postal_code' => 'test code',
-                    'notes'       => 'test notes',
-                ]
-            ]
-        ], "delivery.{$kit->id}.city");
-    }
 
 
     private function assertFieldIsInvalid($kit, $field, $error_key = null)

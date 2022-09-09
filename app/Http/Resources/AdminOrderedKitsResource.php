@@ -16,7 +16,7 @@ class AdminOrderedKitsResource extends JsonResource
         return [
             'id'              => $this->id,
             'customer_name'   => $this->order->customerFullname(),
-            'address'         => $this->deliveryAddress()->asString(),
+            'address'         => $this->deliveryAddress()->toString(),
             'delivery_date'   => DatePresenter::pretty($this->delivery_date),
             'menu_week'       => $this->menu_week_number,
             'meals'           => $this->meal_summary,

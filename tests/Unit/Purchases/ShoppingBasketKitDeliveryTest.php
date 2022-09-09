@@ -4,7 +4,9 @@ namespace Tests\Unit\Purchases;
 
 use App\DeliveryAddress;
 use App\DeliveryArea;
+use App\Meals\Meal;
 use App\Orders\Menu;
+use App\Purchases\Kit;
 use App\Purchases\ShoppingBasket;
 use App\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -182,10 +184,10 @@ class ShoppingBasketKitDeliveryTest extends TestCase
 
         $test_address = new DeliveryAddress(DeliveryArea::HILTON, '123 test street');
 
-        $kitA = $basket->addKit($menuA->id);
+        $kitA = $this->createEligibleKit($basket, $menuA);
         $kitA->setDeliveryAddress($test_address);
 
-        $kitB = $basket->addKit($menuB->id);
+        $kitB = $this->createEligibleKit($basket, $menuB);
 
 
         $this->assertSame(DeliveryArea::HILTON, $kitB->delivery_address->area);
@@ -224,5 +226,14 @@ class ShoppingBasketKitDeliveryTest extends TestCase
         $this->assertSame(DeliveryArea::HILTON, $kitC->delivery_address->area);
         $this->assertSame('123 test street', $kitC->delivery_address->address);
         $this->assertSame($kitB->id, $kitC->deliver_with);
+    }
+
+    private function createEligibleKit($basket, $menu): Kit
+    {
+        $kit = $basket->addKit($menu->id);
+        $meals = factory(Meal::class, 3)->create();
+        $meals->each(fn (Meal $meal) => $kit->setMeal($meal->id, 2));
+
+        return $kit;
     }
 }

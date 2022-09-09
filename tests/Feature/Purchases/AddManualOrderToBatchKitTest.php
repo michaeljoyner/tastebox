@@ -4,6 +4,7 @@
 namespace Tests\Feature\Purchases;
 
 
+use App\DeliveryArea;
 use App\Meals\Meal;
 use App\Orders\Menu;
 use App\Purchases\Order;
@@ -35,8 +36,8 @@ class AddManualOrderToBatchKitTest extends TestCase
             'email'      => 'test@test.test',
             'phone'      => '0821234567',
             'line_one'   => 'test address',
-            'line_two'   => 'test address line two',
-            'city'       => 'test city',
+            'line_two'   => '',
+            'city'       => DeliveryArea::HOWICK->value,
             'meals'      => [
                 ['id' => $mealA->id, 'servings' => 2],
                 ['id' => $mealB->id, 'servings' => 2],
@@ -63,8 +64,8 @@ class AddManualOrderToBatchKitTest extends TestCase
             'order_id' => $order->id,
             'menu_id'  => $menu->id,
             'line_one' => 'test address',
-            'line_two' => 'test address line two',
-            'city'     => 'test city',
+            'line_two' => '',
+            'city'     => DeliveryArea::HOWICK->value,
         ]);
     }
 
@@ -107,6 +108,14 @@ class AddManualOrderToBatchKitTest extends TestCase
     public function the_city_is_required()
     {
         $this->assertFieldIsInvalid(['city' => '']);
+    }
+
+    /**
+     *@test
+     */
+    public function the_city_must_be_a_valid_delivery_area()
+    {
+        $this->assertFieldIsInvalid(['city' => 'not-a-valid-delivery-area']);
     }
 
     /**
@@ -164,7 +173,7 @@ class AddManualOrderToBatchKitTest extends TestCase
             'phone'      => '0821234567',
             'line_one'   => 'test address',
             'line_two'   => 'test address line two',
-            'city'       => 'test city',
+            'city'       => DeliveryArea::HOWICK->value,
             'meals'      => [
                 ['id' => $mealA->id, 'servings' => 3],
                 ['id' => $mealB->id, 'servings' => 3],

@@ -4,6 +4,8 @@
 namespace Tests\Unit\Purchases;
 
 
+use App\DeliveryAddress;
+use App\DeliveryArea;
 use App\Meals\Meal;
 use App\Orders\Menu;
 use App\Purchases\Address;
@@ -36,6 +38,9 @@ class OrderedKitsTest extends TestCase
         $kit->setMeal($mealC->id, 4);
         $kit->setMeal($mealD->id, 5);
 
+        $test_address = new DeliveryAddress(DeliveryArea::HOWICK, '123 test street');
+        $kit->setDeliveryAddress($test_address);
+
         $meal_summary = [
             ['id' => $mealA->id, 'name' => $mealA->name, 'servings' => 2],
             ['id' => $mealB->id, 'name' => $mealB->name, 'servings' => 3],
@@ -44,26 +49,20 @@ class OrderedKitsTest extends TestCase
         ];
 
         $order = factory(Order::class)->state('unpaid')->create();
-        $address = new Address([
-            'line_one'    => 'test road',
-            'line_two'    => 'test district',
-            'city'        => 'test city',
-            'postal_code' => 'test code',
-            'notes'       => 'test notes',
-        ]);
 
-        $orderedKit = OrderedKit::new($order, $kit, $address);
+
+        $orderedKit = OrderedKit::new($order, $kit);
 
         $this->assertSame(OrderedKit::STATUS_DUE, $orderedKit->status);
         $this->assertEquals($kit->id, $orderedKit->kit_id);
         $this->assertEquals($menu->id, $orderedKit->menu_id);
         $this->assertEquals($menu->current_from->week, $orderedKit->menu_week_number);
         $this->assertTrue($menu->delivery_from->isSameDay($orderedKit->delivery_date) );
-        $this->assertEquals('test road', $orderedKit->line_one);
-        $this->assertEquals('test district', $orderedKit->line_two);
-        $this->assertEquals('test city', $orderedKit->city);
-        $this->assertEquals('test code', $orderedKit->postal_code);
-        $this->assertEquals('test notes', $orderedKit->delivery_notes);
+        $this->assertEquals($test_address->address, $orderedKit->line_one);
+        $this->assertEquals('', $orderedKit->line_two);
+        $this->assertEquals($test_address->area->value, $orderedKit->city);
+        $this->assertEquals('', $orderedKit->postal_code);
+        $this->assertEquals('', $orderedKit->delivery_notes);
         $this->assertEquals($meal_summary, $orderedKit->meal_summary);
 
         $this->assertCount(4, $orderedKit->meals);

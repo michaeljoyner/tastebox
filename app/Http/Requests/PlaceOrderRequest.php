@@ -29,10 +29,6 @@ class PlaceOrderRequest extends FormRequest
                 'first_name'              => ['required_without:last_name'],
                 'last_name'               => ['required_without:first_name'],
                 'email'                   => ['required', 'email'],
-                'delivery'                => ['required', 'array'],
-                'delivery.*'              => [new ForExistingKit()],
-                'delivery.*.line_one'     => ['required'],
-                'delivery.*.city'         => ['required'],
                 'discount_code'           => [new \App\Rules\DiscountCode()],
                 'subscribe_to_newsletter' => ['boolean', 'nullable']
             ];

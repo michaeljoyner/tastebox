@@ -17,15 +17,12 @@ class ManualOrdersController extends Controller
         $menu = Menu::nextUp();
         $basket = ShoppingBasket::for(null);
         $kit = $basket->addKit($menu->id);
+        $kit->setDeliveryAddress($request->deliveryAddress());
 
         collect(request('meals'))
             ->each(fn ($m) => $kit->setMeal($m['id'], $m['servings']));
 
-        $address = new Address(request()->all([
-            'line_one',
-            'line_two',
-            'city'
-        ]));
+
 
         $customer = request()->all([
             'first_name',
@@ -34,6 +31,6 @@ class ManualOrdersController extends Controller
             'phone',
         ]);
 
-        $order = Order::manual($customer, $address, $kit);
+        $order = Order::manual($customer, $kit);
     }
 }

@@ -4,6 +4,8 @@
 namespace Tests\Feature\Purchases;
 
 
+use App\DeliveryAddress;
+use App\DeliveryArea;
 use App\Meals\Meal;
 use App\Memberships\MemberProfile;
 use App\Orders\Menu;
@@ -68,6 +70,8 @@ class MemberPlaceOrderTest extends TestCase
 
 
 
+
+
         $response = $this->actingAs($profile->user)->post("/checkout", [
             'member_discount_id' => $discount_code->id,
         ]);
@@ -98,7 +102,7 @@ class MemberPlaceOrderTest extends TestCase
             'delivery_date'    => $menuA->delivery_from->format("Y-m-d"),
             'menu_week_number' => $menuA->current_from->week,
             'line_one'         => $profile->address_line_one,
-            'line_two'         => $profile->address_line_two,
+            'line_two'         => '',
             'city'             => $profile->address_city,
             'postal_code'      => '',
             'delivery_notes'   => '',
@@ -116,7 +120,7 @@ class MemberPlaceOrderTest extends TestCase
             'delivery_date'    => $menuB->delivery_from->format('Y-m-d'),
             'menu_week_number' => $menuB->current_from->week,
             'line_one'         => $profile->address_line_one,
-            'line_two'         => $profile->address_line_two,
+            'line_two'         => '',
             'city'             => $profile->address_city,
             'postal_code'      => '',
             'delivery_notes'   => '',

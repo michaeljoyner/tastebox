@@ -4,6 +4,8 @@
 namespace Tests\Unit\Purchases;
 
 
+use App\DeliveryAddress;
+use App\DeliveryArea;
 use App\Meals\Meal;
 use App\Orders\Menu;
 use App\Purchases\Address;
@@ -32,9 +34,9 @@ class OrdersTest extends TestCase
             'email'      => 'test@test.test',
             'phone'      => 'test phone',
         ];
-        $address = Address::fake();
-        $addressed_kits = $this->makeKits()->map(fn($k) => ['kit' => $k, 'address' => $address]); //2 kits 15 meals
-        $order = Order::makeNew($customer, $addressed_kits, new NullDiscount());
+        $address = new DeliveryAddress(DeliveryArea::HOWICK, '123 Test street');
+        $kits = $this->makeKits($address); //2 kits 15 meals
+        $order = Order::makeNew($customer, $kits, new NullDiscount());
 
         $this->assertEquals('test first name', $order->first_name);
         $this->assertEquals('test last name', $order->last_name);
@@ -72,26 +74,20 @@ class OrdersTest extends TestCase
         ];
 
         $order = factory(Order::class)->state('unpaid')->create();
-        $address = new Address([
-            'line_one'    => 'test road',
-            'line_two'    => 'test district',
-            'city'        => 'test city',
-            'postal_code' => 'test code',
-            'notes'       => 'test notes',
-        ]);
 
-        $orderedKit = $order->addKit($kit, $address);
+
+        $orderedKit = $order->addKit($kit);
 
         $this->assertSame(OrderedKit::STATUS_DUE, $orderedKit->status);
         $this->assertEquals($kit->id, $orderedKit->kit_id);
         $this->assertEquals($menu->id, $orderedKit->menu_id);
         $this->assertEquals($menu->current_from->week, $orderedKit->menu_week_number);
         $this->assertTrue($menu->delivery_from->isSameDay($orderedKit->delivery_date));
-        $this->assertEquals('test road', $orderedKit->line_one);
-        $this->assertEquals('test district', $orderedKit->line_two);
-        $this->assertEquals('test city', $orderedKit->city);
-        $this->assertEquals('test code', $orderedKit->postal_code);
-        $this->assertEquals('test notes', $orderedKit->delivery_notes);
+        $this->assertEquals($kit->delivery_address->address, $orderedKit->line_one);
+        $this->assertEquals('', $orderedKit->line_two);
+        $this->assertEquals($kit->delivery_address->area->value, $orderedKit->city);
+        $this->assertEquals('', $orderedKit->postal_code);
+        $this->assertEquals('', $orderedKit->delivery_notes);
         $this->assertEquals($meal_summary, $orderedKit->meal_summary);
 
         $this->assertCount(4, $orderedKit->meals);
@@ -130,15 +126,9 @@ class OrdersTest extends TestCase
         ];
 
         $order = factory(Order::class)->state('unpaid')->create();
-        $address = new Address([
-            'line_one'    => 'test road',
-            'line_two'    => 'test district',
-            'city'        => 'test city',
-            'postal_code' => 'test code',
-            'notes'       => 'test notes',
-        ]);
 
-        $orderedKit = $order->addKit($kit, $address);
+
+        $orderedKit = $order->addKit($kit);
 
         $order->fullDelete();
 
@@ -227,7 +217,7 @@ class OrdersTest extends TestCase
         $this->assertTrue(Order::hasCurrentPending());
     }
 
-    private function makeKits()
+    private function makeKits(DeliveryAddress $address)
     {
         $menu = factory(Menu::class)->state('upcoming')->create();
         $mealA = factory(Meal::class)->create();
@@ -245,6 +235,9 @@ class OrdersTest extends TestCase
         $kitB->setMeal($mealA->id, 1);
         $kitB->setMeal($mealC->id, 2);
         $kitB->setMeal($mealD->id, 4);
+
+        $kitA->setDeliveryAddress($address);
+        $kitB->setDeliveryAddress($address);
 
         return $basket->kits;
     }

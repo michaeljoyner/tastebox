@@ -2,6 +2,8 @@
 
 namespace App\Memberships;
 
+use App\DeliveryAddress;
+use App\DeliveryArea;
 use App\Purchases\Address;
 use App\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -37,6 +39,14 @@ class MemberProfile extends Model
             'line_two' => $this->address_line_two,
             'city'     => $this->address_city,
         ];
+    }
+
+    public function deliveryAddress(): DeliveryAddress
+    {
+        return new DeliveryAddress(
+            DeliveryArea::tryFrom($this->address_city) ?? DeliveryArea::NOT_SET,
+            $this->address_line_one,
+        );
     }
 
     public function isComplete(): bool

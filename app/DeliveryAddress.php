@@ -31,4 +31,20 @@ class DeliveryAddress
     {
         return new self(DeliveryArea::NOT_SET, "");
     }
+
+    public function toArray(): array
+    {
+        return [
+            'line_one'    => $this->address,
+            'line_two'    => '',
+            'city'        => $this->area->value,
+            'postal_code' => '',
+            'notes'       => '',
+        ];
+    }
+
+    public function toString(): string
+    {
+        return sprintf("%s [%s]", $this->address, $this->area->value);
+    }
 }

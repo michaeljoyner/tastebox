@@ -23,7 +23,7 @@
 
             <p class="text-xs mt-2 uppercase text-gray-600">Deliver to:</p>
             <div>
-                <p>{{ $box->line_one }}, {{ $box->line_two }}</p>
+                <p>{{ $box->line_one }}</p>
                 <p>{{ $box->city }}</p>
             </div>
         </div>

@@ -61,7 +61,7 @@ class ShoppingBasket
     {
         $address = null;
         $existing_menu_kit = $this->firstKitForMenu($menu_id);
-        $existing_kit = $this->kits->first();
+        $existing_kit = $this->kits->first(fn (Kit $kit) => $kit->eligibleForOrder());
 
         if ($existing_menu_kit) {
             $address = $existing_menu_kit->delivery_address;
@@ -167,6 +167,13 @@ class ShoppingBasket
         $new_lead->deliver_with = null;
     }
 
+    public function missingDeliveryAddresses(): bool
+    {
+        return $this->kits
+            ->filter(fn (Kit $kit) => $kit->eligibleForOrder())
+            ->contains(fn (Kit $kit) => $kit->requiresAddress());
+    }
+
     public function hasKit(string $kit_id): bool
     {
         return $this->kits->contains(fn(Kit $kit) => $kit->id === $kit_id);
@@ -211,8 +218,9 @@ class ShoppingBasket
             ->filter->isValid()
                     ->map(fn(Kit $kit) => (new BasketPresenter($this))->presentKit($kit))->values()->all();
 
+
         return [
-            'total_boxes'              => $this->kits->count(),
+            'total_boxes'              => count($kits),
             'total_price'              => $this->price(),
             'kits'                     => $kits,
             'suggested_addresses'      => $this->kits->filter(fn(Kit $kit

@@ -13,6 +13,10 @@ class CheckoutController extends Controller
         $user = request()->user();
         $basket = ShoppingBasket::for($user);
 
+        if($basket->missingDeliveryAddresses()) {
+            return redirect("/basket");
+        }
+
         if($basket->price() < 3 * Meal::SERVING_PRICE) {
             return view('front.checkout.nothing-to-checkout', [
                 'basket' => $basket->presentForReview()

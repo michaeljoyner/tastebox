@@ -39,9 +39,8 @@ class CancelledOrderTest extends TestCase
             'phone' => '0791112223',
             'email' => 'test@test.test',
         ];
-        $addressed_kits = $basket
-            ->kits->map(fn ($k) => ['kit' => $k, 'address' => Address::fake()]);
-        $order = Order::makeNew($customer, $addressed_kits, new NullDiscount());
+
+        $order = Order::makeNew($customer, $basket->kits, new NullDiscount());
 
         $response = $this->get("/payfast/cancel/{$order->order_key}");
 

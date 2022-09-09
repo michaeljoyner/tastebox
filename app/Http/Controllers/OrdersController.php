@@ -19,7 +19,7 @@ class OrdersController extends Controller
         $kits = $basket->kits->filter(fn (Kit $kit) => $kit->eligibleForOrder());
 
         $order = Order::makeNew(
-            $request->customerDetails(), $request->addressedKits($kits), $request->discount()
+            $request->customerDetails(), $kits, $request->discount()
         );
 
         if($request->allowsNewsletterSignup()) {
