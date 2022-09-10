@@ -60,6 +60,9 @@ module.exports = {
             minHeight: {
                 "80": "20rem",
             },
+            backgroundImage: {
+                footer: "url(/images/footer_pattern.png)",
+            },
             animation: {
                 wiggle: "wiggle 2s linear infinite",
             },

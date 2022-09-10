@@ -57,18 +57,18 @@
     <div class="flex-1">
         {{ $slot }}
     </div>
-    <div class="bg-green-800 px-6 py-12">
+    <div class="bg-green-200 px-6 pt-12 pb-4">
         <div class="flex items-center justify-center">
             @include('svg.logos.logo_small', ['classes' => 'h-10 text-green-600 mr-3'])
             <p class="type-h1 text-center text-green-600">TasteBox</p>
         </div>
-        <div class="grid grid-cols-2 md:grid-cols-4 max-w-md mx-auto text-white my-8">
-            <a class="hover:text-green-400 mx-auto mb-4" href="/our-meals">Our Meals</a>
-            <a class="hover:text-green-400 mx-auto mb-4" href="/team">The Team</a>
-            <a class="hover:text-green-400 mx-auto mb-4" href="/faqs">FAQs</a>
-            <a class="hover:text-green-400 mx-auto mb-4" href="/contact">Contact Us</a>
+        <div class="grid grid-cols-2 md:grid-cols-4 max-w-md mx-auto text-green-800 my-8">
+            <a class="hover:text-green-600 mx-auto mb-4" href="/our-meals">Our Meals</a>
+            <a class="hover:text-green-600 mx-auto mb-4" href="/team">The Team</a>
+            <a class="hover:text-green-600 mx-auto mb-4" href="/faqs">FAQs</a>
+            <a class="hover:text-green-600 mx-auto mb-4" href="/contact">Contact Us</a>
         </div>
-        <p class="text-center text-green-100">&copy; {{ date('Y') }}</p>
+        <p class="text-center text-green-800">&copy; {{ date('Y') }}</p>
     </div>
     <x-nav-bar></x-nav-bar>
     <toast-alerts></toast-alerts>

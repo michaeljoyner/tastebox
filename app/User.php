@@ -60,7 +60,7 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function isMember(): bool
     {
-        return ! $this->is_admin;
+        return !$this->is_admin;
     }
 
     public static function addAdmin($options)
@@ -91,20 +91,22 @@ class User extends Authenticatable implements MustVerifyEmail
             fn(Builder $query) => $query->where('orders.user_id', $this->id)
                                         ->where('is_paid', true)
         )
-                         ->where('delivery_date', '>=', now()->startOfDay())->get();
+                         ->where('delivery_date', '>=', now()->startOfDay())
+                        ->whereNot('status', OrderedKit::STATUS_CANCELED)
+                         ->get();
     }
 
     public function hasPlacedOrderForNextMenu(): bool
     {
         $menu = Menu::nextAvailable();
 
-        return !! OrderedKit::whereHas(
+        return !!OrderedKit::whereHas(
             'order',
             fn(Builder $query) => $query->where('orders.user_id', $this->id)
                                         ->where('is_paid', true)
         )
-                         ->where('menu_id', $menu->id)
-                         ->where('delivery_date', '>=', now()->startOfDay())->count();
+                           ->where('menu_id', $menu->id)
+                           ->where('delivery_date', '>=', now()->startOfDay())->count();
     }
 
     public function profile(): HasOne
