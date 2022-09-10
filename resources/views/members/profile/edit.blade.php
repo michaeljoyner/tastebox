@@ -71,9 +71,9 @@
 
                             <select name="address_city"
                                     class="block w-full mt-1">
-                                @foreach($available_delivery_areas as $value => $city)
-                                    <option @if((old('address_city') ?? $profile['address_city']) === $city) selected
-                                            @endif value="{{ $value }}">{{ $city }}</option>
+                                @foreach($available_delivery_areas as $area)
+                                    <option @if((old('address_city') ?? $profile['address_city']) === $area['key']) selected
+                                            @endif value="{{ $area['key'] }}">{{ $area['description'] }}</option>
                                 @endforeach
 
                             </select>

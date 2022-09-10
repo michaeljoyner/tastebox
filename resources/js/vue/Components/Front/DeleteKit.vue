@@ -2,7 +2,7 @@
     <span>
         <button
             @click="showForm = true"
-            class="text-gray-600 hover:text-red-600 font-bold mr-4 mt-3"
+            class="text-gray-600 hover:text-red-600 font-bold"
         >
             <TrashIcon class="text-gray-600 hover:text-red-500 w-6 h-6" />
         </button>

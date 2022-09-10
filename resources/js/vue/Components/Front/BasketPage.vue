@@ -17,18 +17,31 @@
                 v-for="kit in kits"
                 class="max-w-2xl mx-auto my-12 p-6 shadow relative"
             >
-                <p class="type-h2">
-                    {{ kit.name }}
-                    <span class="mb-3 text-sm text-gray-600 font-normal type-b3"
-                        >{{ kit.meals_count }} meals ({{
-                            kit.servings_count
-                        }}
-                        servings)</span
-                    >
-                </p>
-                <p class="my-3 type-b1">
-                    Delivery on
-                    <span class="type-b2">{{ kit.delivery_date }}</span>
+                <div
+                    class="flex justify-between border-b border-gray-200 items-center"
+                >
+                    <p class="type-h2">
+                        {{ kit.name }}
+                        <span
+                            class="block md:inline mb-3 text-sm text-gray-600 font-normal type-b3"
+                            >{{ kit.meals_count }} meals ({{
+                                kit.servings_count
+                            }}
+                            servings)</span
+                        >
+                    </p>
+                    <delete-kit
+                        @deleted="updateKits"
+                        :kit-id="kit.id"
+                        :kit-name="kit.name"
+                    ></delete-kit>
+                </div>
+
+                <p
+                    class="my-3 type-b1 bg-green-100 rounded-full my-6 px-4 py-1 text-xs md:text-sm inline-block"
+                >
+                    For delivery on
+                    <span class="font-semibold">{{ kit.delivery_date }}</span>
                 </p>
 
                 <p class="type-h3 underline">
@@ -77,13 +90,7 @@
                         or it will be abandoned on checkout.
                     </span>
                 </div>
-                <div class="mt-4 md:m-4 static md:absolute top-0 right-0">
-                    <delete-kit
-                        @deleted="updateKits"
-                        :kit-id="kit.id"
-                        :kit-name="kit.name"
-                    ></delete-kit>
-                </div>
+                <div class="mt-4 md:m-4 static md:absolute top-0 right-0"></div>
             </div>
         </div>
 

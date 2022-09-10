@@ -218,16 +218,11 @@ class MealTalliesTest extends TestCase
         $kitC->setMeal($meals[2]->id, 2);
         $kitC->setMeal($meals[4]->id, 3);
 
-        $test_address = new Address([
-            'line_one'    => '123 Test rd',
-            'line_two'    => 'Fakerton',
-            'city'        => 'Testville',
-            'postal_code' => '3201',
-        ]);
 
-        $orderA->addKit($kitA, $test_address);
-        $orderB->addKit($kitB, $test_address);
-        $orderC->addKit($kitC, $test_address);
+
+        $orderA->addKit($kitA);
+        $orderB->addKit($kitB);
+        $orderC->addKit($kitC);
 
         $batch = $menu->getBatch();
 

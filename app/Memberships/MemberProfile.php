@@ -64,13 +64,9 @@ class MemberProfile extends Model
 
     public function formattedAddress(): string
     {
-        $address = new Address([
-            'line_one' => $this->address_line_one,
-            'line_two' => $this->address_line_two,
-            'city'     => $this->address_city,
-        ]);
 
-        return $address->asString();
+
+        return $this->deliveryAddress()->toString();
     }
 
     public function toArray()

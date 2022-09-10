@@ -13,6 +13,7 @@ import members from "./members";
 import kits from "./kits";
 import adjustments from "./adjustments";
 import activityLogs from "./activity-logs";
+import deliveries from "./deliveries";
 import { createStore } from "vuex";
 
 const store = createStore({
@@ -32,6 +33,7 @@ const store = createStore({
         kits,
         adjustments,
         activityLogs,
+        deliveries,
     },
 });
 

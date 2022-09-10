@@ -20,7 +20,7 @@
 
         <div
             v-show="kit.can_deliver"
-            class="flex flex-col md:flex-row justify-between"
+            class="flex flex-col items-start md:items-center md:flex-row justify-between"
         >
             <div>
                 <p class="text-xs uppercase">
@@ -34,7 +34,7 @@
             </div>
             <button
                 @click="showEditModal = true"
-                class="flex mt-4 md:mt-0 text-sm font-semibold text-gray-600 hover:text-green-600 focus:outline-none"
+                class="inline-block mt-4 md:mt-0 text-sm font-semibold text-gray-600 hover:text-green-600 focus:outline-none bg-gray-100 rounded-full px-4 py-1"
             >
                 Change Address
             </button>
@@ -89,10 +89,10 @@
                                 >Select a delivery area</option
                             >
                             <option
-                                v-for="(area, value) in availableAreas"
-                                :key="value"
-                                :value="value"
-                                >{{ area }}</option
+                                v-for="area in availableAreas"
+                                :key="area.key"
+                                :value="area.key"
+                                >{{ area.description }}</option
                             >
                         </select>
                     </div>

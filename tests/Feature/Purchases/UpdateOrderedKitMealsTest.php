@@ -59,7 +59,7 @@ class UpdateOrderedKitMealsTest extends TestCase
         $order = factory(Order::class)->create(['user_id' => $member->id]);
 
         $kit = new Kit($menu->id, $original_meals, DeliveryAddress::fake());
-        $ordered_kit = $order->addKit($kit, Address::fake());
+        $ordered_kit = $order->addKit($kit);
 
         $response = $this->asAdmin()->postJson("/admin/api/ordered-kits/{$ordered_kit->id}", [
             'meals' => [
@@ -203,7 +203,7 @@ class UpdateOrderedKitMealsTest extends TestCase
         $order = factory(Order::class)->create();
 
         $kit = new Kit($menu->id, $original_meals, DeliveryAddress::fake());
-        $ordered_kit = $order->addKit($kit, Address::fake());
+        $ordered_kit = $order->addKit($kit);
 
         $valid = [
             'meals' => [

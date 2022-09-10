@@ -3,6 +3,7 @@
 use App\Http\Controllers\Admin\ActivityLogsController;
 use App\Http\Controllers\Admin\AdjustmentsController;
 use App\Http\Controllers\Admin\CancelledKitsController;
+use App\Http\Controllers\Admin\DeliveryAreasController;
 use App\Http\Controllers\Admin\FreeRecipesController;
 use App\Http\Controllers\Admin\GeneralMemberDiscountsController;
 use App\Http\Controllers\Admin\MealNotesController;
@@ -75,6 +76,7 @@ Route::view('contact', 'front.contact.page');
 
 
 Route::post('contact', 'ContactMessageController@store');
+
 
 Route::post('api/kits/{kit_id}/delivery-address', [KitDeliveryAddressController::class, 'update']);
 
@@ -229,5 +231,7 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('unresolved-adjustments', [UnresolvedAdjustmentsController::class, 'index']);
 
         Route::get('activity-logs', [ActivityLogsController::class, 'index']);
+
+        Route::get('delivery-areas', [DeliveryAreasController::class, 'index']);
     });
 });

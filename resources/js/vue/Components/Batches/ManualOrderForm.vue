@@ -39,20 +39,17 @@
                 v-model="formData.line_one"
             ></input-field>
 
-            <input-field
-                class="my-6"
-                label="Address (line two)"
-                :error-msg="formErrors.line_two"
-                v-model="formData.line_two"
-            ></input-field>
-
-            <input-field
-                class="my-6"
-                label="City/Town/Area"
-                placeholder="e.g. Hilton, Camperdown"
-                :error-msg="formErrors.city"
-                v-model="formData.city"
-            ></input-field>
+            <div class="my-6">
+                <span class="form-label">Delivery Area</span>
+                <select
+                    v-model="formData.city"
+                    class="border bg-gray-100 w-full block mt-1"
+                >
+                    <option v-for="area in deliveryAreas" :value="area.key"
+                        >{{ area.description }}
+                    </option>
+                </select>
+            </div>
         </div>
 
         <div class="my-12">
@@ -104,7 +101,6 @@ export default {
                 email: "",
                 phone: "",
                 line_one: "",
-                line_two: "",
                 city: "",
                 meals: this.availableMeals.map((m) => ({
                     name: m.name,
@@ -118,10 +114,19 @@ export default {
                 email: "",
                 phone: "",
                 line_one: "",
-                line_two: "",
                 city: "",
             },
         };
+    },
+
+    computed: {
+        deliveryAreas() {
+            return this.$store.state.deliveries.all_areas;
+        },
+    },
+
+    mounted() {
+        this.$store.dispatch("deliveries/fetchAllAreas");
     },
 
     methods: {

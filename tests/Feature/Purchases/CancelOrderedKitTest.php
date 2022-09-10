@@ -49,7 +49,7 @@ class CancelOrderedKitTest extends TestCase
         $order = factory(Order::class)->create(['user_id' => $member->id]);
 
         $kit = new Kit($menu->id, $kits_meals, DeliveryAddress::fake());
-        $ordered_kit = $order->addKit($kit, Address::fake());
+        $ordered_kit = $order->addKit($kit);
 
         $response = $this->asAdmin()->postJson("/admin/api/cancelled-kits", [
             'kit_id' => $ordered_kit->id,

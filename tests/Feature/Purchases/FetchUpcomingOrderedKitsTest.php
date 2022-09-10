@@ -47,7 +47,7 @@ class FetchUpcomingOrderedKitsTest extends TestCase
         $order = factory(Order::class)->create(['is_paid' => false, 'status' => Order::STATUS_CREATED]);
 
         $kit = new Kit($menu->id, $original_meals, DeliveryAddress::fake());
-        $ordered_kit = $order->addKit($kit, Address::fake());
+        $ordered_kit = $order->addKit($kit);
 
         $response = $this->asAdmin()->getJson("/admin/api/upcoming-ordered-kits");
         $response->assertSuccessful();

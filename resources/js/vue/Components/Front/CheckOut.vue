@@ -11,7 +11,7 @@
                 <div
                     v-for="kit in eligible_kits"
                     :key="kit.id"
-                    class="mb-4 w-64"
+                    class="mb-4 md:w-64"
                 >
                     <p class="flex justify-between border-b border-gray-200">
                         <span class="font-bold mr-8">{{ kit.name }}</span>
@@ -26,7 +26,7 @@
                 <div
                     v-for="kit in ineligible_kits"
                     :key="kit.id"
-                    class="mb-4 w-64 text-gray-600"
+                    class="mb-4 md:w-64 text-gray-600"
                 >
                     <p class="flex justify-between border-b border-gray-200">
                         <span class="font-bold mr-8">{{ kit.name }}</span>
@@ -37,23 +37,23 @@
                     </p>
                 </div>
 
-                <p class="w-64 flex justify-between">
+                <p class="md:w-64 flex justify-between">
                     <span>Sub-total:</span>
                     <span>R{{ basket.total_price }}</span>
                 </p>
-                <p class="w-64 flex justify-between">
+                <p class="md:w-64 flex justify-between">
                     <span>Delivery fee:</span>
                     <span>R0</span>
                 </p>
-                <p v-show="using_discount" class="w-64 flex justify-between">
+                <p v-show="using_discount" class="md:w-64 flex justify-between">
                     <span>Discount:</span>
                     <span>R{{ amount_discounted }}</span>
                 </p>
-                <p class="w-64 flex justify-between">
+                <p class="md:w-64 flex justify-between">
                     <span>Total:</span>
                     <span>R{{ total_amount }}</span>
                 </p>
-                <div class="flex justify-end mt-2">
+                <div class="md:w-64 flex justify-end mt-2">
                     <button
                         v-show="!using_discount"
                         @click="showDiscountInput = true"
