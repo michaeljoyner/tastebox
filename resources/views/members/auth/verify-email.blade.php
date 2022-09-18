@@ -17,6 +17,11 @@
                 {!! csrf_field() !!}
                 <button type="submit" class="block w-full py-3 bg-green-600 text-white hover:bg-green-500 rounded-lg shadow-lg my-6 font-semibold">Resend Verification Link</button>
             </form>
+
+            <div class="max-w-lg mx-auto bg-blue-100 border border-blue-700 text-blue-700 rounded-lg p-4">
+                <p class="text-sm">If you don't seem to receive the verification email, please
+                    <span class="font-semibold">check your spam</span> or promotions folders.</p>
+            </div>
         </div>
     </div>
 </x-public-page>

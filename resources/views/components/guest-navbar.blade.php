@@ -6,11 +6,11 @@
     </div>
     <div class="flex">
         <div class="nav-drawer flex flex-col lg:flex-row lg:pt-0 pt-12 lg:static fixed top-16 left-0 lg:min-h-0 min-h-screen bg-green-200 lg:bg-transparent w-screen lg:w-auto items-center">
-            <a class="text-lg font-bold lg:mb-0 mb-6 mx-4 block" href="/blog">Blog</a>
-            <a class="text-lg font-bold lg:mb-0 mb-6 mx-4 block" href="/our-meals">Our Meals</a>
-            <a class="text-lg font-bold lg:mb-0 mb-6 mx-4 block" href="/team">The Team</a>
-            <a class="text-lg font-bold lg:mb-0 mb-6 mx-4 block" href="/faqs">FAQs</a>
-            <a class="text-lg font-bold lg:mb-0 mb-6 mx-4 block" href="/login">Login</a>
+            <a class="font-bold lg:mb-0 mb-6 mx-4 block" href="/blog">Blog</a>
+            <a class="font-bold lg:mb-0 mb-6 mx-4 block" href="/our-meals">Our Meals</a>
+            <a class="font-bold lg:mb-0 mb-6 mx-4 block" href="/team">The Team</a>
+            <a class="font-bold lg:mb-0 mb-6 mx-4 block" href="/faqs">FAQs</a>
+            <a class="font-bold lg:mb-0 mb-6 mx-4 block" href="/login">Login</a>
             <a href="/build-a-box"
                class="lg:mb-0 mb-6 mx-4 green-btn">See Menus</a>
         </div>
