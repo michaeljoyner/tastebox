@@ -64,8 +64,6 @@ class MemberProfile extends Model
 
     public function formattedAddress(): string
     {
-
-
         return $this->deliveryAddress()->toString();
     }
 
