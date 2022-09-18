@@ -26,7 +26,7 @@
                 <p class="text-xs uppercase">
                     Delivery to {{ kit.delivery_area }}
                 </p>
-                <p>Deliver to {{ kit.delivery_address }}</p>
+                <p>{{ kit.delivery_address }}</p>
                 <p class="text-xs text-gray-500" v-show="kit.deliver_with">
                     Will be delivered with {{ kit.deliver_with }}
                 </p>
@@ -52,7 +52,7 @@
                     </p>
                 </div>
                 <div
-                    v-for="address in suggestedAddresses"
+                    v-for="address in alternateAddresses"
                     class="flex items-center space-x-8 p-4 rounded-lg shadow-md mb-4"
                 >
                     <input
@@ -67,13 +67,13 @@
                     >
                         <p>{{ address.delivery_address }}</p>
                         <p class="text-xs uppercase font-semibold">
-                            {{ address.delivery_area.key }}
+                            {{ address.delivery_area.value }}
                         </p>
                     </label>
                 </div>
                 <div
                     class="flex justify-center items-center my-4"
-                    v-show="suggestedAddresses.length"
+                    v-show="alternateAddresses.length"
                 >
                     <p>or</p>
                 </div>
@@ -172,6 +172,10 @@ export default {
             );
         });
 
+        const alternateAddresses = computed(() =>
+            props.suggestedAddresses.filter((a) => a.kit_id !== props.kit.id)
+        );
+
         const formData = computed(() => {
             if (selected_address.value) {
                 return {
@@ -217,6 +221,7 @@ export default {
             saving,
             save,
             has_errors,
+            alternateAddresses,
         };
     },
 };

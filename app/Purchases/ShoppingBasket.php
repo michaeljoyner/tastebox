@@ -231,7 +231,7 @@ class ShoppingBasket
                                                          'kit_id'           => $kit->id,
                                                          'delivery_area'    => [
                                                              'key'   => $kit->delivery_address->area->value,
-                                                             'value' => $kit->delivery_address->area->name,
+                                                             'value' => $kit->delivery_address->area->description(),
                                                          ],
                                                          'delivery_address' => $kit->delivery_address->address,
                                                      ])->values()->all(),

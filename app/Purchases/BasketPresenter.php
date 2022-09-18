@@ -29,7 +29,7 @@ class BasketPresenter
             'meals_count' => $meals->count(),
             'servings_count' => $kit->meals->sum('servings'),
             'price' => $kit->price(),
-            'delivery_area' => $kit->delivery_address->area->name,
+            'delivery_area' => $kit->delivery_address->area->description(),
             'delivery_address' => $kit->delivery_address->address,
             'deliver_with' => $this->basket->getKitName($kit->deliver_with),
             'can_deliver' => !$kit->requiresAddress(),
