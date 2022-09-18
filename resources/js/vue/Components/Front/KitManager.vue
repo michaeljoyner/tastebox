@@ -1,6 +1,9 @@
 <template>
     <div class="pb-6">
-        <div v-if="!registered" class="bg-green-700 p-4 md:p-6 text-white">
+        <div
+            v-if="!registered"
+            class="bg-green-700 px-4 py-2 md:p-4 text-white"
+        >
             <p class="text-left md:text-center">
                 Already a member? Don't forget to
                 <a
