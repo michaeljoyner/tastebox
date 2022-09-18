@@ -22,12 +22,8 @@
                 >
                     <p class="type-h2">
                         {{ kit.name }}
-                        <span
-                            class="block md:inline mb-3 text-sm text-gray-600 font-normal type-b3"
-                            >{{ kit.meals_count }} meals ({{
-                                kit.servings_count
-                            }}
-                            servings)</span
+                        <span class="text-green-700 text-base"
+                            >R{{ kit.price }}</span
                         >
                     </p>
                     <delete-kit
@@ -37,8 +33,13 @@
                     ></delete-kit>
                 </div>
 
+                <p class="mb-3 mt-1 text-sm text-gray-600 font-normal type-b3">
+                    {{ kit.meals_count }} meals ({{ kit.servings_count }}
+                    servings)
+                </p>
+
                 <p
-                    class="my-3 type-b1 bg-green-100 rounded-full my-6 px-4 py-1 text-xs md:text-sm inline-block"
+                    class="mb-4 -ml-2 type-b1 bg-green-100 rounded-full px-4 py-1 text-xs md:text-sm inline-block"
                 >
                     For delivery on
                     <span class="font-semibold">{{ kit.delivery_date }}</span>
