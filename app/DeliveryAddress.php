@@ -45,6 +45,6 @@ class DeliveryAddress
 
     public function toString(): string
     {
-        return sprintf("%s [%s]", $this->address, $this->area->value);
+        return sprintf("%s [%s]", $this->address, $this->area->description());
     }
 }
