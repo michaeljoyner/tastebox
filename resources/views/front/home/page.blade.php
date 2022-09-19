@@ -6,5 +6,5 @@
     @include('front.home.how-it-works')
     @include('front.home.current-menu')
     @include('front.home.delivery')
-{{--    @include('front.home.instagram')--}}
+    @include('front.home.instagram')
 </x-public-page>
