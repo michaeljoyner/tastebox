@@ -70,7 +70,7 @@ class PresentShoppingBasketTest extends TestCase
                     'meals_count'        => 3,
                     'servings_count'     => 7,
                     'price'              => 7 * Meal::SERVING_PRICE,
-                    'delivery_area'      => $kitA->delivery_address->area->name,
+                    'delivery_area'      => $kitA->delivery_address->area->description(),
                     'delivery_address'   => $kitA->delivery_address->address,
                     'deliver_with'       => '',
                     'can_deliver'        => true,
@@ -104,7 +104,7 @@ class PresentShoppingBasketTest extends TestCase
                     'meals_count'        => 3,
                     'servings_count'     => 12,
                     'price'              => 12 * Meal::SERVING_PRICE,
-                    'delivery_area'      => $kitB->delivery_address->area->name,
+                    'delivery_area'      => $kitB->delivery_address->area->description(),
                     'delivery_address'   => $kitB->delivery_address->address,
                     'deliver_with'       => '',
                     'can_deliver'        => false,
@@ -137,7 +137,7 @@ class PresentShoppingBasketTest extends TestCase
                     'kit_id'           => $kitA->id,
                     'delivery_area'    => [
                         'key'   => $kitA->delivery_address->area->value,
-                        'value' => $kitA->delivery_address->area->name
+                        'value' => $kitA->delivery_address->area->description()
                     ],
                     'delivery_address' => $kitA->delivery_address->address,
                 ],
@@ -187,7 +187,7 @@ class PresentShoppingBasketTest extends TestCase
             'meals_count'        => 3,
             'servings_count'     => 12,
             'price'              => 12 * Meal::SERVING_PRICE,
-            'delivery_area'      => $kitA->delivery_address->area->name,
+            'delivery_area'      => $kitA->delivery_address->area->description(),
             'delivery_address'   => $kitA->delivery_address->address,
             'deliver_with'       => 'Box One',
             'can_deliver'        => false,

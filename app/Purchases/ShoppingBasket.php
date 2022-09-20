@@ -23,7 +23,7 @@ class ShoppingBasket
 
     public static function for(?User $user): ShoppingBasket
     {
-        if (!$user) {
+        if (!$user || !$user->isMember()) {
             return new ShoppingBasket(collect(session('basket.kits', [])), self::SESSION);
         }
 
