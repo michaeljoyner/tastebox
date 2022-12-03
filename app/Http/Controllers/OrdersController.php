@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\OrderConfirmed;
 use App\Http\Requests\PlaceOrderRequest;
 use App\MailingList\MailingListMember;
 use App\Purchases\Kit;
@@ -32,6 +33,7 @@ class OrdersController extends Controller
 
         if($order->is_paid) {
             $basket->clear();
+            event(new OrderConfirmed($order));
             return ['paid_order' => true, 'order_key' => $order->order_key];
         }
 
