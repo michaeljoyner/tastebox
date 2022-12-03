@@ -30,7 +30,7 @@ class SendAdminOrderConfirmedMail
     {
         $customer = $event->order->customer();
         $boxes = $event->order->orderedKits->map->summarize();
-        $amount_paid = $event->order->payment->amount_gross;
+        $amount_paid = $event->order->payment?->amount_gross ?? 0;
         collect(['joyner.michael@gmail.com', 'alexandra.joyner@gmail.com', 'stephjoyner18@gmail.com'])
             ->each(
                 fn($r) => Mail::to($r)->queue(new AdminOrderConfirmed($customer, $boxes, $amount_paid)));

@@ -26,7 +26,7 @@ class SendCustomerOrderConfirmedMail
             ->queue(new OrderConfirmedMail(
                 $customer->name,
                 $event->order->orderedKits->map->summarize(),
-                $event->order->payment->amount_gross
+                $event->order->payment?->amount_gross ?? 0
             ));
 
         $event->order->markNotificationSent();
