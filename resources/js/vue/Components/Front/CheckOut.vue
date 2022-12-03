@@ -424,7 +424,10 @@ export default {
         },
 
         total_amount() {
-            return this.basket.total_price - this.amount_discounted;
+            return Math.max(
+                this.basket.total_price - this.amount_discounted,
+                0
+            );
         },
     },
 
@@ -460,6 +463,10 @@ export default {
         },
 
         onSuccess(payfast_data) {
+            if (payfast_data.paid_order) {
+                window.location = `/thank-you/${payfast_data.order_key}`;
+                return;
+            }
             this.payfast = payfast_data;
 
             this.$nextTick().then(() => {

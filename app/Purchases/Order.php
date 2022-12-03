@@ -125,12 +125,21 @@ class Order extends Model
             return;
         }
 
-        $this->price_in_cents = $discount->discount($this->price_in_cents);
+        $discounted_amount = $discount->discount($this->price_in_cents);
+
+        $this->price_in_cents = $discounted_amount;
         $this->discount_code = $discount->getCode();
         $this->discount_type = $discount->getType();
         $this->discount_value = $discount->getValue();
         $this->save();
         $discount->use();
+
+        if($discounted_amount < 1) {
+            $this->update([
+                'is_paid' => true,
+                'status' => self::STATUS_OPEN,
+            ]);
+        }
 
 
     }

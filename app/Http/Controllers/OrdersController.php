@@ -30,6 +30,11 @@ class OrdersController extends Controller
             SmsReminderSubscriber::addOrUpdate($request->firstName(), $request->phoneNumber());
         }
 
+        if($order->is_paid) {
+            $basket->clear();
+            return ['paid_order' => true, 'order_key' => $order->order_key];
+        }
+
         return PayFast::checkoutForm($order);
     }
 }
