@@ -13,6 +13,9 @@ module.exports = {
                 green: colours.emerald,
                 gray: colours.stone,
                 opaque: "rgba(255,255,255,.8)",
+                "tb-green": "#10986E",
+                "tb-red": "#DA080B",
+                "tb-red-light": "#FA4143",
             },
             fontFamily: {
                 sans: [
@@ -62,6 +65,7 @@ module.exports = {
             },
             backgroundImage: {
                 footer: "url(/images/footer_pattern.png)",
+                "mobile-banner": "url(/images/home/banner_noodles.jpg)",
             },
             animation: {
                 wiggle: "wiggle 2s linear infinite",

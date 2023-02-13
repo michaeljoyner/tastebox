@@ -1,7 +1,7 @@
 <div class="main-nav bg-white/90 backdrop-blur-md px-6 shadow-md w-screen h-16 flex justify-between items-center fixed top-0 left-0">
     <div class="type-h4">
         <a href="/">
-            @include('svg.logos.logo_small', ['classes' => 'h-8 text-green-600 hover:text-green-500'])
+            @include('svg.logos.logo_new', ['classes' => 'h-8 text-green-600 hover:text-green-500'])
         </a>
     </div>
     <div class="flex">
