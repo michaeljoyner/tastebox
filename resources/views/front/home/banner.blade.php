@@ -26,11 +26,12 @@
         </div>
 
         <div class="mt-16">
-            <img src="/images/home/first_meal.png" class="max-w-[80vw] w-80 -rotate-3"
-                 alt="">
+{{--            <img src="/images/home/first_meal.png" class="max-w-[80vw] w-80 -rotate-3"--}}
+{{--                 alt="">--}}
+            <p class="text-2xl md:text-2xl text-white font-serif font-bold">Get your first meal on us!</p>
             <div>
-                <a href="" class="text-white opacity-75 flex flex-col items-center -space-y-2 mt-4">
-                    <span>learn more</span>
+                <a href="#" data-scroll-target="sign-up" class="scroll-jumper text-white hover:text-green-100 opacity-75 flex flex-col items-center -space-y-2 mt-2">
+                    <span>learn how</span>
                     <span class="-mt-4">&downarrow;</span>
                 </a>
             </div>
@@ -38,11 +39,11 @@
     </div>
 </div>
 
-<div class="py-20 px-8">
-    <div class="max-w-xl mx-auto">
+<div class="py-20 px-8 scroll-m-12" id="sign-up">
+    <div class="max-w-xl mx-auto" >
         <div class="flex flex-col items-center">
-            <p class="type-h1 text-center">Your first meal's on us!</p>
-            <p class="my-6 text-slate-800 text-xl text-center">Sign up now and get a <strong>20% discount</strong> you can use on your first order. TasteBox members also getonline access to their recipes, free weekly recipes, exclusive discounts and more!</p>
+            <p class="type-h1 text-center">Sign up now for rewards!</p>
+            <p class="my-6 text-slate-800 text-xl text-center">Sign up now and get a <strong>20% discount</strong> you can use on your first order. TasteBox members also get online access to their recipes, free weekly recipes, exclusive discounts and more!</p>
             <div class="mt-12">
                 <a href="/register" class="green-btn">Become a member</a>
             </div>

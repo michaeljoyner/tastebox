@@ -32,4 +32,15 @@ window.addEventListener("DOMContentLoaded", () => {
     navTrigger.addEventListener("click", () => {
         mainNav.classList.toggle("open");
     });
+
+    [...document.querySelectorAll(".scroll-jumper")].forEach((el) => {
+        const t = document.getElementById(
+            el.getAttribute("data-scroll-target")
+        );
+
+        el.addEventListener("click", (ev) => {
+            ev.preventDefault();
+            t.scrollIntoView({ behavior: "smooth" });
+        });
+    });
 });
