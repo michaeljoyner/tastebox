@@ -30,7 +30,9 @@ use App\Http\Controllers\Members\MemberPasswordController;
 use App\Http\Controllers\Members\MemberProfileController;
 use App\Http\Controllers\Members\OrdersController;
 use App\Http\Controllers\Members\RecipesController;
+use App\Http\Controllers\Members\RevivedMemberOrdersController;
 use App\Http\Controllers\RegistrationsController;
+use App\Http\Controllers\RevivedGuestOrdersController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -80,6 +82,8 @@ Route::post('contact', 'ContactMessageController@store');
 
 Route::post('api/kits/{kit_id}/delivery-address', [KitDeliveryAddressController::class, 'update']);
 
+Route::get('revived-orders/{order:order_key}', [RevivedGuestOrdersController::class, 'store']);
+
 Route::get('checkout', 'CheckoutController@show');
 Route::post('checkout', 'OrdersController@store');
 
@@ -119,6 +123,8 @@ Route::group(['prefix' => 'me', 'middleware' => 'auth', 'namespace' => 'Members'
 
     Route::get('recipes', [RecipesController::class, 'index']);
     Route::get('recipes/{meal:unique_id}', [RecipesController::class, 'show']);
+
+    Route::get('revived-orders/{order:order_key}', [RevivedMemberOrdersController::class, 'store']);
 });
 
 Route::group(['middleware' => 'auth'], function () {

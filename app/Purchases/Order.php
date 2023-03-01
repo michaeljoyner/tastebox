@@ -62,9 +62,23 @@ class Order extends Model
             ->where('status', self::STATUS_OPEN);
     }
 
+    public function scopeRecentlyAbandoned(Builder $query)
+    {
+        return $query->where('status', static::STATUS_CREATED)
+            ->where('created_at', '>=', now()->subDays(6))
+            ->where('created_at', '<=', now()->subHour());
+    }
+
     public static function hasCurrentPending(): bool
     {
         return !!static::pending()->where('created_at', '>=', now()->subDays(7))->count();
+    }
+
+    public static function hasRecentlyPlacedBy(string $email): bool
+    {
+        return static::where('email', $email)
+            ->whereIn('status', [static::STATUS_PENDING, static::STATUS_OPEN, static::STATUS_COMPLETE])
+            ->where('created_at', '>=', now()->subDays(6))->count();
     }
 
     public function member(): BelongsTo

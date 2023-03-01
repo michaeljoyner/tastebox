@@ -5,7 +5,9 @@ namespace Tests\Unit\Purchases;
 use App\Meals\Meal;
 use App\Orders\Menu;
 use App\Purchases\Kit;
+use App\Purchases\KitMealSummary;
 use App\Purchases\Order;
+use App\Purchases\OrderedKit;
 use App\Purchases\ShoppingBasket;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Str;
@@ -236,6 +238,177 @@ class ShoppingBasketTest extends TestCase
         $this->assertTrue($current->eligibleForOrder());
         $this->assertFalse($too_old->eligibleForOrder());
 
+
+    }
+
+    /**
+     *@test
+     */
+    public function restore_order_with_current_kits_to_basket()
+    {
+        $menuA = factory(Menu::class)->state('current')->create();
+        $menuB = factory(Menu::class)->state('upcoming')->create();
+
+        $mealA = factory(Meal::class)->create();
+        $mealB = factory(Meal::class)->create();
+        $mealC = factory(Meal::class)->create();
+        $mealD = factory(Meal::class)->create();
+        $mealE = factory(Meal::class)->create();
+
+
+        $kitA_meals = new KitMealSummary(
+            meals: collect([
+                ['id' => $mealA->id, 'servings' => 2],
+                ['id' => $mealB->id, 'servings' => 3],
+                ['id' => $mealC->id, 'servings' => 4],
+            ])
+        );
+        $kitB_meals = new KitMealSummary(
+            meals: collect([
+                ['id' => $mealB->id, 'servings' => 2],
+                ['id' => $mealD->id, 'servings' => 3],
+                ['id' => $mealE->id, 'servings' => 4],
+            ])
+        );
+
+        $order = factory(Order::class)->state('created')->create();
+        $ordered_kitA = factory(OrderedKit::class)->create(['order_id' => $order->id, 'menu_id' => $menuA->id]);
+        $ordered_kitA->setMeals($kitA_meals);
+        $ordered_kitB = factory(OrderedKit::class)->create(['order_id' => $order->id, 'menu_id' => $menuB->id]);
+        $ordered_kitB->setMeals($kitB_meals);
+
+
+        $basket = ShoppingBasket::for(null);
+
+        $basket->restoreFromOrder($order);
+
+        $this->assertCount(2, $basket->kits);
+
+        $kit_one = $basket->kits->first(fn (Kit $kit) => $kit->menu_id === $menuA->id);
+        $this->assertCount(3, $kit_one->meals);
+        $this->assertTrue($kit_one->meals->contains(fn ($meal) => $meal['id'] === $mealA->id && $meal['servings'] === 2));
+        $this->assertTrue($kit_one->meals->contains(fn ($meal) => $meal['id'] === $mealB->id && $meal['servings'] === 3));
+        $this->assertTrue($kit_one->meals->contains(fn ($meal) => $meal['id'] === $mealC->id && $meal['servings'] === 4));
+        $this->assertSame($ordered_kitA->deliveryAddress()->area, $kit_one->delivery_address->area);
+        $this->assertSame($ordered_kitA->deliveryAddress()->address, $kit_one->delivery_address->address);
+
+        $kit_two = $basket->kits->first(fn (Kit $kit) => $kit->menu_id === $menuB->id);
+        $this->assertCount(3, $kit_two->meals);
+        $this->assertTrue($kit_two->meals->contains(fn ($meal) => $meal['id'] === $mealB->id && $meal['servings'] === 2));
+        $this->assertTrue($kit_two->meals->contains(fn ($meal) => $meal['id'] === $mealD->id && $meal['servings'] === 3));
+        $this->assertTrue($kit_two->meals->contains(fn ($meal) => $meal['id'] === $mealE->id && $meal['servings'] === 4));
+        $this->assertSame($ordered_kitB->deliveryAddress()->area, $kit_two->delivery_address->area);
+        $this->assertSame($ordered_kitB->deliveryAddress()->address, $kit_two->delivery_address->address);
+
+    }
+
+    /**
+     *@test
+     */
+    public function restore_order_with_with_illegible_kits_to_basket()
+    {
+        $menuA = factory(Menu::class)->state('old')->create();
+        $menuB = factory(Menu::class)->state('upcoming')->create();
+
+        $mealA = factory(Meal::class)->create();
+        $mealB = factory(Meal::class)->create();
+        $mealC = factory(Meal::class)->create();
+        $mealD = factory(Meal::class)->create();
+        $mealE = factory(Meal::class)->create();
+
+
+        $kitA_meals = new KitMealSummary(
+            meals: collect([
+                ['id' => $mealA->id, 'servings' => 2],
+                ['id' => $mealB->id, 'servings' => 3],
+                ['id' => $mealC->id, 'servings' => 4],
+            ])
+        );
+        $kitB_meals = new KitMealSummary(
+            meals: collect([
+                ['id' => $mealB->id, 'servings' => 2],
+                ['id' => $mealD->id, 'servings' => 3],
+                ['id' => $mealE->id, 'servings' => 4],
+            ])
+        );
+
+        $order = factory(Order::class)->state('created')->create();
+        $ordered_kitA = factory(OrderedKit::class)->create(['order_id' => $order->id, 'menu_id' => $menuA->id]);
+        $ordered_kitA->setMeals($kitA_meals);
+        $ordered_kitB = factory(OrderedKit::class)->create(['order_id' => $order->id, 'menu_id' => $menuB->id]);
+        $ordered_kitB->setMeals($kitB_meals);
+
+
+        $basket = ShoppingBasket::for(null);
+
+        $basket->restoreFromOrder($order);
+
+        $this->assertCount(1, $basket->kits);
+
+
+
+        $new_kit = $basket->kits->first(fn (Kit $kit) => $kit->menu_id === $menuB->id);
+        $this->assertCount(3, $new_kit->meals);
+        $this->assertTrue($new_kit->meals->contains(fn ($meal) => $meal['id'] === $mealB->id && $meal['servings'] === 2));
+        $this->assertTrue($new_kit->meals->contains(fn ($meal) => $meal['id'] === $mealD->id && $meal['servings'] === 3));
+        $this->assertTrue($new_kit->meals->contains(fn ($meal) => $meal['id'] === $mealE->id && $meal['servings'] === 4));
+        $this->assertSame($ordered_kitB->deliveryAddress()->area, $new_kit->delivery_address->area);
+        $this->assertSame($ordered_kitB->deliveryAddress()->address, $new_kit->delivery_address->address);
+
+    }
+
+    /**
+     *@test
+     */
+    public function restoring_order_clears_whatever_you_have_in_your_basket()
+    {
+        $menuA = factory(Menu::class)->state('current')->create();
+
+        $mealA = factory(Meal::class)->create();
+        $mealB = factory(Meal::class)->create();
+        $mealC = factory(Meal::class)->create();
+        $mealD = factory(Meal::class)->create();
+        $mealE = factory(Meal::class)->create();
+
+
+        $kitA_meals = new KitMealSummary(
+            meals: collect([
+                ['id' => $mealA->id, 'servings' => 2],
+                ['id' => $mealB->id, 'servings' => 3],
+                ['id' => $mealC->id, 'servings' => 4],
+            ])
+        );
+        $kitB_meals = new KitMealSummary(
+            meals: collect([
+                ['id' => $mealB->id, 'servings' => 2],
+                ['id' => $mealD->id, 'servings' => 3],
+                ['id' => $mealE->id, 'servings' => 4],
+            ])
+        );
+
+        $order = factory(Order::class)->state('created')->create();
+        $ordered_kitA = factory(OrderedKit::class)->create(['order_id' => $order->id, 'menu_id' => $menuA->id]);
+        $ordered_kitA->setMeals($kitA_meals);
+
+
+
+        $basket = ShoppingBasket::for(null);
+        $old_kit = $basket->addKit($menuA->id);
+        $old_kit->setMeal($mealB->id, 3);
+        $old_kit->setMeal($mealD->id, 3);
+        $old_kit->setMeal($mealE->id, 3);
+
+        $basket->restoreFromOrder($order);
+
+        $this->assertCount(1, $basket->kits);
+
+        $kit_one = $basket->kits->first(fn (Kit $kit) => $kit->menu_id === $menuA->id);
+        $this->assertCount(3, $kit_one->meals);
+        $this->assertTrue($kit_one->meals->contains(fn ($meal) => $meal['id'] === $mealA->id && $meal['servings'] === 2));
+        $this->assertTrue($kit_one->meals->contains(fn ($meal) => $meal['id'] === $mealB->id && $meal['servings'] === 3));
+        $this->assertTrue($kit_one->meals->contains(fn ($meal) => $meal['id'] === $mealC->id && $meal['servings'] === 4));
+        $this->assertSame($ordered_kitA->deliveryAddress()->area, $kit_one->delivery_address->area);
+        $this->assertSame($ordered_kitA->deliveryAddress()->address, $kit_one->delivery_address->address);
 
     }
 

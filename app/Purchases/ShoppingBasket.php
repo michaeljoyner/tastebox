@@ -250,5 +250,22 @@ class ShoppingBasket
         return $this->kits->count() === 0;
     }
 
+    public function restoreFromOrder(Order $order)
+    {
+        $this->clear();
+
+        $order->orderedKits->each(function(OrderedKit $orderedKit) {
+            $kit = $this->addKit($orderedKit->menu_id);
+            $orderedKit->meals->each(fn ($m) => $this->addMealToKit($kit->id, $m->id, $m->pivot->servings));
+            $kit->delivery_address = $orderedKit->deliveryAddress();
+
+            if(!$kit->eligibleForOrder()) {
+                $this->discardKit($kit->id);
+            }
+
+            $this->save();
+        });
+    }
+
 
 }

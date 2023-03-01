@@ -217,6 +217,60 @@ class OrdersTest extends TestCase
         $this->assertTrue(Order::hasCurrentPending());
     }
 
+    /**
+     * @test
+     */
+    public function can_scope_to_recently_abandoned_orders()
+    {
+        $paid = factory(Order::class)->state('paid')->create();
+        $pending = factory(Order::class)->state('unpaid')->create();
+        $newly_created = factory(Order::class)
+            ->state('created')
+            ->create(['created_at' => now()->subMinutes(20)]);
+        $abandonded = factory(Order::class)
+            ->state('created')
+            ->create(['created_at' => now()->subDays(2)]);
+        $old_abandonded = factory(Order::class)
+            ->state('created')
+            ->create(['created_at' => now()->subWeeks(2)]);
+
+        $scoped = Order::recentlyAbandoned()->get();
+
+        $this->assertCount(1, $scoped);
+        $this->assertTrue($scoped->contains($abandonded));
+        $this->assertFalse($scoped->contains($newly_created));
+        $this->assertFalse($scoped->contains($paid));
+        $this->assertFalse($scoped->contains($pending));
+    }
+
+    /**
+     * @test
+     */
+    public function can_check_if_order_recently_successfully_placed_by_email()
+    {
+        $recently_paid = "joe@test.test";
+        $recently_pending = "soap@test.test";
+        $old_paid = "three@test.test";
+        $old_pending = "four@test.test";
+        $recently_created = "five@test.test";
+        $old_created = "six@test.test";
+
+
+        factory(Order::class)->state('paid')->create(['email' => $recently_paid]);
+        factory(Order::class)->state('unpaid')->create(['email' => $recently_pending]);
+        factory(Order::class)->state('created')->create(['email' => $recently_created]);
+        factory(Order::class)->state('paid')->create(['email' => $old_paid, 'created_at' => now()->subDays(9)]);
+        factory(Order::class)->state('unpaid')->create(['email' => $old_pending, 'created_at' => now()->subDays(9)]);
+        factory(Order::class)->state('created')->create(['email' => $old_created, 'created_at' => now()->subDays(9)]);
+
+        $this->assertTrue(Order::hasRecentlyPlacedBy($recently_paid));
+        $this->assertTrue(Order::hasRecentlyPlacedBy($recently_pending));
+        $this->assertFalse(Order::hasRecentlyPlacedBy($recently_created));
+        $this->assertFalse(Order::hasRecentlyPlacedBy($old_paid));
+        $this->assertFalse(Order::hasRecentlyPlacedBy($old_pending));
+        $this->assertFalse(Order::hasRecentlyPlacedBy($old_created));
+    }
+
     private function makeKits(DeliveryAddress $address)
     {
         $menu = factory(Menu::class)->state('upcoming')->create();
