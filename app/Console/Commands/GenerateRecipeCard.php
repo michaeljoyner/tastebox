@@ -34,6 +34,7 @@ class GenerateRecipeCard extends Command
         $html = view('recipes.card', ['meal' => MealsPresenter::forPublic($meal)])->render();
 
         Browsershot::html($html)->waitUntilNetworkIdle()
+                   ->setChromePath(config('browsershot.chrome_path'))
                    ->format('A4')
                    ->landscape()
                    ->margins(0, 0, 0, 0)

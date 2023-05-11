@@ -51,25 +51,25 @@ class Batch
 
     public function totalPackedMeals(): int
     {
-        return $this->kits->sum(fn ($kit) => $kit->meals->count());
+        return $this->kits->sum(fn($kit) => $kit->meals->count());
     }
 
     public function totalServings(): int
     {
-        return $this->kits->sum(fn ($kit) => $kit->meals->sum(fn ($meal) => $meal->pivot->servings));
+        return $this->kits->sum(fn($kit) => $kit->meals->sum(fn($meal) => $meal->pivot->servings));
     }
 
     public function kitList(): array
     {
         $this->kits->load('order');
 
-        return $this->kits->map(fn (OrderedKit $kit) => [
-            'customer' => $kit->order->customer()->toArray(),
+        return $this->kits->map(fn(OrderedKit $kit) => [
+            'customer'         => $kit->order->customer()->toArray(),
             'delivery_address' => $kit->deliveryAddress()->toArray(),
-            'meals' => $kit
+            'meals'            => $kit
                 ->meals
-                ->map(fn ($meal) => [
-                    'name' => $meal->name,
+                ->map(fn($meal) => [
+                    'name'     => $meal->name,
                     'servings' => $meal->pivot->servings
                 ])->values()->all(),
         ])->values()->all();
@@ -97,9 +97,10 @@ class Batch
                                 $list->addIngredient($ingredient, $meal['name'], $meal['total_servings']);
                             }
                         }
+
                         return $list;
                     }, new BatchIngredientsList)
-            ->toArray();
+                    ->toArray();
     }
 
     public function shoppingList(): array
@@ -109,15 +110,16 @@ class Batch
                         foreach ($meal['ingredients'] as $ingredient) {
                             if ($ingredient['in_kit']) {
                                 $list->addItem(new ShoppingListItem([
-                                    'id' => $ingredient['id'],
+                                    'id'          => $ingredient['id'],
                                     'description' => $ingredient['description'],
-                                    'quantity' => $ingredient['quantity'],
-                                    'form' => $ingredient['form'],
-                                    'meal' => $meal['name'],
-                                    'servings' => $meal['total_servings'],
+                                    'quantity'    => $ingredient['quantity'],
+                                    'form'        => $ingredient['form'],
+                                    'meal'        => $meal['name'],
+                                    'servings'    => $meal['total_servings'],
                                 ]));
                             }
                         }
+
                         return $list;
                     }, new ShoppingList())
                     ->toArray();
@@ -136,6 +138,7 @@ class Batch
         Browsershot::html($html)
                    ->format('A4')
                    ->margins(5, 5, 5, 25)
+                   ->setChromePath(config('browsershot.chrome_path'))
                    ->setNodeBinary(config('browsershot.node_path'))
                    ->setNpmBinary(config('browsershot.npm_path'))
                    ->savePdf(Storage::disk('admin_stuff')->path("shopping-lists/{$file_name}"));

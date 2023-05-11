@@ -31,6 +31,7 @@ class RecipeCard
         $name = sprintf("%s.pdf", Str::slug($meal->name));
 
         Browsershot::html($html)->waitUntilNetworkIdle()
+                   ->setChromePath(config('browsershot.chrome_path'))
                    ->setNodeBinary(config('browsershot.node_path'))
                    ->setNpmBinary(config('browsershot.npm_path'))
                    ->format('A4')
@@ -47,10 +48,10 @@ class RecipeCard
 
         $zip = new \ZipArchive();
 
-        $zip->open(static::disk()->path($archive_name) , \ZipArchive::CREATE | \ZipArchive::OVERWRITE);
+        $zip->open(static::disk()->path($archive_name), \ZipArchive::CREATE | \ZipArchive::OVERWRITE);
 
-        $menu->meals->map(fn (Meal $meal) => $meal->createRecipeCard())
-                    ->each(fn ($file) => $zip->addFile(static::disk()->path($file), $file));
+        $menu->meals->map(fn(Meal $meal) => $meal->createRecipeCard())
+                    ->each(fn($file) => $zip->addFile(static::disk()->path($file), $file));
         $zip->close();
 
         return $archive_name;
