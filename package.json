@@ -33,7 +33,6 @@
         "tinymce": "^5.7.1",
         "vue": "^3.0.7",
         "vue-router": "^4.0.5",
-        "vuejs-datepicker": "^1.6.2",
         "vuex": "^4.0.0"
     }
 }

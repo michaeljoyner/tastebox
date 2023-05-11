@@ -47,11 +47,7 @@
                     >
                         {{ form.errors.valid_from }}
                     </p>
-                    <date-picker
-                        :inline="true"
-                        input-class="p-2 bg-gray-100"
-                        v-model="form.data.valid_from"
-                    ></date-picker>
+                    <input type="date" v-model="form.data.valid_from" />
                 </div>
 
                 <div
@@ -66,11 +62,7 @@
                     >
                         {{ form.errors.valid_until }}
                     </p>
-                    <date-picker
-                        :inline="true"
-                        input-class="p-2 bg-gray-100"
-                        v-model="form.data.valid_until"
-                    ></date-picker>
+                    <input type="date" v-model="form.data.valid_until" />
                 </div>
             </div>
         </div>
