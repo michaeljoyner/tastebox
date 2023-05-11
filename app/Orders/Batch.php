@@ -138,7 +138,6 @@ class Batch
         Browsershot::html($html)
                    ->format('A4')
                    ->margins(5, 5, 5, 25)
-                   ->setChromePath(config('browsershot.chrome_path'))
                    ->setNodeBinary(config('browsershot.node_path'))
                    ->setNpmBinary(config('browsershot.npm_path'))
                    ->savePdf(Storage::disk('admin_stuff')->path("shopping-lists/{$file_name}"));
