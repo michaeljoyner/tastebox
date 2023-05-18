@@ -49,14 +49,14 @@
 
             <div
                 :ref="assignSortableRef(group)"
-                style="min-height: 5rem;"
+                style="min-height: 5rem"
                 class=""
             >
                 <div
                     v-for="ingredient in group.ingredients"
                     :key="ingredient.meal_ingredient_id"
                     :data-id="ingredient.meal_ingredient_id"
-                    style="cursor: grab;"
+                    style="cursor: grab"
                     class="mb-1 flex items-center"
                 >
                     <span>&middot;</span>
@@ -221,7 +221,7 @@ export default {
                 this.sortables.push({
                     name: group.name,
                     bundled: group.bundled,
-                    sortable: Sortable.create(this.$refs[group.key], {
+                    sortable: Sortable.create(this.$refs[group.key][0], {
                         group: "ingredients",
                     }),
                 });
