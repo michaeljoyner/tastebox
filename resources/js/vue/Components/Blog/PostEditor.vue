@@ -1,6 +1,6 @@
 <template>
     <div class="">
-        <div class="flex flex-1" style="height: calc(100vh - 7rem);">
+        <div class="flex flex-1" style="height: calc(100vh - 7rem)">
             <div class="w-96 px-6 py-8 h-full overflow-auto">
                 <div class="my-6">
                     <p class="form-label mb-2">Publish Status</p>
@@ -100,17 +100,17 @@
 
 <script type="text/babel">
 import { reactive, ref, computed, onMounted } from "vue";
-import TextAreaField from "../Forms/TextAreaField";
-import InputField from "../Forms/InputField";
-import Editor from "../Editor";
+import TextAreaField from "../Forms/TextAreaField.vue";
+import InputField from "../Forms/InputField.vue";
+import Editor from "../Editor.vue";
 import { useStore } from "vuex";
-import { useForm } from "../../../libs/useForm";
-import { showError, showSuccess } from "../../../libs/notifications";
-import ImageUpload from "../ImageUpload";
-import { useImageUpload } from "../../../libs/useImageUpload";
-import ToggleSwitch from "../Forms/ToggleSwitch";
+import { useForm } from "../../../libs/useForm.js";
+import { showError, showSuccess } from "../../../libs/notifications.js";
+import ImageUpload from "../ImageUpload.vue";
+import { useImageUpload } from "../../../libs/useImageUpload.js";
+import ToggleSwitch from "../Forms/ToggleSwitch.vue";
 import { useRouter } from "vue-router";
-import DeleteConfirmation from "../UI/DeleteConfirmation";
+import DeleteConfirmation from "../UI/DeleteConfirmation.vue";
 export default {
     components: {
         DeleteConfirmation,
@@ -145,11 +145,8 @@ export default {
                 .catch((resp) => handleFormError(resp, "failed to save post"));
         };
 
-        const {
-            handleInvalidType,
-            handleInvalidSize,
-            handleUploadError,
-        } = useImageUpload();
+        const { handleInvalidType, handleInvalidSize, handleUploadError } =
+            useImageUpload();
 
         const showImage = ref(null);
         const imageSrc = computed(() => {

@@ -135,7 +135,8 @@ class Batch
             'shoppingList'  => $this->shoppingList(),
         ])->render();
 
-        Browsershot::html($html)
+
+        app(Browsershot::class)->setHtml($html)
                    ->format('A4')
                    ->margins(5, 5, 5, 25)
                    ->setNodeBinary(config('browsershot.node_path'))

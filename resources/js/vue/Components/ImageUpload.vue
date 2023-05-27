@@ -13,9 +13,9 @@
 
 <script type="text/babel">
 import { computed, ref } from "vue";
-import { fileIsImage, fileTooBig } from "../../libs/files";
-import { upload } from "../../apis/http";
-import { imageFromFile } from "../../libs/images";
+import { fileIsImage, fileTooBig } from "../../libs/files.js";
+import { upload } from "../../apis/http.js";
+import { imageFromFile } from "../../libs/images.js";
 
 export default {
     props: {

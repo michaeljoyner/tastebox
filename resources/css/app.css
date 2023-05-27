@@ -1,0 +1,64 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+
+    .form-label {
+        @apply text-sm text-gray-800 font-semibold;
+    }
+
+    .form-input {
+        @apply p-2 block w-full mt-1 bg-gray-100;
+    }
+
+    button:disabled {
+        @apply opacity-50 cursor-not-allowed;
+    }
+
+
+    .type-h1 {
+        @apply text-4xl font-black;
+    }
+
+    .type-h3 {
+        @apply uppercase font-semibold;
+    }
+
+    .type-b3 {
+        @apply text-sm;
+    }
+
+    .btn {
+        @apply rounded shadow px-6 py-2 text-sm font-semibold;
+    }
+
+    .btn-main {
+        @apply bg-indigo-700 text-white;
+    }
+
+    .btn-main:hover {
+        @apply bg-indigo-600;
+    }
+
+    .btn-second {
+        @apply bg-white font-bold text-blue-600 text-sm;
+    }
+
+    .btn-second:hover {
+        @apply bg-blue-600 text-white;
+    }
+
+    .btn-red {
+        @apply bg-red-500 text-white;
+    }
+
+    .btn-red:hover {
+        @apply bg-red-700;
+    }
+
+    .muted-text-btn {
+        @apply text-gray-500 hover:text-blue-500 font-semibold text-sm;
+    }
+
+}

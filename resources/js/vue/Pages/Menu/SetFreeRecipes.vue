@@ -64,15 +64,15 @@
 </template>
 
 <script type="text/babel">
-import Page from "../../Components/UI/Page";
-import PageHeader from "../../Components/PageHeader";
+import Page from "../../Components/UI/Page.vue";
+import PageHeader from "../../Components/PageHeader.vue";
 import { useStore } from "vuex";
 import { useRoute } from "vue-router";
 import { computed, onMounted, ref, watch } from "vue";
-import MealSelector from "../../Components/Meals/MealSelector";
-import { httpAction } from "../../../libs/httpAction";
-import { showError, showSuccess } from "../../../libs/notifications";
-import SubmitButton from "../../Components/UI/SubmitButton";
+import MealSelector from "../../Components/Meals/MealSelector.vue";
+import { httpAction } from "../../../libs/httpAction.js";
+import { showError, showSuccess } from "../../../libs/notifications.js";
+import SubmitButton from "../../Components/UI/SubmitButton.vue";
 export default {
     components: { SubmitButton, MealSelector, PageHeader, Page },
 

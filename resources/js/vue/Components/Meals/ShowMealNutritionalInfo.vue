@@ -14,8 +14,8 @@
 </template>
 
 <script type="text/babel">
-import SubHeader from "../UI/SubHeader";
-import NutritionalInfo from "./NutritionalInfo";
+import SubHeader from "../UI/SubHeader.vue";
+import NutritionalInfo from "./NutritionalInfo.vue";
 export default {
     components: { SubHeader, NutritionalInfo },
 

@@ -12,7 +12,7 @@
             class="flex justify-center items-center text-center absolute inset-0"
         >
             <svg
-                class="h-4 spinning text-white fill-current mr-2"
+                class="h-4 animate-spin text-white fill-current mr-2"
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 20 20"
                 :class="{ 'opacity-100': waiting, 'opacity-0': !waiting }"
@@ -59,21 +59,3 @@ export default {
     },
 };
 </script>
-
-<style scoped lang="less">
-.spinning {
-    animation-name: spinning;
-    animation-duration: 1s;
-    animation-iteration-count: infinite;
-    animation-timing-function: ease-in-out;
-}
-
-@keyframes spinning {
-    from {
-        transform: rotate(0deg);
-    }
-    to {
-        transform: rotate(360deg);
-    }
-}
-</style>

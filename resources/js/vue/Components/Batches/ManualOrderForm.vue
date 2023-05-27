@@ -45,8 +45,8 @@
                     v-model="formData.city"
                     class="border bg-gray-100 w-full block mt-1"
                 >
-                    <option v-for="area in deliveryAreas" :value="area.key"
-                        >{{ area.description }}
+                    <option v-for="area in deliveryAreas" :value="area.key">
+                        {{ area.description }}
                     </option>
                 </select>
             </div>
@@ -81,14 +81,14 @@
 </template>
 
 <script type="text/babel">
-import InputField from "../Forms/InputField";
-import { showError, showSuccess } from "../../../libs/notifications";
-import UpDowner from "../Forms/UpDowner";
+import InputField from "../Forms/InputField.vue";
+import { showError, showSuccess } from "../../../libs/notifications.js";
+import UpDowner from "../Forms/UpDowner.vue";
 import {
     clearValidationErrors,
     setValidationErrors,
-} from "../../../libs/forms";
-import SubmitButton from "../UI/SubmitButton";
+} from "../../../libs/forms.js";
+import SubmitButton from "../UI/SubmitButton.vue";
 export default {
     components: { SubmitButton, UpDowner, InputField },
     props: ["available-meals"],

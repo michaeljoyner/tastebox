@@ -24,8 +24,8 @@
 </template>
 
 <script type="text/babel">
-import SubHeader from "../UI/SubHeader";
-import IngredientsTable from "./IngredientsTable";
+import SubHeader from "../UI/SubHeader.vue";
+import IngredientsTable from "./IngredientsTable.vue";
 export default {
     components: { IngredientsTable, SubHeader },
 

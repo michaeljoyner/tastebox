@@ -14,9 +14,9 @@
 </template>
 
 <script type="text/babel">
-import SubHeader from "../../Components/UI/SubHeader";
-import SortableGallery from "../../Components/SortableGallery";
-import { showError } from "../../../libs/notifications";
+import SubHeader from "../../Components/UI/SubHeader.vue";
+import SortableGallery from "../../Components/SortableGallery.vue";
+import { showError } from "../../../libs/notifications.js";
 
 export default {
     components: {

@@ -117,8 +117,8 @@
 </template>
 
 <script type="text/babel">
-import SubmitButton from "./SubmitButton";
-import Modal from "../Modal";
+import SubmitButton from "./SubmitButton.vue";
+import Modal from "../Modal.vue";
 export default {
     components: {
         SubmitButton,

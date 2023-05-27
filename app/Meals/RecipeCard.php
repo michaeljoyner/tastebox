@@ -30,7 +30,7 @@ class RecipeCard
 
         $name = sprintf("%s.pdf", Str::slug($meal->name));
 
-        Browsershot::html($html)->waitUntilNetworkIdle()
+        app(Browsershot::class)->setHtml($html)->waitUntilNetworkIdle()
                    ->setNodeBinary(config('browsershot.node_path'))
                    ->setNpmBinary(config('browsershot.npm_path'))
                    ->format('A4')

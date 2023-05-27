@@ -70,13 +70,13 @@
 </template>
 
 <script type="text/babel">
-import { useForm } from "../../../libs/useForm";
-import InputField from "../Forms/InputField";
-import { toStandardDateFormat } from "../../../libs/dates";
-import SubmitButton from "../UI/SubmitButton";
+import { useForm } from "../../../libs/useForm.js";
+import InputField from "../Forms/InputField.vue";
+import { toStandardDateFormat } from "../../../libs/dates.js";
+import SubmitButton from "../UI/SubmitButton.vue";
 import { useStore } from "vuex";
-import { httpAction } from "../../../libs/httpAction";
-import { showError, showSuccess } from "../../../libs/notifications";
+import { httpAction } from "../../../libs/httpAction.js";
+import { showError, showSuccess } from "../../../libs/notifications.js";
 import { watch, watchEffect } from "vue";
 
 export default {

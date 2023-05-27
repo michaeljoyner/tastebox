@@ -1,3 +1,3 @@
-<x-admin-base-layout title="TasteBox HQ" :javascript="mix('js/app.js')" :css="mix('css/app.css')">
+<x-admin-base-layout title="TasteBox HQ">
     <router-view></router-view>
 </x-admin-base-layout>

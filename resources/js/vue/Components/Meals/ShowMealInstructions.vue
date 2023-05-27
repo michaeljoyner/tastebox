@@ -15,7 +15,7 @@
 </template>
 
 <script type="text/babel">
-import SubHeader from "../UI/SubHeader";
+import SubHeader from "../UI/SubHeader.vue";
 export default {
     components: { SubHeader },
 

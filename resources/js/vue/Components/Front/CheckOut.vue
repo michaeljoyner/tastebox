@@ -32,9 +32,7 @@
                         <span class="font-bold mr-8">{{ kit.name }}</span>
                         <span class="line-through">R{{ kit.price }}</span>
                     </p>
-                    <p class="text-sm">
-                        Kit not eligible for order
-                    </p>
+                    <p class="text-sm">Kit not eligible for order</p>
                 </div>
 
                 <p class="md:w-64 flex justify-between">
@@ -345,13 +343,13 @@
 </template>
 
 <script type="text/babel">
-import AddressInput from "./AddressInput";
-import SubmitButton from "./SubmitButton";
-import Modal from "../Modal";
+import AddressInput from "./AddressInput.vue";
+import SubmitButton from "./SubmitButton.vue";
+import Modal from "../Modal.vue";
 import {
     clearValidationErrors,
     setValidationErrors,
-} from "../../../libs/forms";
+} from "../../../libs/forms.js";
 export default {
     components: {
         AddressInput,

@@ -61,12 +61,12 @@
 </template>
 
 <script type="text/babel">
-import Page from "../../Components/UI/Page";
-import PageHeader from "../../Components/PageHeader";
-import SearchIcon from "../../Components/UI/Icons/Search";
-import { showError, showSuccess } from "../../../libs/notifications";
-import ColourLabel from "../../Components/UI/ColourLabel";
-import MealSelector from "../../Components/Meals/MealSelector";
+import Page from "../../Components/UI/Page.vue";
+import PageHeader from "../../Components/PageHeader.vue";
+import SearchIcon from "../../Components/UI/Icons/Search.vue";
+import { showError, showSuccess } from "../../../libs/notifications.js";
+import ColourLabel from "../../Components/UI/ColourLabel.vue";
+import MealSelector from "../../Components/Meals/MealSelector.vue";
 
 export default {
     components: {

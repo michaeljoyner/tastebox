@@ -9,9 +9,9 @@
 </template>
 
 <script type="text/babel">
-import Page from "../UI/Page";
-import PageHeader from "../PageHeader";
-import MealInfoForm from "./MealInfoForm";
+import Page from "../UI/Page.vue";
+import PageHeader from "../PageHeader.vue";
+import MealInfoForm from "./MealInfoForm.vue";
 export default {
     components: { MealInfoForm, Page, PageHeader },
 };

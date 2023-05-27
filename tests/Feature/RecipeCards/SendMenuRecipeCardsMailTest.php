@@ -10,6 +10,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
+use Spatie\Browsershot\Browsershot;
 use Tests\TestCase;
 
 class SendMenuRecipeCardsMailTest extends TestCase
@@ -23,6 +24,7 @@ class SendMenuRecipeCardsMailTest extends TestCase
     {
         Mail::fake();
         Storage::fake(RecipeCard::DISK_NAME);
+        $this->fakeBrowsershotPdf();
 
         $menu = factory(Menu::class)->state('current')->create();
         $mealA = factory(Meal::class)->create();

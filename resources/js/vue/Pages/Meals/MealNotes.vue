@@ -60,16 +60,16 @@
 </template>
 
 <script type="text/babel">
-import Page from "../../Components/UI/Page";
-import PageHeader from "../../Components/PageHeader";
+import Page from "../../Components/UI/Page.vue";
+import PageHeader from "../../Components/PageHeader.vue";
 import { computed, ref } from "vue";
-import { useForm } from "../../../libs/useForm";
+import { useForm } from "../../../libs/useForm.js";
 import { useStore } from "vuex";
-import { showError, showSuccess } from "../../../libs/notifications";
-import Modal from "../../Components/Modal";
-import Editor from "../../Components/Editor";
-import SubmitButton from "../../Components/UI/SubmitButton";
-import InputField from "../../Components/Forms/InputField";
+import { showError, showSuccess } from "../../../libs/notifications.js";
+import Modal from "../../Components/Modal.vue";
+import Editor from "../../Components/Editor.vue";
+import SubmitButton from "../../Components/UI/SubmitButton.vue";
+import InputField from "../../Components/Forms/InputField.vue";
 export default {
     components: { InputField, SubmitButton, Editor, Modal, PageHeader, Page },
     props: ["meal"],

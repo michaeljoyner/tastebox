@@ -13,6 +13,7 @@ use App\Purchases\ShoppingBasket;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Mail;
+use Spatie\Browsershot\Browsershot;
 use Tests\TestCase;
 
 class BatchRoundUpCommandTest extends TestCase
@@ -26,6 +27,7 @@ class BatchRoundUpCommandTest extends TestCase
     {
         $this->withoutExceptionHandling();
         Mail::fake();
+        $this->fakeBrowsershotPdf();
 
         $batch = $this->makeBatch();
 

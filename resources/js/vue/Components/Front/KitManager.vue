@@ -113,9 +113,9 @@
 </template>
 
 <script type="text/babel">
-import KitBuilder from "./KitBuilder";
-import { eventHub } from "../../../libs/eventHub";
-import HandIcon from "../Icons/HandIcon";
+import KitBuilder from "./KitBuilder.vue";
+import { eventHub } from "../../../libs/eventHub.js";
+import HandIcon from "../Icons/HandIcon.vue";
 
 export default {
     components: {
@@ -176,7 +176,6 @@ export default {
         },
 
         updateKit(updated_kit) {
-            console.log({ updated_kit });
             this.kits = this.kits.map((kit) => {
                 if (kit.id === updated_kit.id) {
                     return updated_kit;

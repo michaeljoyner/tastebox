@@ -53,14 +53,14 @@
 </template>
 
 <script type="text/babel">
-import SubHeader from "../UI/SubHeader";
-import InputField from "../Forms/InputField";
-import SubmitButton from "../UI/SubmitButton";
-import { showError, showSuccess } from "../../../libs/notifications";
+import SubHeader from "../UI/SubHeader.vue";
+import InputField from "../Forms/InputField.vue";
+import SubmitButton from "../UI/SubmitButton.vue";
+import { showError, showSuccess } from "../../../libs/notifications.js";
 import {
     clearValidationErrors,
     setValidationErrors,
-} from "../../../libs/forms";
+} from "../../../libs/forms.js";
 export default {
     components: { SubHeader, InputField, SubmitButton },
 

@@ -66,13 +66,13 @@ import "tinymce/plugins/link";
 import "tinymce/plugins/lists";
 import "tinymce/icons/default";
 import { onMounted } from "vue";
-import { fileIsImage, fileTooBig } from "../../libs/files";
-import { imageFromFile } from "../../libs/images";
-import { upload } from "../../apis/http";
-import { makeId } from "../../libs/helpers";
-import { tinymceInitConfig } from "../../libs/tinyMceInit";
-import Modal from "./Modal";
-import TextAreaField from "./Forms/TextAreaField";
+import { fileIsImage, fileTooBig } from "../../libs/files.js";
+import { imageFromFile } from "../../libs/images.js";
+import { upload } from "../../apis/http.js";
+import { makeId } from "../../libs/helpers.js";
+import { tinymceInitConfig } from "../../libs/tinyMceInit.js";
+import Modal from "./Modal.vue";
+import TextAreaField from "./Forms/TextAreaField.vue";
 export default {
     components: { TextAreaField, Modal },
     props: {

@@ -48,11 +48,11 @@
 </template>
 
 <script type="text/babel">
-import UploadingImage from "./UploadingImage";
+import UploadingImage from "./UploadingImage.vue";
 import Sortable from "sortablejs";
-import SortableGalleryImage from "./SortableGalleryImage";
-import { showError } from "../../libs/notifications";
-import { fileIsImage, fileTooBig } from "../../libs/file_functions";
+import SortableGalleryImage from "./SortableGalleryImage.vue";
+import { showError } from "../../libs/notifications.js";
+import { fileIsImage, fileTooBig } from "../../libs/file_functions.js";
 
 export default {
     props: ["upload-path", "stored-images", "image-delete-url"],

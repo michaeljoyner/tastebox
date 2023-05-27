@@ -5,8 +5,8 @@
 </template>
 
 <script type="text/babel">
-import Page from "../../Components/UI/Page";
-import PostEditor from "../../Components/Blog/PostEditor";
+import Page from "../../Components/UI/Page.vue";
+import PostEditor from "../../Components/Blog/PostEditor.vue";
 import { useStore } from "vuex";
 import { computed, onMounted } from "vue";
 import { useRoute } from "vue-router";

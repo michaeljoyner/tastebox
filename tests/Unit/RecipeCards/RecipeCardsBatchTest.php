@@ -19,6 +19,7 @@ class RecipeCardsBatchTest extends TestCase {
     public function can_create_a_zip_archive_of_a_menus_recipe_cards()
     {
         Storage::fake(RecipeCard::DISK_NAME);
+        $this->fakeBrowsershotPdf();
 
         $menu = factory(Menu::class)->create();
         $mealA = factory(Meal::class)->create();

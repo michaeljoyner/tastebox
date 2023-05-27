@@ -78,11 +78,11 @@
 </template>
 
 <script type="text/babel">
-import Page from "../Components/UI/Page";
+import Page from "../Components/UI/Page.vue";
 import { useStore } from "vuex";
 import { computed, onMounted } from "vue";
-import AdjustmentsTable from "../Components/Orders/AdjustmentsTable";
-import { showError } from "../../libs/notifications";
+import AdjustmentsTable from "../Components/Orders/AdjustmentsTable.vue";
+import { showError } from "../../libs/notifications.js";
 export default {
     components: { AdjustmentsTable, Page },
 

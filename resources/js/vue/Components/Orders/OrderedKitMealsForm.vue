@@ -86,14 +86,14 @@
 
 <script type="text/babel">
 import { computed, ref, watchEffect } from "vue";
-import UpDowner from "../Forms/UpDowner";
-import Modal from "../Modal";
-import TextAreaField from "../Forms/TextAreaField";
-import ColourLabel from "../UI/ColourLabel";
+import UpDowner from "../Forms/UpDowner.vue";
+import Modal from "../Modal.vue";
+import TextAreaField from "../Forms/TextAreaField.vue";
+import ColourLabel from "../UI/ColourLabel.vue";
 import { useStore } from "vuex";
-import { httpAction } from "../../../libs/httpAction";
-import { showError, showSuccess } from "../../../libs/notifications";
-import WaitingButton from "../UI/WaitingButton";
+import { httpAction } from "../../../libs/httpAction.js";
+import { showError, showSuccess } from "../../../libs/notifications.js";
+import WaitingButton from "../UI/WaitingButton.vue";
 
 export default {
     components: { WaitingButton, ColourLabel, TextAreaField, Modal, UpDowner },

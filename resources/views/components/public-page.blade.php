@@ -6,8 +6,7 @@
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>{{ $title }}</title>
-    <link rel="stylesheet"
-          href="{{ $css }}"/>
+    @vite(['resources/css/front.css','resources/js/front.js'])
     <meta id="csrf-token-meta"
           name="csrf-token"
           content="{{ csrf_token() }}">
@@ -87,8 +86,7 @@
 @if($hasSlideshow)
     <script src="https://unpkg.com/flickity@2/dist/flickity.pkgd.min.js"></script>
 @endif
-<script src="{{ mix('js/manifest.js') }}"></script>
-<script src="{{ $javascript }}"></script>
+
 
 </body>
 </html>

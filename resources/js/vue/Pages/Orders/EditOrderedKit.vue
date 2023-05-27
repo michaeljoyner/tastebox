@@ -24,12 +24,12 @@
 </template>
 
 <script type="text/babel">
-import Page from "../../Components/UI/Page";
-import PageHeader from "../../Components/PageHeader";
+import Page from "../../Components/UI/Page.vue";
+import PageHeader from "../../Components/PageHeader.vue";
 import { useStore } from "vuex";
 import { useRoute } from "vue-router";
 import { computed, onMounted } from "vue";
-import OrderedKitMealsForm from "../../Components/Orders/OrderedKitMealsForm";
+import OrderedKitMealsForm from "../../Components/Orders/OrderedKitMealsForm.vue";
 export default {
     components: { OrderedKitMealsForm, PageHeader, Page },
 

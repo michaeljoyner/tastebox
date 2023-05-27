@@ -13,8 +13,8 @@
 </template>
 
 <script>
-import ManualOrderForm from "./ManualOrderForm";
-import { showError } from "../../../libs/notifications";
+import ManualOrderForm from "./ManualOrderForm.vue";
+import { showError } from "../../../libs/notifications.js";
 export default {
     components: { ManualOrderForm },
 

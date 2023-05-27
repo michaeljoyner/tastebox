@@ -20,9 +20,9 @@
 </template>
 
 <script type="text/babel">
-import CopyMeal from "./CopyMeal";
-import DeleteConfirmation from "../UI/DeleteConfirmation";
-import { showError } from "../../../libs/notifications";
+import CopyMeal from "./CopyMeal.vue";
+import DeleteConfirmation from "../UI/DeleteConfirmation.vue";
+import { showError } from "../../../libs/notifications.js";
 export default {
     components: {
         CopyMeal,

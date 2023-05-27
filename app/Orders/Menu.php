@@ -19,9 +19,13 @@ class Menu extends Model
     const ARCHIVED = 'archived';
 
     protected $fillable = ['current_from', 'current_to', 'delivery_from'];
-    protected $dates = ['current_from', 'current_to', 'delivery_from'];
 
-    protected $casts = ['can_order' => 'boolean'];
+    protected $casts = [
+        'can_order' => 'boolean',
+        'current_from' => 'datetime',
+        'current_to' => 'datetime',
+        'delivery_from' => 'datetime',
+    ];
 
     public function scopeAvailable($query)
     {

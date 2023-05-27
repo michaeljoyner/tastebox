@@ -47,9 +47,9 @@
 </template>
 
 <script type="text/babel">
-import ColourLabel from "../UI/ColourLabel";
-import CheckIcon from "../Icons/CheckIcon";
-import WarningIcon from "../UI/Icons/WarningIcon";
+import ColourLabel from "../UI/ColourLabel.vue";
+import CheckIcon from "../Icons/CheckIcon.vue";
+import WarningIcon from "../UI/Icons/WarningIcon.vue";
 export default {
     props: ["adjustments"],
 

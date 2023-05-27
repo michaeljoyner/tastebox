@@ -48,12 +48,10 @@
 </template>
 
 <script type="text/babel">
-import Page from "../../Components/UI/Page";
-import PageHeader from "../../Components/PageHeader";
-import OrderStatus from "../../Components/Orders/OrderStatus";
-import OrderedKitStatus from "../../Components/Orders/OrderedKitStatus";
-import { fetchById } from "../../../apis/orders";
-import { showError } from "../../../libs/notifications";
+import Page from "../../Components/UI/Page.vue";
+import PageHeader from "../../Components/PageHeader.vue";
+import OrderStatus from "../../Components/Orders/OrderStatus.vue";
+import OrderedKitStatus from "../../Components/Orders/OrderedKitStatus.vue";
 import { useStore } from "vuex";
 import { computed, onMounted } from "vue";
 import { useRoute } from "vue-router";

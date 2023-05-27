@@ -43,9 +43,9 @@
 </template>
 
 <script type="text/babel">
-import Page from "../UI/Page";
-import PageHeader from "../PageHeader";
-import ColourLabel from "../UI/ColourLabel";
+import Page from "../UI/Page.vue";
+import PageHeader from "../PageHeader.vue";
+import ColourLabel from "../UI/ColourLabel.vue";
 export default {
     components: { ColourLabel, Page, PageHeader },
 

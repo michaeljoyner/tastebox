@@ -55,11 +55,11 @@
 </template>
 
 <script type="text/babel">
-import Page from "../../Components/UI/Page";
-import PageHeader from "../../Components/PageHeader";
-import MealList from "../../Components/Meals/MealList";
-import OpenForOrdersToggle from "../../Components/Menu/OpenForOrdersToggle";
-import { showError } from "../../../libs/notifications";
+import Page from "../../Components/UI/Page.vue";
+import PageHeader from "../../Components/PageHeader.vue";
+import MealList from "../../Components/Meals/MealList.vue";
+import OpenForOrdersToggle from "../../Components/Menu/OpenForOrdersToggle.vue";
+import { showError } from "../../../libs/notifications.js";
 
 export default {
     components: {

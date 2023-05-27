@@ -50,12 +50,12 @@
 </template>
 
 <script type="text/babel">
-import MealPublishToggle from "../../Components/Meals/MealPublishToggle";
-import SubHeader from "../../Components/UI/SubHeader";
-import CopyMeal from "../../Components/Meals/CopyMeal";
-import DeleteConfirmation from "../../Components/UI/DeleteConfirmation";
-import { showError, showSuccess } from "../../../libs/notifications";
-import SubmitButton from "../../Components/UI/SubmitButton";
+import MealPublishToggle from "../../Components/Meals/MealPublishToggle.vue";
+import SubHeader from "../../Components/UI/SubHeader.vue";
+import CopyMeal from "../../Components/Meals/CopyMeal.vue";
+import DeleteConfirmation from "../../Components/UI/DeleteConfirmation.vue";
+import { showError, showSuccess } from "../../../libs/notifications.js";
+import SubmitButton from "../../Components/UI/SubmitButton.vue";
 export default {
     components: {
         SubmitButton,

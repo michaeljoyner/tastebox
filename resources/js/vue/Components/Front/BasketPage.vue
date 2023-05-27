@@ -133,11 +133,11 @@
 </template>
 
 <script type="text/babel">
-import DeleteKit from "./DeleteKit";
-import WarningIcon from "../UI/Icons/WarningIcon";
-import KitDeliveryAddress from "./KitDeliveryAddress";
-import { eventHub } from "../../../libs/eventHub";
-import TruckIcon from "../Icons/TruckIcon";
+import DeleteKit from "./DeleteKit.vue";
+import WarningIcon from "../UI/Icons/WarningIcon.vue";
+import KitDeliveryAddress from "./KitDeliveryAddress.vue";
+import { eventHub } from "../../../libs/eventHub.js";
+import TruckIcon from "../Icons/TruckIcon.vue";
 
 export default {
     components: {
@@ -170,7 +170,8 @@ export default {
     mounted() {
         this.kits = this.initialBasket.kits;
         this.suggested_addresses = this.initialBasket.suggested_addresses;
-        this.available_delivery_areas = this.initialBasket.available_delivery_areas;
+        this.available_delivery_areas =
+            this.initialBasket.available_delivery_areas;
     },
 
     methods: {

@@ -147,7 +147,7 @@
 <script type="text/babel">
 import { computed, ref, onMounted } from "vue";
 import { useStore } from "vuex";
-import DownChevron from "./UI/Icons/DownChevron";
+import DownChevron from "./UI/Icons/DownChevron.vue";
 export default {
     components: { DownChevron },
     setup() {

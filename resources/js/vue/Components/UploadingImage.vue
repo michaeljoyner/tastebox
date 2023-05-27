@@ -10,7 +10,7 @@
         <div class="flex-1 h-2 px-3">
             <div
                 class="h-full w-48 bg-blue-600 rounded-lg relative"
-                style="transform-origin: left;"
+                style="transform-origin: left"
                 :style="`transform: scaleX(${progress})`"
             ></div>
         </div>
@@ -18,8 +18,8 @@
 </template>
 
 <script type="text/babel">
-import { generatePreview } from "../../libs/generate_preview";
-import { showError } from "../../libs/notifications";
+import { generatePreview } from "../../libs/generate_preview.js";
+import { showError } from "../../libs/notifications.js";
 
 export default {
     props: ["file", "upload-path"],

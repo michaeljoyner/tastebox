@@ -5,8 +5,8 @@
 </template>
 
 <script type="text/babel">
-import Page from "../../Components/UI/Page";
-import MealForm from "../../Components/Meals/MealForm";
+import Page from "../../Components/UI/Page.vue";
+import MealForm from "../../Components/Meals/MealInfoForm.vue";
 
 export default {
     components: {

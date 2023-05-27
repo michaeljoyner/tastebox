@@ -9,6 +9,7 @@ use App\Meals\RecipeCard;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
+use Spatie\Browsershot\Browsershot;
 use Tests\TestCase;
 
 class DownloadMealRecipeCardTest extends TestCase
@@ -22,6 +23,7 @@ class DownloadMealRecipeCardTest extends TestCase
     {
         Storage::fake(RecipeCard::DISK_NAME);
         $this->withoutExceptionHandling();
+        $this->fakeBrowsershotPdf();
 
         $meal = factory(Meal::class)->create();
 

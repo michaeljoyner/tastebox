@@ -13,7 +13,7 @@
 </template>
 
 <script type="text/babel">
-import { minutesForHumans } from "../../../libs/time_functions";
+import { minutesForHumans } from "../../../libs/time_functions.js";
 
 export default {
     props: ["meal"],

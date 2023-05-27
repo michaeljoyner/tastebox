@@ -45,8 +45,8 @@
 </template>
 
 <script type="text/babel">
-import MealTimes from "./MealTimes";
-import SubHeader from "../UI/SubHeader";
+import MealTimes from "./MealTimes.vue";
+import SubHeader from "../UI/SubHeader.vue";
 export default {
     components: { SubHeader, MealTimes },
 

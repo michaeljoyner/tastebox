@@ -38,17 +38,17 @@
 </template>
 
 <script type="text/babel">
-import Page from "../../Components/UI/Page";
-import PageHeader from "../../Components/PageHeader";
+import Page from "../../Components/UI/Page.vue";
+import PageHeader from "../../Components/PageHeader.vue";
 import { useStore } from "vuex";
 import { computed, onMounted } from "vue";
-import CheckIcon from "../../Components/Icons/CheckIcon";
-import WarningIcon from "../../Components/Icons/WarningIcon";
-import ColourLabel from "../../Components/UI/ColourLabel";
-import { httpAction } from "../../../libs/httpAction";
-import { showError } from "../../../libs/notifications";
-import SpinningIcon from "../../Components/Icons/SpinningIcon";
-import AdjustmentsTable from "../../Components/Orders/AdjustmentsTable";
+import CheckIcon from "../../Components/Icons/CheckIcon.vue";
+import WarningIcon from "../../Components/Icons/WarningIcon.vue";
+import ColourLabel from "../../Components/UI/ColourLabel.vue";
+import { httpAction } from "../../../libs/httpAction.js";
+import { showError } from "../../../libs/notifications.js";
+import SpinningIcon from "../../Components/Icons/SpinningIcon.vue";
+import AdjustmentsTable from "../../Components/Orders/AdjustmentsTable.vue";
 export default {
     components: {
         AdjustmentsTable,

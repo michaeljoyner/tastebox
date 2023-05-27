@@ -23,7 +23,7 @@ export default {
 };
 </script>
 
-<style scoped lang="less">
+<style scoped>
 @keyframes fadedAndBounce {
     from {
         opacity: 0;
@@ -31,7 +31,7 @@ export default {
     }
     to {
         opacity: 1;
-        transform: translate3d(1, 5px, 0);
+        transform: translate3d(0, 5px, 0);
     }
 }
 

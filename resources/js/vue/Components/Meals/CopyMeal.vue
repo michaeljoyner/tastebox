@@ -23,13 +23,13 @@
 </template>
 
 <script type="text/babel">
-import SubmitButton from "../UI/SubmitButton";
-import { showError, showSuccess } from "../../../libs/notifications";
+import SubmitButton from "../UI/SubmitButton.vue";
+import { showError, showSuccess } from "../../../libs/notifications.js";
 import {
     clearValidationErrors,
     setValidationErrors,
-} from "../../../libs/forms";
-import InputField from "../Forms/InputField";
+} from "../../../libs/forms.js";
+import InputField from "../Forms/InputField.vue";
 
 export default {
     components: { InputField, SubmitButton },

@@ -22,7 +22,7 @@
 </template>
 
 <script type="text/babel">
-import SubHeader from "../../Components/UI/SubHeader";
+import SubHeader from "../../Components/UI/SubHeader.vue";
 export default {
     components: { SubHeader },
 

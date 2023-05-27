@@ -33,7 +33,6 @@
 
 <script type="text/babel">
 import { Menu, MenuButton, MenuItems, MenuItem } from "@headlessui/vue";
-import { onMounted, ref } from "vue";
 
 export default {
     components: {

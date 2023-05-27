@@ -22,10 +22,10 @@
 </template>
 
 <script type="text/babel">
-import SubHeader from "../UI/SubHeader";
-import SubmitButton from "../UI/SubmitButton";
-import Editor from "../Editor";
-import { showError, showSuccess } from "../../../libs/notifications";
+import SubHeader from "../UI/SubHeader.vue";
+import SubmitButton from "../UI/SubmitButton.vue";
+import Editor from "../Editor.vue";
+import { showError, showSuccess } from "../../../libs/notifications.js";
 export default {
     components: { SubHeader, SubmitButton, Editor },
 

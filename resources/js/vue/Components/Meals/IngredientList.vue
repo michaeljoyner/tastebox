@@ -10,7 +10,7 @@
                 class="flex items-center font-bold text-gray-600 border mb-3 p-2"
             >
                 <svg
-                    class="h-4 spinning text-orange-500 fill-current mr-2"
+                    class="h-4 animate-spin text-orange-500 fill-current mr-2"
                     xmlns="http://www.w3.org/2000/svg"
                     viewBox="0 0 20 20"
                 >
@@ -32,10 +32,10 @@
 </template>
 
 <script type="text/babel">
-import IngredientInput from "./IngredientInput";
-import MealIngredient from "./MealIngredient";
-import { showError } from "../../../libs/notifications";
-import { makeId } from "../../../libs/helpers";
+import IngredientInput from "./IngredientInput.vue";
+import MealIngredient from "./MealIngredient.vue";
+import { showError } from "../../../libs/notifications.js";
+import { makeId } from "../../../libs/helpers.js";
 
 export default {
     components: {
@@ -114,20 +114,3 @@ export default {
     },
 };
 </script>
-
-<style scoped lang="less">
-.spinning {
-    animation-name: spinning;
-    animation-duration: 1s;
-    animation-iteration-count: infinite;
-    animation-timing-function: ease-in-out;
-}
-@keyframes spinning {
-    from {
-        transform: rotate(0deg);
-    }
-    to {
-        transform: rotate(360deg);
-    }
-}
-</style>

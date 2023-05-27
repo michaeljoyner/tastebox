@@ -27,7 +27,7 @@ class MemberProfileRequest extends FormRequest
                 'email',
                 'nullable',
                 Rule::unique('users', 'email')->ignore($this->user()),
-//                Rule::unique('member_profiles', 'email')->ignore($this->user()->profile),
+                Rule::unique('member_profiles', 'email')->ignore($this->user()->profile),
             ],
             'phone' => [new CellNumber(), 'nullable'],
             'sms_reminders' => ['boolean'],

@@ -19,6 +19,7 @@ class MealRecipeCardsTest extends TestCase
     public function generate_recipe_card_for_a_meal()
     {
         Storage::fake('recipes');
+        $this->fakeBrowsershotPdf();
 
         $meal = factory(Meal::class)->create();
 

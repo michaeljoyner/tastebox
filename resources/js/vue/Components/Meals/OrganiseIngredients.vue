@@ -151,11 +151,11 @@
 </template>
 
 <script type="text/babel">
-import SubHeader from "../UI/SubHeader";
-import Modal from "../Modal";
-import InputField from "../Forms/InputField";
+import SubHeader from "../UI/SubHeader.vue";
+import Modal from "../Modal.vue";
+import InputField from "../Forms/InputField.vue";
 import Sortable from "sortablejs";
-import { showError, showSuccess } from "../../../libs/notifications";
+import { showError, showSuccess } from "../../../libs/notifications.js";
 export default {
     components: { InputField, SubHeader, Modal },
 

@@ -3,7 +3,7 @@
 </template>
 
 <script type="text/babel">
-import { showSuccess, showError } from "../../../libs/notifications";
+import { showSuccess, showError } from "../../../libs/notifications.js";
 
 export default {
     methods: {

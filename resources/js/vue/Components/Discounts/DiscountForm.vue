@@ -118,16 +118,15 @@
 </template>
 
 <script type="text/babel">
-import InputField from "../Forms/InputField";
-import RadioInput from "../Forms/RadioInput";
-import SubmitButton from "../UI/SubmitButton";
-import DatePicker from "../Forms/DatePicker";
-import { showError, showSuccess } from "../../../libs/notifications";
-import { setValidationErrors } from "../../../libs/forms";
+import InputField from "../Forms/InputField.vue";
+import RadioInput from "../Forms/RadioInput.vue";
+import SubmitButton from "../UI/SubmitButton.vue";
+import DatePicker from "../Forms/DatePicker.vue";
+import { showError, showSuccess } from "../../../libs/notifications.js";
 import { useStore } from "vuex";
-import { useForm } from "../../../libs/useForm";
+import { useForm } from "../../../libs/useForm.js";
 import { computed, watchEffect } from "vue";
-import { httpAction } from "../../../libs/httpAction";
+import { httpAction } from "../../../libs/httpAction.js";
 import { useRouter } from "vue-router";
 export default {
     components: { RadioInput, InputField, DatePicker, SubmitButton },

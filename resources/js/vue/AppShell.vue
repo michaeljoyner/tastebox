@@ -45,10 +45,10 @@
 </template>
 
 <script type="text/babel">
-import MainNav from "./MainNav";
+import MainNav from "./MainNav.vue";
 import { ref, watch } from "vue";
 import { useRoute } from "vue-router";
-import NotificationHub from "./Components/NotificationHub";
+import NotificationHub from "./Components/NotificationHub.vue";
 export default {
     components: { NotificationHub, MainNav },
 

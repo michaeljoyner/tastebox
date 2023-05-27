@@ -66,15 +66,15 @@
 import {
     clearValidationErrors,
     setValidationErrors,
-} from "../../../libs/forms";
+} from "../../../libs/forms.js";
 import {
     showError,
     showSuccess,
     showWarning,
-} from "../../../libs/notifications";
-import InputField from "../Forms/InputField";
-import TextAreaField from "../Forms/TextAreaField";
-import SubmitButton from "../UI/SubmitButton";
+} from "../../../libs/notifications.js";
+import InputField from "../Forms/InputField.vue";
+import TextAreaField from "../Forms/TextAreaField.vue";
+import SubmitButton from "../UI/SubmitButton.vue";
 
 export default {
     components: { SubmitButton, TextAreaField, InputField },

@@ -39,7 +39,7 @@
 </template>
 
 <script type="text/babel">
-import ColourLabel from "../../Components/UI/ColourLabel";
+import ColourLabel from "../../Components/UI/ColourLabel.vue";
 export default {
     components: {
         ColourLabel,

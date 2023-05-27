@@ -27,9 +27,9 @@
 </template>
 
 <script type="text/babel">
-import WaitingButton from "../UI/WaitingButton";
-import { showError } from "../../../libs/notifications";
-import ColourLabel from "../UI/ColourLabel";
+import WaitingButton from "../UI/WaitingButton.vue";
+import { showError } from "../../../libs/notifications.js";
+import ColourLabel from "../UI/ColourLabel.vue";
 export default {
     components: {
         ColourLabel,

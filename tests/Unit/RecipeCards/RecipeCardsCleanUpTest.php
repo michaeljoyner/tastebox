@@ -21,6 +21,7 @@ class RecipeCardsCleanUpTest extends TestCase
     public function can_clear_up_the_recipes_disk()
     {
         Storage::fake(RecipeCard::DISK_NAME);
+        $this->fakeBrowsershotPdf();
 
         $menu = factory(Menu::class)->create();
         $mealA = factory(Meal::class)->create();

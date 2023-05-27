@@ -175,20 +175,20 @@
 </template>
 
 <script type="text/babel">
-import Page from "../../Components/UI/Page";
-import PageHeader from "../../Components/PageHeader";
+import Page from "../../Components/UI/Page.vue";
+import PageHeader from "../../Components/PageHeader.vue";
 import { useStore } from "vuex";
 import { useRoute } from "vue-router";
 import { computed, onMounted, ref, watch } from "vue";
-import PhoneIcon from "../../Components/Icons/PhoneIcon";
-import EmailIcon from "../../Components/Icons/EmailIcon";
-import LocationIcon from "../../Components/Icons/LocationIcon";
-import ColourLabel from "../../Components/UI/ColourLabel";
-import SlideOverPanel from "../../Components/UI/SlideOverPanel";
-import DiscountForm from "../../Components/MemberShips/DiscountForm";
-import { httpAction } from "../../../libs/httpAction";
-import { showError, showSuccess } from "../../../libs/notifications";
-import SubmitButton from "../../Components/UI/SubmitButton";
+import PhoneIcon from "../../Components/Icons/PhoneIcon.vue";
+import EmailIcon from "../../Components/Icons/EmailIcon.vue";
+import LocationIcon from "../../Components/Icons/LocationIcon.vue";
+import ColourLabel from "../../Components/UI/ColourLabel.vue";
+import SlideOverPanel from "../../Components/UI/SlideOverPanel.vue";
+import DiscountForm from "../../Components/MemberShips/DiscountForm.vue";
+import { httpAction } from "../../../libs/httpAction.js";
+import { showError, showSuccess } from "../../../libs/notifications.js";
+import SubmitButton from "../../Components/UI/SubmitButton.vue";
 export default {
     components: {
         SubmitButton,

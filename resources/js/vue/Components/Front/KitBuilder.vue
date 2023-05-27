@@ -119,10 +119,10 @@
 </template>
 
 <script type="text/babel">
-import ManageServings from "./ManageServings";
-import CheckIcon from "../UI/Icons/CheckIcon";
-import Modal from "../Modal";
-import { eventHub } from "../../../libs/eventHub";
+import ManageServings from "./ManageServings.vue";
+import CheckIcon from "../UI/Icons/CheckIcon.vue";
+import Modal from "../Modal.vue";
+import { eventHub } from "../../../libs/eventHub.js";
 
 export default {
     components: {

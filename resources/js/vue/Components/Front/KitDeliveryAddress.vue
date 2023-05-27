@@ -85,15 +85,16 @@
                             class="w-full block mt-1"
                             @focus="selected_address = null"
                         >
-                            <option :value="null"
-                                >Select a delivery area</option
-                            >
+                            <option :value="null">
+                                Select a delivery area
+                            </option>
                             <option
                                 v-for="area in availableAreas"
                                 :key="area.key"
                                 :value="area.key"
-                                >{{ area.description }}</option
                             >
+                                {{ area.description }}
+                            </option>
                         </select>
                     </div>
                     <div>
@@ -146,12 +147,12 @@
 </template>
 
 <script type="text/babel">
-import Modal from "../Modal";
+import Modal from "../Modal.vue";
 import { ref, computed } from "vue";
-import { httpAction } from "../../../libs/httpAction";
-import SpinningIcon from "../Icons/SpinningIcon";
-import WarningIcon from "../Icons/WarningIcon";
-import TruckIcon from "../Icons/TruckIcon";
+import { httpAction } from "../../../libs/httpAction.js";
+import SpinningIcon from "../Icons/SpinningIcon.vue";
+import WarningIcon from "../Icons/WarningIcon.vue";
+import TruckIcon from "../Icons/TruckIcon.vue";
 export default {
     components: { TruckIcon, WarningIcon, SpinningIcon, Modal },
     props: ["kit", "suggested-addresses", "available-areas", "one-of-many"],

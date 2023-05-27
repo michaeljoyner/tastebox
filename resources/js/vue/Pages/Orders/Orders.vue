@@ -28,21 +28,13 @@
         <table class="w-full my-8 border">
             <thead>
                 <tr class="bg-teal-100">
-                    <th class="text-left text-sm font-semibold p-2">
-                        Date
-                    </th>
-                    <th class="text-left text-sm font-semibold p-2">
-                        Name
-                    </th>
-                    <th class="text-left text-sm font-semibold p-2">
-                        Price
-                    </th>
+                    <th class="text-left text-sm font-semibold p-2">Date</th>
+                    <th class="text-left text-sm font-semibold p-2">Name</th>
+                    <th class="text-left text-sm font-semibold p-2">Price</th>
                     <th class="text-left text-sm font-semibold p-2">
                         No. Kits
                     </th>
-                    <th class="text-left text-sm font-semibold p-2">
-                        Status
-                    </th>
+                    <th class="text-left text-sm font-semibold p-2">Status</th>
                 </tr>
             </thead>
             <tbody v-show="!fetching">
@@ -78,10 +70,10 @@
 </template>
 
 <script type="text/babel">
-import { showError } from "../../../libs/notifications";
-import Page from "../../Components/UI/Page";
-import PageHeader from "../../Components/PageHeader";
-import OrderStatus from "../../Components/Orders/OrderStatus";
+import { showError } from "../../../libs/notifications.js";
+import Page from "../../Components/UI/Page.vue";
+import PageHeader from "../../Components/PageHeader.vue";
+import OrderStatus from "../../Components/Orders/OrderStatus.vue";
 import { computed, onMounted, ref } from "vue";
 import { useStore } from "vuex";
 

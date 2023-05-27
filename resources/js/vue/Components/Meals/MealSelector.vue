@@ -27,15 +27,9 @@
                 <thead>
                     <tr>
                         <th class="p-2 text-xs text-left">Meal</th>
-                        <th class="p-2 text-xs text-left">
-                            Times Offered
-                        </th>
-                        <th class="p-2 text-xs text-left">
-                            Kits Ordered
-                        </th>
-                        <th class="p-2 text-xs text-left">
-                            Last Offered
-                        </th>
+                        <th class="p-2 text-xs text-left">Times Offered</th>
+                        <th class="p-2 text-xs text-left">Kits Ordered</th>
+                        <th class="p-2 text-xs text-left">Last Offered</th>
                         <th class="p-2 text-xs text-left"></th>
                     </tr>
                 </thead>
@@ -73,8 +67,8 @@
 </template>
 
 <script type="text/babel">
-import ColourLabel from "../UI/ColourLabel";
-import SearchIcon from "../UI/Icons/Search";
+import ColourLabel from "../UI/ColourLabel.vue";
+import SearchIcon from "../UI/Icons/Search.vue";
 import { useStore } from "vuex";
 import { computed, onMounted, ref } from "vue";
 export default {

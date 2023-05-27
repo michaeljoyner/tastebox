@@ -21,10 +21,9 @@ class PayFast
         $fields = [
             'merchant_id'        => config('payfast.merchant_id'),
             'merchant_key'       => config('payfast.merchant_key'),
-            'return_url'         => config('payfast.return_url') . "/{$order->order_key}",
-            'cancel_url'         => config('payfast.cancel_url') . "/{$order->order_key}",
-            'notify_url'         => config('payfast.notify_url') . "/{$order->order_key}",
-//            'notify_url'         => "https://8b90-122-118-58-76.ngrok.io/payfast/notify/{$order->order_key}",
+            'return_url'         => static::returnUrl($order->order_key),
+            'cancel_url'         => static::cancelUrl($order->order_key),
+            'notify_url'         => static::notifyUrl($order->order_key),
             'name_first'         => $order->first_name,
             'name_last'          => $order->last_name,
             'email_address'      => $order->email,
@@ -41,6 +40,33 @@ class PayFast
         }
 
         return array_merge($fields, static::sign($fields));
+    }
+
+    private static function returnUrl(string $key): string
+    {
+        return sprintf(
+            "%s/payfast/return/%s",
+            config('app.url'),
+            $key
+        );
+    }
+
+    private static function cancelUrl(string $key): string
+    {
+        return sprintf(
+            "%s/payfast/cancel/%s",
+            config('app.url'),
+            $key
+        );
+    }
+
+    private static function notifyUrl(string $key): string
+    {
+        return sprintf(
+            "%s/payfast/notify/%s",
+            config('payfast.ngrok') ?? config('app.url'),
+            $key
+        );
     }
 
     private static function recognizesCellNumber(string $number): bool
@@ -84,6 +110,6 @@ class PayFast
             Log::info("{$ip} not recognized as payfast ip");
         }
 
-        return $result;
+        return $result || app()->environment('local');
     }
 }

@@ -121,8 +121,7 @@
 <script type="text/babel">
 import { useStore } from "vuex";
 import { computed, onMounted, ref } from "vue";
-import UserDropDown from "./Components/UI/UserDropDown";
-import { useRoute } from "vue-router";
+import UserDropDown from "./Components/UI/UserDropDown.vue";
 
 export default {
     components: { UserDropDown },
@@ -135,9 +134,8 @@ export default {
         const logoutForm = ref(null);
 
         onMounted(() => {
-            csrf_token.value = document.querySelector(
-                "#csrf-token-meta"
-            ).content;
+            csrf_token.value =
+                document.querySelector("#csrf-token-meta").content;
         });
 
         const logout = () => {

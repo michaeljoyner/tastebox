@@ -1,4 +1,6 @@
-const colours = require("tailwindcss/colors");
+import colours from "tailwindcss/colors";
+import forms from "@tailwindcss/forms";
+import typography from "@tailwindcss/typography";
 
 module.exports = {
     content: [
@@ -61,7 +63,7 @@ module.exports = {
                 100: "100%",
             },
             minHeight: {
-                "80": "20rem",
+                80: "20rem",
             },
             backgroundImage: {
                 footer: "url(/images/footer_pattern.png)",
@@ -82,8 +84,5 @@ module.exports = {
         },
     },
     variants: {},
-    plugins: [
-        require("@tailwindcss/forms"),
-        require("@tailwindcss/typography"),
-    ],
+    plugins: [forms, typography],
 };

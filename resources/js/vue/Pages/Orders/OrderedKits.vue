@@ -67,12 +67,12 @@
 </template>
 
 <script type="text/babel">
-import Page from "../../Components/UI/Page";
-import PageHeader from "../../Components/PageHeader";
+import Page from "../../Components/UI/Page.vue";
+import PageHeader from "../../Components/PageHeader.vue";
 import { useStore } from "vuex";
 import { computed, onMounted } from "vue";
-import { httpAction } from "../../../libs/httpAction";
-import SpinningIcon from "../../Components/Icons/SpinningIcon";
+import { httpAction } from "../../../libs/httpAction.js";
+import SpinningIcon from "../../Components/Icons/SpinningIcon.vue";
 export default {
     components: { SpinningIcon, PageHeader, Page },
 

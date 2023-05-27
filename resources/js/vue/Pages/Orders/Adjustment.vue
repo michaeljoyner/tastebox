@@ -99,18 +99,18 @@
 </template>
 
 <script type="text/babel">
-import Page from "../../Components/UI/Page";
-import PageHeader from "../../Components/PageHeader";
+import Page from "../../Components/UI/Page.vue";
+import PageHeader from "../../Components/PageHeader.vue";
 import { useStore } from "vuex";
 import { useRoute, useRouter } from "vue-router";
 import { computed, onMounted, ref } from "vue";
-import ColourLabel from "../../Components/UI/ColourLabel";
-import Modal from "../../Components/Modal";
-import InputField from "../../Components/Forms/InputField";
-import TextAreaField from "../../Components/Forms/TextAreaField";
-import { httpAction } from "../../../libs/httpAction";
-import { showError, showSuccess } from "../../../libs/notifications";
-import SubmitButton from "../../Components/UI/SubmitButton";
+import ColourLabel from "../../Components/UI/ColourLabel.vue";
+import Modal from "../../Components/Modal.vue";
+import InputField from "../../Components/Forms/InputField.vue";
+import TextAreaField from "../../Components/Forms/TextAreaField.vue";
+import { httpAction } from "../../../libs/httpAction.js";
+import { showError, showSuccess } from "../../../libs/notifications.js";
+import SubmitButton from "../../Components/UI/SubmitButton.vue";
 export default {
     components: {
         SubmitButton,

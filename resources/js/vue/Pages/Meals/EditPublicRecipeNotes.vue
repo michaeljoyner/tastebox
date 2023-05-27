@@ -17,14 +17,14 @@
 </template>
 
 <script type="text/babel">
-import SubHeader from "../../Components/UI/SubHeader";
+import SubHeader from "../../Components/UI/SubHeader.vue";
 import { useStore } from "vuex";
-import { httpAction } from "../../../libs/httpAction";
-import { showError, showSuccess } from "../../../libs/notifications";
+import { httpAction } from "../../../libs/httpAction.js";
+import { showError, showSuccess } from "../../../libs/notifications.js";
 import { useRouter } from "vue-router";
 import { ref } from "vue";
-import Editor from "../../Components/Editor";
-import SubmitButton from "../../Components/UI/SubmitButton";
+import Editor from "../../Components/Editor.vue";
+import SubmitButton from "../../Components/UI/SubmitButton.vue";
 export default {
     components: { SubmitButton, Editor, SubHeader },
 

@@ -6,7 +6,7 @@
 </template>
 
 <script type="text/babel">
-import { useModelWrapper } from "../../../libs/useModelWrapper";
+import { useModelWrapper } from "../../../libs/useModelWrapper.js";
 
 export default {
     props: ["modelValue", "label", "help-text", "error-msg"],

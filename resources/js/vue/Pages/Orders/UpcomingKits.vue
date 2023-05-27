@@ -50,11 +50,11 @@
 </template>
 
 <script type="text/babel">
-import PageHeader from "../../Components/PageHeader";
-import Page from "../../Components/UI/Page";
+import PageHeader from "../../Components/PageHeader.vue";
+import Page from "../../Components/UI/Page.vue";
 import { useStore } from "vuex";
 import { computed, onMounted } from "vue";
-import { showError } from "../../../libs/notifications";
+import { showError } from "../../../libs/notifications.js";
 export default {
     components: { Page, PageHeader },
 

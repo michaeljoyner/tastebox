@@ -50,11 +50,11 @@
 </template>
 
 <script type="text/babel">
-import Page from "../../Components/UI/Page";
-import PageHeader from "../../Components/PageHeader";
+import Page from "../../Components/UI/Page.vue";
+import PageHeader from "../../Components/PageHeader.vue";
 import { useStore } from "vuex";
 import { computed, onMounted, ref } from "vue";
-import InputField from "../../Components/Forms/InputField";
+import InputField from "../../Components/Forms/InputField.vue";
 export default {
     components: { InputField, PageHeader, Page },
 

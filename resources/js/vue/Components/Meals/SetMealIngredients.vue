@@ -17,10 +17,10 @@
 </template>
 
 <script type="text/babel">
-import SubHeader from "../UI/SubHeader";
-import IngredientList from "./IngredientList";
-import SubmitButton from "../UI/SubmitButton";
-import { showError, showSuccess } from "../../../libs/notifications";
+import SubHeader from "../UI/SubHeader.vue";
+import IngredientList from "./IngredientList.vue";
+import SubmitButton from "../UI/SubmitButton.vue";
+import { showError, showSuccess } from "../../../libs/notifications.js";
 export default {
     components: { IngredientList, SubHeader, SubmitButton },
 

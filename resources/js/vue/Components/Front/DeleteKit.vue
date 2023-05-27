@@ -34,9 +34,9 @@
 </template>
 
 <script type="text/babel">
-import SubmitButton from "../UI/SubmitButton";
-import Modal from "../Modal";
-import TrashIcon from "../Icons/TrashIcon";
+import SubmitButton from "../UI/SubmitButton.vue";
+import Modal from "../Modal.vue";
+import TrashIcon from "../Icons/TrashIcon.vue";
 export default {
     components: {
         TrashIcon,

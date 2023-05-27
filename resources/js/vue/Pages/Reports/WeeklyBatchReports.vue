@@ -6,19 +6,19 @@
                 width="400"
                 height="400"
                 ref="chartCanvas"
-                style="max-height: 500px;"
+                style="max-height: 500px"
             ></canvas>
         </div>
     </page>
 </template>
 
 <script type="text/babel">
-import Page from "../../Components/UI/Page";
-import PageHeader from "../../Components/PageHeader";
+import Page from "../../Components/UI/Page.vue";
+import PageHeader from "../../Components/PageHeader.vue";
 import { Chart, registerables } from "chart.js";
 import { onMounted, ref } from "vue";
 import { useStore } from "vuex";
-import { showError } from "../../../libs/notifications";
+import { showError } from "../../../libs/notifications.js";
 export default {
     components: { PageHeader, Page },
 
@@ -35,15 +35,15 @@ export default {
                     var myChart = new Chart(chartCanvas.value, {
                         type: "line",
                         data: {
-                            labels:
-                                store.getters["reports/weekly_batch_labels"],
+                            labels: store.getters[
+                                "reports/weekly_batch_labels"
+                            ],
                             datasets: [
                                 {
                                     label: "# Kits",
-                                    data:
-                                        store.getters[
-                                            "reports/weekly_batch_kits"
-                                        ],
+                                    data: store.getters[
+                                        "reports/weekly_batch_kits"
+                                    ],
                                     backgroundColor: [
                                         "rgba(255, 99, 132, 0.2)",
                                     ],
@@ -53,10 +53,9 @@ export default {
                                 },
                                 {
                                     label: "# Meals",
-                                    data:
-                                        store.getters[
-                                            "reports/weekly_batch_meals"
-                                        ],
+                                    data: store.getters[
+                                        "reports/weekly_batch_meals"
+                                    ],
                                     backgroundColor: [
                                         "rgba(54, 162, 235, 0.2)",
                                     ],
@@ -66,10 +65,9 @@ export default {
                                 },
                                 {
                                     label: "# Servings",
-                                    data:
-                                        store.getters[
-                                            "reports/weekly_batch_servings"
-                                        ],
+                                    data: store.getters[
+                                        "reports/weekly_batch_servings"
+                                    ],
                                     backgroundColor: [
                                         "rgba(255, 206, 86, 0.2)",
                                     ],

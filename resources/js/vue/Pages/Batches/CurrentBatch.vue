@@ -49,9 +49,9 @@
 </template>
 
 <script type="text/babel">
-import Page from "../../Components/UI/Page";
-import PageHeader from "../../Components/PageHeader";
-import { showError } from "../../../libs/notifications";
+import Page from "../../Components/UI/Page.vue";
+import PageHeader from "../../Components/PageHeader.vue";
+import { showError } from "../../../libs/notifications.js";
 
 export default {
     components: {

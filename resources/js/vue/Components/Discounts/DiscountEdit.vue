@@ -18,11 +18,11 @@
 </template>
 
 <script type="text/babel">
-import Page from "../UI/Page";
-import PageHeader from "../PageHeader";
-import DiscountForm from "./DiscountForm";
-import DeleteConfirmation from "../UI/DeleteConfirmation";
-import { showError, showSuccess } from "../../../libs/notifications";
+import Page from "../UI/Page.vue";
+import PageHeader from "../PageHeader.vue";
+import DiscountForm from "./DiscountForm.vue";
+import DeleteConfirmation from "../UI/DeleteConfirmation.vue";
+import { showError, showSuccess } from "../../../libs/notifications.js";
 
 export default {
     components: {

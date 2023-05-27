@@ -66,11 +66,11 @@
 </template>
 
 <script type="text/babel">
-import Page from "../../Components/UI/Page";
-import PageHeader from "../../Components/PageHeader";
-import MealList from "../../Components/Meals/MealList";
-import CreateMealButton from "../../Components/Meals/CreateMealButton";
-import { showError } from "../../../libs/notifications";
+import Page from "../../Components/UI/Page.vue";
+import PageHeader from "../../Components/PageHeader.vue";
+import MealList from "../../Components/Meals/MealList.vue";
+import CreateMealButton from "../../Components/Meals/CreateMealButton.vue";
+import { showError } from "../../../libs/notifications.js";
 
 export default {
     components: {
@@ -135,9 +135,8 @@ export default {
     methods: {
         toggleClassification(id) {
             if (this.selected_classifications.includes(id)) {
-                return (this.selected_classifications = this.selected_classifications.filter(
-                    (c) => c !== id
-                ));
+                return (this.selected_classifications =
+                    this.selected_classifications.filter((c) => c !== id));
             }
 
             this.selected_classifications.push(id);

@@ -13,8 +13,8 @@
 </template>
 
 <script type="text/babel">
-import SubHeader from "../UI/SubHeader";
-import MealInfoForm from "./MealInfoForm";
+import SubHeader from "../UI/SubHeader.vue";
+import MealInfoForm from "./MealInfoForm.vue";
 export default {
     components: { MealInfoForm, SubHeader },
 

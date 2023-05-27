@@ -23,6 +23,7 @@ class MenuBatchTest extends TestCase
      */
     public function get_batch_for_a_given_menu()
     {
+        $this->fakeBrowsershotPdf();
         $menu = factory(Menu::class)->state('current')->create();
 
         $mealA = factory(Meal::class)->create();
@@ -129,8 +130,8 @@ class MenuBatchTest extends TestCase
     public function can_create_shopping_list_pdf()
     {
         Storage::fake('admin_stuff');
-
         Storage::disk('admin_stuff')->makeDirectory('shopping-lists');
+        $this->fakeBrowsershotPdf();
 
         $menu = factory(Menu::class)->state('current')->create();
 

@@ -5,14 +5,14 @@ import { createApp } from "vue";
 window.axios = axios;
 window.axios.defaults.headers.common["X-Requested-With"] = "XMLHttpRequest";
 
-import BuildKit from "./vue/Components/Front/BuildKit";
-import BasketBar from "./vue/Components/Front/BasketBar";
-import CheckOut from "./vue/Components/Front/CheckOut";
-import KitManager from "./vue/Components/Front/KitManager";
-import BasketPage from "./vue/Components/Front/BasketPage";
-import ContactPage from "./vue/Components/Front/ContactPage";
-import NavMenu from "./vue/Components/Front/NavMenu";
-import ToastAlerts from "./vue/Components/Front/ToastAlerts";
+import BuildKit from "./vue/Components/Front/BuildKit.vue";
+import BasketBar from "./vue/Components/Front/BasketBar.vue";
+import CheckOut from "./vue/Components/Front/CheckOut.vue";
+import KitManager from "./vue/Components/Front/KitManager.vue";
+import BasketPage from "./vue/Components/Front/BasketPage.vue";
+import ContactPage from "./vue/Components/Front/ContactPage.vue";
+import NavMenu from "./vue/Components/Front/NavMenu.vue";
+import ToastAlerts from "./vue/Components/Front/ToastAlerts.vue";
 
 const app = createApp({})
     .component("nav-menu", NavMenu)

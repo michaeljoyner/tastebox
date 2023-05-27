@@ -59,8 +59,8 @@
 </template>
 
 <script type="text/babel">
-import DownChevron from "../UI/Icons/DownChevron";
-import { eventHub } from "../../../libs/eventHub";
+import DownChevron from "../UI/Icons/DownChevron.vue";
+import { eventHub } from "../../../libs/eventHub.js";
 
 export default {
     components: {

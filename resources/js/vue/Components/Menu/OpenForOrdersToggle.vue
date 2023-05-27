@@ -34,8 +34,8 @@
 </template>
 
 <script type="text/babel">
-import ColourLabel from "../UI/ColourLabel";
-import { showError, showSuccess } from "../../../libs/notifications";
+import ColourLabel from "../UI/ColourLabel.vue";
+import { showError, showSuccess } from "../../../libs/notifications.js";
 export default {
     components: {
         ColourLabel,

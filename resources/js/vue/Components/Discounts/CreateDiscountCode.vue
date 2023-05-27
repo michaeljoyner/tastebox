@@ -9,9 +9,9 @@
 </template>
 
 <script type="text/babel">
-import Page from "../UI/Page";
-import PageHeader from "../PageHeader";
-import DiscountForm from "./DiscountForm";
+import Page from "../UI/Page.vue";
+import PageHeader from "../PageHeader.vue";
+import DiscountForm from "./DiscountForm.vue";
 export default {
     components: { DiscountForm, Page, PageHeader },
 };

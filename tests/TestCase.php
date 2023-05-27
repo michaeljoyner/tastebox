@@ -5,6 +5,7 @@ namespace Tests;
 use App\User;
 use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
 use Illuminate\Support\Facades\Storage;
+use Spatie\Browsershot\Browsershot;
 
 abstract class TestCase extends BaseTestCase
 {
@@ -39,5 +40,14 @@ abstract class TestCase extends BaseTestCase
                 $query->whereJsonContains($column, $value);
             }
         };
+    }
+
+    public function fakeBrowsershotPdf()
+    {
+        $this->partialMock(Browsershot::class)
+             ->shouldReceive('savePdf')
+             ->andReturnUsing(function($path): void {
+                 file_put_contents($path, base64_decode("JVBERi0xLg10cmFpbGVyPDwvUm9vdDw8L1BhZ2VzPDwvS2lkc1s8PC9NZWRpYUJveFswIDAgMyAzXT4+XT4+Pj4+Pg=="));
+             });
     }
 }
