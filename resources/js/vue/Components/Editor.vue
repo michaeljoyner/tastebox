@@ -58,13 +58,6 @@
 
 <script type="text/babel">
 import { ref } from "vue";
-import tinymce from "tinymce";
-import "tinymce/themes/silver";
-import "tinymce/plugins/table";
-import "tinymce/plugins/paste";
-import "tinymce/plugins/link";
-import "tinymce/plugins/lists";
-import "tinymce/icons/default";
 import { onMounted } from "vue";
 import { fileIsImage, fileTooBig } from "../../libs/files.js";
 import { imageFromFile } from "../../libs/images.js";
@@ -121,10 +114,13 @@ export default {
             image_file_input.value.value = null;
         };
 
-        const handleUpload = (blob, success, failure, progress) => {
-            upload(props.uploadTo, blob.blob(), progress)
-                .then(({ data }) => success(data.src))
-                .catch(() => failure("Sorry, failed to upload"));
+        const handleUpload = (blob, progress) => {
+            return upload(props.uploadTo, blob.blob(), progress)
+                .then(({ data }) => data.src)
+                .catch(() => ({
+                    message: "Failed to upload image",
+                    remove: true,
+                }));
         };
 
         let theEditor = ref(null);
@@ -145,7 +141,9 @@ export default {
         };
 
         onMounted(async () => {
-            const editors = await tinymce.init(tinymceInitConfig(options));
+            const editors = await window.tinymce.init(
+                tinymceInitConfig(options)
+            );
             theEditor = editors[0];
         });
 

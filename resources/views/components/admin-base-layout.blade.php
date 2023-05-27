@@ -20,6 +20,7 @@
                 email: "{{ auth()->user()->email }}",
             }
         </script>
+    <script src="https://cdn.tiny.cloud/1/tmx4dzpo4heri0p2gbw9szj69j28yzeh8r8a6h626mjg101q/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
 </head>
 <body class="font-sans text-gray-800 h-full">
 

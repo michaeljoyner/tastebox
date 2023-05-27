@@ -1,7 +1,5 @@
 function makeId() {
-    const arr = new Uint8Array(20 / 2);
-    window.crypto.getRandomValues(arr);
-    return Array.from(arr, (dec) => dec.toString(16).padStart(2, "0")).join("");
+    return "id-" + window.crypto.randomUUID();
 }
 
 export { makeId };

@@ -2,7 +2,7 @@ function tinymceInitConfig(options) {
     return {
         convert_urls: false,
         selector: `#${options.id}`,
-        plugins: "paste table link lists",
+        plugins: "table link lists",
         toolbar: makeToolbar(
             options.allow_images,
             options.allow_youtube,
