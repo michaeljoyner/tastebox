@@ -25,7 +25,18 @@ export default defineConfig({
             vue: "vue/dist/vue.esm-bundler.js",
         },
     },
-    // server: {
-    //     host: true,
-    // },
+    build: {
+        rollupOptions: {
+            maxParallelFileOps: 2,
+            cache: false,
+            output: {
+                sourcemap: false,
+                manualChunks: (id) => {
+                    if (id.includes("node_modules")) {
+                        return "vendor";
+                    }
+                },
+            },
+        },
+    },
 });
