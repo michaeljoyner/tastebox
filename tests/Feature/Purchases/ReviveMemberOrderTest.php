@@ -36,7 +36,7 @@ class ReviveMemberOrderTest extends TestCase
             ])
         );
 
-        $order = factory(Order::class)->create(['user_id' => $member->id]);
+        $order = factory(Order::class)->create(['user_id' => $member->user_id]);
         $ordered_kit = factory(OrderedKit::class)->create(['order_id' => $order->id, 'menu_id' => $menu->id]);
         $ordered_kit->setMeals($meals);
 

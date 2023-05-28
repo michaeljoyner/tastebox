@@ -58,15 +58,17 @@ class Order extends Model
     public function scopeUpcoming(Builder $query): Builder
     {
         return $query->where('delivery_date', '>=', now()->startOfDay())
-            ->where('is_paid', true)
-            ->where('status', self::STATUS_OPEN);
+                     ->where('is_paid', true)
+                     ->where('status', self::STATUS_OPEN);
     }
 
     public function scopeRecentlyAbandoned(Builder $query)
     {
         return $query->where('status', static::STATUS_CREATED)
-            ->where('created_at', '>=', now()->subDays(6))
-            ->where('created_at', '<=', now()->subHour());
+                     ->whereBetween(
+                         'created_at',
+                         [now()->subDays(6), now()->subHour()]
+                     );
     }
 
     public static function hasCurrentPending(): bool
@@ -77,8 +79,8 @@ class Order extends Model
     public static function hasRecentlyPlacedBy(string $email): bool
     {
         return static::where('email', $email)
-            ->whereIn('status', [static::STATUS_PENDING, static::STATUS_OPEN, static::STATUS_COMPLETE])
-            ->where('created_at', '>=', now()->subDays(6))->count();
+                     ->whereIn('status', [static::STATUS_PENDING, static::STATUS_OPEN, static::STATUS_COMPLETE])
+                     ->where('created_at', '>=', now()->subDays(6))->count();
     }
 
     public function member(): BelongsTo
@@ -148,10 +150,10 @@ class Order extends Model
         $this->save();
         $discount->use();
 
-        if($discounted_amount < 1) {
+        if ($discounted_amount < 1) {
             $this->update([
                 'is_paid' => true,
-                'status' => self::STATUS_OPEN,
+                'status'  => self::STATUS_OPEN,
             ]);
         }
 
@@ -160,8 +162,9 @@ class Order extends Model
 
     public function customer(): Customer
     {
-        if($this->member) {
+        if ($this->member) {
             $profile = $this->member->profile;
+
             return new Customer($profile->full_name, $profile->email, $profile->phone);
         }
 
