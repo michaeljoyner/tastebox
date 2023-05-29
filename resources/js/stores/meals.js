@@ -37,6 +37,11 @@ export default {
         fetching: false,
         active: null,
         last_fetched_active: null,
+        tiers: [
+            { value: 1, description: "💩 Basic" },
+            { value: 2, description: "🤷 Standard" },
+            { value: 3, description: "💰 Premium" },
+        ],
     },
 
     getters: {

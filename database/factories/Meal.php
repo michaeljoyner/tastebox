@@ -30,3 +30,15 @@ $factory->state(Meal::class, 'private', [
 $factory->state(Meal::class, 'public', [
     'is_public' => true,
 ]);
+
+$factory->state(Meal::class, 'budget', [
+    'price_tier' => \App\Meals\MealPriceTier::BUDGET,
+]);
+
+$factory->state(Meal::class, 'standard', [
+    'price_tier' => \App\Meals\MealPriceTier::STANDARD,
+]);
+
+$factory->state(Meal::class, 'premium', [
+    'price_tier' => \App\Meals\MealPriceTier::PREMIUM,
+]);

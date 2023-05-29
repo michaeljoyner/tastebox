@@ -60,7 +60,9 @@
                         class="mb-1 type-b3"
                     >
                         {{ meal.name }} ({{ meal.servings }}
-                        {{ meal.servings === 1 ? "person" : "people" }})
+                        {{ meal.servings === 1 ? "person" : "people" }} - R{{
+                            meal.price
+                        }})
                     </li>
                 </ul>
 

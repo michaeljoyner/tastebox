@@ -8,6 +8,7 @@ use App\DatePresenter;
 use App\DeliveryAddress;
 use App\DeliveryArea;
 use App\Meals\Meal;
+use App\Meals\MealPriceTier;
 use App\Orders\Menu;
 use App\Purchases\BasketPresenter;
 use App\Purchases\ShoppingBasket;
@@ -32,12 +33,12 @@ class PresentShoppingBasketTest extends TestCase
             'can_order' => true
         ]);
 
-        $mealA = factory(Meal::class)->create();
-        $mealB = factory(Meal::class)->create();
-        $mealC = factory(Meal::class)->create();
-        $mealD = factory(Meal::class)->create();
-        $mealE = factory(Meal::class)->create();
-        $mealF = factory(Meal::class)->create();
+        $mealA = factory(Meal::class)->state('budget')->create();
+        $mealB = factory(Meal::class)->state('budget')->create();
+        $mealC = factory(Meal::class)->state('standard')->create();
+        $mealD = factory(Meal::class)->state('standard')->create();
+        $mealE = factory(Meal::class)->state('premium')->create();
+        $mealF = factory(Meal::class)->state('premium')->create();
 
         $menuA->setMeals([$mealA->id, $mealB->id, $mealE->id]);
         $menuB->setMeals([$mealC->id, $mealD->id, $mealF->id]);
@@ -58,9 +59,9 @@ class PresentShoppingBasketTest extends TestCase
         $kitB->setDeliveryAddress(new DeliveryAddress(DeliveryArea::NOT_SET, ''));
 
         $expected = [
-            'total_boxes'         => 2,
-            'total_price'         => 19 * Meal::SERVING_PRICE,
-            'kits'                => [
+            'total_boxes'              => 2,
+            'total_price'              => 19 * Meal::SERVING_PRICE,
+            'kits'                     => [
                 [
                     'name'               => 'Box One',
                     'id'                 => $kitA->id,
@@ -69,7 +70,7 @@ class PresentShoppingBasketTest extends TestCase
                     'eligible_for_order' => true,
                     'meals_count'        => 3,
                     'servings_count'     => 7,
-                    'price'              => 7 * Meal::SERVING_PRICE,
+                    'price'              => (5 * MealPriceTier::BUDGET->price()) + (2 * MealPriceTier::PREMIUM->price()),
                     'delivery_area'      => $kitA->delivery_address->area->description(),
                     'delivery_address'   => $kitA->delivery_address->address,
                     'deliver_with'       => '',
@@ -80,18 +81,21 @@ class PresentShoppingBasketTest extends TestCase
                             'name'     => $mealA->name,
                             'thumb'    => $mealA->titleImage('thumb'),
                             'servings' => 2,
+                            'price'    => 2 * MealPriceTier::BUDGET->price(),
                         ],
                         [
                             'id'       => $mealB->id,
                             'name'     => $mealB->name,
                             'thumb'    => $mealB->titleImage('thumb'),
                             'servings' => 3,
+                            'price'    => 3 * MealPriceTier::BUDGET->price(),
                         ],
                         [
                             'id'       => $mealE->id,
                             'name'     => $mealE->name,
                             'thumb'    => $mealE->titleImage('thumb'),
                             'servings' => 2,
+                            'price'    => 2 * MealPriceTier::PREMIUM->price(),
                         ],
                     ]
                 ],
@@ -103,7 +107,7 @@ class PresentShoppingBasketTest extends TestCase
                     'eligible_for_order' => true,
                     'meals_count'        => 3,
                     'servings_count'     => 12,
-                    'price'              => 12 * Meal::SERVING_PRICE,
+                    'price'              => (9 * MealPriceTier::STANDARD->price()) + (3 * MealPriceTier::PREMIUM->price()),
                     'delivery_area'      => $kitB->delivery_address->area->description(),
                     'delivery_address'   => $kitB->delivery_address->address,
                     'deliver_with'       => '',
@@ -114,25 +118,28 @@ class PresentShoppingBasketTest extends TestCase
                             'name'     => $mealC->name,
                             'thumb'    => $mealC->titleImage('thumb'),
                             'servings' => 4,
+                            'price'    => 4 * MealPriceTier::STANDARD->price(),
                         ],
                         [
                             'id'       => $mealD->id,
                             'name'     => $mealD->name,
                             'thumb'    => $mealD->titleImage('thumb'),
                             'servings' => 5,
+                            'price'    => 5 * MealPriceTier::STANDARD->price(),
                         ],
                         [
                             'id'       => $mealF->id,
                             'name'     => $mealF->name,
                             'thumb'    => $mealF->titleImage('thumb'),
                             'servings' => 3,
+                            'price'    => 3 * MealPriceTier::PREMIUM->price(),
                         ],
                     ],
 
                 ],
 
             ],
-            'suggested_addresses' => [
+            'suggested_addresses'      => [
                 [
                     'kit_id'           => $kitA->id,
                     'delivery_area'    => [
@@ -161,9 +168,9 @@ class PresentShoppingBasketTest extends TestCase
         ]);
 
 
-        $mealA = factory(Meal::class)->create();
-        $mealB = factory(Meal::class)->create();
-        $mealC = factory(Meal::class)->create();
+        $mealA = factory(Meal::class)->state('budget')->create();
+        $mealB = factory(Meal::class)->state('standard')->create();
+        $mealC = factory(Meal::class)->state('premium')->create();
         $menuA->setMeals([$mealA->id, $mealB->id, $mealC->id]);
 
         $basket = ShoppingBasket::for(null);
@@ -186,7 +193,7 @@ class PresentShoppingBasketTest extends TestCase
             'eligible_for_order' => true,
             'meals_count'        => 3,
             'servings_count'     => 12,
-            'price'              => 12 * Meal::SERVING_PRICE,
+            'price'              => (4 * MealPriceTier::BUDGET->price()) + (5 * MealPriceTier::STANDARD->price()) + (3 * MealPriceTier::PREMIUM->price()),
             'delivery_area'      => $kitA->delivery_address->area->description(),
             'delivery_address'   => $kitA->delivery_address->address,
             'deliver_with'       => 'Box One',
@@ -197,18 +204,21 @@ class PresentShoppingBasketTest extends TestCase
                     'name'     => $mealA->name,
                     'thumb'    => $mealA->titleImage('thumb'),
                     'servings' => 4,
+                    'price'    => 4 * (MealPriceTier::BUDGET)->price()
                 ],
                 [
                     'id'       => $mealB->id,
                     'name'     => $mealB->name,
                     'thumb'    => $mealB->titleImage('thumb'),
                     'servings' => 5,
+                    'price'    => 5 * (MealPriceTier::STANDARD)->price()
                 ],
                 [
                     'id'       => $mealC->id,
                     'name'     => $mealC->name,
                     'thumb'    => $mealC->titleImage('thumb'),
                     'servings' => 3,
+                    'price'    => 3 * (MealPriceTier::PREMIUM)->price()
                 ],
             ],
 

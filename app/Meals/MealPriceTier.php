@@ -16,4 +16,18 @@ enum MealPriceTier: int
             self::PREMIUM => 105,
         };
     }
+
+    public function priceAsString(): string
+    {
+        return "R" . $this->price();
+    }
+
+    public function description(): string
+    {
+        return match ($this) {
+            self::BUDGET => 'Basic',
+            self::STANDARD => 'Standard',
+            self::PREMIUM => 'Premium',
+        };
+    }
 }

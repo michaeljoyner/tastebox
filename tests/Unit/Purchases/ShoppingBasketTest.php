@@ -174,17 +174,23 @@ class ShoppingBasketTest extends TestCase
     {
         $basket = ShoppingBasket::for(null);
         $menu = factory(Menu::class)->state('upcoming')->create();
-        $mealA = factory(Meal::class)->create();
-        $mealB = factory(Meal::class)->create();
-        $mealC = factory(Meal::class)->create();
+        $mealA = factory(Meal::class)->state('budget')->create();
+        $mealB = factory(Meal::class)->state('standard')->create();
+        $mealC = factory(Meal::class)->state('premium')->create();
         $menu->setMeals([$mealA->id, $mealB->id, $mealC->id]);
 
         $kit = $basket->addKit($menu->id);
         $kit->setMeal($mealA, 2);
-        $kit->setMeal($mealB, 4);
-        $kit->setMeal($mealC, 2);
+        $kit->setMeal($mealB, 2);
+        $kit->setMeal($mealC, 4);
 
-        $this->assertEquals(8 * Meal::SERVING_PRICE, $basket->price());
+        $expected = collect([
+            MealPriceTier::BUDGET->price() * 2,
+            MealPriceTier::STANDARD->price() * 2,
+            MealPriceTier::PREMIUM->price() * 4,
+        ])->sum();
+
+        $this->assertEquals($expected, $basket->price());
     }
 
     /**

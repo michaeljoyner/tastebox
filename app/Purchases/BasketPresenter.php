@@ -7,6 +7,7 @@ namespace App\Purchases;
 use App\DatePresenter;
 use App\DeliveryArea;
 use App\Meals\Meal;
+use App\Meals\MealPriceTier;
 use App\Orders\Menu;
 
 class BasketPresenter
@@ -33,12 +34,16 @@ class BasketPresenter
             'delivery_address' => $kit->delivery_address->address,
             'deliver_with' => $this->basket->getKitName($kit->deliver_with),
             'can_deliver' => !$kit->requiresAddress(),
-            'meals' => $meals->map(fn (Meal $meal) => [
-                'id' => $meal->id,
-                'name' => $meal->name,
-                'thumb' => $meal->titleImage('thumb'),
-                'servings' => $kit->meals->first(fn ($m) => $m['id'] === $meal->id)['servings']
-            ])->values()->all()
+            'meals' => $meals->map(function (Meal $meal) use ($kit) {
+                $servings = $kit->meals->first(fn ($m) => $m['id'] === $meal->id)['servings'];
+                return [
+                    'id' => $meal->id,
+                    'name' => $meal->name,
+                    'thumb' => $meal->titleImage('thumb'),
+                    'servings' => $servings,
+                    'price' => ($meal->price_tier?->price() ?? MealPriceTier::STANDARD->price()) * $servings,
+                ];
+            })->values()->all()
         ];
     }
 }

@@ -7,6 +7,14 @@
                 >Edit</router-link
             >
         </sub-header>
+
+        <div
+            class="my-12 font-bold inline-block px-4 py-2 rounded-md"
+            :class="tierColour"
+        >
+            {{ meal.tier }} | R{{ meal.price }}
+        </div>
+
         <div>
             <span
                 class="px-2 py-1 rounded-lg font-bold border-2 border-black text-sm mr-4"
@@ -44,12 +52,19 @@
     </div>
 </template>
 
-<script type="text/babel">
+<script setup>
 import MealTimes from "./MealTimes.vue";
 import SubHeader from "../UI/SubHeader.vue";
-export default {
-    components: { SubHeader, MealTimes },
+import { computed } from "vue";
 
-    props: ["meal"],
-};
+const props = defineProps({ meal: Object });
+
+const tierColour = computed(() => {
+    const lookup = {
+        1: "bg-red-300",
+        2: "bg-green-300",
+        3: "bg-yellow-400",
+    };
+    return lookup[props.meal.tier_value] || "bg-blue-400";
+});
 </script>

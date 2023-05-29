@@ -8,6 +8,26 @@
         ></input-field>
 
         <div class="my-6">
+            <p class="form-label">Price Tier:</p>
+            <div class="flex flex-wrap mt-2">
+                <div
+                    v-for="tier in tiers"
+                    class="mr-6 flex space-x-2 items-center px-2 py-1 border border-black rounded-md"
+                >
+                    <input
+                        type="radio"
+                        v-model="formData.tier"
+                        :value="tier.value"
+                        :id="`tier_${tier.value}`"
+                    />
+                    <label :for="`tier_${tier.value}`">{{
+                        tier.description
+                    }}</label>
+                </div>
+            </div>
+        </div>
+
+        <div class="my-6">
             <p class="form-label">Classifications:</p>
             <div class="flex flex-wrap mt-2">
                 <div v-for="classification in classifications" class="mr-6">
@@ -90,6 +110,7 @@ export default {
                 cook_time: null,
                 allergens: "",
                 classifications: [],
+                tier: "",
             },
             formErrors: {
                 name: "",
@@ -98,6 +119,7 @@ export default {
                 cook_time: "",
                 allergens: "",
                 classifications: "",
+                tier: "",
             },
         };
     },
@@ -105,6 +127,10 @@ export default {
     computed: {
         classifications() {
             return this.$store.state.meals.classifications;
+        },
+
+        tiers() {
+            return this.$store.state.meals.tiers;
         },
     },
 
@@ -119,6 +145,7 @@ export default {
                 cook_time: this.meal.cook_time,
                 allergens: this.meal.allergens,
                 classifications: this.meal.classifications.map((c) => c.id),
+                tier: this.meal.tier_value || 2,
             };
         }
     },
