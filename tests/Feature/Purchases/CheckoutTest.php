@@ -30,9 +30,9 @@ class CheckoutTest extends TestCase
 
         $menu->setMeals([$mealA->id, $mealB->id, $mealC->id]);
         $kit = $basket->addKit($menu->id);
-        $kit->setMeal($mealA->id, 2);
-        $kit->setMeal($mealB->id, 3);
-        $kit->setMeal($mealC->id, 4);
+        $kit->setMeal($mealA, 2);
+        $kit->setMeal($mealB, 3);
+        $kit->setMeal($mealC, 4);
         $this->assertSame(DeliveryArea::NOT_SET, $kit->delivery_address->area);
 
         $response = $this->asGuest()->get("/checkout");

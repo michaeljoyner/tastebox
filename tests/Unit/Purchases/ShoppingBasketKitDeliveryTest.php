@@ -232,7 +232,7 @@ class ShoppingBasketKitDeliveryTest extends TestCase
     {
         $kit = $basket->addKit($menu->id);
         $meals = factory(Meal::class, 3)->create();
-        $meals->each(fn (Meal $meal) => $kit->setMeal($meal->id, 2));
+        $meals->each(fn (Meal $meal) => $kit->setMeal($meal, 2));
 
         return $kit;
     }

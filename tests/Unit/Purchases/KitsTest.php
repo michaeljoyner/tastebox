@@ -7,6 +7,7 @@ namespace Tests\Unit\Purchases;
 use App\DeliveryAddress;
 use App\DeliveryArea;
 use App\Meals\Meal;
+use App\Meals\MealPriceTier;
 use App\Orders\Menu;
 use App\Purchases\Kit;
 use App\Purchases\KitMeal;
@@ -27,20 +28,33 @@ class KitsTest extends TestCase
     {
         $menu = factory(Menu::class)->state('current')->create();
 
-        $mealA = factory(Meal::class)->create();
-        $mealB = factory(Meal::class)->create();
-        $mealC = factory(Meal::class)->create();
+        $mealA = factory(Meal::class)->create([
+            'price_tier' => MealPriceTier::BUDGET,
+        ]);
+        $mealB = factory(Meal::class)->create([
+            'price_tier' => MealPriceTier::STANDARD,
+        ]);
+        $mealC = factory(Meal::class)->create([
+            'price_tier' => MealPriceTier::PREMIUM,
+        ]);
 
         $menu->setMeals([$mealA->id, $mealB->id, $mealC->id]);
 
         $basket = ShoppingBasket::for(null);
 
         $kit = $basket->addKit($menu->id);
-        $kit->setMeal($mealA->id, 2);
-        $kit->setMeal($mealB->id, 3);
-        $kit->setMeal($mealC->id, 4);
+        $kit->setMeal($mealA, 2);
+        $kit->setMeal($mealB, 3);
+        $kit->setMeal($mealC, 4);
 
-        $this->assertEquals(Meal::SERVING_PRICE * 9, $kit->price());
+        //expect 2 x BUDGET, 3 x STANDARD and 4 x PREMIUM
+        $expected_price = collect([
+            MealPriceTier::BUDGET->price() * 2,
+            MealPriceTier::STANDARD->price() * 3,
+            MealPriceTier::PREMIUM->price() * 4,
+        ])->sum();
+
+        $this->assertEquals($expected_price, $kit->price());
     }
 
     /**
@@ -63,17 +77,17 @@ class KitsTest extends TestCase
         $basket = ShoppingBasket::for(null);
 
         $kitA = $basket->addKit($old_menu->id);
-        $kitA->setMeal($mealA->id, 2);
-        $kitA->setMeal($mealB->id, 3);
-        $kitA->setMeal($mealC->id, 4);
+        $kitA->setMeal($mealA, 2);
+        $kitA->setMeal($mealB, 3);
+        $kitA->setMeal($mealC, 4);
 
         $this->assertFalse($kitA->isValid());
 
 
         $kitB = $basket->addKit($current_menu->id);
-        $kitB->setMeal($mealA->id, 2);
-        $kitB->setMeal($mealB->id, 3);
-        $kitB->setMeal($mealC->id, 4);
+        $kitB->setMeal($mealA, 2);
+        $kitB->setMeal($mealB, 3);
+        $kitB->setMeal($mealC, 4);
 
         $this->assertTrue($kitB->isValid());
     }
@@ -94,9 +108,9 @@ class KitsTest extends TestCase
         $basket = ShoppingBasket::for(null);
 
         $kit = $basket->addKit($menu->id);
-        $kit->setMeal($mealA->id, 2);
-        $kit->setMeal($mealB->id, 3);
-        $kit->setMeal($mealC->id, 4);
+        $kit->setMeal($mealA, 2);
+        $kit->setMeal($mealB, 3);
+        $kit->setMeal($mealC, 4);
 
         $meal_summary = $kit->mealSummary();
         $this->assertInstanceOf(KitMealSummary::class, $meal_summary);
@@ -131,12 +145,12 @@ class KitsTest extends TestCase
         $basket = ShoppingBasket::for(null);
 
         $kit = $basket->addKit($menu->id);
-        $kit->setMeal($mealA->id, 2);
-        $kit->setMeal($mealB->id, 3);
+        $kit->setMeal($mealA, 2);
+        $kit->setMeal($mealB, 3);
 
         $this->assertFalse($kit->eligibleForOrder());
 
-        $kit->setMeal($mealC->id, 3);
+        $kit->setMeal($mealC, 3);
         $this->assertTrue($kit->eligibleForOrder());
     }
 

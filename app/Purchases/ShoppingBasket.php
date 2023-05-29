@@ -4,6 +4,7 @@ namespace App\Purchases;
 
 use App\DeliveryAddress;
 use App\DeliveryArea;
+use App\Meals\Meal;
 use App\Orders\Menu;
 use App\User;
 use Illuminate\Support\Collection;
@@ -84,7 +85,7 @@ class ShoppingBasket
         return $kit;
     }
 
-    public function addMealToKit(string $kit_id, int $meal_id, int $servings)
+    public function addMealToKit(string $kit_id, Meal $meal, int $servings)
     {
         $kit = $this->getKit($kit_id);
 
@@ -92,7 +93,7 @@ class ShoppingBasket
             throw new \InvalidArgumentException("no kit with id {$kit_id} in basket");
         }
 
-        $kit->setMeal($meal_id, $servings);
+        $kit->setMeal($meal, $servings);
 
         $this->setKit($kit);
 
@@ -256,7 +257,10 @@ class ShoppingBasket
 
         $order->orderedKits->each(function(OrderedKit $orderedKit) {
             $kit = $this->addKit($orderedKit->menu_id);
-            $orderedKit->meals->each(fn ($m) => $this->addMealToKit($kit->id, $m->id, $m->pivot->servings));
+            $orderedKit->meals
+                ->each(
+                    fn (Meal $m) => $this->addMealToKit($kit->id, $m, $m->pivot->servings)
+                );
             $kit->delivery_address = $orderedKit->deliveryAddress();
 
             if(!$kit->eligibleForOrder()) {

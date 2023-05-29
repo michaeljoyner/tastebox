@@ -56,14 +56,14 @@ class PlaceOrderTest extends TestCase
         $basket = ShoppingBasket::for(null);
 
         $kitA = $basket->addKit($menuA->id);
-        $kitA->setMeal($mealA->id, 2);
-        $kitA->setMeal($mealB->id, 3);
-        $kitA->setMeal($mealC->id, 4);
+        $kitA->setMeal($mealA, 2);
+        $kitA->setMeal($mealB, 3);
+        $kitA->setMeal($mealC, 4);
 
         $kitB = $basket->addKit($menuB->id);
-        $kitB->setMeal($mealD->id, 3);
-        $kitB->setMeal($mealE->id, 4);
-        $kitB->setMeal($mealF->id, 5);
+        $kitB->setMeal($mealD, 3);
+        $kitB->setMeal($mealE, 4);
+        $kitB->setMeal($mealF, 5);
 
         $test_addressA = new DeliveryAddress(DeliveryArea::HOWICK, '123 test street');
         $test_addressB = new DeliveryAddress(DeliveryArea::HILTON, '456 test street');
@@ -219,14 +219,14 @@ class PlaceOrderTest extends TestCase
         $basket = ShoppingBasket::for(null);
 
         $kitA = $basket->addKit($menuA->id);
-        $kitA->setMeal($mealA->id, 2);
-        $kitA->setMeal($mealB->id, 3);
-        $kitA->setMeal($mealC->id, 4);
+        $kitA->setMeal($mealA, 2);
+        $kitA->setMeal($mealB, 3);
+        $kitA->setMeal($mealC, 4);
 
         $kitB = $basket->addKit($menuB->id);
-        $kitB->setMeal($mealD->id, 3);
-        $kitB->setMeal($mealE->id, 4);
-        $kitB->setMeal($mealF->id, 5);
+        $kitB->setMeal($mealD, 3);
+        $kitB->setMeal($mealE, 4);
+        $kitB->setMeal($mealF, 5);
 
         $test_addressA = new DeliveryAddress(DeliveryArea::HOWICK, '123 test street');
         $test_addressB = new DeliveryAddress(DeliveryArea::HILTON, '456 test street');
@@ -376,14 +376,14 @@ class PlaceOrderTest extends TestCase
         $basket = ShoppingBasket::for(null);
 
         $kitA = $basket->addKit($menuA->id);
-        $kitA->setMeal($mealA->id, 2);
-        $kitA->setMeal($mealB->id, 3);
-        $kitA->setMeal($mealC->id, 4);
+        $kitA->setMeal($mealA, 2);
+        $kitA->setMeal($mealB, 3);
+        $kitA->setMeal($mealC, 4);
 
         $kitB = $basket->addKit($menuB->id);
-        $kitB->setMeal($mealD->id, 3);
-        $kitB->setMeal($mealE->id, 4);
-        $kitB->setMeal($mealF->id, 5);
+        $kitB->setMeal($mealD, 3);
+        $kitB->setMeal($mealE, 4);
+        $kitB->setMeal($mealF, 5);
 
         $test_addressA = new DeliveryAddress(DeliveryArea::HOWICK, '123 test street');
         $test_addressB = new DeliveryAddress(DeliveryArea::HILTON, '456 test street');
@@ -508,8 +508,8 @@ class PlaceOrderTest extends TestCase
         $basket = ShoppingBasket::for(null);
 
         $kit = $basket->addKit($menu->id);
-        $kit->setMeal($mealA->id, 2);
-        $kit->setMeal($mealB->id, 3);
+        $kit->setMeal($mealA, 2);
+        $kit->setMeal($mealB, 3);
 
         return $kit;
     }

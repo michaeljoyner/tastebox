@@ -49,8 +49,8 @@ class MemberShoppingBasketTest extends TestCase
         $mealB = factory(Meal::class)->create();
         $menu->setMeals([$mealA->id, $mealB->id]);
         $kit = $basket->addKit($menu->id);
-        $kit->setMeal($mealA->id, 2);
-        $kit->setMeal($mealB->id, 2);
+        $kit->setMeal($mealA, 2);
+        $kit->setMeal($mealB, 2);
 
         $member = factory(User::class)->state('member')->create();
 

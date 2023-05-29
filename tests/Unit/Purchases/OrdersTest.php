@@ -61,10 +61,10 @@ class OrdersTest extends TestCase
 
         $basket = ShoppingBasket::for(null);
         $kit = $basket->addKit($menu->id);
-        $kit->setMeal($mealA->id, 2);
-        $kit->setMeal($mealB->id, 3);
-        $kit->setMeal($mealC->id, 4);
-        $kit->setMeal($mealD->id, 5);
+        $kit->setMeal($mealA, 2);
+        $kit->setMeal($mealB, 3);
+        $kit->setMeal($mealC, 4);
+        $kit->setMeal($mealD, 5);
 
         $meal_summary = [
             ['id' => $mealA->id, 'name' => $mealA->name, 'servings' => 2],
@@ -113,10 +113,10 @@ class OrdersTest extends TestCase
 
         $basket = ShoppingBasket::for(null);
         $kit = $basket->addKit($menu->id);
-        $kit->setMeal($mealA->id, 2);
-        $kit->setMeal($mealB->id, 3);
-        $kit->setMeal($mealC->id, 4);
-        $kit->setMeal($mealD->id, 5);
+        $kit->setMeal($mealA, 2);
+        $kit->setMeal($mealB, 3);
+        $kit->setMeal($mealC, 4);
+        $kit->setMeal($mealD, 5);
 
         $meal_summary = [
             ['id' => $mealA->id, 'name' => $mealA->name, 'servings' => 2],
@@ -282,13 +282,13 @@ class OrdersTest extends TestCase
 
         $basket = ShoppingBasket::for(null);
         $kitA = $basket->addKit($menu->id);
-        $kitA->setMeal($mealA->id, 2);
-        $kitA->setMeal($mealB->id, 2);
-        $kitA->setMeal($mealC->id, 4);
+        $kitA->setMeal($mealA, 2);
+        $kitA->setMeal($mealB, 2);
+        $kitA->setMeal($mealC, 4);
         $kitB = $basket->addKit($menu->id);
-        $kitB->setMeal($mealA->id, 1);
-        $kitB->setMeal($mealC->id, 2);
-        $kitB->setMeal($mealD->id, 4);
+        $kitB->setMeal($mealA, 1);
+        $kitB->setMeal($mealC, 2);
+        $kitB->setMeal($mealD, 4);
 
         $kitA->setDeliveryAddress($address);
         $kitB->setDeliveryAddress($address);

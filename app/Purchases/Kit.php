@@ -9,6 +9,7 @@ use App\DeliveryArea;
 use App\Events\AddressGivenForAllUnsetKits;
 use App\Events\KitAddressUpdated;
 use App\Meals\Meal;
+use App\Meals\MealPriceTier;
 use App\Orders\Menu;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
@@ -55,15 +56,19 @@ class Kit
         return $menu_available && ($this->meals->count() > 2);
     }
 
-    public function setMeal(int $meal_id, int $servings)
+    public function setMeal(Meal $meal, int $servings)
     {
-        if($this->meals->contains(fn($m) => $m['id'] === $meal_id)) {
+        $tier = $meal->price_tier ?? MealPriceTier::STANDARD;
+        if($this->meals->contains(fn($m) => $m['id'] === $meal->id)) {
             return $this->meals = $this->meals->map(
-                fn ($m) => $m['id'] === $meal_id ? ['id' => $meal_id, 'servings' => $servings] : $m
+                fn ($m) => $m['id'] === $meal->id ?
+                    ['id' => $meal->id, 'servings' => $servings, 'tier' => $tier->value] : $m
             );
         }
 
-        $this->meals->push(['id' => $meal_id, 'servings' => $servings]);
+        $this->meals->push([
+            'id' => $meal->id, 'servings' => $servings, 'tier' => $tier->value
+        ]);
     }
 
     public function removeMeal(int $meal_id)
@@ -103,7 +108,14 @@ class Kit
 
     public function price(): int
     {
-        return $this->meals->sum('servings') * Meal::SERVING_PRICE;
+        return $this->meals
+                ->map(function ($meal) {
+                   $tier_value = ($meal['tier'] ?? MealPriceTier::STANDARD->value );
+                   $tier = MealPriceTier::tryFrom($tier_value) ?? MealPriceTier::STANDARD;
+
+                   return $tier->price() * $meal['servings'];
+                })
+                ->sum();
     }
 
     public function mealSummary(): KitMealSummary

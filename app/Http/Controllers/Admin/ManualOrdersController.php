@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ManualOrderRequest;
+use App\Meals\Meal;
 use App\Orders\Menu;
 use App\Purchases\Address;
 use App\Purchases\Order;
@@ -20,7 +21,9 @@ class ManualOrdersController extends Controller
         $kit->setDeliveryAddress($request->deliveryAddress());
 
         collect(request('meals'))
-            ->each(fn ($m) => $kit->setMeal($m['id'], $m['servings']));
+            ->map(fn ($m) => ['meal' => Meal::find($m['id']), 'servings' => $m['servings']])
+            ->reject(fn ($m) => !$m['meal'])
+            ->each(fn ($m) => $kit->setMeal($m['meal'], $m['servings']));
 
 
 

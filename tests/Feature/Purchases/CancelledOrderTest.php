@@ -30,8 +30,8 @@ class CancelledOrderTest extends TestCase
 
         $basket = ShoppingBasket::for(null);
         $kit = $basket->addKit($menu->id);
-        $kit->setMeal($mealA->id, 2);
-        $kit->setMeal($mealB->id, 3);
+        $kit->setMeal($mealA, 2);
+        $kit->setMeal($mealB, 3);
 
         $customer = [
             'first_name' => 'test first name',

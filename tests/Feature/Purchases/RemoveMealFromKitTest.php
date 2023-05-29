@@ -26,7 +26,7 @@ class RemoveMealFromKitTest extends TestCase
 
         $basket = ShoppingBasket::for(null);
         $kit = $basket->addKit($menu->id);
-        $basket->addMealToKit($kit->id, $meal->id, 3);
+        $basket->addMealToKit($kit->id, $meal, 3);
 
         $response = $this->asGuest()->deleteJson("/my-kits/{$kit->id}/meals/{$meal->id}");
         $response->assertSuccessful();

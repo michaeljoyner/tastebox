@@ -3,6 +3,7 @@
 namespace Tests\Unit\Purchases;
 
 use App\Meals\Meal;
+use App\Meals\MealPriceTier;
 use App\Orders\Menu;
 use App\Purchases\Kit;
 use App\Purchases\KitMealSummary;
@@ -35,7 +36,7 @@ class ShoppingBasketTest extends TestCase
     }
 
     /**
-     *@test
+     * @test
      */
     public function can_clear_a_basket()
     {
@@ -121,8 +122,8 @@ class ShoppingBasketTest extends TestCase
         $menu->setMeals([$mealA->id, $mealB->id]);
 
         $kit = $basket->addKit($menu->id);
-        $kit->setMeal($mealA->id, 2);
-        $kit->setMeal($mealB->id, 3);
+        $kit->setMeal($mealA, 2);
+        $kit->setMeal($mealB, 3);
 
         $fetched = $basket->getKit($kit->id)->toArray();
 
@@ -134,10 +135,12 @@ class ShoppingBasketTest extends TestCase
                 [
                     'id'       => $mealA->id,
                     'servings' => 2,
+                    'tier'     => MealPriceTier::STANDARD->value,
                 ],
                 [
                     'id'       => $mealB->id,
                     'servings' => 3,
+                    'tier'     => MealPriceTier::STANDARD->value,
                 ],
             ]
         ];
@@ -146,7 +149,7 @@ class ShoppingBasketTest extends TestCase
     }
 
     /**
-     *@test
+     * @test
      */
     public function can_check_if_basket_has_a_kit()
     {
@@ -157,15 +160,15 @@ class ShoppingBasketTest extends TestCase
         $menu->setMeals([$mealA->id, $mealB->id]);
 
         $kit = $basket->addKit($menu->id);
-        $kit->setMeal($mealA->id, 2);
-        $kit->setMeal($mealB->id, 3);
+        $kit->setMeal($mealA, 2);
+        $kit->setMeal($mealB, 3);
 
         $this->assertTrue($basket->hasKit($kit->id));
         $this->assertFalse($basket->hasKit('not-a-kit-id'));
     }
 
     /**
-     *@test
+     * @test
      */
     public function get_the_price_from_the_basket()
     {
@@ -177,15 +180,15 @@ class ShoppingBasketTest extends TestCase
         $menu->setMeals([$mealA->id, $mealB->id, $mealC->id]);
 
         $kit = $basket->addKit($menu->id);
-        $kit->setMeal($mealA->id, 2);
-        $kit->setMeal($mealB->id, 4);
-        $kit->setMeal($mealC->id, 2);
+        $kit->setMeal($mealA, 2);
+        $kit->setMeal($mealB, 4);
+        $kit->setMeal($mealC, 2);
 
         $this->assertEquals(8 * Meal::SERVING_PRICE, $basket->price());
     }
 
     /**
-     *@test
+     * @test
      */
     public function basket_price_does_not_include_ineligible_kits()
     {
@@ -197,20 +200,20 @@ class ShoppingBasketTest extends TestCase
         $menu->setMeals([$mealA->id, $mealB->id, $mealC->id]);
 
         $bad_kit = $basket->addKit($menu->id);
-        $bad_kit->setMeal($mealA->id, 2);
-        $bad_kit->setMeal($mealB->id, 3);
+        $bad_kit->setMeal($mealA, 2);
+        $bad_kit->setMeal($mealB, 3);
 
         $good_kit = $basket->addKit($menu->id);
-        $good_kit->setMeal($mealA->id, 3);
-        $good_kit->setMeal($mealB->id, 4);
-        $good_kit->setMeal($mealC->id, 5);
+        $good_kit->setMeal($mealA, 3);
+        $good_kit->setMeal($mealB, 4);
+        $good_kit->setMeal($mealC, 5);
 
 
         $this->assertEquals(12 * Meal::SERVING_PRICE, $basket->price());
     }
 
     /**
-     *@test
+     * @test
      */
     public function kits_are_not_eligible_if_not_for_available_menu()
     {
@@ -226,14 +229,14 @@ class ShoppingBasketTest extends TestCase
 
 
         $current = $basket->addKit($menuA->id);
-        $current->setMeal($mealA->id, 3);
-        $current->setMeal($mealB->id, 3);
-        $current->setMeal($mealC->id, 3);
+        $current->setMeal($mealA, 3);
+        $current->setMeal($mealB, 3);
+        $current->setMeal($mealC, 3);
 
         $too_old = $basket->addKit($menuB->id);
-        $too_old->setMeal($mealA->id, 3);
-        $too_old->setMeal($mealB->id, 3);
-        $too_old->setMeal($mealC->id, 3);
+        $too_old->setMeal($mealA, 3);
+        $too_old->setMeal($mealB, 3);
+        $too_old->setMeal($mealC, 3);
 
         $this->assertTrue($current->eligibleForOrder());
         $this->assertFalse($too_old->eligibleForOrder());
@@ -242,7 +245,7 @@ class ShoppingBasketTest extends TestCase
     }
 
     /**
-     *@test
+     * @test
      */
     public function restore_order_with_current_kits_to_basket()
     {
@@ -284,26 +287,32 @@ class ShoppingBasketTest extends TestCase
 
         $this->assertCount(2, $basket->kits);
 
-        $kit_one = $basket->kits->first(fn (Kit $kit) => $kit->menu_id === $menuA->id);
+        $kit_one = $basket->kits->first(fn(Kit $kit) => $kit->menu_id === $menuA->id);
         $this->assertCount(3, $kit_one->meals);
-        $this->assertTrue($kit_one->meals->contains(fn ($meal) => $meal['id'] === $mealA->id && $meal['servings'] === 2));
-        $this->assertTrue($kit_one->meals->contains(fn ($meal) => $meal['id'] === $mealB->id && $meal['servings'] === 3));
-        $this->assertTrue($kit_one->meals->contains(fn ($meal) => $meal['id'] === $mealC->id && $meal['servings'] === 4));
+        $this->assertTrue($kit_one->meals->contains(fn($meal
+        ) => $meal['id'] === $mealA->id && $meal['servings'] === 2));
+        $this->assertTrue($kit_one->meals->contains(fn($meal
+        ) => $meal['id'] === $mealB->id && $meal['servings'] === 3));
+        $this->assertTrue($kit_one->meals->contains(fn($meal
+        ) => $meal['id'] === $mealC->id && $meal['servings'] === 4));
         $this->assertSame($ordered_kitA->deliveryAddress()->area, $kit_one->delivery_address->area);
         $this->assertSame($ordered_kitA->deliveryAddress()->address, $kit_one->delivery_address->address);
 
-        $kit_two = $basket->kits->first(fn (Kit $kit) => $kit->menu_id === $menuB->id);
+        $kit_two = $basket->kits->first(fn(Kit $kit) => $kit->menu_id === $menuB->id);
         $this->assertCount(3, $kit_two->meals);
-        $this->assertTrue($kit_two->meals->contains(fn ($meal) => $meal['id'] === $mealB->id && $meal['servings'] === 2));
-        $this->assertTrue($kit_two->meals->contains(fn ($meal) => $meal['id'] === $mealD->id && $meal['servings'] === 3));
-        $this->assertTrue($kit_two->meals->contains(fn ($meal) => $meal['id'] === $mealE->id && $meal['servings'] === 4));
+        $this->assertTrue($kit_two->meals->contains(fn($meal
+        ) => $meal['id'] === $mealB->id && $meal['servings'] === 2));
+        $this->assertTrue($kit_two->meals->contains(fn($meal
+        ) => $meal['id'] === $mealD->id && $meal['servings'] === 3));
+        $this->assertTrue($kit_two->meals->contains(fn($meal
+        ) => $meal['id'] === $mealE->id && $meal['servings'] === 4));
         $this->assertSame($ordered_kitB->deliveryAddress()->area, $kit_two->delivery_address->area);
         $this->assertSame($ordered_kitB->deliveryAddress()->address, $kit_two->delivery_address->address);
 
     }
 
     /**
-     *@test
+     * @test
      */
     public function restore_order_with_with_illegible_kits_to_basket()
     {
@@ -346,19 +355,21 @@ class ShoppingBasketTest extends TestCase
         $this->assertCount(1, $basket->kits);
 
 
-
-        $new_kit = $basket->kits->first(fn (Kit $kit) => $kit->menu_id === $menuB->id);
+        $new_kit = $basket->kits->first(fn(Kit $kit) => $kit->menu_id === $menuB->id);
         $this->assertCount(3, $new_kit->meals);
-        $this->assertTrue($new_kit->meals->contains(fn ($meal) => $meal['id'] === $mealB->id && $meal['servings'] === 2));
-        $this->assertTrue($new_kit->meals->contains(fn ($meal) => $meal['id'] === $mealD->id && $meal['servings'] === 3));
-        $this->assertTrue($new_kit->meals->contains(fn ($meal) => $meal['id'] === $mealE->id && $meal['servings'] === 4));
+        $this->assertTrue($new_kit->meals->contains(fn($meal
+        ) => $meal['id'] === $mealB->id && $meal['servings'] === 2));
+        $this->assertTrue($new_kit->meals->contains(fn($meal
+        ) => $meal['id'] === $mealD->id && $meal['servings'] === 3));
+        $this->assertTrue($new_kit->meals->contains(fn($meal
+        ) => $meal['id'] === $mealE->id && $meal['servings'] === 4));
         $this->assertSame($ordered_kitB->deliveryAddress()->area, $new_kit->delivery_address->area);
         $this->assertSame($ordered_kitB->deliveryAddress()->address, $new_kit->delivery_address->address);
 
     }
 
     /**
-     *@test
+     * @test
      */
     public function restoring_order_clears_whatever_you_have_in_your_basket()
     {
@@ -391,22 +402,24 @@ class ShoppingBasketTest extends TestCase
         $ordered_kitA->setMeals($kitA_meals);
 
 
-
         $basket = ShoppingBasket::for(null);
         $old_kit = $basket->addKit($menuA->id);
-        $old_kit->setMeal($mealB->id, 3);
-        $old_kit->setMeal($mealD->id, 3);
-        $old_kit->setMeal($mealE->id, 3);
+        $old_kit->setMeal($mealB, 3);
+        $old_kit->setMeal($mealD, 3);
+        $old_kit->setMeal($mealE, 3);
 
         $basket->restoreFromOrder($order);
 
         $this->assertCount(1, $basket->kits);
 
-        $kit_one = $basket->kits->first(fn (Kit $kit) => $kit->menu_id === $menuA->id);
+        $kit_one = $basket->kits->first(fn(Kit $kit) => $kit->menu_id === $menuA->id);
         $this->assertCount(3, $kit_one->meals);
-        $this->assertTrue($kit_one->meals->contains(fn ($meal) => $meal['id'] === $mealA->id && $meal['servings'] === 2));
-        $this->assertTrue($kit_one->meals->contains(fn ($meal) => $meal['id'] === $mealB->id && $meal['servings'] === 3));
-        $this->assertTrue($kit_one->meals->contains(fn ($meal) => $meal['id'] === $mealC->id && $meal['servings'] === 4));
+        $this->assertTrue($kit_one->meals->contains(fn($meal
+        ) => $meal['id'] === $mealA->id && $meal['servings'] === 2));
+        $this->assertTrue($kit_one->meals->contains(fn($meal
+        ) => $meal['id'] === $mealB->id && $meal['servings'] === 3));
+        $this->assertTrue($kit_one->meals->contains(fn($meal
+        ) => $meal['id'] === $mealC->id && $meal['servings'] === 4));
         $this->assertSame($ordered_kitA->deliveryAddress()->area, $kit_one->delivery_address->area);
         $this->assertSame($ordered_kitA->deliveryAddress()->address, $kit_one->delivery_address->address);
 

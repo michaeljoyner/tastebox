@@ -59,14 +59,14 @@ class MemberPlaceOrderTest extends TestCase
         $basket = ShoppingBasket::for($profile->user);
 
         $kitA = $basket->addKit($menuA->id);
-        $basket->addMealToKit($kitA->id, $mealA->id, 2);
-        $basket->addMealToKit($kitA->id, $mealB->id, 3);
-        $basket->addMealToKit($kitA->id, $mealC->id, 4);
+        $basket->addMealToKit($kitA->id, $mealA, 2);
+        $basket->addMealToKit($kitA->id, $mealB, 3);
+        $basket->addMealToKit($kitA->id, $mealC, 4);
 
         $kitB = $basket->addKit($menuB->id);
-        $basket->addMealToKit($kitB->id, $mealD->id, 3);
-        $basket->addMealToKit($kitB->id, $mealE->id, 4);
-        $basket->addMealToKit($kitB->id, $mealF->id, 5);
+        $basket->addMealToKit($kitB->id, $mealD, 3);
+        $basket->addMealToKit($kitB->id, $mealE, 4);
+        $basket->addMealToKit($kitB->id, $mealF, 5);
 
 
 

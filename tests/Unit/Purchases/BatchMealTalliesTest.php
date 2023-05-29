@@ -76,19 +76,19 @@ class BatchMealTalliesTest extends TestCase
 
         $basket = ShoppingBasket::for(null);
         $kitA = $basket->addKit($menu->id);
-        $kitA->setMeal($meals[0]->id, 2);
-        $kitA->setMeal($meals[1]->id, 3);
-        $kitA->setMeal($meals[2]->id, 4);
+        $kitA->setMeal($meals[0], 2);
+        $kitA->setMeal($meals[1], 3);
+        $kitA->setMeal($meals[2], 4);
 
         $kitB = $basket->addKit($menu->id);
-        $kitB->setMeal($meals[2]->id, 5);
-        $kitB->setMeal($meals[3]->id, 6);
-        $kitB->setMeal($meals[4]->id, 3);
+        $kitB->setMeal($meals[2], 5);
+        $kitB->setMeal($meals[3], 6);
+        $kitB->setMeal($meals[4], 3);
 
         $kitC = $basket->addKit($menu->id);
-        $kitC->setMeal($meals[0]->id, 3);
-        $kitC->setMeal($meals[2]->id, 2);
-        $kitC->setMeal($meals[4]->id, 3);
+        $kitC->setMeal($meals[0], 3);
+        $kitC->setMeal($meals[2], 2);
+        $kitC->setMeal($meals[4], 3);
 
 
 

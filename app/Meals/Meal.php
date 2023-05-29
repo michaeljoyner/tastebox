@@ -41,6 +41,7 @@ class Meal extends Model implements HasMedia, Loggable
         'serving_fat',
         'serving_protein',
         'public_recipe_notes',
+        'price_tier',
     ];
 
     protected $casts = [
@@ -52,6 +53,7 @@ class Meal extends Model implements HasMedia, Loggable
         'serving_fat'     => 'integer',
         'serving_protein' => 'integer',
         'serving_energy'  => 'integer',
+        'price_tier'      => MealPriceTier::class,
     ];
 
     public function menus(): BelongsToMany

@@ -45,14 +45,14 @@ class PresentShoppingBasketTest extends TestCase
         $basket = ShoppingBasket::for(null);
 
         $kitA = $basket->addKit($menuA->id);
-        $kitA->setMeal($mealA->id, 2);
-        $kitA->setMeal($mealB->id, 3);
-        $kitA->setMeal($mealE->id, 2);
+        $kitA->setMeal($mealA, 2);
+        $kitA->setMeal($mealB, 3);
+        $kitA->setMeal($mealE, 2);
 
         $kitB = $basket->addKit($menuB->id);
-        $kitB->setMeal($mealC->id, 4);
-        $kitB->setMeal($mealD->id, 5);
-        $kitB->setMeal($mealF->id, 3);
+        $kitB->setMeal($mealC, 4);
+        $kitB->setMeal($mealD, 5);
+        $kitB->setMeal($mealF, 3);
 
         $kitA->setDeliveryAddress(new DeliveryAddress(DeliveryArea::HILTON, '123 test street'));
         $kitB->setDeliveryAddress(new DeliveryAddress(DeliveryArea::NOT_SET, ''));
@@ -169,14 +169,14 @@ class PresentShoppingBasketTest extends TestCase
         $basket = ShoppingBasket::for(null);
 
         $kitA = $basket->addKit($menuA->id);
-        $kitA->setMeal($mealA->id, 2);
-        $kitA->setMeal($mealB->id, 3);
-        $kitA->setMeal($mealC->id, 2);
+        $kitA->setMeal($mealA, 2);
+        $kitA->setMeal($mealB, 3);
+        $kitA->setMeal($mealC, 2);
 
         $kitB = $basket->addKit($menuA->id);
-        $kitB->setMeal($mealA->id, 4);
-        $kitB->setMeal($mealB->id, 5);
-        $kitB->setMeal($mealC->id, 3);
+        $kitB->setMeal($mealA, 4);
+        $kitB->setMeal($mealB, 5);
+        $kitB->setMeal($mealC, 3);
 
         $expected = [
             'name'               => 'Box Two',

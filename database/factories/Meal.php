@@ -19,13 +19,14 @@ $factory->define(Meal::class, function (Faker $faker) {
         'serving_fat'     => $faker->numberBetween(0, 100),
         'serving_protein' => $faker->numberBetween(0, 100),
         'is_public'       => $faker->boolean,
+        'price_tier'      => \App\Meals\MealPriceTier::STANDARD,
     ];
 });
 
 $factory->state(Meal::class, 'private', [
-    'is_public'       => false,
+    'is_public' => false,
 ]);
 
 $factory->state(Meal::class, 'public', [
-    'is_public'       => true,
+    'is_public' => true,
 ]);

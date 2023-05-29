@@ -41,11 +41,11 @@ class PayFastTest extends TestCase
         $kitA = $basket->addKit($menu->id);
         $kitB = $basket->addKit($menu->id);
 
-        $kitA->setMeal($mealA->id, 2);
-        $kitA->setMeal($mealB->id, 3);
+        $kitA->setMeal($mealA, 2);
+        $kitA->setMeal($mealB, 3);
 
-        $kitB->setMeal($mealC->id, 4);
-        $kitB->setMeal($mealD->id, 5);
+        $kitB->setMeal($mealC, 4);
+        $kitB->setMeal($mealD, 5);
 
         $customer = [
             'first_name' => 'test first name',
@@ -110,11 +110,11 @@ class PayFastTest extends TestCase
         $kitA = $basket->addKit($menu->id);
         $kitB = $basket->addKit($menu->id);
 
-        $kitA->setMeal($mealA->id, 2);
-        $kitA->setMeal($mealB->id, 3);
+        $kitA->setMeal($mealA, 2);
+        $kitA->setMeal($mealB, 3);
 
-        $kitB->setMeal($mealC->id, 4);
-        $kitB->setMeal($mealD->id, 5);
+        $kitB->setMeal($mealC, 4);
+        $kitB->setMeal($mealD, 5);
 
         $customer = [
             'first_name' => 'test first name',

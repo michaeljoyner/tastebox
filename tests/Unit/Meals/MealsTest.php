@@ -6,6 +6,7 @@ namespace Tests\Unit\Meals;
 
 use App\Meals\Ingredient;
 use App\Meals\Meal;
+use App\Meals\MealPriceTier;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\DB;
 use Tests\TestCase;
@@ -79,5 +80,16 @@ class MealsTest extends TestCase
                     && $i->pivot->form === $ingredient['form']
                 )
             ));
+    }
+
+    /**
+     *@test
+     */
+    public function each_meal_has_a_price_tier()
+    {
+        $meal = factory(Meal::class)->create();
+
+        $this->assertSame(MealPriceTier::STANDARD, $meal->price_tier);
+
     }
 }

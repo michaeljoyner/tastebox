@@ -37,10 +37,10 @@ class PresentOrderedKitsTest extends TestCase
 
         $basket = ShoppingBasket::for(null);
         $kit = $basket->addKit($menu->id);
-        $kit->setMeal($mealA->id, 3);
-        $kit->setMeal($mealB->id, 4);
-        $kit->setMeal($mealC->id, 5);
-        $kit->setMeal($mealD->id, 6);
+        $kit->setMeal($mealA, 3);
+        $kit->setMeal($mealB, 4);
+        $kit->setMeal($mealC, 5);
+        $kit->setMeal($mealD, 6);
 
         $test_address = new DeliveryAddress(DeliveryArea::HOWICK, '123 Test street');
         $kit->setDeliveryAddress($test_address);
@@ -78,10 +78,10 @@ class PresentOrderedKitsTest extends TestCase
 
         $basket = ShoppingBasket::for(null);
         $kit = $basket->addKit($menu->id);
-        $kit->setMeal($mealA->id, 3);
-        $kit->setMeal($mealB->id, 4);
-        $kit->setMeal($mealC->id, 5);
-        $kit->setMeal($mealD->id, 6);
+        $kit->setMeal($mealA, 3);
+        $kit->setMeal($mealB, 4);
+        $kit->setMeal($mealC, 5);
+        $kit->setMeal($mealD, 6);
 
         $test_address = new DeliveryAddress(DeliveryArea::HOWICK, '123 Test street');
         $kit->setDeliveryAddress($test_address);

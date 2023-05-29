@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Meals\Meal;
 use App\Purchases\ShoppingBasket;
 use App\Rules\OnTheMenu;
 use Illuminate\Http\Request;
@@ -19,8 +20,11 @@ class MealKitsMealsController extends Controller
             'servings' => ['required', 'integer', Rule::in([1,2,4])],
         ]);
 
-
-        $basket->addMealToKit($kit_id, request('meal_id'), request('servings'));
+        $basket->addMealToKit(
+            $kit_id,
+            Meal::find(request('meal_id')),
+            request('servings')
+        );
 
         return $basket->getKit($kit_id)->toArray();
     }

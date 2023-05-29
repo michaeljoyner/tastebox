@@ -90,19 +90,19 @@ class BatchShoppingListTest extends TestCase
 
         $basket = ShoppingBasket::for(null);
         $kitA = $basket->addKit($menu->id);
-        $kitA->setMeal($mealA->id, 2);
-        $kitA->setMeal($mealB->id, 3);
-        $kitA->setMeal($mealC->id, 4);
+        $kitA->setMeal($mealA, 2);
+        $kitA->setMeal($mealB, 3);
+        $kitA->setMeal($mealC, 4);
 
         $kitB = $basket->addKit($menu->id);
-        $kitB->setMeal($mealC->id, 5);
-        $kitB->setMeal($mealD->id, 6);
-        $kitB->setMeal($mealE->id, 3);
+        $kitB->setMeal($mealC, 5);
+        $kitB->setMeal($mealD, 6);
+        $kitB->setMeal($mealE, 3);
 
         $kitC = $basket->addKit($menu->id);
-        $kitC->setMeal($mealA->id, 3);
-        $kitC->setMeal($mealC->id, 2);
-        $kitC->setMeal($mealE->id, 3);
+        $kitC->setMeal($mealA, 3);
+        $kitC->setMeal($mealC, 2);
+        $kitC->setMeal($mealE, 3);
 
         $orderA->addKit($kitA);
         $orderB->addKit($kitB);
