@@ -5,6 +5,7 @@ namespace Tests\Feature\Meals;
 use App\Meals\Classification;
 use App\Meals\Ingredient;
 use App\Meals\Meal;
+use App\Meals\MealPriceTier;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -29,6 +30,7 @@ class CreateMealTest extends TestCase
             'prep_time' => 100,
             'cook_time' => 250,
             'classifications' => [$classificationA->id, $classificationB->id],
+            'price_tier' => MealPriceTier::BUDGET->value
         ]);
         $response->assertSuccessful();
 
@@ -43,6 +45,7 @@ class CreateMealTest extends TestCase
             'allergens' => 'test allergens',
             'prep_time' => 100,
             'cook_time' => 250,
+            'price_tier' => MealPriceTier::BUDGET->value
         ]);
 
 

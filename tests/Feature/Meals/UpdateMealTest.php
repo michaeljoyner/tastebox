@@ -7,6 +7,7 @@ namespace Tests\Feature\Meals;
 use App\Meals\Classification;
 use App\Meals\Ingredient;
 use App\Meals\Meal;
+use App\Meals\MealPriceTier;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -32,6 +33,7 @@ class UpdateMealTest extends TestCase
             'prep_time' => 100,
             'cook_time' => 250,
             'classifications' => [$classificationA->id, $classificationB->id],
+            'price_tier' => MealPriceTier::PREMIUM->value,
         ]);
 
         $response->assertSuccessful();
@@ -42,6 +44,7 @@ class UpdateMealTest extends TestCase
             'allergens' => 'test allergens',
             'prep_time' => 100,
             'cook_time' => 250,
+            'price_tier' => MealPriceTier::PREMIUM->value,
         ]);
 
         $this->assertDatabaseHas('classification_meal', [
@@ -103,6 +106,15 @@ class UpdateMealTest extends TestCase
         $this->assertFieldIsInvalid(['classifications' => [99]], 'classifications.0');
     }
 
+    /**
+     *@test
+     */
+    public function the_price_tier_is_required_as_valid_meal_price_tier_value()
+    {
+        $this->assertFieldIsInvalid(['price_tier' => null]);
+        $this->assertFieldIsInvalid(['price_tier' => 'not-a-price-tier']);
+    }
+
     private function assertFieldIsValid($field)
     {
         $meal = Meal::createNew();
@@ -117,6 +129,7 @@ class UpdateMealTest extends TestCase
             'prep_time' => 100,
             'cook_time' => 250,
             'classifications' => [$classificationA->id, $classificationB->id],
+            'price_tier' => MealPriceTier::PREMIUM->value,
         ];
 
         $response = $this

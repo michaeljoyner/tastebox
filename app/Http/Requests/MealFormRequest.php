@@ -2,7 +2,9 @@
 
 namespace App\Http\Requests;
 
+use App\Meals\MealPriceTier;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class MealFormRequest extends FormRequest
 {
@@ -20,6 +22,7 @@ class MealFormRequest extends FormRequest
             'cook_time' => ['nullable', 'integer'],
             'classifications' => ['array'],
             'classifications.*' => ['integer', 'exists:classifications,id'],
+            'price_tier' => ['required', Rule::enum(MealPriceTier::class)]
         ];
     }
 
@@ -31,6 +34,7 @@ class MealFormRequest extends FormRequest
             'allergens',
             'prep_time',
             'cook_time',
+            'price_tier'
         ]);
 
         $classifications = collect($this->classifications)->map(fn ($c) => intval($c))->all();

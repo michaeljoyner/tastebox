@@ -16,7 +16,7 @@
                 >
                     <input
                         type="radio"
-                        v-model="formData.tier"
+                        v-model="formData.price_tier"
                         :value="tier.value"
                         :id="`tier_${tier.value}`"
                     />
@@ -110,7 +110,7 @@ export default {
                 cook_time: null,
                 allergens: "",
                 classifications: [],
-                tier: "",
+                price_tier: 2,
             },
             formErrors: {
                 name: "",
@@ -119,7 +119,7 @@ export default {
                 cook_time: "",
                 allergens: "",
                 classifications: "",
-                tier: "",
+                price_tier: "",
             },
         };
     },
@@ -145,7 +145,7 @@ export default {
                 cook_time: this.meal.cook_time,
                 allergens: this.meal.allergens,
                 classifications: this.meal.classifications.map((c) => c.id),
-                tier: this.meal.tier_value || 2,
+                price_tier: this.meal.tier_value || 2,
             };
         }
     },
