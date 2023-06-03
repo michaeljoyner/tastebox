@@ -42,7 +42,8 @@
 
                         <div class="flex space-x-4 items-center mt-3">
                             <p
-                                class="font-serif font-bold text-sm px-2 py-1 bg-yellow-400 rounded-md"
+                                class="font-serif font-bold text-sm px-2 py-1 rounded-md"
+                                :class="mealPriceClasses(meal.tier)"
                             >
                                 {{ meal.price }}
                             </p>
@@ -118,44 +119,37 @@
     </div>
 </template>
 
-<script type="text/babel">
+<script setup>
 import ManageServings from "./ManageServings.vue";
 import CheckIcon from "../UI/Icons/CheckIcon.vue";
 import Modal from "../Modal.vue";
 import { eventHub } from "../../../libs/eventHub.js";
 import ClockIcon from "../Icons/ClockIcon.vue";
+import { ref } from "vue";
 
-export default {
-    components: {
-        ClockIcon,
-        ManageServings,
-        CheckIcon,
-        Modal,
-    },
+const props = defineProps({ menu: Object, kit: Object });
+const emit = defineEmits(["kit-updated"]);
 
-    props: ["menu", "kit"],
+const showLimitModal = ref(false);
 
-    data() {
-        return {
-            showLimitModal: false,
-        };
-    },
+const kitMealServings = (meal_id) => {
+    const kit_meal = props.kit.meals.find((m) => m.id === meal_id);
+    return kit_meal ? kit_meal.servings : 0;
+};
 
-    methods: {
-        kitMealServings(meal_id) {
-            const kit_meal = this.kit.meals.find((m) => m.id === meal_id);
+const setKit = (updated_kit) => {
+    eventHub.$emit("basket-updated");
+    emit("kit-updated", updated_kit);
+};
 
-            return kit_meal ? kit_meal.servings : 0;
-        },
+const mealIsInKit = (meal_id) => props.kit.meals.some((m) => m.id === meal_id);
 
-        setKit(updated_kit) {
-            eventHub.$emit("basket-updated");
-            this.$emit("kit-updated", updated_kit);
-        },
-
-        mealIsInKit(meal_id) {
-            return this.kit.meals.some((m) => m.id === meal_id);
-        },
-    },
+const mealPriceClasses = (tier) => {
+    const lookup = {
+        Basic: "bg-orange-200 text-black",
+        Standard: "bg-emerald-400 text-white",
+        Premium: "bg-black text-white",
+    };
+    return lookup[tier] || lookup.Standard;
 };
 </script>
