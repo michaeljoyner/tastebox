@@ -58,6 +58,9 @@ class AdminMealResource extends JsonResource
                 $this->whenLoaded('notes')
             ),
             'public_recipe_notes'    => $this->public_recipe_notes,
+            'tier' => $this->price_tier?->description(),
+            'tier_value' => $this->price_tier?->value,
+            'price' => $this->price_tier?->price(),
         ];
     }
 
