@@ -1,16 +1,22 @@
 <template>
     <page>
         <page-header title="Meal Popularity">
-            <input-field
-                v-model="query"
-                placeholder="Search by name"
-            ></input-field>
+            <div
+                class="flex space-x-2 px-4 py-2 border focus-within:ring-1 rounded-full"
+            >
+                <SearchIcon class="w-4 text-gray-400" />
+                <input
+                    v-model="query"
+                    placeholder="Search by name"
+                    class="border-0 focus:outline-none focus:ring-0"
+                />
+            </div>
         </page-header>
 
         <div class="my-12">
-            <table class="w-full">
+            <table class="w-full bg-slate-50">
                 <thead>
-                    <tr class="bg-gray-700">
+                    <tr class="bg-slate-700">
                         <th class="p-2 text-white text-left text-xs uppercase">
                             Meal
                         </th>
@@ -28,18 +34,29 @@
                         </th>
                     </tr>
                 </thead>
-                <tbody>
-                    <tr v-for="meal in meals" :key="meal.id" class="">
+                <tbody class="text-sm">
+                    <tr
+                        v-for="meal in meals"
+                        :key="meal.id"
+                        class="border-b border-white hover:bg-blue-50"
+                    >
                         <td class="p-2 text-sm">
                             <router-link
                                 :to="`/meals/${meal.id}/manage/info`"
+                                class="hover:text-indigo-500"
                                 >{{ meal.name }}</router-link
                             >
                         </td>
-                        <td class="p-2 text-sm">{{ meal.times_offered }}</td>
-                        <td class="p-2 text-sm">{{ meal.total_ordered }}</td>
-                        <td class="p-2 text-sm">{{ meal.total_servings }}</td>
-                        <td class="p-2 text-sm whitespace-nowrap">
+                        <td class="p-2 text-sm font-bold">
+                            {{ meal.times_offered }}
+                        </td>
+                        <td class="p-2 text-sm font-bold">
+                            {{ meal.total_ordered }}
+                        </td>
+                        <td class="p-2 text-sm font-bold">
+                            {{ meal.total_servings }}
+                        </td>
+                        <td class="p-2 text-xs whitespace-nowrap">
                             {{ meal.last_offered_ago }}
                         </td>
                     </tr>
@@ -49,34 +66,28 @@
     </page>
 </template>
 
-<script type="text/babel">
+<script setup>
 import Page from "../../Components/UI/Page.vue";
 import PageHeader from "../../Components/PageHeader.vue";
 import { useStore } from "vuex";
 import { computed, onMounted, ref } from "vue";
 import InputField from "../../Components/Forms/InputField.vue";
-export default {
-    components: { InputField, PageHeader, Page },
+import SearchIcon from "../../Components/Icons/SearchIcon.vue";
 
-    setup() {
-        const store = useStore();
+const store = useStore();
 
-        const query = ref("");
+const query = ref("");
 
-        const meals = computed(() => {
-            return store.getters["meals/byPopularity"].filter((m) => {
-                if (query.length < 3) {
-                    return true;
-                }
-                return m.name.toLowerCase().includes(query.value.toLowerCase());
-            });
-        });
+const meals = computed(() => {
+    return store.getters["meals/byPopularity"].filter((m) => {
+        if (query.length < 3) {
+            return true;
+        }
+        return m.name.toLowerCase().includes(query.value.toLowerCase());
+    });
+});
 
-        onMounted(() => {
-            store.dispatch("meals/fetchMeals");
-        });
-
-        return { meals, query };
-    },
-};
+onMounted(() => {
+    store.dispatch("meals/fetchAllUsed");
+});
 </script>

@@ -52,7 +52,7 @@ export default {
                 .slice(0, 5),
 
         byPopularity: (state) => {
-            return state.meals
+            return state.used_meals
                 .filter((m) => m.total_ordered > 0)
                 .sort((a, b) => b.total_servings - a.total_servings);
         },
