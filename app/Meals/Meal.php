@@ -6,7 +6,10 @@ use App\HasNotes;
 use App\Loggable;
 use App\LogsActivities;
 use App\Orders\MealTally;
+use App\Orders\Menu;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
@@ -50,6 +53,16 @@ class Meal extends Model implements HasMedia, Loggable
         'serving_protein' => 'integer',
         'serving_energy'  => 'integer',
     ];
+
+    public function menus(): BelongsToMany
+    {
+        return $this->belongsToMany(Menu::class);
+    }
+
+    public function latestMenus(): BelongsToMany
+    {
+        return $this->belongsToMany(Menu::class)->orderByDesc('id');
+    }
 
     public static function createNew($attributes = [], $classifications = []): self
     {
@@ -136,6 +149,7 @@ class Meal extends Model implements HasMedia, Loggable
     public function ingredients()
     {
         return $this->belongsToMany(Ingredient::class)
+                    ->orderBy('position')
                     ->using(MealIngredient::class)
                     ->withPivot(['id', 'quantity', 'in_kit', 'position', 'group', 'form', 'bundled']);
     }

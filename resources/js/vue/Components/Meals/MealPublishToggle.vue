@@ -52,9 +52,7 @@ export default {
 
     methods: {
         toggleStatus() {
-            const action = !this.isPublic
-                ? "meals/publishMeal"
-                : "meals/retractMeal";
+            const action = !this.isPublic ? "meals/publish" : "meals/retract";
             this.waiting = true;
             this.$store
                 .dispatch(action, this.mealId)

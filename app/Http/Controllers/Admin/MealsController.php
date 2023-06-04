@@ -4,7 +4,9 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\MealFormRequest;
+use App\Http\Resources\AdminMealResource;
 use App\Meals\Meal;
+use Illuminate\Contracts\Database\Query\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -13,23 +15,40 @@ class MealsController extends Controller
 
     public function index()
     {
-        $sel = DB::raw('meal_menu.meal_id, max(meal_menu.menu_id), max(menus.current_from) as last_used');
-        $lastUsed = DB::table('meal_menu')->select($sel)
-                      ->leftJoin('menus', 'menus.id', '=', 'meal_menu.menu_id')
-                      ->groupBy('meal_menu.meal_id');
+        $search = request('q', false);
+        $classification_ids = collect(explode(",", request('classifications')))->filter(fn ($id) => !!intval($id));
 
-        return Meal::with('ingredients', 'classifications', 'tallies', 'notes')
-                   ->leftJoinSub(
-                       $lastUsed,
-                       'recent_inclusion',
-                       fn($join) => $join->on('meals.id', '=', 'recent_inclusion.meal_id')
-                   )
-                   ->get()->map->asArrayForAdmin();
+        $meals = Meal::query()
+            ->with('classifications', 'latestMenus')
+            ->when($search, fn(Builder $query) => $query->where('name', 'LIKE', "%{$search}%"))
+            ->when(
+                $classification_ids->count(),
+                function (Builder $query) use ($classification_ids) {
+                    foreach ($classification_ids->all() as $id) {
+                        $query->whereHas(
+                            'classifications',
+                            fn (Builder $q) => $q->where('classifications.id', $id)
+                        );
+                    }
+                }
+            )
+            ->paginate(40);
+
+        return AdminMealResource::collection($meals);
     }
 
     public function show(Meal $meal)
     {
-        return $meal->asArrayForAdmin();
+        $meal->load([
+            'media',
+            'ingredients',
+            'notes',
+            'tallies',
+            'classifications',
+            'latestMenus'
+        ]);
+
+        return AdminMealResource::make($meal);
     }
 
     public function store(MealFormRequest $request)

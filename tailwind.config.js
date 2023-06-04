@@ -68,6 +68,8 @@ module.exports = {
             backgroundImage: {
                 footer: "url(/images/footer_pattern.png)",
                 "mobile-banner": "url(/images/home/banner_noodles.jpg)",
+                squiggly: "url(/images/squiggly.jpg)",
+                colours: "url(/images/colour_and_shape.jpg)",
             },
             animation: {
                 wiggle: "wiggle 2s linear infinite",

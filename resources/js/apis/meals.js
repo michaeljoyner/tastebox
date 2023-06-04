@@ -8,8 +8,8 @@ function deleteMeal(meal_id) {
     return del(`/admin/api/meals/${meal_id}`);
 }
 
-function fetchAllMeals() {
-    return get("/admin/api/meals");
+function fetchAllMeals(query) {
+    return get(`/admin/api/meals?${query}`);
 }
 
 function findMealById(meal_id) {
@@ -52,6 +52,30 @@ function addMealNote(meal_id, formData) {
     return post(`/admin/api/meals/${meal_id}/notes`, formData);
 }
 
+function updateMealGalleryPositions(meal_id, image_ids) {
+    return post(`/admin/api/meals/${meal_id}/images/positions`, { image_ids });
+}
+
+function createIngredient(description) {
+    return post("/admin/api/ingredients", { description });
+}
+
+function fetchAllClassifications() {
+    return get("/admin/api/classifications");
+}
+
+function publishMeal(meal_id) {
+    return post("/admin/api/published-meals", { meal_id });
+}
+
+function retractMeal(meal_id) {
+    return del(`/admin/api/published-meals/${meal_id}`);
+}
+
+function fetchAllMealsWithUsage() {
+    return get("/admin/api/used-meals");
+}
+
 export {
     deleteMeal,
     copyMeal,
@@ -65,4 +89,10 @@ export {
     updateMealPublicRecipeNotes,
     updateIngredientPositions,
     addMealNote,
+    updateMealGalleryPositions,
+    createIngredient,
+    fetchAllClassifications,
+    publishMeal,
+    retractMeal,
+    fetchAllMealsWithUsage,
 };

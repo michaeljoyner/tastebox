@@ -82,24 +82,19 @@
     </page>
 </template>
 
-<script type="text/babel">
+<script setup>
 import Page from "../../Components/UI/Page.vue";
 import PageHeader from "../../Components/PageHeader.vue";
+import { onMounted, computed } from "vue";
+import { useStore } from "vuex";
+import { useRoute } from "vue-router";
 
-export default {
-    components: {
-        Page,
-        PageHeader,
-    },
+const store = useStore();
+const route = useRoute();
 
-    computed: {
-        meal() {
-            return this.$store.getters["meals/byId"](this.$route.params.meal);
-        },
-    },
+const meal = computed(() => store.state.meals.active);
 
-    mounted() {
-        this.$store.dispatch("meals/fetchMeals");
-    },
-};
+onMounted(() => {
+    store.dispatch("meals/fetchActive", route.params.meal);
+});
 </script>

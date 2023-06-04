@@ -1,7 +1,7 @@
 <template>
     <page v-if="menu">
         <page-header :title="`Select meals for #${menu.week_number}`">
-            <router-link :to="`/menus/${menu.id}`" class="mx-4 btn-muted"
+            <router-link :to="`/menus/${menu.id}`" class="mx-4 muted-text-btn"
                 >Back to Menu</router-link
             >
             <button class="btn btn-main" @click="save">Save</button>
@@ -10,11 +10,13 @@
         <div class="">
             <div
                 class="max-w-lg fixed bottom-0 right-0 m-6 shadow-lg bg-white w-full"
+                :class="{ 'rounded-full overflow-hidden': !showSelected }"
             >
                 <div
-                    class="flex justify-between items-center p-2 bg-red-500 text-white"
+                    class="flex justify-between items-center p-2 bg-indigo-50 text-black hover:bg-indigo-200"
+                    @click="showSelected = !showSelected"
                 >
-                    <p class="text-lg font-bold">
+                    <p class="px-2 font-bold">
                         {{ selected_meals.length }} Selected meals
                     </p>
                     <button
@@ -24,7 +26,7 @@
                         <svg
                             xmlns="http://www.w3.org/2000/svg"
                             viewBox="0 0 20 20"
-                            class="fill-current h-5 transform -rotate-45"
+                            class="fill-current h-5 transform -rotate-45 text-slate-900"
                         >
                             <path
                                 d="M8 5a1 1 0 100 2h5.586l-1.293 1.293a1 1 0 001.414 1.414l3-3a1 1 0 000-1.414l-3-3a1 1 0 10-1.414 1.414L13.586 5H8zM12 15a1 1 0 100-2H6.414l1.293-1.293a1 1 0 10-1.414-1.414l-3 3a1 1 0 000 1.414l3 3a1 1 0 001.414-1.414L6.414 15H12z"
@@ -60,80 +62,65 @@
     </page>
 </template>
 
-<script type="text/babel">
+<script setup>
 import Page from "../../Components/UI/Page.vue";
 import PageHeader from "../../Components/PageHeader.vue";
 import SearchIcon from "../../Components/UI/Icons/Search.vue";
 import { showError, showSuccess } from "../../../libs/notifications.js";
 import ColourLabel from "../../Components/UI/ColourLabel.vue";
 import MealSelector from "../../Components/Meals/MealSelector.vue";
+import { ref, computed, onMounted, watch } from "vue";
+import { useStore } from "vuex";
+import { useRoute } from "vue-router";
 
-export default {
-    components: {
-        ColourLabel,
-        Page,
-        PageHeader,
-        SearchIcon,
-        MealSelector,
-    },
+const store = useStore();
+const route = useRoute();
 
-    data() {
-        return {
-            selected_meals: [],
-            showSelected: false,
-        };
-    },
+const selected_meals = ref([]);
+const selected_category = ref(null);
+const showSelected = ref(false);
+const menu = computed(() => store.getters["menus/byId"](route.params.id));
 
-    computed: {
-        menu() {
-            return this.$store.getters["menus/byId"](this.$route.params.id);
-        },
-    },
-
-    mounted() {
-        this.$store.dispatch("menus/fetchMenus").catch(showError);
-    },
-
-    watch: {
-        menu(to) {
-            if (to) {
-                this.setInitialMeals();
-            }
-        },
-    },
-
-    methods: {
-        setInitialMeals() {
-            this.selected_meals = this.menu.meals.map((m) => m);
-        },
-
-        addMeal(meal) {
-            this.selected_meals.push(meal);
-        },
-
-        removeMeal(meal) {
-            this.selected_meals = this.selected_meals.filter(
-                (m) => m.id !== meal.id
-            );
-        },
-
-        save() {
-            this.$store
-                .dispatch("menus/saveMenuMeals", {
-                    menu_id: this.menu.id,
-                    meal_ids: this.selected_meals.map((m) => m.id),
-                })
-                .then(() => showSuccess("Meals saved!"))
-                .catch(() => showError("Unable to save meals"));
-        },
-
-        setCategory(category_id) {
-            if (this.selected_category === category_id) {
-                return (this.selected_category = null);
-            }
-
-            this.selected_category = category_id;
-        },
-    },
+const setInitialMeals = () => {
+    selected_meals.value = menu.value.meals.map((m) => m);
 };
+
+watch(
+    () => menu.value,
+    (menu) => {
+        if (menu) {
+            setInitialMeals();
+        }
+    }
+);
+
+const addMeal = (meal) => {
+    selected_meals.value.push(meal);
+};
+
+const removeMeal = (meal) => {
+    selected_meals.value = selected_meals.value.filter((m) => m.id !== meal.id);
+};
+
+const save = () => {
+    store
+        .dispatch("menus/saveMenuMeals", {
+            menu_id: menu.value.id,
+            meal_ids: selected_meals.value.map((m) => m.id),
+        })
+        .then(() => showSuccess("Meals saved!"))
+        .catch(() => showError("Unable to save meals"));
+};
+
+const setCategory = (category_id) => {
+    if (selected_category.value === category_id) {
+        return (selected_category.value = null);
+    }
+
+    selected_category.value = category_id;
+};
+
+onMounted(() => {
+    store.dispatch("menus/fetchMenus").catch(showError);
+});
 </script>

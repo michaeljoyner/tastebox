@@ -1,12 +1,18 @@
 <template>
-    <page class="">
+    <page>
         <div
-            class="bg-gradient-to-r from-indigo-500 to-pink-500 p-8 rounded-xl text-white mt-12 md:mt-0"
+            class="relative bg-colours bg-center bg-cover overflow-hidden shadow-md rounded-lg mt-12"
         >
-            <p class="text-3xl font-black">
-                {{ quote.message }}
-            </p>
-            <p class="mt-6 text-right">- {{ quote.author }}</p>
+            <div
+                class="bg-white/90 backdrop-blur-md p-8 text-slate-600 md:mt-0 relative"
+            >
+                <p class="text-3xl font-black">
+                    {{ quote.message }}
+                </p>
+                <p class="mt-6 text-right text-sm font-bold">
+                    - {{ quote.author }}
+                </p>
+            </div>
         </div>
 
         <div class="my-12" v-if="batch">
@@ -14,7 +20,9 @@
                 Next delivery: {{ batch.delivery_date }}
             </p>
 
-            <div class="mt-6 flex flex-col md:flex-row space-x-6">
+            <div
+                class="mt-6 flex flex-col md:flex-row md:space-x-6 space-x-0 space-y-4 md:space-y-0"
+            >
                 <div
                     class="py-6 px-12 rounded-lg shadow-md flex flex-col items-center"
                 >
@@ -52,15 +60,17 @@
         </div>
 
         <div class="my-12">
-            <p class="text-lg font-black">Recent Activity</p>
+            <p class="text-lg font-black mb-6">Recent Activity</p>
 
-            <div>
+            <div class="divide-y divide-white">
                 <div
                     v-for="activity in activities"
                     :key="activity.id"
-                    class="flex items-center space-x-6 text-sm py-2"
+                    class="flex flex-col md:flex-row md:items-center md:space-x-6 text-sm py-2 bg-slate-50 p-6"
                 >
-                    <p>{{ activity.created_at }}</p>
+                    <p class="text-xs font-bold w-32">
+                        {{ activity.created_at }}
+                    </p>
                     <div>
                         <router-link
                             v-show="activity.url"

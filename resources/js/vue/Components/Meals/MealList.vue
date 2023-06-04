@@ -22,8 +22,6 @@
     </div>
 </template>
 
-<script type="text/babel">
-export default {
-    props: ["meals"],
-};
+<script setup>
+const props = defineProps({ meals: Array });
 </script>

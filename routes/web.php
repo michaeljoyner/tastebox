@@ -19,6 +19,7 @@ use App\Http\Controllers\Admin\PostPreviewController;
 use App\Http\Controllers\Admin\PostsController;
 use App\Http\Controllers\Admin\PostTitleImageController;
 use App\Http\Controllers\Admin\PublishedPostsController;
+use App\Http\Controllers\Admin\UsedMealsController;
 use App\Http\Controllers\Admin\WeeklyBatchReportsController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\BlogController;
@@ -147,6 +148,7 @@ Route::group(['middleware' => 'auth'], function () {
         Route::delete('orderable-menus/{menu}', 'OrderableMenusController@destroy');
 
         Route::get('meals', 'MealsController@index');
+        Route::get('used-meals', [UsedMealsController::class, 'index']);
         Route::get('meals/{meal}', 'MealsController@show');
         Route::post('meals', 'MealsController@store');
         Route::post('meals/{meal}', 'MealsController@update');
