@@ -2,6 +2,27 @@
     <page v-if="member">
         <page-header :title="member.full_name"></page-header>
 
+        <div
+            class="my-12 bg-slate-900 text-white px-6 py-2 rounded-full flex items-center justify-between"
+        >
+            <div class="flex items-center space-x-4">
+                <ShieldIcon class="h-6 w-6 text-green-500" />
+                <p class="font-semibold">Signed up {{ member.signed_up }}</p>
+            </div>
+
+            <p class="flex items-center space-x-2">
+                <span>Profile info:</span>
+                <CheckIcon
+                    class="w-6 h-6 text-blue-500"
+                    v-show="member.profile_complete"
+                />
+                <EcksIcon
+                    class="w-6 h-6 text-red-500"
+                    v-show="!member.profile_complete"
+                />
+            </p>
+        </div>
+
         <div class="my-12">
             <div class="flex items-center space-x-2 mb-2">
                 <phone-icon class="text-pink-500 h-5 w-5"></phone-icon>
@@ -25,37 +46,40 @@
 
             <div>
                 <div
-                    v-for="order in member.orders"
+                    v-for="order in member.orders.slice(0, 5)"
                     :key="order.id"
-                    class="flex space-x-6 mb-2"
+                    class="flex items-center space-x-6 mb-2"
                 >
                     <colour-label
                         :colour="order.is_paid ? 'green' : 'yellow'"
-                        :text="`R${order.price_in_cents / 100}`"
+                        :text="`${order.price}`"
                     ></colour-label>
 
                     <router-link
                         :to="`/orders/${order.id}`"
                         class="muted-text-btn"
-                        >{{ order.order_date }}</router-link
+                        >{{ order.date }}</router-link
                     >
 
                     <span>{{
-                        order.ordered_kits.length === 1
+                        order.kits.length === 1
                             ? "1 Kit"
-                            : `${order.ordered_kits.length} kits`
+                            : `${order.kits.length} kits`
                     }}</span>
 
                     <span
                         >{{
-                            order.ordered_kits.reduce(
-                                (carry, kit) => carry + kit.meal_summary.length,
+                            order.kits.reduce(
+                                (carry, kit) => carry + kit.meals.length,
                                 0
                             )
                         }}
                         Meals</span
                     >
                 </div>
+            </div>
+            <div class="text-gray-500 italic my-4">
+                {{ member.orders.length }} orders on record
             </div>
         </div>
 
@@ -189,8 +213,14 @@ import DiscountForm from "../../Components/MemberShips/DiscountForm.vue";
 import { httpAction } from "../../../libs/httpAction.js";
 import { showError, showSuccess } from "../../../libs/notifications.js";
 import SubmitButton from "../../Components/UI/SubmitButton.vue";
+import ShieldIcon from "../../Components/Icons/ShieldIcon.vue";
+import CheckIcon from "../../Components/Icons/CheckIcon.vue";
+import EcksIcon from "../../Components/Icons/EcksIcon.vue";
 export default {
     components: {
+        EcksIcon,
+        CheckIcon,
+        ShieldIcon,
         SubmitButton,
         DiscountForm,
         SlideOverPanel,

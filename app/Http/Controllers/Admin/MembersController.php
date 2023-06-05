@@ -16,23 +16,18 @@ class MembersController extends Controller
     {
         $member->load('profile', 'orders.orderedKits');
 
-        return new AdminMemberResource($member);
+        return AdminMemberResource::make($member);
     }
 
     public function index()
     {
         $page = User::query()
                     ->members()
-                    ->with('profile', 'orders.orderedKits')
+                    ->with('profile', 'orders')
                     ->orderBy('name')
-                    ->paginate(20);
+                    ->paginate(30);
 
-        return new AdminMemberCollection($page);
+        return AdminMemberResource::collection($page);
 
-//        return [
-//            'page'        => $page->currentPage(),
-//            'items'       => collect($page->items())->map(fn($user) => MemberPresenter::forAdmin($user)),
-//            'total_pages' => $page->lastPage(),
-//        ];
     }
 }
