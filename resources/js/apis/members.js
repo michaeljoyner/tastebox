@@ -1,7 +1,12 @@
 import { del, get, post } from "./http";
 
-const fetchMembers = (page = 1) => {
-    return get(`/admin/api/members?page=${page}`);
+const fetchMembers = (page = 1, term = "") => {
+    const query = new URLSearchParams();
+    query.set("page", page);
+    if (term) {
+        query.set("q", term);
+    }
+    return get(`/admin/api/members?${query.toString()}`);
 };
 
 const fetchMember = (member_id) => {

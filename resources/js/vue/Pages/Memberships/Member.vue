@@ -198,7 +198,7 @@
     </page>
 </template>
 
-<script type="text/babel">
+<script setup>
 import Page from "../../Components/UI/Page.vue";
 import PageHeader from "../../Components/PageHeader.vue";
 import { useStore } from "vuex";
@@ -216,80 +216,47 @@ import SubmitButton from "../../Components/UI/SubmitButton.vue";
 import ShieldIcon from "../../Components/Icons/ShieldIcon.vue";
 import CheckIcon from "../../Components/Icons/CheckIcon.vue";
 import EcksIcon from "../../Components/Icons/EcksIcon.vue";
-export default {
-    components: {
-        EcksIcon,
-        CheckIcon,
-        ShieldIcon,
-        SubmitButton,
-        DiscountForm,
-        SlideOverPanel,
-        ColourLabel,
-        LocationIcon,
-        EmailIcon,
-        PhoneIcon,
-        PageHeader,
-        Page,
-    },
 
-    setup() {
-        const store = useStore();
-        const route = useRoute();
+const store = useStore();
+const route = useRoute();
 
-        const member = computed(() => store.state.members.active_member);
+const member = computed(() => store.state.members.active_member);
 
-        onMounted(() => {
-            store.dispatch("members/fetchActive", route.params.member);
-        });
+onMounted(() => {
+    store.dispatch("members/fetchActive", route.params.member);
+});
 
-        const showDiscountPanel = ref(false);
-        const selectedDiscount = ref(null);
+const showDiscountPanel = ref(false);
+const selectedDiscount = ref(null);
 
-        const editDiscount = (discount) => {
-            selectedDiscount.value = discount;
-            showDiscountPanel.value = true;
-        };
-
-        const createDiscount = () => {
-            selectedDiscount.value = null;
-            showDiscountPanel.value = true;
-        };
-
-        watch(
-            () => route.params.member,
-            (member_id) => {
-                if (member_id) {
-                    store.dispatch("members/fetchActive", member_id);
-                }
-            }
-        );
-
-        const showDeleteDiscountOptions = ref(false);
-
-        const [deleting, deleteDiscount] = httpAction(
-            () =>
-                store.dispatch(
-                    "members/deleteDiscount",
-                    selectedDiscount.value.id
-                ),
-            () => {
-                showSuccess("Discount removed");
-                showDiscountPanel.value = false;
-                showDeleteDiscountOptions.value = false;
-            },
-            () => showError("Failed to delete discount")
-        );
-
-        return {
-            member,
-            showDiscountPanel,
-            editDiscount,
-            selectedDiscount,
-            createDiscount,
-            showDeleteDiscountOptions,
-            deleting,
-            deleteDiscount,
-        };
-    },
+const editDiscount = (discount) => {
+    selectedDiscount.value = discount;
+    showDiscountPanel.value = true;
 };
+
+const createDiscount = () => {
+    selectedDiscount.value = null;
+    showDiscountPanel.value = true;
+};
+
+watch(
+    () => route.params.member,
+    (member_id) => {
+        if (member_id) {
+            store.dispatch("members/fetchActive", member_id);
+        }
+    }
+);
+
+const showDeleteDiscountOptions = ref(false);
+
+const [deleting, deleteDiscount] = httpAction(
+    () => store.dispatch("members/deleteDiscount", selectedDiscount.value.id),
+    () => {
+        showSuccess("Discount removed");
+        showDiscountPanel.value = false;
+        showDeleteDiscountOptions.value = false;
+    },
+    () => showError("Failed to delete discount")
+);
 </script>

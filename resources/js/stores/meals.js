@@ -118,6 +118,10 @@ export default {
             }
         },
 
+        resetPage(state) {
+            state.page = 1;
+        },
+
         setActive(state, meal) {
             state.active = meal;
             state.last_fetched_active = new Date().getTime();
@@ -160,6 +164,7 @@ export default {
         searchMeals({ commit, dispatch }, { search, classifications }) {
             commit("setSearchQuery", search);
             commit("setMatchClassifications", classifications);
+            commit("resetPage");
 
             dispatch("refresh");
         },

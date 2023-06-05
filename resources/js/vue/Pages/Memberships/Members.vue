@@ -2,23 +2,61 @@
     <page>
         <page-header title="Tastebox Members"></page-header>
 
-        <div class="mt-12 flex justify-end space-x-3 items-center">
-            <button
-                class="text-sm font-semibold hover:text-blue-500"
-                :disabled="current_page === 1"
-                @click="prevPage"
+        <div>
+            <form
+                @submit.prevent="search"
+                class="border focus-within:ring-1 px-4 py-1 rounded-full flex items-center space-x-2 max-w-sm"
             >
-                &larr; Prev Page
-            </button>
-            <p class="text-sm">Page {{ current_page }} of {{ total_pages }}</p>
+                <SearchIcon class="w-5 h-5 text-gray-400" />
+                <input
+                    type="text"
+                    v-model="term"
+                    placeholder="Search by name or email"
+                    class="border-0 focus:outline-none focus:ring-0 flex-1"
+                />
+            </form>
+        </div>
 
-            <button
-                class="text-sm font-semibold hover:text-blue-500"
-                :disabled="current_page >= total_pages"
-                @click="nextPage"
+        <div class="flex justify-between items-center mt-12">
+            <div class="flex items-center space-x-3">
+                <p class="text-sm text-gray-500" v-show="searched">
+                    Showing members matching
+                    <span class="font-semibold text-indigo-500"
+                        >"{{ searched }}"</span
+                    >
+                </p>
+                <button
+                    type="button"
+                    @click="clearSearch"
+                    class="text-sm text-gray-500 hover:text-blue-500"
+                    v-show="searched"
+                >
+                    Clear
+                </button>
+            </div>
+            <div
+                class="flex justify-end space-x-3 items-center"
+                v-show="total_pages > 1"
             >
-                Next Page &rarr;
-            </button>
+                <button
+                    class="text-sm font-semibold hover:text-blue-500"
+                    :disabled="current_page === 1"
+                    @click="prevPage"
+                >
+                    &larr; Prev Page
+                </button>
+                <p class="text-sm">
+                    Page {{ current_page }} of {{ total_pages }}
+                </p>
+
+                <button
+                    class="text-sm font-semibold hover:text-blue-500"
+                    :disabled="current_page >= total_pages"
+                    @click="nextPage"
+                >
+                    Next Page &rarr;
+                </button>
+            </div>
         </div>
 
         <div class="my-6">
@@ -80,35 +118,35 @@ import { showSuccess } from "../../../libs/notifications.js";
 import ShieldIcon from "../../Components/Icons/ShieldIcon.vue";
 import CheckIcon from "../../Components/Icons/CheckIcon.vue";
 import SpinningIcon from "../../Components/Icons/SpinningIcon.vue";
+import SearchIcon from "../../Components/Icons/SearchIcon.vue";
 
 const store = useStore();
 
 const members = computed(() => store.state.members.list);
-const current_page = computed(() => store.state.members.current_page);
+const current_page = computed(() => store.state.members.page);
 const total_pages = computed(() => store.state.members.total_pages);
-const fetching = ref(true);
+const fetching = computed(() => store.state.members.fetching);
+const searched = computed(() => store.state.members.search_term);
 
 const nextPage = () => {
-    if (current_page.value >= total_pages.value) {
-        return showSuccess("This is the last page");
-    }
-    fetchPage(current_page.value + 1);
+    store.dispatch("members/fetchNextPage");
 };
 
 const prevPage = () => {
-    if (current_page.value <= 1) {
-        return showSuccess("This is the first page");
-    }
-    fetchPage(current_page.value - 1);
+    store.dispatch("members/fetchPrevPage");
 };
 
-const fetchPage = (page) => {
-    fetching.value = true;
-    store.dispatch("members/fetch", page).then(() => (fetching.value = false));
+const term = ref("");
+const search = () => {
+    return store.dispatch("members/search", term.value);
+};
+
+const clearSearch = () => {
+    return store.dispatch("members/reset");
 };
 
 onMounted(() => {
-    store.dispatch("members/fetch").then(() => (fetching.value = false));
+    store.dispatch("members/fetch");
 });
 
 const latestOrder = (orders) => {
