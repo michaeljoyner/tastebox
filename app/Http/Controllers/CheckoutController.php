@@ -17,7 +17,7 @@ class CheckoutController extends Controller
             return redirect("/basket");
         }
 
-        if($basket->price() < 3 * Meal::SERVING_PRICE) {
+        if($basket->price() < 3 * 85) {
             return view('front.checkout.nothing-to-checkout', [
                 'basket' => $basket->presentForReview()
             ]);
