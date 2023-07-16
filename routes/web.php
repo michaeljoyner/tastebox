@@ -77,7 +77,7 @@ Route::get('blog', [BlogController::class, 'index']);
 Route::get('blog/{post:slug}', [BlogController::class, 'show']);
 
 Route::view('contact', 'front.contact.page');
-Route::view('dietician', 'front.contact-dietitian.page');
+Route::view('dietician', 'front.contact-dietitian.page')->middleware('admin');
 
 
 Route::post('contact', 'ContactMessageController@store');
