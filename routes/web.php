@@ -23,6 +23,7 @@ use App\Http\Controllers\Admin\UsedMealsController;
 use App\Http\Controllers\Admin\WeeklyBatchReportsController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\BlogController;
+use App\Http\Controllers\ContactDietitianController;
 use App\Http\Controllers\EmailVerificationController;
 use App\Http\Controllers\EmailVerificationLinkRequestController;
 use App\Http\Controllers\KitDeliveryAddressController;
@@ -76,9 +77,11 @@ Route::get('blog', [BlogController::class, 'index']);
 Route::get('blog/{post:slug}', [BlogController::class, 'show']);
 
 Route::view('contact', 'front.contact.page');
+Route::view('dietician', 'front.contact-dietitian.page');
 
 
 Route::post('contact', 'ContactMessageController@store');
+Route::post('contact-dietitian', [ContactDietitianController::class, 'store']);
 
 
 Route::post('api/kits/{kit_id}/delivery-address', [KitDeliveryAddressController::class, 'update']);

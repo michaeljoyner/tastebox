@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Meals\Meal;
+use App\Meals\MealPriceTier;
 use App\Purchases\ShoppingBasket;
 use Illuminate\Http\Request;
 
@@ -17,7 +18,7 @@ class CheckoutController extends Controller
             return redirect("/basket");
         }
 
-        if($basket->price() < 3 * 85) {
+        if($basket->price() < 3 * MealPriceTier::BUDGET->price()) {
             return view('front.checkout.nothing-to-checkout', [
                 'basket' => $basket->presentForReview()
             ]);

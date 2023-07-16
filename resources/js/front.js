@@ -11,6 +11,7 @@ import CheckOut from "./vue/Components/Front/CheckOut.vue";
 import KitManager from "./vue/Components/Front/KitManager.vue";
 import BasketPage from "./vue/Components/Front/BasketPage.vue";
 import ContactPage from "./vue/Components/Front/ContactPage.vue";
+import ContactDietitian from "./vue/Components/Front/ContactDietitian.vue";
 import NavMenu from "./vue/Components/Front/NavMenu.vue";
 import ToastAlerts from "./vue/Components/Front/ToastAlerts.vue";
 
@@ -22,6 +23,7 @@ const app = createApp({})
     .component("basket-bar", BasketBar)
     .component("check-out", CheckOut)
     .component("contact-form", ContactPage)
+    .component("contact-dietitian", ContactDietitian)
     .component("toast-alerts", ToastAlerts);
 
 app.mount("#app");

@@ -91,7 +91,8 @@ return [
         'admins' => [
             ['name' => 'TasteBox', 'email' => 'enquiries@tastebox.co.za'],
             ['name' => 'Alex', 'email' => 'alexandra.joyner@gmail.com'],
-        ]
+        ],
+        'dietitian' => ['name' => 'Steph', 'email' => env('MAIL_DIETITIAN')]
     ],
 
     /*
