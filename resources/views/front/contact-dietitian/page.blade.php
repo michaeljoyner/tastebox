@@ -4,7 +4,7 @@
             <div class="max-w-6xl mx-auto">
                 <h1 class="type-h1">Consult Your Dietician</h1>
                 <div>
-                    <p class="type-b2 my-2">I can help you or your family take charge of your health and wellness.</p>
+                    <p class="type-b2 my-2">I can help you and your family take charge of your health and wellness.</p>
                 </div>
             </div>
         </div>
@@ -28,7 +28,8 @@
                     <ul class="list-disc pl-8 mt-4">
                         <li class="font-serif">An online consult over Zoom / Google Meet</li>
                         <li class="font-serif">A home visit where I come to you (limited to residents of Hilton)</li>
-                        <li class="font-serif">An appointment at my office in Clarendon, Pietermaritzburg (see location here).</li>
+                        <li class="font-serif">An appointment at my office in Clarendon, Pietermaritzburg
+                            <a target="_blank" href="https://goo.gl/maps/33NVbY2DVJjhMXci8" class="text-green-600 font-sans text-sm hover:underline">(see location here)</a>.</li>
                     </ul>
 
                     <p class="my-4">Send me a message from here and we can set up whichever of the above options suit you best. </p>
