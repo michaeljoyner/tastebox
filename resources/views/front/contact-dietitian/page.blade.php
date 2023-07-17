@@ -1,4 +1,4 @@
-<x-public-page title="Consult Your Dietician | TasteBox" description="Make an appointment with Steph, the dietician at Tastebox to take charge of your nutrition, health and wellness.">
+<x-public-page title="Consult Your Dietician | TasteBox" description="Make an appointment with Steph, the dietician at Tastebox to take charge of your nutrition, health and wellness." og-image="https://tastebox.co.za/images/steph_ss_img.jpg">
     <div class="pb-12">
         <div class="px-6 py-12 mb-12 bg-green-200">
             <div class="max-w-6xl mx-auto">
