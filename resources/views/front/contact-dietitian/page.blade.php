@@ -1,4 +1,4 @@
-<x-public-page title="Contact Us | TasteBox" description="Contact the team at TasteBox if you have any questions, or anything else to say. We love to hear from you.">
+<x-public-page title="Consult Your Dietician | TasteBox" description="Make an appointment with Steph, the dietician at Tastebox to take charge of your nutrition, health and wellness.">
     <div class="pb-12">
         <div class="px-6 py-12 mb-12 bg-green-200">
             <div class="max-w-6xl mx-auto">
