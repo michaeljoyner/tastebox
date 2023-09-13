@@ -74,7 +74,9 @@ export default {
 
             this.$store
                 .dispatch("meals/addIngredient", ingredient.description)
-                .then(this.addNewIngredient)
+                .then((ing) => {
+                    this.addNewIngredient(ing);
+                })
                 .catch(showError);
         },
 

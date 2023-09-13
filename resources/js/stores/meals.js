@@ -266,7 +266,7 @@ export default {
 
         addIngredient({ dispatch }, description) {
             return createIngredient(description)
-                .then(({ data }) => {
+                .then((data) => {
                     dispatch("fetchIngredients");
                     return data;
                 })
