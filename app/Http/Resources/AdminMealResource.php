@@ -26,6 +26,7 @@ class AdminMealResource extends JsonResource
             'unique_id' => $this->unique_id,
             'name' => $this->name,
             'description' => $this->description,
+            'meal_card_description' => $this->meal_card_description,
             'classifications' => ClassificationResource::collection($this->whenLoaded('classifications')),
             'title_image' => $this->when(
                 $this->hasMedia(Meal::GALLERY),

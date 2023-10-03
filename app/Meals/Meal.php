@@ -32,6 +32,7 @@ class Meal extends Model implements HasMedia, Loggable
         'unique_id',
         'name',
         'description',
+        'meal_card_description',
         'allergens',
         'prep_time',
         'cook_time',

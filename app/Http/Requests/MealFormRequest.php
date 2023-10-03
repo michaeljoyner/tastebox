@@ -31,6 +31,7 @@ class MealFormRequest extends FormRequest
         $meal = $this->only([
             'name',
             'description',
+            'meal_card_description',
             'allergens',
             'prep_time',
             'cook_time',

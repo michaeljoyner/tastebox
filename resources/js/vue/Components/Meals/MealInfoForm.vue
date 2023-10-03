@@ -51,6 +51,13 @@
             :error-msg="formErrors.description"
         ></text-area-field>
 
+        <text-area-field
+            class="my-6"
+            label="Meal Card Description"
+            v-model="formData.meal_card_description"
+            :error-msg="formErrors.meal_card_description"
+        ></text-area-field>
+
         <input-field
             class="my-6"
             label="Allergens"
@@ -106,6 +113,7 @@ export default {
             formData: {
                 name: "",
                 description: "",
+                meal_card_description: "",
                 prep_time: null,
                 cook_time: null,
                 allergens: "",
@@ -115,6 +123,7 @@ export default {
             formErrors: {
                 name: "",
                 description: "",
+                meal_card_description: "",
                 prep_time: "",
                 cook_time: "",
                 allergens: "",
@@ -141,6 +150,7 @@ export default {
             this.formData = {
                 name: this.meal.name,
                 description: this.meal.description,
+                meal_card_description: this.meal.meal_card_description,
                 prep_time: this.meal.prep_time,
                 cook_time: this.meal.cook_time,
                 allergens: this.meal.allergens,

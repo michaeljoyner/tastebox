@@ -29,6 +29,7 @@ class UpdateMealTest extends TestCase
         $response = $this->asAdmin()->postJson("/admin/api/meals/{$meal->id}", [
             'name' => 'test name',
             'description' => 'test description',
+            'meal_card_description' => 'test meal card description',
             'allergens' => 'test allergens',
             'prep_time' => 100,
             'cook_time' => 250,
@@ -41,6 +42,7 @@ class UpdateMealTest extends TestCase
         $this->assertDatabaseHas('meals', [
             'unique_id' => $meal->unique_id,
             'description' => 'test description',
+            'meal_card_description' => 'test meal card description',
             'allergens' => 'test allergens',
             'prep_time' => 100,
             'cook_time' => 250,
