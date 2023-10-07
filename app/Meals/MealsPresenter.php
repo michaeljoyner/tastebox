@@ -111,7 +111,7 @@ class MealsPresenter
 
         return [
             'name'            => $meal->name,
-            'description'     => $meal->description,
+            'description'     => $meal->meal_card_description,
             'prep_time'       => $meal->prep_time,
             'cook_time'       => $meal->cook_time,
             'instructions'    => $meal->instructions,

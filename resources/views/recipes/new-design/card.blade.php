@@ -18,13 +18,13 @@
 </head>
 <body style="padding: 0; margin: 0;">
 <div class="flex">
-    @include('recipes.card-front')
-    @include('recipes.card-front')
+    @include('recipes.new-design.card-front')
+    @include('recipes.new-design.card-front')
 </div>
 
 <div class="flex">
-    @include('recipes.card-back')
-    @include('recipes.card-back')
+    @include('recipes.new-design.card-back')
+    @include('recipes.new-design.card-back')
 </div>
 
 

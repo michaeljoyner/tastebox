@@ -26,7 +26,7 @@ class RecipeCard
 
     public static function forMeal(Meal $meal): string
     {
-        $html = view('recipes.card', ['meal' => MealsPresenter::forRecipeCard($meal)])->render();
+        $html = view('recipes.new-design.card', ['meal' => MealsPresenter::forRecipeCard($meal)])->render();
 
         $name = sprintf("%s.pdf", Str::slug($meal->name));
 

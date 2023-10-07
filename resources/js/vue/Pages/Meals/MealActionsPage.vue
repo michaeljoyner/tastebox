@@ -25,6 +25,13 @@
                 <submit-button :waiting="waiting_on_recipe"
                     >Download PDF</submit-button
                 >
+                <div>
+                    <a
+                        target="_blank"
+                        :href="`/admin/meals/${meal.id}/recipe-card`"
+                        >View Card</a
+                    >
+                </div>
             </form>
         </div>
 

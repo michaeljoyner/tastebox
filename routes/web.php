@@ -35,6 +35,7 @@ use App\Http\Controllers\Members\RecipesController;
 use App\Http\Controllers\Members\RevivedMemberOrdersController;
 use App\Http\Controllers\RegistrationsController;
 use App\Http\Controllers\RevivedGuestOrdersController;
+use App\Http\Controllers\ViewRecipeCardController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -138,6 +139,8 @@ Route::group(['middleware' => 'auth'], function () {
         Route::view('dashboard', 'admin.dashboard');
 
         Route::get('/blog/posts/{post}/preview', [PostPreviewController::class, 'show']);
+
+        Route::get('/meals/{meal}/recipe-card', [ViewRecipeCardController::class, 'show']);
     });
 
     Route::group(['prefix' => 'admin/api', 'namespace' => 'Admin'], function () {
