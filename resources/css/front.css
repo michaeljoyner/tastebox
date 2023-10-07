@@ -5,6 +5,10 @@
 
 @layer utilities {
 
+    html {
+        -webkit-print-color-adjust: exact
+    }
+
     .form-label {
         @apply text-sm text-gray-800 font-semibold;
     }

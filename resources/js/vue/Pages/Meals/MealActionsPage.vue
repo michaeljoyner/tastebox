@@ -22,15 +22,18 @@
                     button like an angry monkey.
                 </p>
                 <input type="hidden" name="_token" :value="csrf_token" />
-                <submit-button :waiting="waiting_on_recipe"
-                    >Download PDF</submit-button
-                >
-                <div>
-                    <a
-                        target="_blank"
-                        :href="`/admin/meals/${meal.id}/recipe-card`"
-                        >View Card</a
+                <div class="flex items-center justify-between">
+                    <submit-button :waiting="waiting_on_recipe"
+                        >Download PDF</submit-button
                     >
+                    <div>
+                        <a
+                            target="_blank"
+                            class="text-sm hover:underline"
+                            :href="`/admin/meals/${meal.id}/recipe-card`"
+                            >View Card</a
+                        >
+                    </div>
                 </div>
             </form>
         </div>

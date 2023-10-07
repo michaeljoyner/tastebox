@@ -25,6 +25,6 @@
 
         </div>
 
-        <p class="mt-6">{{ $meal['description'] }}</p>
+        <p class="mt-6 text-sm">{{ $meal['description'] }}</p>
     </div>
 </div>
