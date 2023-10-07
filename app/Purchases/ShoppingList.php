@@ -17,6 +17,32 @@ class ShoppingList
         $this->items = collect([]);
     }
 
+    public static function fromMealList(Collection $meals): static
+    {
+        return $meals->map(fn($meal) => [
+            'id'             => $meal['meal']->id,
+            'name'           => $meal['meal']->name,
+            'ingredients'    => $meal['meal']->ingredients->toArray(),
+            'total_servings' => $meal['servings']
+        ])->reduce(function (ShoppingList $list, $meal) {
+            foreach ($meal['ingredients'] as $ingredient) {
+                if ($ingredient['in_kit']) {
+                    $list->addItem(new ShoppingListItem([
+                        'id'          => $ingredient['id'],
+                        'description' => $ingredient['description'],
+                        'quantity'    => $ingredient['quantity'],
+                        'form'        => $ingredient['form'],
+                        'meal'        => $meal['name'],
+                        'servings'    => $meal['total_servings'],
+                    ]));
+                }
+            }
+
+            return $list;
+        }, new ShoppingList());
+
+    }
+
     public function addItem(ShoppingListItem $item)
     {
         if(!$this->hasItem($item)) {
