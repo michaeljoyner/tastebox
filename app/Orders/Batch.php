@@ -110,24 +110,6 @@ class Batch
     public function shoppingList(): array
     {
         return ShoppingList::fromMealList($this->mealsWithIngredients())->toArray();
-//        return $this->mealsWithIngredients()
-//                    ->reduce(function (ShoppingList $list, $meal) {
-//                        foreach ($meal['ingredients'] as $ingredient) {
-//                            if ($ingredient['in_kit']) {
-//                                $list->addItem(new ShoppingListItem([
-//                                    'id'          => $ingredient['id'],
-//                                    'description' => $ingredient['description'],
-//                                    'quantity'    => $ingredient['quantity'],
-//                                    'form'        => $ingredient['form'],
-//                                    'meal'        => $meal['name'],
-//                                    'servings'    => $meal['total_servings'],
-//                                ]));
-//                            }
-//                        }
-//
-//                        return $list;
-//                    }, new ShoppingList())
-//                    ->toArray();
     }
 
     public function createShoppingListPdf(): string
@@ -141,36 +123,13 @@ class Batch
                 subtitle: "For batch to be delivered on" . DatePresenter::pretty($this->deliveryDate())
             );
 
-//        $html = view('admin.batches.shopping-list', [
-//            'title'  => "Weekly Orders Shopping list: Week #{$this->week}",
-//            'subtitle' => "For batch to be delivered on" . DatePresenter::pretty($this->deliveryDate()),
-//            'shoppingList'  => $this->shoppingList(),
-//        ])->render();
-//
-//
-//        app(Browsershot::class)->setHtml($html)
-//                               ->format('A4')
-//                               ->margins(5, 5, 5, 25)
-//                               ->setNodeBinary(config('browsershot.node_path'))
-//                               ->setNpmBinary(config('browsershot.npm_path'))
-//                               ->savePdf(Storage::disk('admin_stuff')->path("shopping-lists/{$file_name}"));
-//
-//        return "shopping-lists/{$file_name}";
+
     }
 
     private function mealsWithIngredients()
     {
         $mealList = $this->mealList();
 
-//        return Meal::with('ingredients')
-//                   ->find(collect($mealList)->pluck('id'))
-//                   ->map(fn($meal) => [
-//                       'id'             => $meal->id,
-//                       'name'           => $meal->name,
-//                       'ingredients'    => $meal->ingredients->toArray(),
-//                       'total_servings' => collect($mealList)
-//                           ->first(fn($m) => $m['id'] === $meal->id)['total_servings']
-//                   ]);
         return Meal::with('ingredients')
                    ->find(collect($mealList)->pluck('id'))
                    ->map(fn($meal) => [
