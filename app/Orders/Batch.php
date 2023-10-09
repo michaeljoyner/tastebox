@@ -134,21 +134,28 @@ class Batch
     {
         $file_name = sprintf("shopping_list_batch_%s.pdf", $this->week);
 
-        $html = view('admin.batches.shopping-list', [
-            'batch_number'  => $this->week,
-            'delivery_date' => DatePresenter::pretty($this->deliveryDate()),
-            'shoppingList'  => $this->shoppingList(),
-        ])->render();
+        return ShoppingList::fromMealList($this->mealsWithIngredients())
+            ->saveAsPdf(
+                file_name: $file_name,
+                title: "Weekly Orders Shopping list: Week #{$this->week}",
+                subtitle: "For batch to be delivered on" . DatePresenter::pretty($this->deliveryDate())
+            );
 
-
-        app(Browsershot::class)->setHtml($html)
-                               ->format('A4')
-                               ->margins(5, 5, 5, 25)
-                               ->setNodeBinary(config('browsershot.node_path'))
-                               ->setNpmBinary(config('browsershot.npm_path'))
-                               ->savePdf(Storage::disk('admin_stuff')->path("shopping-lists/{$file_name}"));
-
-        return "shopping-lists/{$file_name}";
+//        $html = view('admin.batches.shopping-list', [
+//            'title'  => "Weekly Orders Shopping list: Week #{$this->week}",
+//            'subtitle' => "For batch to be delivered on" . DatePresenter::pretty($this->deliveryDate()),
+//            'shoppingList'  => $this->shoppingList(),
+//        ])->render();
+//
+//
+//        app(Browsershot::class)->setHtml($html)
+//                               ->format('A4')
+//                               ->margins(5, 5, 5, 25)
+//                               ->setNodeBinary(config('browsershot.node_path'))
+//                               ->setNpmBinary(config('browsershot.npm_path'))
+//                               ->savePdf(Storage::disk('admin_stuff')->path("shopping-lists/{$file_name}"));
+//
+//        return "shopping-lists/{$file_name}";
     }
 
     private function mealsWithIngredients()

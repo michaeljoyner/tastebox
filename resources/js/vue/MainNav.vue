@@ -78,6 +78,11 @@
                         to="/menus"
                         >Menus
                     </router-link>
+                    <router-link
+                        class="font-bold hover:underline mb-1 block whitespace-nowrap"
+                        to="/shopping-list"
+                        >Make Shopping List
+                    </router-link>
                 </div>
             </div>
 

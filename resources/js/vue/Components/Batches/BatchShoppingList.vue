@@ -7,28 +7,15 @@
             </button>
         </div>
 
-        <div class="my-12">
-            <div v-for="item in list" :key="item.id" class="mb-6 shadow p-4">
-                <p class="font-bold capitalize">{{ item.item_name }}</p>
-                <div class="border-b-2 border-green-600 w-40 mt-2 mb-4"></div>
-                <p
-                    v-for="(qty, unit) in item.amounts"
-                    :key="unit"
-                    class="text-3xl"
-                >
-                    <span>{{ qty }}</span>
-                    <span>{{ unit === "x_unit" ? "" : unit }}</span>
-                </p>
-                <div>
-                    <p class="text-sm" v-for="use in item.uses">{{ use }}</p>
-                </div>
-            </div>
-        </div>
+        <ShoppingListItems :items="list" />
     </div>
 </template>
 
 <script type="text/babel">
+import ShoppingListItems from "../Meals/ShoppingListItems.vue";
+
 export default {
+    components: { ShoppingListItems },
     computed: {
         list() {
             const ing = this.$store.getters["menus/current_shopping_list"];

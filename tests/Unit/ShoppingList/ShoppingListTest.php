@@ -4,6 +4,7 @@ namespace Tests\Unit\ShoppingList;
 
 use App\Meals\Ingredient;
 use App\Meals\Meal;
+use App\Meals\MealShoppingList;
 use App\Purchases\ShoppingList;
 use App\Purchases\ShoppingListItem;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -283,5 +284,43 @@ class ShoppingListTest extends TestCase
 
 
 
+    }
+
+    /**
+     *@test
+     */
+    public function can_create_shopping_list_from_meal_shopping_list()
+    {
+        $mealA = factory(Meal::class)->create();
+        $mealB = factory(Meal::class)->create();
+
+        $ingredientA = factory(Ingredient::class)->create(['description' => 'ingredient_A']);
+        $ingredientB = factory(Ingredient::class)->create(['description' => 'ingredient_B']);
+        $ingredientC = factory(Ingredient::class)->create(['description' => 'ingredient_C']);
+        $ingredientD = factory(Ingredient::class)->create(['description' => 'ingredient_D']);
+        $ingredientE = factory(Ingredient::class)->create(['description' => 'ingredient_E']);
+
+        $mealA->ingredients()->sync([
+            $ingredientA->id => ['quantity' => '4', 'in_kit' => true],
+            $ingredientB->id => ['quantity' => '4', 'in_kit' => false],
+            $ingredientC->id => ['quantity' => '3', 'in_kit' => true],
+        ]);
+
+        $mealB->ingredients()->sync([
+            $ingredientC->id => ['quantity' => '4', 'in_kit' => false],
+            $ingredientD->id => ['quantity' => '4', 'in_kit' => false],
+            $ingredientE->id => ['quantity' => '3', 'in_kit' => true],
+        ]);
+
+        $mealShoppingList = MealShoppingList::fromMealList(
+            collect([
+                ['meal_id' => $mealA->id, 'qty' => 3],
+                ['meal_id' => $mealB->id, 'qty' => 2],
+            ])
+        );
+
+        $list = ShoppingList::fromMealShoppingList($mealShoppingList);
+
+        $this->assertCount(3, $list->toArray());
     }
 }

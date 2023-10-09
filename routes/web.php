@@ -27,6 +27,8 @@ use App\Http\Controllers\ContactDietitianController;
 use App\Http\Controllers\EmailVerificationController;
 use App\Http\Controllers\EmailVerificationLinkRequestController;
 use App\Http\Controllers\KitDeliveryAddressController;
+use App\Http\Controllers\MealShoppingListPdfController;
+use App\Http\Controllers\MealShoppingListsController;
 use App\Http\Controllers\Members\HomePageController;
 use App\Http\Controllers\Members\MemberPasswordController;
 use App\Http\Controllers\Members\MemberProfileController;
@@ -247,5 +249,9 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('activity-logs', [ActivityLogsController::class, 'index']);
 
         Route::get('delivery-areas', [DeliveryAreasController::class, 'index']);
+
+        Route::post('meal-shopping-lists', [MealShoppingListsController::class, 'store']);
+        Route::get('meal-shopping-lists/{list:uuid}', [MealShoppingListsController::class, 'show']);
+        Route::get('meal-shopping-lists/{list:uuid}/pdf', [MealShoppingListPdfController::class, 'show']);
     });
 });

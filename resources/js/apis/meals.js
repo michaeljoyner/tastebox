@@ -76,6 +76,14 @@ function fetchAllMealsWithUsage() {
     return get("/admin/api/used-meals");
 }
 
+function createMealShoppingList(meals) {
+    return post("/admin/api/meal-shopping-lists", { meals });
+}
+
+function fetchMealShoppingList(list_uuid) {
+    return get(`/admin/api/meal-shopping-lists/${list_uuid}`);
+}
+
 export {
     deleteMeal,
     copyMeal,
@@ -95,4 +103,6 @@ export {
     publishMeal,
     retractMeal,
     fetchAllMealsWithUsage,
+    createMealShoppingList,
+    fetchMealShoppingList,
 };

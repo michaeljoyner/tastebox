@@ -47,6 +47,8 @@ import EditOrderedKit from "../vue/Pages/Orders/EditOrderedKit.vue";
 import Adjustments from "../vue/Pages/Orders/Adjustments.vue";
 import Adjustment from "../vue/Pages/Orders/Adjustment.vue";
 import SetFreeRecipes from "../vue/Pages/Menu/SetFreeRecipes.vue";
+import MealsShoppingList from "../vue/Pages/Meals/CreateMealsShoppingList.vue";
+import ShowMealShoppingList from "../vue/Pages/Meals/ShowMealShoppingList.vue";
 
 export default [
     { path: "/", component: HomePage },
@@ -75,6 +77,8 @@ export default [
             },
         ],
     },
+    { path: "/shopping-list", component: MealsShoppingList },
+    { path: "/shopping-list/:list", component: ShowMealShoppingList },
     { path: "/menus", component: MenuIndex },
     { path: "/menus/:id", component: MenuShow },
     { path: "/menus/:id/edit-meals", component: MenuEditMeals },
