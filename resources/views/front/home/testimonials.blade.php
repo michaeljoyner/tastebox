@@ -1,13 +1,31 @@
-<div class="bg-green-600 py-12 px-6">
-    <p class="text-4xl text-white font-bold text-center mb-12">People love TasteBox</p>
-    <div>
-        <div class="rounded-lg shadow-lg bg-white w-full max-w-xl mx-auto p-6">
-            <div class="relative px-10">
-                <svg style="transform: scale(-1,1);" class="fill-current text-green-300 z-0 absolute top-0 left-0 h-8" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M5.315 3.401c-1.61 0-2.916 1.343-2.916 3 0 1.656 1.306 3 2.916 3 2.915 0 .972 5.799-2.916 5.799v1.4c6.939.001 9.658-13.199 2.916-13.199zm8.4 0c-1.609 0-2.915 1.343-2.915 3 0 1.656 1.306 3 2.915 3 2.916 0 .973 5.799-2.915 5.799v1.4c6.938.001 9.657-13.199 2.915-13.199z"/></svg>
-                <p class="text-lg text-gray-600 z-10 relative">Nobody puts things in boxes like the fine folk at TasteBox. You thought Christmas time was the most fun you could have opening boxes? How about a culinary Christmas every week?</p>
+<div class="py-20 px-8 border-b-2 border-tb-green">
+    <div class="flex flex-col md:flex-row max-w-5xl md:gap-20 mx-auto">
+        <div class="w-full md:w-1/2">
+            <p class="type-h1">Our Customers ❤️ Us...</p>
+            <p class="text-gray-600 my-6 max-w-lg text-lg">because we are awesome! And also because we save them time and money while still providing a good variety of interesting and nutritious meals. But don't let us tell you, here is what some of our most loyal customers have said about us.</p>
+        </div>
+        <div class="w-full md:w-1/2 slideshow-wide">
+            <div class="py-2 w-full bg-slate-50 rounded-lg mx-4 border shadow-md">
+                <div class="h-8 px-6 mb-3 flex justify-between items-center border-b">
+                    <div class="flex space-x-3 items-center">
+                        <div class="w-2 h-2 bg-red-500 rounded-lg"></div>
+                        <div class="w-2 h-2 bg-orange-500 rounded-lg"></div>
+                        <div class="w-2 h-2 bg-emerald-500 rounded-lg"></div>
+                    </div>
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" class="w-4 h-4 stroke-current text-gray-500">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" />
+                    </svg>
+
+
+                </div>
+            <div class="mx-auto max-w-md" data-flickity='{"cellAlign": "left", "contain": true, "autoPlay": 4000, "wrapAround": true, "prevNextButtons": false}'>
+                @foreach($testes as $testimonial)
+                    <div class="py-2 w-full">
+
+                        <p class="px-6 pb-8">{!!  $testimonial !!}</p>
+                    </div>
+                @endforeach
             </div>
-            <div class="text-right pr-12">
-                <span class="text-gray-500 italic">- Mooz Joyner</span>
             </div>
         </div>
     </div>

@@ -39,14 +39,18 @@
     </div>
 </div>
 
+@include('front.home.testimonials')
+
 <div class="py-20 px-8 scroll-m-12" id="sign-up">
-    <div class="max-w-xl mx-auto" >
-        <div class="flex flex-col items-center">
-            <p class="type-h1 text-center">Sign up now for rewards!</p>
-            <p class="my-6 text-slate-800 text-xl text-center">Sign up now and get a <strong>20% discount</strong> you can use on your first order. TasteBox members also get online access to their recipes, free weekly recipes, exclusive discounts and more!</p>
-            <div class="mt-12">
-                <a href="/register" class="green-btn">Become a member</a>
+        <div class="max-w-xl mx-auto" >
+            <div class="flex flex-col items-center">
+                <p class="type-h1 text-center">Sign up now for rewards!</p>
+                <p class="my-6 text-slate-800 text-xl text-center">Sign up now and get a <strong>20% discount</strong> you can use on your first order. TasteBox members also get online access to their recipes, free weekly recipes, exclusive discounts and more!</p>
+                <div class="mt-12">
+                    <a href="/register" class="green-btn">Become a member</a>
+                </div>
             </div>
         </div>
-    </div>
+
+
 </div>

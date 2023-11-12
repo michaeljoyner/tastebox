@@ -155,6 +155,26 @@
         @apply list-decimal px-6;
     }
 
+    .slideshow-wide .flickity-button.flickity-prev-next-button {
+        @apply hidden md:block bg-transparent text-emerald-500 scale-75;
+    }
+
+    .slideshow-wide .flickity-button.flickity-prev-next-button.previous {
+        @apply -left-12
+    }
+
+    .slideshow-wide .flickity-button.flickity-prev-next-button.next {
+        @apply -right-12
+    }
+
+    .slideshow-wide .flickity-page-dots {
+        @apply bottom-0
+    }
+
+    .slideshow-wide .flickity-page-dots .dot {
+        @apply scale-50
+    }
+
 
 }
 
