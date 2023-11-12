@@ -5,7 +5,7 @@
             <p class="text-gray-600 my-6 max-w-lg text-lg">because we are awesome! And also because we save them time and money while still providing a good variety of interesting and nutritious meals. But don't let us tell you, here is what some of our most loyal customers have said about us.</p>
         </div>
         <div class="w-full md:w-1/2 slideshow-wide">
-            <div class="py-2 w-full bg-slate-50 rounded-lg mx-4 border shadow-md">
+            <div class="py-2 w-full bg-slate-50 rounded-lg border shadow-md">
                 <div class="h-8 px-6 mb-3 flex justify-between items-center border-b">
                     <div class="flex space-x-3 items-center">
                         <div class="w-2 h-2 bg-red-500 rounded-lg"></div>
