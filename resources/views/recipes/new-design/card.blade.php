@@ -15,6 +15,7 @@
 {{--    <link rel="stylesheet"--}}
 {{--          href="{{ public_path(mix('css/front.css')) }}"/>--}}
     @vite(['resources/css/front.css'])
+
 </head>
 <body style="padding: 0; margin: 0;">
 <div class="flex">

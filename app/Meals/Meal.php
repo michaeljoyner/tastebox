@@ -21,7 +21,7 @@ use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class Meal extends Model implements HasMedia, Loggable
 {
-    use InteractsWithMedia, HasNotes, LogsActivities;
+    use InteractsWithMedia, HasNotes, LogsActivities, HasCostings;
 
     const GALLERY = 'gallery';
     const DEFAULT_IMAGE = '/images/logos/tastebox_logo.jpg';

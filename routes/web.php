@@ -27,6 +27,7 @@ use App\Http\Controllers\ContactDietitianController;
 use App\Http\Controllers\EmailVerificationController;
 use App\Http\Controllers\EmailVerificationLinkRequestController;
 use App\Http\Controllers\KitDeliveryAddressController;
+use App\Http\Controllers\MealCostingsController;
 use App\Http\Controllers\MealShoppingListPdfController;
 use App\Http\Controllers\MealShoppingListsController;
 use App\Http\Controllers\Members\HomePageController;
@@ -179,6 +180,10 @@ Route::group(['middleware' => 'auth'], function () {
         Route::delete('meals/{meal}/images/{media}', 'MealImagesController@destroy');
 
         Route::post('meals/{meal}/recipe-card', 'MealRecipeCardController@show');
+
+        Route::post('meals/{meal}/costings', [MealCostingsController::class, 'store']);
+        Route::post('/costings/{costing}', [MealCostingsController::class, 'update']);
+        Route::delete('/costings/{costing}', [MealCostingsController::class, 'delete']);
 
         Route::post('published-meals', 'PublishedMealsController@store');
         Route::delete('published-meals/{meal}', 'PublishedMealsController@destroy');

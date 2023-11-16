@@ -11,6 +11,12 @@ abstract class TestCase extends BaseTestCase
 {
     use CreatesApplication;
 
+    protected function setUp(): void
+    {
+        parent::setUp();
+        $this->withoutVite();
+    }
+
     public function asAdmin(): self
     {
         $user = factory(User::class)->state('admin')->create();
