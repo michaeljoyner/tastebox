@@ -84,6 +84,18 @@ function fetchMealShoppingList(list_uuid) {
     return get(`/admin/api/meal-shopping-lists/${list_uuid}`);
 }
 
+function addMealCosting(meal_id, formData) {
+    return post(`/admin/api/meals/${meal_id}/costings`, formData);
+}
+
+function updateMealCosting(costing_id, formData) {
+    return post(`/admin/api/costings/${costing_id}`, formData);
+}
+
+function deleteMealCosting(costing_id) {
+    return del(`/admin/api/costings/${costing_id}`);
+}
+
 export {
     deleteMeal,
     copyMeal,
@@ -105,4 +117,7 @@ export {
     fetchAllMealsWithUsage,
     createMealShoppingList,
     fetchMealShoppingList,
+    addMealCosting,
+    updateMealCosting,
+    deleteMealCosting,
 };

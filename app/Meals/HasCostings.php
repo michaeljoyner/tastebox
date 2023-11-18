@@ -13,6 +13,7 @@ trait HasCostings
     }
     public function addCosting(array $costing_info)
     {
+        $this->update(['price_tier' => $costing_info['tier']]);
         return $this->costings()->create($costing_info);
     }
 }

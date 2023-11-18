@@ -4,6 +4,7 @@ namespace Tests\Feature\Meals;
 
 use App\DatePresenter;
 use App\Meals\Costing;
+use App\Meals\Meal;
 use App\Meals\MealPriceTier;
 use Illuminate\Foundation\Testing\LazilyRefreshDatabase;
 use Illuminate\Http\Response;
@@ -18,7 +19,8 @@ class UpdateMealCostingTest extends TestCase
      */
     public function update_an_existing_costing()
     {
-        $costing = factory(Costing::class)->create();
+        $meal = factory(Meal::class)->state('standard')->create();
+        $costing = factory(Costing::class)->create(['meal_id' => $meal->id]);
 
         $response = $this->asAdmin()->postJson("/admin/api/costings/{$costing->id}", [
             'cost'        => 'R12.34',
@@ -34,6 +36,7 @@ class UpdateMealCostingTest extends TestCase
         $this->assertSame(MealPriceTier::BUDGET, $costing->tier);
         $this->assertTrue($costing->date_costed->isSameDay(now()));
         $this->assertSame("new test note", $costing->note);
+        $this->assertSame(MealPriceTier::BUDGET, $meal->fresh()->price_tier);
     }
 
     /**

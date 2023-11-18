@@ -45,7 +45,8 @@ class MealsController extends Controller
             'notes',
             'tallies',
             'classifications',
-            'latestMenus'
+            'latestMenus',
+            'costings',
         ]);
 
         return AdminMealResource::make($meal);

@@ -49,6 +49,9 @@ import Adjustment from "../vue/Pages/Orders/Adjustment.vue";
 import SetFreeRecipes from "../vue/Pages/Menu/SetFreeRecipes.vue";
 import MealsShoppingList from "../vue/Pages/Meals/CreateMealsShoppingList.vue";
 import ShowMealShoppingList from "../vue/Pages/Meals/ShowMealShoppingList.vue";
+import MealCostingsPage from "../vue/Pages/Meals/MealCostingsPage.vue";
+import AddCostingPage from "../vue/Pages/Meals/AddCostingPage.vue";
+import EditCostingPage from "../vue/Pages/Meals/EditCostingPage.vue";
 
 export default [
     { path: "/", component: HomePage },
@@ -70,6 +73,9 @@ export default [
             { path: "photos", component: MealGallery },
             { path: "actions", component: MealActionsPage },
             { path: "notes", component: MealNotes },
+            { path: "costings", component: MealCostingsPage },
+            { path: "costings/add", component: AddCostingPage },
+            { path: "costings/:costing/edit", component: EditCostingPage },
             { path: "public-recipe-notes", component: MealPublicRecipeNotes },
             {
                 path: "public-recipe-notes/edit",

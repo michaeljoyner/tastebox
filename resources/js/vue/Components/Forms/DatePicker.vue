@@ -1,21 +1,21 @@
 <template>
     <label>
-        <span class="form-label">{{ label }}</span>
+        <label class="form-label block">{{ label }}</label>
+        <p v-if="errorMsg" class="text-sm text-red-500">{{ errorMsg }}</p>
         <input type="date" v-model="inputValue" />
     </label>
 </template>
 
-<script type="text/babel">
+<script setup>
 import { useModelWrapper } from "../../../libs/useModelWrapper.js";
 
-export default {
-    props: ["modelValue", "label", "help-text", "error-msg"],
-    emits: ["update:modelValue"],
+const props = defineProps({
+    modelValue: String,
+    label: String,
+    helpText: String,
+    errorMsg: String,
+});
+const emit = defineEmits(["update:modelValue"]);
 
-    setup(props, { emit }) {
-        return {
-            inputValue: useModelWrapper(props, emit),
-        };
-    },
-};
+const inputValue = useModelWrapper(props, emit);
 </script>

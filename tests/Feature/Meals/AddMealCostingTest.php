@@ -18,7 +18,7 @@ class AddMealCostingTest extends TestCase
      */
     public function add_a_costing_to_a_meal()
     {
-        $meal = factory(Meal::class)->create();
+        $meal = factory(Meal::class)->state('standard')->create();
 
         $response = $this->asAdmin()->postJson("/admin/api/meals/{$meal->id}/costings", [
             'cost'        => 'R87.65',
@@ -35,6 +35,7 @@ class AddMealCostingTest extends TestCase
         $this->assertSame(MealPriceTier::PREMIUM, $costing->tier);
         $this->assertTrue($costing->date_costed->isSameDay(now()->subDays(2)));
         $this->assertSame("test note", $costing->note);
+        $this->assertSame(MealPriceTier::PREMIUM, $meal->fresh()->price_tier);
     }
 
     /**

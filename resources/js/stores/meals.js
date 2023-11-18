@@ -1,10 +1,12 @@
 import { showError } from "../libs/notifications";
 import {
+    addMealCosting,
     addMealNote,
     copyMeal,
     createIngredient,
     createNewMeal,
     deleteMeal,
+    deleteMealCosting,
     fetchAllClassifications,
     fetchAllMeals,
     fetchAllMealsWithUsage,
@@ -12,6 +14,7 @@ import {
     publishMeal,
     retractMeal,
     updateIngredientPositions,
+    updateMealCosting,
     updateMealGalleryPositions,
     updateMealInfo,
     updateMealIngredients,
@@ -69,6 +72,9 @@ export default {
 
         isFiltered: (state) =>
             state.search_query.length || state.match_classifications.length,
+
+        priceTierDescription: (state) => (tier_val) =>
+            state.tiers.find((t) => t.value === tier_val)?.description,
     },
 
     mutations: {
@@ -317,6 +323,24 @@ export default {
             return fetchAllMealsWithUsage()
                 .then(({ data }) => commit("setUsedMeals", data))
                 .catch(() => showError("Failed to fetch meals with usage"));
+        },
+
+        addCosting({ dispatch }, { meal_id, formData }) {
+            return addMealCosting(meal_id, formData).then(() =>
+                dispatch("refreshActive", meal_id)
+            );
+        },
+
+        updateCosting({ state, dispatch }, { costing_id, formData }) {
+            return updateMealCosting(costing_id, formData).then(() => {
+                dispatch("refreshActive", state.active.id);
+            });
+        },
+
+        deleteCosting({ state, dispatch }, costing_id) {
+            return deleteMealCosting(costing_id).then(() => {
+                dispatch("refreshActive", state.active.id);
+            });
         },
     },
 };

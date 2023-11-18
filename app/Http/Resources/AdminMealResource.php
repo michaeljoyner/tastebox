@@ -62,6 +62,7 @@ class AdminMealResource extends JsonResource
             'tier' => $this->price_tier?->description(),
             'tier_value' => $this->price_tier?->value,
             'price' => $this->price_tier?->price(),
+            'costings' => CostingResource::collection($this->whenLoaded('costings'))
         ];
     }
 
