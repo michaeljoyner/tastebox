@@ -18,7 +18,7 @@ class MenuFreeRecipesRequest extends FormRequest
     public function rules()
     {
         return [
-            'meal_ids'   => ['required', 'array'],
+            'meal_ids'   => ['present', 'array'],
             'meal_ids.*' => ['exists:meals,id']
         ];
     }

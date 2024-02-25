@@ -43,6 +43,26 @@ class AddFreeRecipesToMenuTest extends TestCase
     /**
      *@test
      */
+    public function can_use_empty_array_to_remove_meals()
+    {
+        $this->withoutExceptionHandling();
+
+        $menu = factory(Menu::class)->create();
+        $mealA = factory(Meal::class)->create();
+
+        $menu->addFreeRecipeMeal($mealA);
+
+        $response = $this->asAdmin()->postJson("/admin/api/menus/{$menu->id}/free-recipes", [
+            'meal_ids' => [],
+        ]);
+        $response->assertSuccessful();
+
+        $this->assertCount(0, $menu->fresh()->freeRecipeMeals);
+    }
+
+    /**
+     *@test
+     */
     public function the_meal_ids_are_required_as_an_array()
     {
         $menu = factory(Menu::class)->create();
