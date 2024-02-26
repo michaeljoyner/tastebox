@@ -57,16 +57,16 @@ class FetchFreeRecipeMealsTest extends TestCase
 
 
         $this->assertTrue(
-            $fetched->contains(fn ($recipe) => $recipe['meal_id'] === $mealA->id),
+            $fetched->contains(fn ($recipe) => $recipe['meal_id'] === $mealA->unique_id),
         );
         $this->assertTrue(
-            $fetched->contains(fn ($recipe) => $recipe['meal_id'] === $mealB->id),
+            $fetched->contains(fn ($recipe) => $recipe['meal_id'] === $mealB->unique_id),
         );
         $this->assertTrue(
-            $fetched->contains(fn ($recipe) => $recipe['meal_id'] === $mealB->id),
+            $fetched->contains(fn ($recipe) => $recipe['meal_id'] === $mealB->unique_id),
         );
         $this->assertTrue(
-            $fetched->contains(fn ($recipe) => $recipe['meal_id'] === $mealB->id),
+            $fetched->contains(fn ($recipe) => $recipe['meal_id'] === $mealB->unique_id),
         );
 
     }

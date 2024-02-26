@@ -89,6 +89,7 @@ Route::post('contact', 'ContactMessageController@store');
 Route::post('contact-dietitian', [ContactDietitianController::class, 'store']);
 
 Route::get('api/free-recipes', [FreeRecipeApiController::class, 'index']);
+Route::get('api/free-recipes/{meal:unique_id}', [FreeRecipeApiController::class, 'show']);
 
 Route::post('api/kits/{kit_id}/delivery-address', [KitDeliveryAddressController::class, 'update']);
 
