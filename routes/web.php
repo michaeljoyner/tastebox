@@ -26,6 +26,7 @@ use App\Http\Controllers\BlogController;
 use App\Http\Controllers\ContactDietitianController;
 use App\Http\Controllers\EmailVerificationController;
 use App\Http\Controllers\EmailVerificationLinkRequestController;
+use App\Http\Controllers\FreeRecipeApiController;
 use App\Http\Controllers\KitDeliveryAddressController;
 use App\Http\Controllers\MealCostingsController;
 use App\Http\Controllers\MealShoppingListPdfController;
@@ -87,6 +88,7 @@ Route::view('dietician', 'front.contact-dietitian.page');
 Route::post('contact', 'ContactMessageController@store');
 Route::post('contact-dietitian', [ContactDietitianController::class, 'store']);
 
+Route::get('api/free-recipes', [FreeRecipeApiController::class, 'index']);
 
 Route::post('api/kits/{kit_id}/delivery-address', [KitDeliveryAddressController::class, 'update']);
 
