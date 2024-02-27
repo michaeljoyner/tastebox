@@ -16,7 +16,7 @@ class FreeRecipeApiController extends Controller
                                ->with(['meal' => ['ingredients', 'classifications']])
                                ->whereHas(
                                    'menu',
-                                   fn(Builder $query) => $query->where('can_order', true)
+                                   fn(Builder $query) => $query->where('can_order', true)->where('current_from', '>=', now()->subWeeks(2))
                                )
                                ->get()
                                ->unique(fn(FreeRecipeMeal $freeRecipeMeal) => $freeRecipeMeal->meal_id)
