@@ -34,7 +34,7 @@ export default {
         const store = useStore();
         const router = useRouter();
 
-        const notes = ref(props.meal.public_recipe_notes);
+        const notes = ref(props.meal.public_recipe_notes || "");
 
         const [saving, save] = httpAction(
             () =>
