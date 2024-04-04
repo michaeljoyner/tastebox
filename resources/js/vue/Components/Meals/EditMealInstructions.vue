@@ -34,7 +34,7 @@ export default {
     data() {
         return {
             waiting: false,
-            instructions: this.meal.instructions,
+            instructions: this.meal.instructions || '',
         };
     },
 
