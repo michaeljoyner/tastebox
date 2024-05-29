@@ -5,13 +5,13 @@
             class="bg-green-700 px-4 py-2 md:p-4 text-white"
         >
             <p class="text-left md:text-center">
-                Already a member? Don't forget to
+                First time visitor?
                 <a
-                    href="/login"
+                    href="/register"
                     class="font-bold underline hover:text-green-300"
-                    >sign in</a
+                    >Sign up</a
                 >
-                to get the most out of your account.
+                now to get a 20% discount on your first order.
             </p>
         </div>
         <div v-if="showMenus" class="py-6">
