@@ -12,7 +12,7 @@ class HomePageController extends Controller
     {
         $menus = Menu::available()->with('meals')->orderBy('current_from')->get();
         $current = $menus->first(fn (Menu $menu) => $menu->isCurrent());
-        $instagrams = Profile::for('tastebox')->feed();
+//        $instagrams = Profile::for('tastebox')->feed();
 
         $testes = [
             'TasteBox is super <strong>convenient</strong> if you\'re a person who has very little time and/or energy left to cook after a long day of work. It\'s <strong>affordable</strong>, you get a great variety of dishes, and it ensures you have balanced meals - especially your vegetables!',
@@ -34,7 +34,7 @@ class HomePageController extends Controller
         return view('front.home.page', [
             'current' => optional($current)->presentForPublic(),
             'menus' => $menus->reject(fn (Menu $menu) => $menu->is($current))->map->presentForPublic(),
-            'instagrams' => $instagrams->collect()->map->toArray()->take(8),
+//            'instagrams' => $instagrams->collect()->map->toArray()->take(8),
             'testes' => $testes,
         ]);
     }
