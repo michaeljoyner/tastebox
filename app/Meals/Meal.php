@@ -14,6 +14,7 @@ use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Spatie\Browsershot\Browsershot;
+use Spatie\Image\Enums\Fit;
 use Spatie\Image\Manipulations;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
@@ -243,12 +244,12 @@ class Meal extends Model implements HasMedia, Loggable
     public function registerMediaConversions(Media $media = null): void
     {
         $this->addMediaConversion('thumb')
-             ->fit(Manipulations::FIT_CROP, 600, 400)
+             ->fit(Fit::Max, 600, 400)
              ->optimize()
              ->performOnCollections(self::GALLERY);
 
         $this->addMediaConversion('web')
-             ->fit(Manipulations::FIT_CROP, 1200, 800)
+             ->fit(Fit::Max, 1200, 800)
              ->optimize()
              ->performOnCollections(self::GALLERY);
     }

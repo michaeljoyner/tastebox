@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Str;
+use Spatie\Image\Enums\Fit;
 use Spatie\Image\Manipulations;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
@@ -108,12 +109,12 @@ class Post extends Model implements HasMedia, Loggable
     public function registerMediaConversions(Media $media = null): void
     {
         $this->addMediaConversion('web')
-             ->fit(Manipulations::FIT_MAX, 1200, 800)
+             ->fit(Fit::Max, 1200, 800)
              ->optimize()
              ->performOnCollections(self::BODY_IMAGES, static::TITLE_IMAGES);
 
         $this->addMediaConversion('sharing')
-             ->fit(Manipulations::FIT_CROP, 1200, 630)
+             ->fit(Fit::Max, 1200, 630)
              ->optimize()
              ->performOnCollections(static::TITLE_IMAGES);
     }
