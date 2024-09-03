@@ -22,6 +22,7 @@ use App\Http\Controllers\Admin\PublishedPostsController;
 use App\Http\Controllers\Admin\UsedMealsController;
 use App\Http\Controllers\Admin\WeeklyBatchReportsController;
 use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\BlogArchivesController;
 use App\Http\Controllers\BlogController;
 use App\Http\Controllers\ContactDietitianController;
 use App\Http\Controllers\EmailVerificationController;
@@ -80,6 +81,7 @@ Route::view('our-meals', 'front.our-meals.page');
 
 Route::get('blog', [BlogController::class, 'index']);
 Route::get('blog/{post:slug}', [BlogController::class, 'show']);
+Route::get('blog-archives', [BlogArchivesController::class, 'show']);
 
 Route::view('contact', 'front.contact.page');
 Route::view('dietician', 'front.contact-dietitian.page');

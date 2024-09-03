@@ -56,7 +56,7 @@ function tinymceInitConfig(options) {
 
 function makeToolbar(hasImages, hasVideo, hasEmbed) {
     if (hasImages || hasVideo || hasEmbed) {
-        return `undo redo | styleselect | link bold italic | bullist numlist table | ${
+        return `undo redo | blocks | styleselect | link bold italic | bullist numlist table | ${
             hasImages ? "imageBtn " : ""
         }${hasVideo ? " videoBtn" : ""}${hasEmbed ? " embedBtn" : ""}`;
     }

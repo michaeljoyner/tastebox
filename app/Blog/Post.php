@@ -134,6 +134,7 @@ class Post extends Model implements HasMedia, Loggable
             ],
             'first_created' => DatePresenter::pretty($this->created_at),
             'first_published' => DatePresenter::pretty($this->first_published),
+            'slug' => $this->slug,
         ];
     }
 
