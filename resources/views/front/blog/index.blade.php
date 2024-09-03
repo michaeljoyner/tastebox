@@ -9,4 +9,8 @@
         @include('front.blog.index-card', ['post' => $post])
         @endforeach
     </div>
+
+    <div class="my-8 px-8">
+        <p class="max-w-2xl mx-auto text-center">Looking for an older post? Visit the <a href="/blog-archives" class="underline hover:text-emerald-600">archives</a> to find all our blog posts that have ever been published.</p>
+    </div>
 </x-public-page>

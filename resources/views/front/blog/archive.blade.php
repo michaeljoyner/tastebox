@@ -11,7 +11,7 @@
 
                 <div class="flex flex-col">
                     @foreach($posts as $post)
-                        <a class="hover:text-blue-500 my-1" href="/blog/{{ $post['slug'] }}">{{ $post['title'] }}</a>
+                        <a class="hover:text-emerald-600 my-1" href="/blog/{{ $post['slug'] }}">{{ $post['title'] }}</a>
                     @endforeach
                 </div>
             </div>
