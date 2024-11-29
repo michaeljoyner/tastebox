@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\Admin\ActivityLogsController;
+use App\Http\Controllers\Admin\AddOnCategoriesController;
+use App\Http\Controllers\Admin\AddOnsController;
 use App\Http\Controllers\Admin\AdjustmentsController;
 use App\Http\Controllers\Admin\CancelledKitsController;
 use App\Http\Controllers\Admin\DeliveryAreasController;
@@ -263,5 +265,13 @@ Route::group(['middleware' => 'auth'], function () {
         Route::post('meal-shopping-lists', [MealShoppingListsController::class, 'store']);
         Route::get('meal-shopping-lists/{list:uuid}', [MealShoppingListsController::class, 'show']);
         Route::get('meal-shopping-lists/{list:uuid}/pdf', [MealShoppingListPdfController::class, 'show']);
+
+        Route::post('add-on-categories', [AddOnCategoriesController::class, 'store']);
+        Route::post('add-on-categories/{category:uuid}', [AddOnCategoriesController::class, 'update']);
+        Route::delete('add-on-categories/{category:uuid}', [AddOnCategoriesController::class, 'delete']);
+
+        Route::post('add-on-categories/{category:uuid}/add-ons', [AddOnsController::class, 'store']);
+        Route::post('add-ons/{addOn:uuid}', [AddOnsController::class, 'update']);
+        Route::delete('add-ons/{addOn:uuid}', [AddOnsController::class, 'delete']);
     });
 });
