@@ -268,11 +268,14 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('meal-shopping-lists/{list:uuid}', [MealShoppingListsController::class, 'show']);
         Route::get('meal-shopping-lists/{list:uuid}/pdf', [MealShoppingListPdfController::class, 'show']);
 
+        Route::get('add-on-categories', [AddonCategoriesController::class, 'index']);
+        Route::get('add-on-categories/{category:uuid}', [AddonCategoriesController::class, 'show']);
         Route::post('add-on-categories', [AddOnCategoriesController::class, 'store']);
         Route::post('add-on-categories/{category:uuid}', [AddOnCategoriesController::class, 'update']);
         Route::delete('add-on-categories/{category:uuid}', [AddOnCategoriesController::class, 'delete']);
 
         Route::post('add-on-categories/{category:uuid}/add-ons', [AddOnsController::class, 'store']);
+        Route::get('add-ons/{addOn:uuid}', [AddOnsController::class, 'show']);
         Route::post('add-ons/{addOn:uuid}', [AddOnsController::class, 'update']);
         Route::delete('add-ons/{addOn:uuid}', [AddOnsController::class, 'delete']);
 

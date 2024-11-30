@@ -14,6 +14,7 @@ import kits from "./kits";
 import adjustments from "./adjustments";
 import activityLogs from "./activity-logs";
 import deliveries from "./deliveries";
+import addons from "./addons";
 import { createStore } from "vuex";
 
 const store = createStore({
@@ -34,6 +35,7 @@ const store = createStore({
         adjustments,
         activityLogs,
         deliveries,
+        addons,
     },
 });
 

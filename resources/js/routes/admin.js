@@ -52,6 +52,9 @@ import ShowMealShoppingList from "../vue/Pages/Meals/ShowMealShoppingList.vue";
 import MealCostingsPage from "../vue/Pages/Meals/MealCostingsPage.vue";
 import AddCostingPage from "../vue/Pages/Meals/AddCostingPage.vue";
 import EditCostingPage from "../vue/Pages/Meals/EditCostingPage.vue";
+import AddOnCategoriesPage from "../vue/Pages/AddOns/AddOnCategoriesPage.vue";
+import AddOnCategoryPage from "../vue/Pages/AddOns/AddOnCategoryPage.vue";
+import AddOnPage from "../vue/Pages/AddOns/AddOnPage.vue";
 
 export default [
     { path: "/", component: HomePage },
@@ -123,4 +126,7 @@ export default [
     { path: "/memberships/members/:member/show", component: Member },
     { path: "/adjustments", component: Adjustments },
     { path: "/adjustments/:adjustment/show", component: Adjustment },
+    { path: "/addon-categories", component: AddOnCategoriesPage },
+    { path: "/addon-categories/:category", component: AddOnCategoryPage },
+    { path: "/add-ons/:addon", component: AddOnPage },
 ];

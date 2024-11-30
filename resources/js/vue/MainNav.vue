@@ -80,6 +80,11 @@
                     </router-link>
                     <router-link
                         class="font-bold hover:underline mb-1 block whitespace-nowrap"
+                        to="/addon-categories"
+                        >Add Ons
+                    </router-link>
+                    <router-link
+                        class="font-bold hover:underline mb-1 block whitespace-nowrap"
                         to="/shopping-list"
                         >Make Shopping List
                     </router-link>
