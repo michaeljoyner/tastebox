@@ -20,10 +20,12 @@ class UpdateAddOnTest extends TestCase
         $response = $this->asAdmin()->postJson("/admin/api/add-ons/{$add_on->uuid}", [
             'name' => 'updated name',
             'description' => 'updated description',
+            'price' => 5560
         ]);
         $response->assertSuccessful();
 
         $this->assertSame("updated name", $add_on->fresh()->name);
         $this->assertSame("updated description", $add_on->fresh()->description);
+        $this->assertSame(5560, $add_on->fresh()->price);
     }
 }

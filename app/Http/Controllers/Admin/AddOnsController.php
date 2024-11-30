@@ -11,12 +11,16 @@ class AddOnsController extends Controller
 {
     public function store(AddOnCategory $category)
     {
-        $category->addOns()->create(['name' => request('name')]);
+        $category->addOns()->create(request()->only([
+            'name',
+            'description',
+            'price'
+        ]));
     }
 
     public function update(AddOn $addOn)
     {
-        $addOn->update(request()->only(['name', 'description']));
+        $addOn->update(request()->only(['name', 'description', 'price']));
     }
 
     public function delete(AddOn $addOn)

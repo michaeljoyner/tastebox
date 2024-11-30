@@ -11,5 +11,6 @@ $factory->define(AddOn::class, function(Faker $faker) {
         "add_on_category_id" => factory(AddOnCategory::class),
         "name" => $faker->words(3, true),
         "description" => $faker->sentence,
+        "price" => $faker->numberBetween(1000, 99000),
     ];
 });
