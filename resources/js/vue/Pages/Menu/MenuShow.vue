@@ -42,6 +42,29 @@
             <div
                 class="flex justify-between items-center pb-2 mb-6 border-b border-gray-200"
             >
+                <p class="text-lg font-bold">Menu Add-Ons</p>
+                <router-link
+                    :to="`/menus/${menu.id}/add-ons`"
+                    class="btn btn-main"
+                    >Set Add-Ons</router-link
+                >
+            </div>
+
+            <div>
+                <div
+                    v-for="addon in menu.add_ons"
+                    :key="addon.uuid"
+                    class="p-3 shadow"
+                >
+                    <p>{{ addon.name }}</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="my-12">
+            <div
+                class="flex justify-between items-center pb-2 mb-6 border-b border-gray-200"
+            >
                 <p class="text-lg font-bold">Free Recipes</p>
                 <router-link
                     :to="`/menus/${menu.id}/free-recipes`"

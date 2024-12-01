@@ -25,7 +25,7 @@ function assignMenuFreeRecipes(menu_id, meal_ids) {
 }
 
 function assignMenuAddOns(menu_id, add_on_ids) {
-    return post(`/admin/api/menus/${menu_id}/add-ons`, add_on_ids);
+    return post(`/admin/api/menus/${menu_id}/addons`, { add_on_ids });
 }
 
 export {

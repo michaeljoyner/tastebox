@@ -55,6 +55,7 @@ import EditCostingPage from "../vue/Pages/Meals/EditCostingPage.vue";
 import AddOnCategoriesPage from "../vue/Pages/AddOns/AddOnCategoriesPage.vue";
 import AddOnCategoryPage from "../vue/Pages/AddOns/AddOnCategoryPage.vue";
 import AddOnPage from "../vue/Pages/AddOns/AddOnPage.vue";
+import MenuAddOns from "../vue/Pages/Menu/MenuAddOns.vue";
 
 export default [
     { path: "/", component: HomePage },
@@ -92,6 +93,7 @@ export default [
     { path: "/menus/:id", component: MenuShow },
     { path: "/menus/:id/edit-meals", component: MenuEditMeals },
     { path: "/menus/:menu/free-recipes", component: SetFreeRecipes },
+    { path: "/menus/:menu/add-ons", component: MenuAddOns },
     { path: "/menus/:menu/images", component: MenuImages },
     { path: "/orders", component: Orders },
     { path: "/orders/:order", component: Order },

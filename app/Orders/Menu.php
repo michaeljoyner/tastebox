@@ -23,9 +23,9 @@ class Menu extends Model
     protected $fillable = ['current_from', 'current_to', 'delivery_from'];
 
     protected $casts = [
-        'can_order' => 'boolean',
-        'current_from' => 'datetime',
-        'current_to' => 'datetime',
+        'can_order'     => 'boolean',
+        'current_from'  => 'datetime',
+        'current_to'    => 'datetime',
         'delivery_from' => 'datetime',
     ];
 
@@ -63,7 +63,7 @@ class Menu extends Model
     public static function nextToPrep()
     {
         $next = self::available()->where('delivery_from', '>=', now()->startOfDay())
-            ->orderBy('delivery_from')->first();
+                    ->orderBy('delivery_from')->first();
 
         return $next ?? new self;
     }
@@ -142,7 +142,8 @@ class Menu extends Model
             'is_current'             => $this->isCurrent(),
             'status'                 => Menu::UPCOMING,
             'meals'                  => $this->meals->map->asArrayForAdmin()->all(),
-            'free_recipe_meals' => $this->freeRecipeMeals->map(fn($m) => $m->meal->asArrayForAdmin()),
+            'free_recipe_meals'      => $this->freeRecipeMeals->map(fn($m) => $m->meal->asArrayForAdmin()),
+            'add_ons'                => $this->addOns->toArray()
         ];
     }
 
@@ -215,7 +216,7 @@ class Menu extends Model
     public function addFreeRecipes(Collection $meals)
     {
         $this->freeRecipeMeals()->delete();
-        $meals->each(fn (Meal $meal) => $this->addFreeRecipeMeal($meal));
+        $meals->each(fn(Meal $meal) => $this->addFreeRecipeMeal($meal));
     }
 
     public function addFreeRecipeMeal(Meal $meal): FreeRecipeMeal

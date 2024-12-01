@@ -10,6 +10,6 @@ class UpcomingMenusController extends Controller
 {
     public function index()
     {
-        return Menu::with('meals.ingredients', 'freeRecipeMeals')->upcoming()->get()->map->toArray();
+        return Menu::with('meals.ingredients', 'freeRecipeMeals', 'addOns')->upcoming()->get()->map->toArray();
     }
 }
