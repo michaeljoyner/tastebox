@@ -1,4 +1,5 @@
 import {
+    assignMenuAddOns,
     assignMenuFreeRecipes,
     closeMenuForOrders,
     getCurrentBatch,
@@ -107,6 +108,14 @@ export default {
 
         assignFreeRecipes({ dispatch }, { menu_id, meal_ids }) {
             return assignMenuFreeRecipes(menu_id, meal_ids).then(() =>
+                dispatch("fetchMenus").catch(() =>
+                    showError("Unable to fetch current menus.")
+                )
+            );
+        },
+
+        assignAddOns({ dispatch }, { menu_id, add_on_ids }) {
+            return assignMenuAddOns(menu_id, add_on_ids).then(() =>
                 dispatch("fetchMenus").catch(() =>
                     showError("Unable to fetch current menus.")
                 )

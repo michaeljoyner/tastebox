@@ -24,6 +24,10 @@ function assignMenuFreeRecipes(menu_id, meal_ids) {
     return post(`/admin/api/menus/${menu_id}/free-recipes`, { meal_ids });
 }
 
+function assignMenuAddOns(menu_id, add_on_ids) {
+    return post(`/admin/api/menus/${menu_id}/add-ons`, add_on_ids);
+}
+
 export {
     setMenuMeals,
     openMenuForOrders,
@@ -31,4 +35,5 @@ export {
     getCurrentBatch,
     placeManualOrder,
     assignMenuFreeRecipes,
+    assignMenuAddOns,
 };

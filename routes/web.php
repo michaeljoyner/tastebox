@@ -14,6 +14,7 @@ use App\Http\Controllers\Admin\MealNotesController;
 use App\Http\Controllers\Admin\MealRecipeNotesController;
 use App\Http\Controllers\Admin\MemberDiscountsController;
 use App\Http\Controllers\Admin\MembersController;
+use App\Http\Controllers\Admin\MenuAddOnsController;
 use App\Http\Controllers\Admin\OrderedKitsController;
 use App\Http\Controllers\Admin\ResolvedAdjustmentsController;
 use App\Http\Controllers\Admin\UnresolvedAdjustmentsController;
@@ -161,6 +162,8 @@ Route::group(['middleware' => 'auth'], function () {
         Route::post('menus/{menu}/meals', 'MenuMealsController@store');
 
         Route::post('menus/{menu}/free-recipes', [FreeRecipesController::class, 'store']);
+
+        Route::post('menus/{menu}/addons', [MenuAddOnsController::class, 'store']);
 
         Route::post('orderable-menus', 'OrderableMenusController@create');
         Route::delete('orderable-menus/{menu}', 'OrderableMenusController@destroy');

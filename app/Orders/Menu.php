@@ -2,12 +2,14 @@
 
 namespace App\Orders;
 
+use App\AddOns\AddOn;
 use App\DatePresenter;
 use App\Meals\FreeRecipeMeal;
 use App\Meals\Meal;
 use App\Purchases\Order;
 use App\Purchases\OrderedKit;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
@@ -219,6 +221,11 @@ class Menu extends Model
     public function addFreeRecipeMeal(Meal $meal): FreeRecipeMeal
     {
         return $this->freeRecipeMeals()->create(['meal_id' => $meal->id]);
+    }
+
+    public function addOns(): BelongsToMany
+    {
+        return $this->belongsToMany(AddOn::class);
     }
 
 
