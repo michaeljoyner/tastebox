@@ -50,7 +50,7 @@ const store = useStore();
 const { form, setFormErrors, clearFormErrors } = useForm({
     name: props.addon?.name || "",
     description: props.addon?.description || "",
-    price: props.addon?.price || 0,
+    price: (props.addon?.price || 0) / 100,
 });
 
 const getData = () => {

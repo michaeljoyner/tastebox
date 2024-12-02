@@ -1,96 +1,126 @@
 <template>
     <div v-if="kit">
-        <h1 class="type-h1 font-bold text-center my-8">Build a Box</h1>
+        <div v-show="!selectAddOns">
+            <h1 class="type-h1 font-bold text-center my-8">Build a Box</h1>
 
-        <p class="max-w-xl mx-auto px-6 mb-6">
-            Select the meals you want
-            <span class="font-bold">for the week</span> below as well as the
-            number of people you will be cooking for. There is a
-            <span class="font-bold">minimum of 3 meals per box</span> and we
-            suggest not over-ordering as the meals are designed to be
-            <span class="font-bold">fresh for 5 days after delivery</span>.
-        </p>
+            <p class="max-w-xl mx-auto px-6 mb-6">
+                Select the meals you want
+                <span class="font-bold">for the week</span> below as well as the
+                number of people you will be cooking for. There is a
+                <span class="font-bold">minimum of 3 meals per box</span> and we
+                suggest not over-ordering as the meals are designed to be
+                <span class="font-bold">fresh for 5 days after delivery</span>.
+            </p>
 
-        <div class="px-6">
-            <div
-                v-for="meal in menu.meals"
-                :key="meal.id"
-                class="w-5/5 max-w-3xl my-12 mx-auto shadow md:shadow-lg bg-white relative"
-            >
-                <div class="flex flex-col md:flex-row border-b border-gray-200">
-                    <div class="w-full h-auto md:w-80">
-                        <img
-                            :src="meal.title_image"
-                            :alt="meal.name"
-                            class="w-full h-full object-cover"
-                        />
-                    </div>
-                    <div class="flex-1 p-3 pl-6">
-                        <p class="type-h3">{{ meal.name }}</p>
-
-                        <div class="flex flex-wrap my-2">
-                            <p
-                                v-for="category in meal.classifications"
-                                :key="category.id"
-                                class="mr-3 border rounded border-black px-2 type-b3 mb-2 whitespace-nowrap"
-                            >
-                                {{ category.name }}
-                            </p>
+            <div class="px-6">
+                <div
+                    v-for="meal in menu.meals"
+                    :key="meal.id"
+                    class="w-5/5 max-w-3xl my-12 mx-auto shadow md:shadow-lg bg-white relative"
+                >
+                    <div
+                        class="flex flex-col md:flex-row border-b border-gray-200"
+                    >
+                        <div class="w-full h-auto md:w-80">
+                            <img
+                                :src="meal.title_image"
+                                :alt="meal.name"
+                                class="w-full h-full object-cover"
+                            />
                         </div>
+                        <div class="flex-1 p-3 pl-6">
+                            <p class="type-h3">{{ meal.name }}</p>
 
-                        <p class="mt-2 type-b3">{{ meal.description }}</p>
-
-                        <div class="flex space-x-4 items-center mt-3">
-                            <p
-                                class="font-serif font-bold text-sm px-2 py-1 rounded-md"
-                                :class="mealPriceClasses(meal.tier)"
-                            >
-                                {{ meal.price }}
-                            </p>
-                            <p
-                                class="type-b4 my-2 flex items-center leading-none"
-                            >
-                                <clock-icon class="text-green-400 h-4 mr-2" />
-                                <span class="type-b4"
-                                    >{{ meal.cook_time }} mins</span
+                            <div class="flex flex-wrap my-2">
+                                <p
+                                    v-for="category in meal.classifications"
+                                    :key="category.id"
+                                    class="mr-3 border rounded border-black px-2 type-b3 mb-2 whitespace-nowrap"
                                 >
-                            </p>
-                        </div>
+                                    {{ category.name }}
+                                </p>
+                            </div>
 
-                        <check-icon
-                            v-if="mealIsInKit(meal.id)"
-                            class="text-green-500 h-6 absolute top-0 right-0 mt-1 mr-1 bg-opaque rounded-full"
-                        ></check-icon>
+                            <p class="mt-2 type-b3">{{ meal.description }}</p>
+
+                            <div class="flex space-x-4 items-center mt-3">
+                                <p
+                                    class="font-serif font-bold text-sm px-2 py-1 rounded-md"
+                                    :class="mealPriceClasses(meal.tier)"
+                                >
+                                    {{ meal.price }}
+                                </p>
+                                <p
+                                    class="type-b4 my-2 flex items-center leading-none"
+                                >
+                                    <clock-icon
+                                        class="text-green-400 h-4 mr-2"
+                                    />
+                                    <span class="type-b4"
+                                        >{{ meal.cook_time }} mins</span
+                                    >
+                                </p>
+                            </div>
+
+                            <check-icon
+                                v-if="mealIsInKit(meal.id)"
+                                class="text-green-500 h-6 absolute top-0 right-0 mt-1 mr-1 bg-opaque rounded-full"
+                            ></check-icon>
+                        </div>
+                    </div>
+                    <div class="p-4">
+                        <manage-servings
+                            :meal-id="meal.id"
+                            :kit-id="kit.id"
+                            :current-state="kitMealServings(meal.id)"
+                            @updated="setKit"
+                            :can-add-to-box="kit.meals.length < 5"
+                            @explain-limit="showLimitModal = true"
+                        ></manage-servings>
                     </div>
                 </div>
-                <div class="p-4">
-                    <manage-servings
-                        :meal-id="meal.id"
-                        :kit-id="kit.id"
-                        :current-state="kitMealServings(meal.id)"
-                        @updated="setKit"
-                        :can-add-to-box="kit.meals.length < 5"
-                        @explain-limit="showLimitModal = true"
-                    ></manage-servings>
+            </div>
+
+            <div class="px-6 my-8 max-w-xl mx-auto">
+                <p>
+                    All done? We hope you’re excited to learn a few new recipes.
+                    You can still go back to build another box, or proceed to
+                    review your basket and checkout.
+                </p>
+                <div class="flex justify-between md:justify-center mt-6">
+                    <button
+                        class="font-bold text-green-600 hover:text-green-500 md:mr-6"
+                        @click="$emit('done')"
+                    >
+                        Build another box
+                    </button>
+
+                    <!--                    <a href="/basket" class="green-btn md:ml-6">Go to basket</a>-->
+                    <button type="button" @click="selectAddOns = true">
+                        Proceed
+                    </button>
                 </div>
             </div>
         </div>
 
-        <div class="px-6 my-8 max-w-xl mx-auto">
-            <p>
-                All done? We hope you’re excited to learn a few new recipes. You
-                can still go back to build another box, or proceed to review
-                your basket and checkout.
-            </p>
-            <div class="flex justify-between md:justify-center mt-6">
-                <button
-                    class="font-bold text-green-600 hover:text-green-500 md:mr-6"
-                    @click="$emit('done')"
-                >
-                    Build another box
-                </button>
+        <div v-show="selectAddOns">
+            <h1 class="type-h1 font-bold text-center my-8">Before you go...</h1>
 
-                <a href="/basket" class="green-btn md:ml-6">Go to basket</a>
+            <p class="max-w-xl mx-auto px-6 mb-6">
+                You may add some extras to your kit, and we will deliver them
+                along with your meals.
+            </p>
+
+            <div>
+                <div v-for="addOn in menu.add_ons" :key="addOn.uuid">
+                    <p>{{ addOn.name }}</p>
+                </div>
+            </div>
+
+            <div>
+                <button type="button" @click="selectAddOns = false">
+                    Back to box
+                </button>
             </div>
         </div>
         <modal :show="showLimitModal" @close="showLimitModal = false">
@@ -129,6 +159,8 @@ import { ref } from "vue";
 
 const props = defineProps({ menu: Object, kit: Object });
 const emit = defineEmits(["kit-updated"]);
+
+const selectAddOns = ref(false);
 
 const showLimitModal = ref(false);
 

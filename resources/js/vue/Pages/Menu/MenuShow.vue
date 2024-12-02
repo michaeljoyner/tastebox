@@ -50,13 +50,32 @@
                 >
             </div>
 
+            <p class="my-6 text-gray-500" v-show="!menu.add_ons.length">
+                No add-ons have been added on yet.
+            </p>
+
             <div>
                 <div
                     v-for="addon in menu.add_ons"
                     :key="addon.uuid"
-                    class="p-3 shadow"
+                    class="p-3 shadow flex gap-4 items-center"
                 >
-                    <p>{{ addon.name }}</p>
+                    <img
+                        :src="addon.image.thumb"
+                        class="w-12 h-12 rounded-full object-cover"
+                        alt=""
+                    />
+                    <p class="font-semibold">
+                        <RouterLink
+                            :to="`/add-ons/${addon.uuid}`"
+                            class="hover:text-pink-500"
+                        >
+                            {{ addon.name }}
+                        </RouterLink>
+                    </p>
+                    <p class="text-sm text-gray-500">
+                        {{ addon.price_formatted }}
+                    </p>
                 </div>
             </div>
         </div>

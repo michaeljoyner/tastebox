@@ -4,6 +4,8 @@
 namespace App\Orders;
 
 
+use App\AddOns\AddOn;
+use App\AddOns\AddOnPresenter;
 use App\DatePresenter;
 use App\Meals\MealsPresenter;
 
@@ -28,6 +30,8 @@ class MenuPresenter
             'is_current'             => $menu->isCurrent(),
             'status'                 => Menu::UPCOMING,
             'meals'                  => $menu->meals->map(fn($m) => MealsPresenter::forPublic($m))->values()->all(),
+            'add_ons' => $menu->addOns->map(
+                fn(AddOn $addOn) => AddOnPresenter::forPublic($addOn))->values()->all(),
         ];
     }
 }

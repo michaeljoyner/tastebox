@@ -67,7 +67,7 @@ export default {
                 axios
                     .get("/admin/api/upcoming-menus")
                     .then(({ data }) => {
-                        commit("setMenus", data);
+                        commit("setMenus", data.data);
                         resolve();
                     })
                     .catch(() => reject("Unable to fetch upcoming menus"));

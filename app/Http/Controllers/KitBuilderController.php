@@ -10,7 +10,7 @@ class KitBuilderController extends Controller
 {
     public function show()
     {
-        $menus = Menu::available()->with('meals')->orderBy('current_from')->get();
+        $menus = Menu::available()->with('meals', 'addOns')->orderBy('current_from')->get();
         $basket = ShoppingBasket::for(auth()->user());
         return view('front.kit-builder.page', [
             'menus' => $menus->map->presentForPublic(),

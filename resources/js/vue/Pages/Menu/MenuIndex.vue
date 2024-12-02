@@ -41,7 +41,7 @@
                             class="w-12 h-12 rounded-full object-cover mr-4 inline-block"
                         />
                     </div>
-                    <div class="border-t border-gray-200 pt-4 mt-6">
+                    <div class="border-t border-gray-200 pt-4 mt-6 flex gap-4">
                         <ColourLabel
                             :colour="
                                 menu.free_recipe_meals.length > 2
@@ -49,6 +49,15 @@
                                     : 'yellow'
                             "
                             :text="`${menu.free_recipe_meals.length} Free Recipes`"
+                        ></ColourLabel>
+
+                        <ColourLabel
+                            :colour="
+                                menu.add_ons.length > 1 ? 'indigo' : 'gray'
+                            "
+                            :text="`${menu.add_ons.length} Add On${
+                                menu.add_ons.length !== 1 ? 's' : ''
+                            }`"
                         ></ColourLabel>
                     </div>
                 </div>
