@@ -160,7 +160,7 @@ class KitsTest extends TestCase
     public function can_set_the_delivery_address_for_a_kit()
     {
         $menu = factory(Menu::class)->create();
-        $kit = new Kit($menu->id, collect([]), DeliveryAddress::fake());
+        $kit = new Kit($menu->id, collect([]), collect([]), DeliveryAddress::fake());
 
         $new_address = new DeliveryAddress(DeliveryArea::HILTON, '123 test street');
 

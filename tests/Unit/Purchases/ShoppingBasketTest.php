@@ -2,6 +2,7 @@
 
 namespace Tests\Unit\Purchases;
 
+use App\AddOns\AddOn;
 use App\Meals\Meal;
 use App\Meals\MealPriceTier;
 use App\Orders\Menu;
@@ -177,17 +178,24 @@ class ShoppingBasketTest extends TestCase
         $mealA = factory(Meal::class)->state('budget')->create();
         $mealB = factory(Meal::class)->state('standard')->create();
         $mealC = factory(Meal::class)->state('premium')->create();
+        $addOnA = factory(AddOn::class)->create(['price' => 2200]);
+        $addOnB = factory(AddOn::class)->create(['price' => 5500]);
         $menu->setMeals([$mealA->id, $mealB->id, $mealC->id]);
+        $menu->addOns()->sync([$addOnA->id, $addOnB->id]);
 
         $kit = $basket->addKit($menu->id);
         $kit->setMeal($mealA, 2);
         $kit->setMeal($mealB, 2);
         $kit->setMeal($mealC, 4);
+        $kit->setAddOn($addOnA, 3);
+        $kit->setAddOn($addOnB, 5);
 
         $expected = collect([
             MealPriceTier::BUDGET->price() * 2,
             MealPriceTier::STANDARD->price() * 2,
             MealPriceTier::PREMIUM->price() * 4,
+            ($addOnA->price / 100) * 3,
+            ($addOnB->price / 100) * 5,
         ])->sum();
 
         $this->assertEquals($expected, $basket->price());

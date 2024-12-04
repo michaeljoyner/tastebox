@@ -2,6 +2,7 @@
 
 namespace App\Purchases;
 
+use App\AddOns\AddOn;
 use App\DeliveryAddress;
 use App\DeliveryArea;
 use App\Meals\Meal;
@@ -72,7 +73,13 @@ class ShoppingBasket
             $address = $existing_kit->delivery_address;
         }
 
-        $kit = new Kit($menu_id, collect([]), $address ?: DeliveryAddress::for($this->owner), $this->kits->count());
+        $kit = new Kit(
+            $menu_id,
+            collect([]),
+            collect([]),
+            $address ?: DeliveryAddress::for($this->owner),
+            $this->kits->count()
+        );
 
         if ($existing_menu_kit) {
             $kit->deliver_with = $existing_menu_kit->id;
@@ -109,6 +116,36 @@ class ShoppingBasket
         }
 
         $kit->removeMeal($meal_id);
+
+        $this->setKit($kit);
+
+        $this->save();
+    }
+
+    public function addAddOnToKit(string $kit_id, Addon $addon, int $qty)
+    {
+        $kit = $this->getKit($kit_id);
+
+        if (!$kit) {
+            throw new \InvalidArgumentException("no kit with id {$kit_id} in basket");
+        }
+
+        $kit->setAddOn($addon, $qty);
+
+        $this->setKit($kit);
+
+        $this->save();
+    }
+
+    public function removeAddOnFromKit(string $kit_id, string $add_on_uuid)
+    {
+        $kit = $this->getKit($kit_id);
+
+        if (!$kit) {
+            throw new \InvalidArgumentException("no kit with id {$kit_id} in basket");
+        }
+
+        $kit->removeAddOn($add_on_uuid);
 
         $this->setKit($kit);
 
