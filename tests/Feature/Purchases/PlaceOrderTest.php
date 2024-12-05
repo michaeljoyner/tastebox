@@ -4,6 +4,7 @@
 namespace Tests\Feature\Purchases;
 
 
+use App\AddOns\AddOn;
 use App\DeliveryAddress;
 use App\DeliveryArea;
 use App\Meals\Meal;
@@ -49,9 +50,11 @@ class PlaceOrderTest extends TestCase
         $mealD = factory(Meal::class)->create();
         $mealE = factory(Meal::class)->create();
         $mealF = factory(Meal::class)->create();
+        $addOn = factory(AddOn::class)->create(['price' => 1000]);
 
         $menuA->setMeals([$mealA->id, $mealB->id, $mealC->id]);
         $menuB->setMeals([$mealD->id, $mealE->id, $mealF->id]);
+        $menuB->addOns()->attach($addOn->id);
 
         $basket = ShoppingBasket::for(null);
 
@@ -64,6 +67,7 @@ class PlaceOrderTest extends TestCase
         $kitB->setMeal($mealD, 3);
         $kitB->setMeal($mealE, 4);
         $kitB->setMeal($mealF, 5);
+        $kitB->setAddOn($addOn, 3);
 
         $test_addressA = new DeliveryAddress(DeliveryArea::HOWICK, '123 test street');
         $test_addressB = new DeliveryAddress(DeliveryArea::HILTON, '456 test street');
@@ -78,7 +82,7 @@ class PlaceOrderTest extends TestCase
             'phone'                   => '0798888888',
             'discount_code'           => $discount_code->code,
             'subscribe_to_newsletter' => true,
-            'get_sms_reminder'       => true,
+            'get_sms_reminder'        => true,
 
         ]);
         $response->assertSuccessful();
@@ -99,12 +103,12 @@ class PlaceOrderTest extends TestCase
             'last_name'      => 'test last name',
             'email'          => 'test@test.test',
             'phone'          => '0798888888',
-            'price_in_cents' => ((21 * Meal::SERVING_PRICE) - 50) * 100,
+            'price_in_cents' => (((21 * Meal::SERVING_PRICE) - 50) * 100) + (1000 * 3),
             'discount_code'  => $discount_code->code,
             'discount_type'  => Discount::LUMP,
             'discount_value' => 50,
             'is_paid'        => false,
-            'status' => Order::STATUS_CREATED,
+            'status'         => Order::STATUS_CREATED,
         ]);
 
         $this->assertDatabaseHas('discount_codes', [
@@ -148,6 +152,9 @@ class PlaceOrderTest extends TestCase
                 ['id' => $mealE->id, 'name' => $mealE->name, 'servings' => 4],
                 ['id' => $mealF->id, 'name' => $mealF->name, 'servings' => 5],
             ], 'meal_summary'),
+            'add_on_summary'   => $this->asJson([
+                ['id' => $addOn->id, 'name' => $addOn->name, 'qty' => 3],
+            ], 'add_on_summary'),
         ]);
 
         $ordered_kitA = OrderedKit::where('kit_id', $kitA->id)->first();
@@ -183,10 +190,15 @@ class PlaceOrderTest extends TestCase
             'meal_id'        => $mealF->id,
             'servings'       => 5
         ]);
+        $this->assertDatabaseHas('add_on_ordered_kit', [
+            'ordered_kit_id' => $ordered_kitB->id,
+            'add_on_id'      => $addOn->id,
+            'qty'            => 3
+        ]);
     }
 
     /**
-     *@test
+     * @test
      */
     public function place_order_with_full_discount()
     {
@@ -213,8 +225,10 @@ class PlaceOrderTest extends TestCase
         $mealE = factory(Meal::class)->create();
         $mealF = factory(Meal::class)->create();
 
+
         $menuA->setMeals([$mealA->id, $mealB->id, $mealC->id]);
         $menuB->setMeals([$mealD->id, $mealE->id, $mealF->id]);
+
 
         $basket = ShoppingBasket::for(null);
 
@@ -227,6 +241,7 @@ class PlaceOrderTest extends TestCase
         $kitB->setMeal($mealD, 3);
         $kitB->setMeal($mealE, 4);
         $kitB->setMeal($mealF, 5);
+
 
         $test_addressA = new DeliveryAddress(DeliveryArea::HOWICK, '123 test street');
         $test_addressB = new DeliveryAddress(DeliveryArea::HILTON, '456 test street');
@@ -241,7 +256,7 @@ class PlaceOrderTest extends TestCase
             'phone'                   => '0798888888',
             'discount_code'           => $discount_code->code,
             'subscribe_to_newsletter' => true,
-            'get_sms_reminder'       => true,
+            'get_sms_reminder'        => true,
 
         ]);
         $response->assertSuccessful();
@@ -267,7 +282,7 @@ class PlaceOrderTest extends TestCase
             'discount_type'  => Discount::LUMP,
             'discount_value' => ((21 * Meal::SERVING_PRICE) - 50) * 100,
             'is_paid'        => true,
-            'status' => Order::STATUS_OPEN,
+            'status'         => Order::STATUS_OPEN,
         ]);
 
         $this->assertDatabaseHas('discount_codes', [
@@ -458,8 +473,6 @@ class PlaceOrderTest extends TestCase
 
         $this->assertFieldIsInvalid($kit, ['email' => 'not-a-real-email']);
     }
-
-
 
 
     private function assertFieldIsInvalid($kit, $field, $error_key = null)
