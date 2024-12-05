@@ -14,7 +14,8 @@ class KitMealSummary
     public function __construct(Collection $meals)
     {
         $this->meals = Meal::find($meals->pluck('id'))
-                           ->map(fn($meal) => new KitMeal($meal,
+                           ->map(fn($meal) => new KitMeal(
+                               $meal,
                                $meals->first(fn($m) => $m['id'] === $meal->id)['servings']));
 
     }

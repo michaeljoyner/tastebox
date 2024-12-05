@@ -165,6 +165,11 @@ class Kit
         return new KitMealSummary($this->meals);
     }
 
+    public function addOnSummary(): KitAddOnSummary
+    {
+        return new KitAddOnSummary($this->addOns);
+    }
+
     public function toArray(): array
     {
         return [

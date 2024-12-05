@@ -4,12 +4,14 @@
 namespace Tests\Unit\Purchases;
 
 
+use App\AddOns\AddOn;
 use App\DeliveryAddress;
 use App\DeliveryArea;
 use App\Meals\Meal;
 use App\Meals\MealPriceTier;
 use App\Orders\Menu;
 use App\Purchases\Kit;
+use App\Purchases\KitAddOn;
 use App\Purchases\KitMeal;
 use App\Purchases\KitMealSummary;
 use App\Purchases\ShoppingBasket;
@@ -22,7 +24,7 @@ class KitsTest extends TestCase
     use RefreshDatabase;
 
     /**
-     *@test
+     * @test
      */
     public function kits_can_provide_price()
     {
@@ -58,7 +60,7 @@ class KitsTest extends TestCase
     }
 
     /**
-     *@test
+     * @test
      */
     public function kits_can_check_if_still_valid()
     {
@@ -93,7 +95,7 @@ class KitsTest extends TestCase
     }
 
     /**
-     *@test
+     * @test
      */
     public function kits_can_provide_a_meal_summary()
     {
@@ -117,20 +119,62 @@ class KitsTest extends TestCase
         $this->assertCount(3, $meal_summary->meals);
 
         $this->assertTrue($meal_summary->meals->contains(
-            fn (KitMeal $kit_meal) => $kit_meal->name === $mealA->name && $kit_meal->servings === 2
+            fn(KitMeal $kit_meal) => $kit_meal->name === $mealA->name && $kit_meal->servings === 2
         ));
 
         $this->assertTrue($meal_summary->meals->contains(
-            fn (KitMeal $kit_meal) => $kit_meal->name === $mealB->name && $kit_meal->servings === 3
+            fn(KitMeal $kit_meal) => $kit_meal->name === $mealB->name && $kit_meal->servings === 3
         ));
 
         $this->assertTrue($meal_summary->meals->contains(
-            fn (KitMeal $kit_meal) => $kit_meal->name === $mealC->name && $kit_meal->servings === 4
+            fn(KitMeal $kit_meal) => $kit_meal->name === $mealC->name && $kit_meal->servings === 4
         ));
     }
 
     /**
-     *@test
+     * @test
+     */
+    public function a_kit_has_an_add_on_summary()
+    {
+        $menu = factory(Menu::class)->state('current')->create();
+
+        $addOnA = factory(AddOn::class)->create();
+        $addOnB = factory(AddOn::class)->create();
+
+        $menu->addOns()->sync([$addOnA->id, $addOnB->id]);
+
+        $basket = ShoppingBasket::for(null);
+        $kit = $basket->addKit($menu->id);
+        $kit->setAddOn($addOnA, 3);
+        $kit->setAddOn($addOnB, 2);
+
+        $kit_summary = $kit->addOnSummary();
+
+        $this->assertCount(2, $kit_summary->addOns);
+
+        $this->assertTrue(
+            $kit_summary
+                ->addOns
+                ->contains(
+                    fn(KitAddOn $kit_add_on) => $kit_add_on->name === $addOnA->name
+                        && $kit_add_on->qty === 3
+                        && $kit_add_on->add_on_id === $addOnA->id,
+                )
+        );
+
+        $this->assertTrue(
+            $kit_summary
+                ->addOns
+                ->contains(
+                    fn(KitAddOn $kit_add_on) => $kit_add_on->name === $addOnB->name
+                        && $kit_add_on->qty === 2
+                        && $kit_add_on->add_on_id === $addOnB->id,
+                )
+        );
+    }
+
+    /**
+     * @test
      */
     public function kits_with_less_than_three_meals_is_not_legible_for_order()
     {
@@ -155,7 +199,7 @@ class KitsTest extends TestCase
     }
 
     /**
-     *@test
+     * @test
      */
     public function can_set_the_delivery_address_for_a_kit()
     {

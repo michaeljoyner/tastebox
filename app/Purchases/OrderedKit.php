@@ -2,6 +2,7 @@
 
 namespace App\Purchases;
 
+use App\AddOns\AddOn;
 use App\DeliveryAddress;
 use App\DeliveryArea;
 use App\LogsActivities;
@@ -9,6 +10,7 @@ use App\Meals\Meal;
 use App\Orders\Menu;
 use App\User;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class OrderedKit extends Model
 {
@@ -36,6 +38,7 @@ class OrderedKit extends Model
 
     protected $casts = [
         'meal_summary'  => 'array',
+        'add_on_summary'  => 'array',
         'delivery_date' => 'date'
     ];
 
@@ -49,6 +52,13 @@ class OrderedKit extends Model
         return $this->belongsToMany(Meal::class)
                     ->using(OrderedMeal::class)
                     ->withPivot('servings');
+    }
+
+    public function addOns(): BelongsToMany
+    {
+        return $this->belongsToMany(AddOn::class)
+            ->using(OrderedAddOn::class)
+            ->withPivot('qty');
     }
 
     public static function new(Order $order, Kit $kit): self
@@ -71,6 +81,7 @@ class OrderedKit extends Model
         ]);
 
         $ordered_kit->setMeals($kit->mealSummary());
+        $ordered_kit->setAddOns($kit->addOnSummary());
 
         return $ordered_kit;
     }
@@ -83,6 +94,18 @@ class OrderedKit extends Model
         $this->meals()->sync(
             $mealSummary->meals->mapWithKeys(
                 fn(KitMeal $meal) => [$meal->meal_id => ['servings' => $meal->servings]]
+            )
+        );
+    }
+
+    public function setAddOns(KitAddOnSummary $addOnSummary)
+    {
+        $this->add_on_summary = $addOnSummary->toArray();
+        $this->save();
+
+        $this->addOns()->sync(
+            $addOnSummary->addOns->mapWithKeys(
+                fn (KitAddOn $addOn) => [$addOn->add_on_id => ['qty' => $addOn->qty]]
             )
         );
     }

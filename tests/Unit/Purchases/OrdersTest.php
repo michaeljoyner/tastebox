@@ -4,6 +4,7 @@
 namespace Tests\Unit\Purchases;
 
 
+use App\AddOns\AddOn;
 use App\DeliveryAddress;
 use App\DeliveryArea;
 use App\Meals\Meal;
@@ -35,15 +36,17 @@ class OrdersTest extends TestCase
             'phone'      => 'test phone',
         ];
         $address = new DeliveryAddress(DeliveryArea::HOWICK, '123 Test street');
-        $kits = $this->makeKits($address); //2 kits 15 meals
+        $kits = $this->makeKits($address); //2 kits 15 meals and 3 add ons
         $order = Order::makeNew($customer, $kits, new NullDiscount());
+        $add_on_price = (2200 * 1) + (3300 * 2) + (1100 * 3);
 
         $this->assertEquals('test first name', $order->first_name);
         $this->assertEquals('test last name', $order->last_name);
         $this->assertEquals('test phone', $order->phone);
         $this->assertEquals('test@test.test', $order->email);
         $this->assertTrue(Str::isUuid($order->order_key));
-        $this->assertEquals(Meal::SERVING_PRICE * 15 * 100, $order->price_in_cents);
+
+        $this->assertEquals((Meal::SERVING_PRICE * 15 * 100) + $add_on_price, $order->price_in_cents);
         $this->assertSame(Order::STATUS_CREATED, $order->status);
     }
 
@@ -57,6 +60,8 @@ class OrdersTest extends TestCase
         $mealB = factory(Meal::class)->create();
         $mealC = factory(Meal::class)->create();
         $mealD = factory(Meal::class)->create();
+        $addOnA = factory(AddOn::class)->create(['price' => 2300]);
+        $addOnB = factory(AddOn::class)->create(['price' => 4400]);
         $menu->setMeals([$mealA->id, $mealB->id, $mealC->id, $mealD->id,]);
 
         $basket = ShoppingBasket::for(null);
@@ -65,12 +70,19 @@ class OrdersTest extends TestCase
         $kit->setMeal($mealB, 3);
         $kit->setMeal($mealC, 4);
         $kit->setMeal($mealD, 5);
+        $kit->setAddOn($addOnA, 2);
+        $kit->setAddOn($addOnB, 3);
 
         $meal_summary = [
             ['id' => $mealA->id, 'name' => $mealA->name, 'servings' => 2],
             ['id' => $mealB->id, 'name' => $mealB->name, 'servings' => 3],
             ['id' => $mealC->id, 'name' => $mealC->name, 'servings' => 4],
             ['id' => $mealD->id, 'name' => $mealD->name, 'servings' => 5],
+        ];
+
+        $add_on_summary = [
+            ['id' => $addOnA->id, 'name' => $addOnA->name, 'qty' => 2, 'price' => $addOnA->price],
+            ['id' => $addOnB->id, 'name' => $addOnB->name, 'qty' => 3, 'price' => $addOnB->price],
         ];
 
         $order = factory(Order::class)->state('unpaid')->create();
@@ -95,6 +107,11 @@ class OrdersTest extends TestCase
         $this->assertTrue($orderedKit->meals->contains(fn($meal) => $meal->pivot->servings === 3));
         $this->assertTrue($orderedKit->meals->contains(fn($meal) => $meal->pivot->servings === 4));
         $this->assertTrue($orderedKit->meals->contains(fn($meal) => $meal->pivot->servings === 5));
+
+        $this->assertCount(2, $orderedKit->addOns);
+        $this->assertTrue($orderedKit->addOns->contains(fn($AddOn) => $AddOn->pivot->qty === 2));
+        $this->assertTrue($orderedKit->addOns->contains(fn($AddOn) => $AddOn->pivot->qty === 3));
+        $this->assertEquals($add_on_summary, $orderedKit->add_on_summary);
 
 
     }
@@ -278,6 +295,9 @@ class OrdersTest extends TestCase
         $mealB = factory(Meal::class)->create();
         $mealC = factory(Meal::class)->create();
         $mealD = factory(Meal::class)->create();
+        $addOnA = factory(AddOn::class)->create(['price' => 2200]);
+        $addOnB = factory(AddOn::class)->create(['price' => 3300]);
+        $addOnC = factory(AddOn::class)->create(['price' => 1100]);
         $menu->setMeals([$mealA->id, $mealB->id, $mealC->id, $mealD->id,]);
 
         $basket = ShoppingBasket::for(null);
@@ -285,10 +305,13 @@ class OrdersTest extends TestCase
         $kitA->setMeal($mealA, 2);
         $kitA->setMeal($mealB, 2);
         $kitA->setMeal($mealC, 4);
+        $kitA->setAddOn($addOnA, 1);
+        $kitA->setAddOn($addOnB, 2);
         $kitB = $basket->addKit($menu->id);
         $kitB->setMeal($mealA, 1);
         $kitB->setMeal($mealC, 2);
         $kitB->setMeal($mealD, 4);
+        $kitB->setAddOn($addOnC, 3);
 
         $kitA->setDeliveryAddress($address);
         $kitB->setDeliveryAddress($address);
