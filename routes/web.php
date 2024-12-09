@@ -35,6 +35,7 @@ use App\Http\Controllers\EmailVerificationLinkRequestController;
 use App\Http\Controllers\FreeRecipeApiController;
 use App\Http\Controllers\KitDeliveryAddressController;
 use App\Http\Controllers\MealCostingsController;
+use App\Http\Controllers\MealKitsAddOnsController;
 use App\Http\Controllers\MealShoppingListPdfController;
 use App\Http\Controllers\MealShoppingListsController;
 use App\Http\Controllers\Members\HomePageController;
@@ -70,6 +71,9 @@ Route::delete('my-kits/{kit_id}', 'MealKitsController@destroy');
 
 Route::post('my-kits/{kit_id}/meals', 'MealKitsMealsController@store');
 Route::delete('my-kits/{kit_id}/meals/{meal_id}', 'MealKitsMealsController@destroy');
+
+Route::post('my-kits/{kit_id}/add-ons', [MealKitsAddOnsController::class, 'store']);
+Route::delete('my-kits/{kit_id}/add-ons/{add_on_uuid}', [MealKitsAddOnsController::class, 'delete']);
 
 Route::post('discount-code-status', 'DiscountCodeStatusController@show');
 

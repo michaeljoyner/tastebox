@@ -10,10 +10,20 @@
     @foreach($boxes as $index => $box)
         <div class="shadow p-6 my-6">
             <p class="type-h2 mb-3">Box #{{ $index + 1 }}</p>
+
+            <p class="type-h3">Meals</p>
             @foreach($box->meal_summary as $meal)
                 <p>
                     <span class="mr-2">{{ $meal['name'] }}</span>
                     <span>(for {{ $meal['servings'] }})</span>
+                </p>
+            @endforeach
+
+            <p class="type-h3 mt-6">Extras</p>
+            @foreach($box->add_on_summary as $add_on)
+                <p>
+                    <span class="mr-2">{{ $add_on['name'] }}</span>
+                    <span>(for {{ $add_on['qty'] }})</span>
                 </p>
             @endforeach
 

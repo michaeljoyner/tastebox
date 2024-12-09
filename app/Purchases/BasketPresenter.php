@@ -4,6 +4,7 @@
 namespace App\Purchases;
 
 
+use App\AddOns\AddOn;
 use App\DatePresenter;
 use App\DeliveryArea;
 use App\Meals\Meal;
@@ -19,6 +20,7 @@ class BasketPresenter
     public function presentKit(Kit $kit)
     {
         $meals = Meal::find($kit->meals->pluck('id'));
+        $addOns = AddOn::find($kit->addOns->pluck('id'));
         $menu = Menu::find($kit->menu_id);
 
         return [
@@ -43,7 +45,17 @@ class BasketPresenter
                     'servings' => $servings,
                     'price' => ($meal->price_tier?->price() ?? MealPriceTier::STANDARD->price()) * $servings,
                 ];
-            })->values()->all()
+            })->values()->all(),
+            'add_ons' => $addOns->map(function (AddOn $addOn) use ($kit) {
+                $qty = $kit->addOns->first(fn($a) => $a['id'] === $addOn->id)['qty'];
+                return [
+                    'id' => $addOn->id,
+                    'name' => $addOn->name,
+                    'thumb' => $addOn->getFirstMediaUrl(AddOn::IMAGE, 'thumb'),
+                    'qty' => $qty,
+                    'price' => ($addOn->price / 100) * $qty,
+                ];
+            })->values()->all(),
         ];
     }
 }

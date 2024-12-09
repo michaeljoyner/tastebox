@@ -40,7 +40,7 @@
                         class="hover:text-teal-600"
                     >
                         <span class="font-bold">{{ box.name }}</span>
-                        <span class="text-sm text-gray-600">{{
+                        <span class="text-xs text-gray-600 block">{{
                             boxSummaryText(box)
                         }}</span>
                     </a>
@@ -102,7 +102,8 @@ export default {
 
         boxSummaryText(box) {
             const meal_word = box.meals.length === 1 ? "meal" : "meals";
-            return `(${box.meals.length} ${meal_word})`;
+            const add_on_word = box.add_ons.length === 1 ? "add-on" : "add-ons";
+            return `(${box.meals.length} ${meal_word} & ${box.add_ons.length} ${add_on_word})`;
         },
     },
 };

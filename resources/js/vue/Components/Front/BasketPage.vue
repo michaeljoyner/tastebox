@@ -36,6 +36,11 @@
                 <p class="mb-3 mt-1 text-sm text-gray-600 font-normal type-b3">
                     {{ kit.meals_count }} meals ({{ kit.servings_count }}
                     servings)
+                    <span v-if="kit.add_ons.length">
+                        & {{ kit.add_ons.length }} add-on{{
+                            kit.add_ons.length === 1 ? "" : "s"
+                        }}</span
+                    >
                 </p>
 
                 <p
@@ -62,6 +67,35 @@
                         {{ meal.name }} ({{ meal.servings }}
                         {{ meal.servings === 1 ? "person" : "people" }} - R{{
                             meal.price
+                        }})
+                    </li>
+                </ul>
+
+                <div v-if="!kit.add_ons.length">
+                    <p>Add a little extra:</p>
+                    <a
+                        :href="`/build-a-box?kit=${kit.id}&view=add-ons`"
+                        class="type-b3 text-gray-500 hover:text-green-600"
+                        >Do it</a
+                    >
+                </div>
+
+                <p class="type-h3 underline mt-6" v-if="kit.add_ons.length">
+                    Extras
+                    <a
+                        :href="`/build-a-box?kit=${kit.id}&view=add-ons`"
+                        class="type-b3 text-gray-500 hover:text-green-600"
+                        >(edit)</a
+                    >
+                </p>
+                <ul class="">
+                    <li
+                        v-for="addOn in kit.add_ons"
+                        :key="addOn.id"
+                        class="mb-1 type-b3"
+                    >
+                        {{ addOn.name }} x {{ addOn.qty }} - (R{{
+                            addOn.price
                         }})
                     </li>
                 </ul>

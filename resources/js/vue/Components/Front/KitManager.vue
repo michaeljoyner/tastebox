@@ -108,6 +108,11 @@
             :menu="current_menu"
             :kit="current_kit"
             @done="selected_kit_id = null"
+            :view="view"
+            @show-add-ons="
+                (show) =>
+                    show ? (this.view = 'add-ons') : (this.view = 'meals')
+            "
         ></kit-builder>
     </div>
 </template>
@@ -123,12 +128,19 @@ export default {
         KitBuilder,
     },
 
-    props: ["menus", "initial-basket", "initial-kit", "registered"],
+    props: [
+        "menus",
+        "initial-basket",
+        "initial-kit",
+        "registered",
+        "initial-view",
+    ],
 
     data() {
         return {
             selected_kit_id: null,
             kits: [],
+            view: this.initialView,
         };
     },
 
@@ -157,9 +169,17 @@ export default {
         this.selected_kit_id = this.initialKit;
 
         window.addEventListener("popstate", ({ state }) => {
+            console.log({ state });
             if (!state) {
-                this.selected_kit_id = null;
+                return (this.selected_kit_id = null);
             }
+
+            const params = new URLSearchParams(window.location.href);
+            if (params.get("view") === "add-ons") {
+                return (this.view = "add-ons");
+            }
+
+            this.view = "meals";
         });
     },
 

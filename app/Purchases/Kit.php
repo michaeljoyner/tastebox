@@ -93,7 +93,7 @@ class Kit
         if ($this->addOns->contains(fn($add_on) => $add_on['key'] === $addOn->uuid)) {
             return $this->addOns = $this->addOns->map(function ($add_on) use ($addOn, $qty) {
                 if ($add_on['key'] === $addOn->uuid) {
-                    $add_on['qty'] = $add_on['qty'] + $qty;
+                    $add_on['qty'] = $qty;
 
                     return $add_on;
                 }
@@ -177,6 +177,7 @@ class Kit
             'id'      => $this->id,
             'menu_id' => $this->menu_id,
             'meals'   => $this->meals->values()->all(),
+            'add_ons' => $this->addOns->values()->all(),
         ];
     }
 }

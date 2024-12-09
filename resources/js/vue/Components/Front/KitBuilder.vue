@@ -1,6 +1,6 @@
 <template>
     <div v-if="kit">
-        <div v-show="!selectAddOns">
+        <div v-show="view !== 'add-ons'">
             <h1 class="type-h1 font-bold text-center my-8">Build a Box</h1>
 
             <p class="max-w-xl mx-auto px-6 mb-6">
@@ -87,40 +87,79 @@
                     You can still go back to build another box, or proceed to
                     review your basket and checkout.
                 </p>
-                <div class="flex justify-between md:justify-center mt-6">
+                <div class="flex flex-col items-center mt-6">
                     <button
-                        class="font-bold text-green-600 hover:text-green-500 md:mr-6"
-                        @click="$emit('done')"
+                        class="px-4 py-1 font-serif rounded-md bg-green-600 text-green-100"
+                        type="button"
+                        @click="proceedToAddons"
                     >
-                        Build another box
-                    </button>
-
-                    <!--                    <a href="/basket" class="green-btn md:ml-6">Go to basket</a>-->
-                    <button type="button" @click="selectAddOns = true">
                         Proceed
                     </button>
+
+                    <div class="mt-6 flex gap-8">
+                        <button
+                            class="text-sm text-gray-500 hover:text-green-500"
+                            @click="$emit('done')"
+                        >
+                            Build another box
+                        </button>
+
+                        <a
+                            href="/basket"
+                            class="text-sm text-gray-500 hover:text-green-500"
+                            >Go to Basket</a
+                        >
+                    </div>
                 </div>
             </div>
         </div>
 
-        <div v-show="selectAddOns">
+        <div v-show="view === 'add-ons'">
             <h1 class="type-h1 font-bold text-center my-8">Before you go...</h1>
 
-            <p class="max-w-xl mx-auto px-6 mb-6">
-                You may add some extras to your kit, and we will deliver them
-                along with your meals.
-            </p>
+            <div class="px-6 mb-6">
+                <p class="max-w-xl mx-auto">
+                    You may add some extras to your kit, and we will deliver
+                    them along with your meals.
+                </p>
 
-            <div>
-                <div v-for="addOn in menu.add_ons" :key="addOn.uuid">
-                    <p>{{ addOn.name }}</p>
+                <div class="flex justify-center items-center pt-4">
+                    <a
+                        href="/basket"
+                        class="text-sm text-gray-500 hover:text-green-500"
+                        >Skip to checkout</a
+                    >
                 </div>
             </div>
 
-            <div>
-                <button type="button" @click="selectAddOns = false">
-                    Back to box
-                </button>
+            <div class="max-w-3xl mx-auto px-6">
+                <AddOnKitCard
+                    v-for="addOn in menu.add_ons"
+                    :key="addOn.uuid"
+                    :add-on="addOn"
+                    :kit-id="kit.id"
+                    :initial-qty="
+                        kit.add_ons.find((a) => a.id === addOn.id)?.qty || 0
+                    "
+                    @updated="setKit"
+                />
+            </div>
+
+            <div class="flex flex-col items-center mt-10">
+                <a
+                    href="/basket"
+                    class="px-4 py-1 font-serif text-green-100 bg-green-600 rounded-md"
+                    >Go to Basket</a
+                >
+                <div class="flex mt-6">
+                    <button
+                        type="button"
+                        @click="returnToMeals"
+                        class="text-sm text-gray-500 hover:text-green-500"
+                    >
+                        Back to meals
+                    </button>
+                </div>
             </div>
         </div>
         <modal :show="showLimitModal" @close="showLimitModal = false">
@@ -155,10 +194,11 @@ import CheckIcon from "../UI/Icons/CheckIcon.vue";
 import Modal from "../Modal.vue";
 import { eventHub } from "../../../libs/eventHub.js";
 import ClockIcon from "../Icons/ClockIcon.vue";
-import { ref } from "vue";
+import { ref, onMounted } from "vue";
+import AddOnKitCard from "./AddOnKitCard.vue";
 
-const props = defineProps({ menu: Object, kit: Object });
-const emit = defineEmits(["kit-updated"]);
+const props = defineProps({ menu: Object, kit: Object, view: String });
+const emit = defineEmits(["kit-updated", "show-add-ons"]);
 
 const selectAddOns = ref(false);
 
@@ -183,5 +223,24 @@ const mealPriceClasses = (tier) => {
         Premium: "bg-black text-white",
     };
     return lookup[tier] || lookup.Standard;
+};
+
+const proceedToAddons = () => {
+    window.history.pushState(
+        { kit_id: props.kit.id, from_addons: true },
+        "",
+        `/build-a-box?kit=${props.kit.id}&view=add-ons`
+    );
+    window.scrollTo(0, 0);
+    emit("show-add-ons", true);
+};
+
+const returnToMeals = () => {
+    window.history.pushState(
+        { kit_id: props.kit.id, from_addons: false },
+        "",
+        `/build-a-box?kit=${props.kit.id}&view=meals`
+    );
+    emit("show-add-ons", false);
 };
 </script>

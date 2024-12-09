@@ -12,10 +12,12 @@ class KitBuilderController extends Controller
     {
         $menus = Menu::available()->with('meals', 'addOns')->orderBy('current_from')->get();
         $basket = ShoppingBasket::for(auth()->user());
+        $showView = request('view') === 'add-ons' ? 'add-ons' : 'meals';
         return view('front.kit-builder.page', [
             'menus' => $menus->map->presentForPublic(),
             'basket' => $basket->presentForReview(),
             'kit' => request('kit'),
+            'showView' => $showView,
         ]);
     }
 }

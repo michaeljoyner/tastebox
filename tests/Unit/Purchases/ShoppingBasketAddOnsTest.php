@@ -59,7 +59,7 @@ class ShoppingBasketAddOnsTest extends TestCase
 
         $this->assertCount(1, $current_kit->addOns);
         $this->assertEquals($addOn->id, $current_kit->addOns[0]['id']);
-        $this->assertEquals(5, $current_kit->addOns[0]['qty']);
+        $this->assertEquals(2, $current_kit->addOns[0]['qty']);
         $this->assertSame(1000, $current_kit->addOns[0]['price']);
     }
 

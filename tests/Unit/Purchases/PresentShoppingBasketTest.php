@@ -4,6 +4,7 @@
 namespace Tests\Unit\Purchases;
 
 
+use App\AddOns\AddOn;
 use App\DatePresenter;
 use App\DeliveryAddress;
 use App\DeliveryArea;
@@ -40,8 +41,13 @@ class PresentShoppingBasketTest extends TestCase
         $mealE = factory(Meal::class)->state('premium')->create();
         $mealF = factory(Meal::class)->state('premium')->create();
 
+        $addOnA = factory(AddOn::class)->create(['price' => 3300]);
+        $addOnB = factory(AddOn::class)->create(['price' => 4400]);
+
         $menuA->setMeals([$mealA->id, $mealB->id, $mealE->id]);
+        $menuA->addOns()->attach($addOnA->id);
         $menuB->setMeals([$mealC->id, $mealD->id, $mealF->id]);
+        $menuB->addOns()->attach($addOnB->id);
 
         $basket = ShoppingBasket::for(null);
 
@@ -49,18 +55,20 @@ class PresentShoppingBasketTest extends TestCase
         $kitA->setMeal($mealA, 2);
         $kitA->setMeal($mealB, 3);
         $kitA->setMeal($mealE, 2);
+        $kitA->setAddOn($addOnA, 2);
 
         $kitB = $basket->addKit($menuB->id);
         $kitB->setMeal($mealC, 4);
         $kitB->setMeal($mealD, 5);
         $kitB->setMeal($mealF, 3);
+        $kitB->setAddOn($addOnB, 3);
 
         $kitA->setDeliveryAddress(new DeliveryAddress(DeliveryArea::HILTON, '123 test street'));
         $kitB->setDeliveryAddress(new DeliveryAddress(DeliveryArea::NOT_SET, ''));
 
         $expected = [
             'total_boxes'              => 2,
-            'total_price'              => 19 * Meal::SERVING_PRICE,
+            'total_price'              => (19 * Meal::SERVING_PRICE) + 66 + 132,
             'kits'                     => [
                 [
                     'name'               => 'Box One',
@@ -70,7 +78,7 @@ class PresentShoppingBasketTest extends TestCase
                     'eligible_for_order' => true,
                     'meals_count'        => 3,
                     'servings_count'     => 7,
-                    'price'              => (5 * MealPriceTier::BUDGET->price()) + (2 * MealPriceTier::PREMIUM->price()),
+                    'price'              => (5 * MealPriceTier::BUDGET->price()) + (2 * MealPriceTier::PREMIUM->price()) + 66,
                     'delivery_area'      => $kitA->delivery_address->area->description(),
                     'delivery_address'   => $kitA->delivery_address->address,
                     'deliver_with'       => '',
@@ -97,6 +105,15 @@ class PresentShoppingBasketTest extends TestCase
                             'servings' => 2,
                             'price'    => 2 * MealPriceTier::PREMIUM->price(),
                         ],
+                    ],
+                    'add_ons'            => [
+                        [
+                            'id'    => $addOnA->id,
+                            'name'  => $addOnA->name,
+                            'thumb' => $addOnA->getFirstMediaUrl(AddOn::IMAGE, 'thumb'),
+                            'qty'   => 2,
+                            'price' => 66
+                        ]
                     ]
                 ],
                 [
@@ -107,7 +124,7 @@ class PresentShoppingBasketTest extends TestCase
                     'eligible_for_order' => true,
                     'meals_count'        => 3,
                     'servings_count'     => 12,
-                    'price'              => (9 * MealPriceTier::STANDARD->price()) + (3 * MealPriceTier::PREMIUM->price()),
+                    'price'              => (9 * MealPriceTier::STANDARD->price()) + (3 * MealPriceTier::PREMIUM->price()) + 132,
                     'delivery_area'      => $kitB->delivery_address->area->description(),
                     'delivery_address'   => $kitB->delivery_address->address,
                     'deliver_with'       => '',
@@ -135,6 +152,15 @@ class PresentShoppingBasketTest extends TestCase
                             'price'    => 3 * MealPriceTier::PREMIUM->price(),
                         ],
                     ],
+                    'add_ons'            => [
+                        [
+                            'id'    => $addOnB->id,
+                            'name'  => $addOnB->name,
+                            'thumb' => $addOnB->getFirstMediaUrl(AddOn::IMAGE, 'thumb'),
+                            'qty'   => 3,
+                            'price' => 132
+                        ]
+                    ]
 
                 ],
 
@@ -221,6 +247,7 @@ class PresentShoppingBasketTest extends TestCase
                     'price'    => 3 * (MealPriceTier::PREMIUM)->price()
                 ],
             ],
+            'add_ons'            => [],
 
         ];
 
