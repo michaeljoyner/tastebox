@@ -31,6 +31,7 @@ class Kit
     ) {
         $this->id = Str::uuid()->toString();
         $this->name = $this->getName($place);
+        $this->addOns = collect([]);
     }
 
     private function getName($index)
