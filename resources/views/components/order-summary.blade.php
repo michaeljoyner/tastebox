@@ -19,13 +19,15 @@
                 </p>
             @endforeach
 
-            <p class="type-h3 mt-6">Extras</p>
-            @foreach($box->add_on_summary as $add_on)
-                <p>
-                    <span class="mr-2">{{ $add_on['name'] }}</span>
-                    <span>(for {{ $add_on['qty'] }})</span>
-                </p>
-            @endforeach
+            @if(count($box->add_on_summary))
+                <p class="type-h3 mt-6">Extras</p>
+                @foreach($box->add_on_summary as $add_on)
+                    <p>
+                        <span class="mr-2">{{ $add_on['name'] }}</span>
+                        <span>(for {{ $add_on['qty'] }})</span>
+                    </p>
+                @endforeach
+            @endif
 
             <div class="mt-6 border-t border-gray-200 pt-4">
                 <p>Delivery on <span class="type-b2">{{ $box->delivery_date->format('D, jS M') }}</span></p>
@@ -44,12 +46,12 @@
     @endif
 
     @section('afterVue')
-    <script>
-        try {
-            fbq("track", "Purchase", {currency: "ZAR", value: "{{ $price() }}"})
-        } catch (e) {
+        <script>
+            try {
+                fbq("track", "Purchase", {currency: "ZAR", value: "{{ $price() }}"})
+            } catch (e) {
 
-        }
-    </script>
+            }
+        </script>
     @endsection
 </div>

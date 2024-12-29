@@ -27,8 +27,16 @@
                     </p>
 
                     <div>
+                        <p class="font-display font-semibold mb-1">Meals:</p>
                         <div v-for="meal in kit.meals">
                             <p>{{ meal.servings }} x {{ meal.meal }}</p>
+                        </div>
+                    </div>
+
+                    <div class="mt-6">
+                        <p class="font-display font-semibold mb-1">Add-Ons:</p>
+                        <div v-for="addon in kit.add_ons">
+                            <p>{{ addon.qty }} x {{ addon.name }}</p>
                         </div>
                     </div>
                 </div>

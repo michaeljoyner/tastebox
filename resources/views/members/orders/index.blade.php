@@ -35,10 +35,18 @@
                     <hr class="border-b-0 5 border-gray-200 my-4">
                     @foreach($order['kits'] as $index => $kit)
                         <div class="my-4">
-                            <p class="type-b4">Kit #{{ $index + 1 }}</p>
+                            <p class="type-b4 mb-3">Kit #{{ $index + 1 }}</p>
+                            <p class="font-serif text-sm">Meals</p>
                             @foreach($kit['meals'] as $meal)
                                 <p class="type-b3 text-gray-500">{{ $meal['meal'] }}</p>
                             @endforeach
+
+                            @if(count($kit['add_ons']))
+                            <p class="font-serif text-sm mt-3">Add-Ons</p>
+                                @foreach($kit['add_ons'] as $add_on)
+                                    <p class="type-b3 text-gray-500">{{ $add_on['name'] }} x {{ $add_on['qty'] }}</p>
+                                @endforeach
+                            @endif
                         </div>
                     @endforeach
                 </div>

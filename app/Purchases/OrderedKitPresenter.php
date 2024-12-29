@@ -12,7 +12,12 @@ class OrderedKitPresenter
 {
     public static function summary(OrderedKit $kit): OrderedKitSummary
     {
-        return new OrderedKitSummary($kit->menu->delivery_from, $kit->meal_summary, $kit->deliveryAddress());
+        return new OrderedKitSummary(
+            $kit->menu->delivery_from,
+            $kit->meal_summary,
+            $kit->deliveryAddress(),
+            $kit->addOns->all(),
+        );
     }
 
     public static function adminSummary(OrderedKit $kit): OrderedKitAdminSummary
@@ -22,7 +27,8 @@ class OrderedKitPresenter
             $kit->menu->delivery_from,
             $kit->meal_summary,
             $kit->deliveryAddress(),
-            $kit->status
+            $kit->status,
+            $kit->addOns->all(),
         );
     }
 

@@ -3,7 +3,6 @@
     <div class="px-8 py-20 max-w-5xl mx-auto">
 
         <h1 class="type-h1 mb-12">My Recipes</h1>
-
         <div class="grid grid-cols-1 md:grid-cols-3 gap-12">
             @foreach($recipes as $recipe)
             <div class="bg-white shadow-lg rounded-lg flex flex-col overflow-hidden">

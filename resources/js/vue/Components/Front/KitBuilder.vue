@@ -89,12 +89,22 @@
                 </p>
                 <div class="flex flex-col items-center mt-6">
                     <button
+                        v-if="menu.add_ons.length"
                         class="px-4 py-1 font-serif rounded-md bg-green-600 text-green-100"
                         type="button"
                         @click="proceedToAddons"
                     >
                         Proceed
                     </button>
+
+                    <a
+                        v-if="!menu.add_ons.length"
+                        class="px-4 py-1 font-serif rounded-md bg-green-600 text-green-100"
+                        type="button"
+                        href="/basket"
+                    >
+                        Go to Basket
+                    </a>
 
                     <div class="mt-6 flex gap-8">
                         <button
@@ -105,6 +115,7 @@
                         </button>
 
                         <a
+                            v-if="menu.add_ons.length"
                             href="/basket"
                             class="text-sm text-gray-500 hover:text-green-500"
                             >Go to Basket</a
