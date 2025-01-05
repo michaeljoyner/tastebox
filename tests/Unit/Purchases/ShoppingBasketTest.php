@@ -108,7 +108,6 @@ class ShoppingBasketTest extends TestCase
         $this->assertFalse($basket->kits->contains(
             fn(Kit $k) => $k->id === $kitA->id
         ));
-
     }
 
     /**
@@ -143,7 +142,8 @@ class ShoppingBasketTest extends TestCase
                     'servings' => 3,
                     'tier'     => MealPriceTier::STANDARD->value,
                 ],
-            ]
+            ],
+            'add_ons' => [],
         ];
 
         $this->assertEquals($expected, $fetched);
@@ -254,8 +254,6 @@ class ShoppingBasketTest extends TestCase
 
         $this->assertTrue($current->eligibleForOrder());
         $this->assertFalse($too_old->eligibleForOrder());
-
-
     }
 
     /**
@@ -303,26 +301,31 @@ class ShoppingBasketTest extends TestCase
 
         $kit_one = $basket->kits->first(fn(Kit $kit) => $kit->menu_id === $menuA->id);
         $this->assertCount(3, $kit_one->meals);
-        $this->assertTrue($kit_one->meals->contains(fn($meal
+        $this->assertTrue($kit_one->meals->contains(fn(
+            $meal
         ) => $meal['id'] === $mealA->id && $meal['servings'] === 2));
-        $this->assertTrue($kit_one->meals->contains(fn($meal
+        $this->assertTrue($kit_one->meals->contains(fn(
+            $meal
         ) => $meal['id'] === $mealB->id && $meal['servings'] === 3));
-        $this->assertTrue($kit_one->meals->contains(fn($meal
+        $this->assertTrue($kit_one->meals->contains(fn(
+            $meal
         ) => $meal['id'] === $mealC->id && $meal['servings'] === 4));
         $this->assertSame($ordered_kitA->deliveryAddress()->area, $kit_one->delivery_address->area);
         $this->assertSame($ordered_kitA->deliveryAddress()->address, $kit_one->delivery_address->address);
 
         $kit_two = $basket->kits->first(fn(Kit $kit) => $kit->menu_id === $menuB->id);
         $this->assertCount(3, $kit_two->meals);
-        $this->assertTrue($kit_two->meals->contains(fn($meal
+        $this->assertTrue($kit_two->meals->contains(fn(
+            $meal
         ) => $meal['id'] === $mealB->id && $meal['servings'] === 2));
-        $this->assertTrue($kit_two->meals->contains(fn($meal
+        $this->assertTrue($kit_two->meals->contains(fn(
+            $meal
         ) => $meal['id'] === $mealD->id && $meal['servings'] === 3));
-        $this->assertTrue($kit_two->meals->contains(fn($meal
+        $this->assertTrue($kit_two->meals->contains(fn(
+            $meal
         ) => $meal['id'] === $mealE->id && $meal['servings'] === 4));
         $this->assertSame($ordered_kitB->deliveryAddress()->area, $kit_two->delivery_address->area);
         $this->assertSame($ordered_kitB->deliveryAddress()->address, $kit_two->delivery_address->address);
-
     }
 
     /**
@@ -371,15 +374,17 @@ class ShoppingBasketTest extends TestCase
 
         $new_kit = $basket->kits->first(fn(Kit $kit) => $kit->menu_id === $menuB->id);
         $this->assertCount(3, $new_kit->meals);
-        $this->assertTrue($new_kit->meals->contains(fn($meal
+        $this->assertTrue($new_kit->meals->contains(fn(
+            $meal
         ) => $meal['id'] === $mealB->id && $meal['servings'] === 2));
-        $this->assertTrue($new_kit->meals->contains(fn($meal
+        $this->assertTrue($new_kit->meals->contains(fn(
+            $meal
         ) => $meal['id'] === $mealD->id && $meal['servings'] === 3));
-        $this->assertTrue($new_kit->meals->contains(fn($meal
+        $this->assertTrue($new_kit->meals->contains(fn(
+            $meal
         ) => $meal['id'] === $mealE->id && $meal['servings'] === 4));
         $this->assertSame($ordered_kitB->deliveryAddress()->area, $new_kit->delivery_address->area);
         $this->assertSame($ordered_kitB->deliveryAddress()->address, $new_kit->delivery_address->address);
-
     }
 
     /**
@@ -428,16 +433,16 @@ class ShoppingBasketTest extends TestCase
 
         $kit_one = $basket->kits->first(fn(Kit $kit) => $kit->menu_id === $menuA->id);
         $this->assertCount(3, $kit_one->meals);
-        $this->assertTrue($kit_one->meals->contains(fn($meal
+        $this->assertTrue($kit_one->meals->contains(fn(
+            $meal
         ) => $meal['id'] === $mealA->id && $meal['servings'] === 2));
-        $this->assertTrue($kit_one->meals->contains(fn($meal
+        $this->assertTrue($kit_one->meals->contains(fn(
+            $meal
         ) => $meal['id'] === $mealB->id && $meal['servings'] === 3));
-        $this->assertTrue($kit_one->meals->contains(fn($meal
+        $this->assertTrue($kit_one->meals->contains(fn(
+            $meal
         ) => $meal['id'] === $mealC->id && $meal['servings'] === 4));
         $this->assertSame($ordered_kitA->deliveryAddress()->area, $kit_one->delivery_address->area);
         $this->assertSame($ordered_kitA->deliveryAddress()->address, $kit_one->delivery_address->address);
-
     }
-
-
 }
