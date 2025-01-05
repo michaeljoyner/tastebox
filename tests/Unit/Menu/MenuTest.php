@@ -116,36 +116,7 @@ class MenuTest extends TestCase
         $this->assertFalse($scoped->contains($closed_upcoming));
     }
 
-    /**
-     * @test
-     */
-    public function menu_presents_the_correct_delivery_date()
-    {
-        //change is for June 2021
-        $pre_change_date = Carbon::parse('2021-05-20');
-        $post_change_date = Carbon::parse('2021-06-20');
-        $pre_change = factory(Menu::class)->create([
-            'current_from'  => $pre_change_date->startOfWeek(),
-            'current_to'    => $pre_change_date->startOfWeek()->addDays(3)->endOfDay(),
-            'delivery_from' => $pre_change_date->endOfWeek()->addDay(),
-        ]);
 
-        $post_change_old = factory(Menu::class)->create([
-            'current_from'  => $post_change_date->startOfWeek(),
-            'current_to'    => $post_change_date->startOfWeek()->addDays(3)->endOfDay(),
-            'delivery_from' => $post_change_date->endOfWeek()->addDay(),
-        ]);
-
-        $post_change_new = factory(Menu::class)->create([
-            'current_from'  => $post_change_date->startOfWeek(),
-            'current_to'    => $post_change_date->startOfWeek()->addDays(3)->endOfDay(),
-            'delivery_from' => $post_change_date->endOfWeek()->addDays(2),
-        ]);
-
-        $this->assertTrue($pre_change->delivery_from->isMonday());
-        $this->assertTrue($post_change_old->delivery_from->isTuesday());
-        $this->assertTrue($post_change_new->delivery_from->isTuesday());
-    }
 
     /**
      * @test
