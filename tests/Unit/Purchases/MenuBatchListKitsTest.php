@@ -78,7 +78,8 @@ class MenuBatchListKitsTest extends TestCase
                     ['name' => $mealA->name, 'servings' => 2],
                     ['name' => $mealB->name, 'servings' => 3],
                     ['name' => $mealC->name, 'servings' => 4],
-                ]
+                ],
+                'add_ons' => [],
             ],
             [
                 'customer' => $orderB->customer()->toArray(),
@@ -87,7 +88,8 @@ class MenuBatchListKitsTest extends TestCase
                     ['name' => $mealC->name, 'servings' => 5],
                     ['name' => $mealD->name, 'servings' => 6],
                     ['name' => $mealE->name, 'servings' => 3],
-                ]
+                ],
+                'add_ons' => [],
             ],
             [
                 'customer' => $orderC->customer()->toArray(),
@@ -96,7 +98,8 @@ class MenuBatchListKitsTest extends TestCase
                     ['name' => $mealA->name, 'servings' => 3],
                     ['name' => $mealC->name, 'servings' => 2],
                     ['name' => $mealE->name, 'servings' => 3],
-                ]
+                ],
+                'add_ons' => [],
             ],
         ];
 

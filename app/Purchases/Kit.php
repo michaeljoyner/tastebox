@@ -52,7 +52,7 @@ class Kit
     public function isValid(): bool
     {
         $menu = Menu::find($this->menu_id);
-        $cut_off = $menu->current_to->setHours(23)->setMinutes(59);
+        $cut_off = $menu->current_to->setHours(12)->setMinutes(00);
 
         return $cut_off->greaterThan(now()) && $menu->can_order;
     }

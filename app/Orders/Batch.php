@@ -75,7 +75,7 @@ class Batch
             'add_ons' => $kit->addOns->map(fn($addon) => [
                 'name'     => $addon->name,
                 'qty'      => $addon->pivot->qty,
-            ])
+            ])->values()->all(),
         ])->values()->all();
     }
 

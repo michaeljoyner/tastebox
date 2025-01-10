@@ -27,11 +27,12 @@ class FetchCurrentBatchTest extends TestCase
 
         $batch = $menu->getBatch();
         $expected = [
-            'name'        => "Batch #{$menu->weekOfYear()}",
-            'kits'        => $batch->kitList(),
-            'meals'       => $batch->mealList(),
-            'ingredients' => $batch->ingredientList(),
-            'shopping_list' => $batch->shoppingList(),
+            'name'           => "Batch #{$menu->weekOfYear()}",
+            'kits'           => $batch->kitList(),
+            'meals'          => $batch->mealList(),
+            'add_ons'        => $batch->addOnList(),
+            'ingredients'    => $batch->ingredientList(),
+            'shopping_list'  => $batch->shoppingList(),
             'total_kits'     => $batch->totalKits(),
             'total_meals'    => $batch->totalPackedMeals(),
             'total_servings' => $batch->totalServings(),
