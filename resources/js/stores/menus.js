@@ -32,6 +32,8 @@ export default {
             state.current_batch ? state.current_batch.kits : [],
         current_meals: (state) =>
             state.current_batch ? state.current_batch.meals : [],
+        current_add_ons: (state) =>
+            state.current_batch ? state.current_batch.add_ons : [],
         current_ingredients: (state) =>
             state.current_batch ? state.current_batch.ingredients : [],
         current_shopping_list: (state) =>

@@ -13,7 +13,7 @@ class CurrentBatchController extends Controller
     {
         $next_up = Menu::nextUp();
 
-        if(!$next_up->id) {
+        if (!$next_up->id) {
             return null;
         }
         $batch = $next_up->getBatch();
@@ -26,9 +26,10 @@ class CurrentBatchController extends Controller
             'delivery_date'  => DatePresenter::pretty($batch->deliveryDate()),
             'kits'           => $batch->kitList(),
             'meals'          => $batch->mealList(),
+            'add_ons'        => $batch->addOnList(),
             'ingredients'    => $batch->ingredientList(),
             'menu_id'        => $batch->menuId(),
-            'shopping_list' => $batch->shoppingList(),
+            'shopping_list'  => $batch->shoppingList(),
         ];
     }
 }

@@ -12,6 +12,12 @@
                     {{ meal.servings }} x {{ meal.name }}
                 </li>
             </ul>
+            <ul v-if="kit.add_ons.length" class="text-sm my-6">
+                <li v-for="add_on in kit.add_ons">
+                    {{ add_on.name }} x {{ add_on.qty }}
+                </li>
+            </ul>
+            <p v-if="!kit.add_ons.length" class="text-sm italic">No add-ons added.</p>
             <div>
                 <p>
                     <strong>Deliver to: </strong

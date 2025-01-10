@@ -72,6 +72,10 @@ class Batch
                     'name'     => $meal->name,
                     'servings' => $meal->pivot->servings
                 ])->values()->all(),
+            'add_ons' => $kit->addOns->map(fn($addon) => [
+                'name'     => $addon->name,
+                'qty'      => $addon->pivot->qty,
+            ])
         ])->values()->all();
     }
 
@@ -86,6 +90,18 @@ class Batch
         }, new OrderedMealList());
 
         return array_values($list->toArray());
+    }
+
+    public function addOnList(): array
+    {
+        $list = $this->kits->reduce(function ($carry, OrderedKit $kit) {
+            foreach ($kit->addOns as $addOn) {
+               $carry->addAddOn($addOn, $addOn->pivot->qty);
+            }
+            return $carry;
+        }, new OrderedAddOnList());
+
+        return $list->toArray();
     }
 
     public function ingredientList(): array

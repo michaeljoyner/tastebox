@@ -29,6 +29,14 @@
                 <div class="mb-3 pl-2">
                     <router-link
                         class="font-bold text-gray-700 hover:text-teal-600"
+                        :to="`/current-batch/add-ons`"
+                    >Add-On List</router-link
+                    >
+                </div>
+
+                <div class="mb-3 pl-2">
+                    <router-link
+                        class="font-bold text-gray-700 hover:text-teal-600"
                         :to="`/current-batch/shopping`"
                         >Shopping List</router-link
                     >

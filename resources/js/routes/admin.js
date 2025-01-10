@@ -56,6 +56,7 @@ import AddOnCategoriesPage from "../vue/Pages/AddOns/AddOnCategoriesPage.vue";
 import AddOnCategoryPage from "../vue/Pages/AddOns/AddOnCategoryPage.vue";
 import AddOnPage from "../vue/Pages/AddOns/AddOnPage.vue";
 import MenuAddOns from "../vue/Pages/Menu/MenuAddOns.vue";
+import BatchAddOns from "../vue/Components/Batches/BatchAddOns.vue";
 
 export default [
     { path: "/", component: HomePage },
@@ -108,6 +109,7 @@ export default [
             { path: "", component: BatchSummary },
             { path: "kits", component: BatchKits },
             { path: "meals", component: BatchMeals },
+            { path: "add-ons", component: BatchAddOns },
             { path: "ingredients", component: BatchIngredients },
             { path: "shopping", component: BatchShoppingList },
             { path: "manual-order", component: CreateManualOrder },
