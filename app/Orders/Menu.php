@@ -31,7 +31,7 @@ class Menu extends Model
 
     public function scopeAvailable($query)
     {
-        $query->where('current_to', '>=', Carbon::now()->startOfDay())
+        $query->where('current_to', '>=', Carbon::now()->setTimeFromTimeString('12:00:00'))
               ->where('can_order', true);
     }
 
