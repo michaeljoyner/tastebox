@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Purchases\KitAddOnSummary;
 use App\Purchases\KitMealSummary;
 use App\Rules\OnTheMenu;
 use Illuminate\Foundation\Http\FormRequest;
@@ -30,5 +31,15 @@ class UpdateOrderedKitRequest extends FormRequest
     public function meals(): KitMealSummary
     {
         return new KitMealSummary(collect($this->meals));
+    }
+
+    public function addOns(): ?KitAddOnSummary
+    {
+        $addOns = $this->collect('add_ons');
+        if(!$addOns->count()) {
+            return null;
+        }
+
+        return new KitAddOnSummary($addOns);
     }
 }

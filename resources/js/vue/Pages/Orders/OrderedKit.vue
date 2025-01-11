@@ -52,6 +52,18 @@
                 <span>{{ meal.name }}</span>
             </div>
         </div>
+
+        <div class="my-12">
+            <p class="text-xs uppercase text-gray-500 mb-3">Ordered Add-Ons</p>
+            <div
+                v-for="add_on in kit.add_ons"
+                class="my-2 border-b border-gray-200 pb-2"
+            >
+                <span>{{ add_on.qty }} x </span>
+                <span>{{ add_on.name }}</span>
+            </div>
+        </div>
+
         <modal :show="showCancelModal" @close="showCancelModal = false">
             <form
                 @submit.prevent="cancel"

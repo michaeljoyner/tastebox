@@ -11,14 +11,19 @@
 
                 <table class="w-full mb-8">
                     <thead>
-                        <tr class="text-left">
+                        <tr class="text-left text-sm">
+                            <th class="p-2">Status</th>
                             <th class="p-2">Customer</th>
                             <th class="p-2">Address</th>
                             <th class="p-2">Number of Meals</th>
+                            <th class="p-2">AddOns</th>
                         </tr>
                     </thead>
                     <tbody class="text-sm">
                         <tr v-for="kit in batch" :key="kit.id" class="relative">
+                            <td>
+                                <ColourLabel :colour="statusColour(kit.status)" :text="kit.status"></ColourLabel>
+                            </td>
                             <td class="p-2">
                                 <router-link
                                     class="absolute inset-0"
@@ -40,6 +45,7 @@
                                 }}
                                 servings
                             </td>
+                            <td class="text-center">{{ kit.add_ons.reduce((carry, ad) => carry + ad.qty, 0)}}</td>
                         </tr>
                     </tbody>
                 </table>
@@ -55,8 +61,9 @@ import Page from "../../Components/UI/Page.vue";
 import { useStore } from "vuex";
 import { computed, onMounted } from "vue";
 import { showError } from "../../../libs/notifications.js";
+import ColourLabel from "../../Components/UI/ColourLabel.vue";
 export default {
-    components: { Page, PageHeader },
+    components: {ColourLabel, Page, PageHeader },
 
     setup() {
         const store = useStore();
@@ -65,13 +72,22 @@ export default {
             () => store.getters["orders/upcomingKitsByWeek"]
         );
 
+        const statusColour = status => {
+            const lookup = {
+                due: 'green',
+                cancelled: 'red',
+                done: 'blue',
+            }
+            return lookup[status] || 'gray';
+        }
+
         onMounted(() => {
             store
                 .dispatch("orders/fetchKits")
                 .catch(() => showError("Failed to fetch kits"));
         });
 
-        return { menus };
+        return { menus, statusColour };
     },
 };
 </script>

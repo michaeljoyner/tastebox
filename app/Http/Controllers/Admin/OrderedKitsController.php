@@ -31,7 +31,7 @@ class OrderedKitsController extends Controller
 
     public function update(UpdateOrderedKitRequest $request, OrderedKit $kit)
     {
-        $kit->adjustMeals($request->meals(), $request->reason ?? '', $request->user());
+        $kit->adjustMeals($request->meals(), $request->reason ?? '', $request->user(), $request->addOns());
     }
 
     public function destroy(OrderedKit $kit)

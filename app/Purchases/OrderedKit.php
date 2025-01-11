@@ -153,18 +153,27 @@ class OrderedKit extends Model
 
     public function value(): int
     {
-        if ($this->meals->count() === 0) {
+        if ($this->meals->count() === 0 && $this->addOns()->count() === 0) {
             return 0;
         }
 
-        return $this->meals->sum(fn($meal) => $meal->pivot->servings * Meal::SERVING_PRICE * 100);
+        $meal_total = $this->meals->sum(fn($meal) => $meal->pivot->servings * $meal->price_tier->price() * 100);
+        $addon_total = $this->addOns->sum(fn (AddOn $addOn) => $addOn->price * $addOn->pivot->qty);
+
+        return $meal_total + $addon_total;
+
+
     }
 
-    public function adjustMeals(KitMealSummary $meals, string $reason, User $adjusted_by)
+    public function adjustMeals(KitMealSummary $meals, string $reason, User $adjusted_by, ?KitAddOnSummary $addOnSummary = null)
     {
         $original_value = $this->value();
 
         $this->setMeals($meals);
+
+        if($addOnSummary) {
+            $this->setAddOns($addOnSummary);
+        }
 
 
         Adjustment::new(
@@ -195,6 +204,7 @@ class OrderedKit extends Model
         );
 
         $this->meals()->sync([]);
+        $this->addOns()->sync([]);
         $this->update([
             'status'       => self::STATUS_CANCELED,
             'meal_summary' => [],

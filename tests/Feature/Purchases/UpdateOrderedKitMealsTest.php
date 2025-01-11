@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\Purchases;
 
+use App\AddOns\AddOn;
 use App\DeliveryAddress;
 use App\Meals\Meal;
 use App\Memberships\MemberProfile;
@@ -36,6 +37,9 @@ class UpdateOrderedKitMealsTest extends TestCase
         $mealF = factory(Meal::class)->create();
         $mealG = factory(Meal::class)->create();
         $mealH = factory(Meal::class)->create();
+        $addOnA = factory(AddOn::class)->create(['price' => 1000]);
+        $addOnB = factory(AddOn::class)->create(['price' => 2000]);
+        $addOnC = factory(AddOn::class)->create(['price' => 3000]);
 
         $menu->setMeals([
             $mealA->id,
@@ -47,18 +51,24 @@ class UpdateOrderedKitMealsTest extends TestCase
             $mealG->id,
             $mealH->id,
         ]);
+        $menu->addOns()->sync([$addOnA->id, $addOnB->id, $addOnC->id]);
 
         $original_meals = collect([
             ['id' => $mealA->id, 'servings' => 2],
             ['id' => $mealB->id, 'servings' => 2],
             ['id' => $mealC->id, 'servings' => 2],
         ]);
+        //original value of add-ons 6000
+        $originalAddOns = collect([
+            ['key' => $addOnA->uuid, 'id' => $addOnA->id, 'name' => $addOnA->name, 'price' => $addOnA->price, 'qty' => 2],
+            ['key' => $addOnB->uuid, 'id' => $addOnB->id, 'name' => $addOnB->name, 'price' => $addOnB->price, 'qty' => 2],
+        ]);
 
         $member = factory(User::class)->state('member')->create();
         $member_profile = factory(MemberProfile::class)->create(['user_id' => $member->id]);
         $order = factory(Order::class)->create(['user_id' => $member->id]);
 
-        $kit = new Kit($menu->id, $original_meals, collect([]), DeliveryAddress::fake());
+        $kit = new Kit($menu->id, $original_meals, $originalAddOns, DeliveryAddress::fake());
         $ordered_kit = $order->addKit($kit);
 
         $response = $this->asAdmin()->postJson("/admin/api/ordered-kits/{$ordered_kit->id}", [
@@ -67,6 +77,11 @@ class UpdateOrderedKitMealsTest extends TestCase
                 ['id' => $mealF->id, 'servings' => 4],
                 ['id' => $mealG->id, 'servings' => 5],
                 ['id' => $mealH->id, 'servings' => 2],
+            ],
+            //updated value of add-ons 15000
+            'add_ons' => [
+                ['id' => $addOnA->id, 'qty' => 3],
+                ['id' => $addOnC->id, 'qty' => 4],
             ],
             'reason' => 'test reason'
         ]);
@@ -84,6 +99,10 @@ class UpdateOrderedKitMealsTest extends TestCase
         $this->assertFalse($ordered_kit->meals->contains(fn ($m) => $m->id === $mealB->id));
         $this->assertFalse($ordered_kit->meals->contains(fn ($m) => $m->id === $mealC->id));
 
+        $this->assertTrue($ordered_kit->addOns->contains(fn (AddOn $addOn) => ($addOn->id === $addOnA->id) && $addOn->pivot->qty === 3));
+        $this->assertTrue($ordered_kit->addOns->contains(fn (AddOn $addOn) => ($addOn->id === $addOnC->id) && $addOn->pivot->qty === 4));
+        $this->assertFalse($ordered_kit->addOns->contains($addOnB));
+
         $expected_meal_summary = [
             ['id' => $mealE->id, 'name' => $mealE->name, 'servings' => 3],
             ['id' => $mealF->id, 'name' => $mealF->name, 'servings' => 4],
@@ -98,7 +117,7 @@ class UpdateOrderedKitMealsTest extends TestCase
 
         $this->assertTrue($adjustment->order->is($order));
         $this->assertSame('test reason', $adjustment->reason);
-        $this->assertSame(((14 - 6) * Meal::SERVING_PRICE) * 100, $adjustment->value_in_cents);
+        $this->assertSame((((14 - 6) * Meal::SERVING_PRICE) * 100) + 9000, $adjustment->value_in_cents);
         $this->assertSame(Adjustment::STATUS_UNRESOLVED, $adjustment->status);
         $this->assertSame($member->id, $adjustment->user_id);
         $this->assertSame($member_profile->full_name, $adjustment->customer_name);

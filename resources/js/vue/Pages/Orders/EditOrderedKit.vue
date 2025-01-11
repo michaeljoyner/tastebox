@@ -18,7 +18,7 @@
         </div>
 
         <div class="my-12">
-            <ordered-kit-meals-form :kit="kit"></ordered-kit-meals-form>
+            <ordered-kit-meals-form :kit="kit" @updated="onFormSaved"></ordered-kit-meals-form>
         </div>
     </page>
 </template>
@@ -27,7 +27,7 @@
 import Page from "../../Components/UI/Page.vue";
 import PageHeader from "../../Components/PageHeader.vue";
 import { useStore } from "vuex";
-import { useRoute } from "vue-router";
+import {useRoute, useRouter} from "vue-router";
 import { computed, onMounted } from "vue";
 import OrderedKitMealsForm from "../../Components/Orders/OrderedKitMealsForm.vue";
 export default {
@@ -36,14 +36,20 @@ export default {
     setup() {
         const store = useStore();
         const route = useRoute();
+        const router = useRouter();
 
         const kit = computed(() => store.state.kits.active);
+
+        const onFormSaved = () => {
+            store.dispatch("kits/refreshActive", route.params.kit);
+            router.push(`/ordered-kits/${route.params.kit}/show`);
+        }
 
         onMounted(() => {
             store.dispatch("kits/fetchActive", route.params.kit);
         });
 
-        return { kit };
+        return { kit, onFormSaved };
     },
 };
 </script>
