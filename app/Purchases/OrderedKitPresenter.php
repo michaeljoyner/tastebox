@@ -41,7 +41,7 @@ class OrderedKitPresenter
             'delivery_date' => DatePresenter::pretty($kit->delivery_date),
             'menu_week'     => $kit->menu_week_number,
             'meals'         => $kit->meal_summary,
-            'add_ons'       => $kit->add_on_summary,
+            'add_ons'       => $kit->add_on_summary ?? [],
             'status'        => $kit->status,
         ];
     }
