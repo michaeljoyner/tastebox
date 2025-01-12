@@ -43,6 +43,14 @@
                     class="py-6 px-12 rounded-lg shadow-md flex flex-col items-center"
                 >
                     <p class="text-6xl font-black mb-4 text-indigo-500">
+                        {{ batch.add_ons.reduce((sum, addOn) => sum + addOn.qty, 0) }}
+                    </p>
+                    <p class="text-center font-semibold text-gray-500">Add-Ons</p>
+                </div>
+                <div
+                    class="py-6 px-12 rounded-lg shadow-md flex flex-col items-center"
+                >
+                    <p class="text-6xl font-black mb-4 text-indigo-500">
                         {{ batch.total_servings }}
                     </p>
                     <p class="text-center font-semibold text-gray-500">

@@ -73,6 +73,26 @@
                     ></up-downer>
                 </div>
             </div>
+            <hr class="my-6">
+            <div class="divide-y divide-gray-400 space-y-3">
+                <div
+                    v-for="addOn in formData.add_ons"
+                    :key="addOn.id"
+                    class="pt-3 flex justify-between items-center"
+                >
+                    <p
+                        :class="{
+                            'font-bold text-green-600': addOn.servings > 0,
+                        }"
+                    >
+                        {{ addOn.name }}
+                    </p>
+                    <up-downer
+                        :options="[0, 1, 2, 3, 4]"
+                        v-model="addOn.qty"
+                    ></up-downer>
+                </div>
+            </div>
         </div>
         <div class="my-12">
             <submit-button :waiting="waiting">Place Order</submit-button>
@@ -91,7 +111,7 @@ import {
 import SubmitButton from "../UI/SubmitButton.vue";
 export default {
     components: { SubmitButton, UpDowner, InputField },
-    props: ["available-meals"],
+    props: ["available-meals", "available-add-ons"],
     data() {
         return {
             waiting: false,
@@ -107,6 +127,11 @@ export default {
                     id: m.id,
                     servings: 0,
                 })),
+                add_ons: this.availableAddOns.map((ad) => ({
+                    name: ad.name,
+                    id: ad.id,
+                    qty: 0,
+                }))
             },
             formErrors: {
                 first_name: "",
@@ -148,6 +173,7 @@ export default {
             data.meals = data.meals
                 .map((m) => ({ id: m.id, servings: m.servings }))
                 .filter((m) => m.servings > 0);
+            data.add_ons = data.add_ons.map(ad => ({id: ad.id, qty: ad.qty})).filter((ad) => ad.qty > 0);
             return data;
         },
 

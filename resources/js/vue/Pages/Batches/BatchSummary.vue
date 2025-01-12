@@ -27,6 +27,15 @@
             </div>
             <div>
                 <p class="text-center text-5xl font-black">
+                    {{ batch.add_ons.reduce((sum, addOn) => sum + addOn.qty, 0) }}
+                </p>
+                <colour-label
+                    colour="indigo"
+                    text="Add-Ons to add on"
+                ></colour-label>
+            </div>
+            <div>
+                <p class="text-center text-5xl font-black">
                     {{ batch.total_servings }}
                 </p>
                 <colour-label

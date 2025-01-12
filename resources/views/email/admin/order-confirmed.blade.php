@@ -1,8 +1,7 @@
 @component('mail::message')
 
-Ahoy, you scurvy scoundrel
+Look sharp soldier, a new order is in and we need you at your finest.
 
-All hands on deck! We have a new order.
 
 **Customer**: {{ $customer_name }} <br>
 **Email**: {{ $customer_email }} <br>
@@ -19,9 +18,19 @@ This is what was ordered:
 
 Delivery From: {{ $box->delivery_date }}
 
+Meals:
+
 @foreach($box->meals as $meal)
 {{ $meal['meal'] }} ({{ $meal['servings'] }} servings) <br>
 @endforeach
+
+@if(count($box->add_ons))
+Add-Ons:
+
+@foreach($box->add_ons as $addOn)
+{{ $addOn['name'] }} x {{ $addOn['qty'] }} <br>
+@endforeach
+@endif
 
 Deliver to: {{ $box->delivery_address }}
 @endcomponent

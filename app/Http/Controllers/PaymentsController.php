@@ -15,6 +15,7 @@ class PaymentsController extends Controller
 {
     public function store(Order $order)
     {
+        Log::info('payments controller');
         $itn = new PayfastITN(request()->all());
 
         if ($itn->isTrusted($order) && PayFast::recognizesIP($this->getIp()) && !$order->isPaid())

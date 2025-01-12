@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\AddOns\AddOn;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ManualOrderRequest;
 use App\Meals\Meal;
@@ -24,6 +25,15 @@ class ManualOrdersController extends Controller
             ->map(fn ($m) => ['meal' => Meal::find($m['id']), 'servings' => $m['servings']])
             ->reject(fn ($m) => !$m['meal'])
             ->each(fn ($m) => $kit->setMeal($m['meal'], $m['servings']));
+
+        request()->collect('add_ons')
+            ->map(function ($ad) use ($kit) {
+                $addOn = AddOn::find($ad['id']);
+                if(!$addOn) {
+                    return;
+                }
+                $kit->setAddOn($addOn, $ad['qty']);
+            });
 
 
 

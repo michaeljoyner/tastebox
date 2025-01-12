@@ -51,6 +51,15 @@ export default {
             );
             return menu ? menu.meals : [];
         },
+        currentAvailableAddOns: (state) => {
+            if (!state.current_batch) {
+                return [];
+            }
+            const menu = state.upcoming_menus.find(
+                (m) => m.id === state.current_batch.menu_id
+            );
+            return menu ? menu.add_ons : [];
+        },
     },
 
     mutations: {

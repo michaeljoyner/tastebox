@@ -20,14 +20,15 @@ class ManualOrderRequest extends FormRequest
     public function rules()
     {
         return [
-            'first_name' => ['required'],
-            'last_name' => ['required'],
-            'email' => ['required', 'email'],
-            'line_one' => ['required'],
-            'city' => ['required', new Enum(DeliveryArea::class)],
-            'meals' => ['required', 'array'],
-            'meals.*.id' => ['required', 'exists:meals,id'],
-            'meals.*.servings' => ['required', 'integer', Rule::in([1,2,4])]
+            'first_name'       => ['required'],
+            'last_name'        => ['required'],
+            'email'            => ['required', 'email'],
+            'line_one'         => ['required'],
+            'city'             => ['required', new Enum(DeliveryArea::class)],
+            'meals'            => ['required', 'array'],
+            'add_ons'          => ['present', 'array'],
+            'meals.*.id'       => ['required', 'exists:meals,id'],
+            'meals.*.servings' => ['required', 'integer', Rule::in([1, 2, 4])]
         ];
     }
 

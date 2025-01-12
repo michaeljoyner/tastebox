@@ -11,4 +11,6 @@ return [
     'return_url' => env('APP_URL') . "/payfast/return",
     'cancel_url' => env('APP_URL') . "/payfast/cancel",
     'notify_url' => env('APP_URL') . "/payfast/notify",
+
+    'fake_payments' => env('PAYFAST_FAKE_PAYMENTS', false),
 ];

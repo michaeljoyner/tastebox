@@ -13,9 +13,19 @@ Your ordered meal kits are below:
 
 Delivery on: {{ $box->delivery_date }}
 
+Meals:
+
 @foreach($box->meals as $meal)
 {{ $meal['meal'] }} ({{ $meal['servings'] }} servings) <br>
 @endforeach
+
+@if(count($box->add_ons))
+Add-Ons:
+
+@foreach($box->add_ons as $addOn)
+{{ $addOn['name'] }} x  {{ $addOn['qty'] }} <br>
+@endforeach
+@endif
 
 
 **Deliver to**: {{ $box->delivery_address }}

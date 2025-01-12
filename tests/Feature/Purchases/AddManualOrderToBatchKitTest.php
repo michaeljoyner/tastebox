@@ -4,6 +4,7 @@
 namespace Tests\Feature\Purchases;
 
 
+use App\AddOns\AddOn;
 use App\DeliveryArea;
 use App\Meals\Meal;
 use App\Orders\Menu;
@@ -24,11 +25,16 @@ class AddManualOrderToBatchKitTest extends TestCase
         $this->withoutExceptionHandling();
 
         $menu = factory(Menu::class)->state('current')->create();
+
         $mealA = factory(Meal::class)->create();
         $mealB = factory(Meal::class)->create();
         $mealC = factory(Meal::class)->create();
 
+        $addOnA = factory(AddOn::class)->create(['price' => 1000]);
+        $addOnB = factory(AddOn::class)->create(['price' => 2000]);
+
         $menu->setMeals([$mealA->id, $mealB->id, $mealC->id]);
+        $menu->addOns()->sync([$addOnA->id, $addOnB->id]);
 
         $response = $this->asAdmin()->postJson("/admin/api/current-batch/manual-orders", [
             'first_name' => 'bob',
@@ -42,7 +48,11 @@ class AddManualOrderToBatchKitTest extends TestCase
                 ['id' => $mealA->id, 'servings' => 2],
                 ['id' => $mealB->id, 'servings' => 2],
                 ['id' => $mealC->id, 'servings' => 2],
-            ]
+            ],
+            'add_ons' => [
+                ['id' => $addOnA->id, 'qty' => 2],
+                ['id' => $addOnB->id, 'qty' => 3],
+            ],
         ]);
 
         $response->assertSuccessful();
@@ -54,7 +64,7 @@ class AddManualOrderToBatchKitTest extends TestCase
             'phone'          => '0821234567',
             'is_paid'        => true,
             'status'         => Order::STATUS_OPEN,
-            'price_in_cents' => Meal::SERVING_PRICE * 2 * 3 * 100,
+            'price_in_cents' => (Meal::SERVING_PRICE * 2 * 3 * 100) + (8000),
         ]);
 
         $this->assertCount(1, Order::all());

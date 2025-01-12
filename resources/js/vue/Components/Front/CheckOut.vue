@@ -18,8 +18,11 @@
                         <span>R{{ kit.price }}</span>
                     </p>
                     <p class="text-sm">
-                        {{ kit.meals_count }} meals ({{ kit.servings_count }}
+                        {{ kit.meals_count }} Meals ({{ kit.servings_count }}
                         servings)
+                    </p>
+                    <p v-if="kit.add_ons.length" class="text-sm">
+                        {{ kit.add_ons.length }} Add-On{{kit.add_ons.length === 1 ? '' : 's' }} ({{ kit.add_ons.reduce((sum, ad) => sum + ad.qty, 0)}} items)
                     </p>
                 </div>
 
