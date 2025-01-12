@@ -32,6 +32,7 @@ class BatchRoundupSummary extends Mailable
             ->markdown('email.admin.batch-summary', [
                 'total_kits'  => $this->batch->totalKits(),
                 'total_meals' => $this->batch->totalPackedMeals(),
+                'total_add_ons' => collect($this->batch->addOnList())->sum(fn ($addOn) => $addOn['qty']),
                 'pending' => $this->has_pending,
             ])
             ->attach($this->shopping_list);
