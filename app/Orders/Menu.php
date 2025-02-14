@@ -17,22 +17,24 @@ use Illuminate\Support\Collection;
 class Menu extends Model
 {
     const CURRENT = 'current';
+
     const UPCOMING = 'upcoming';
+
     const ARCHIVED = 'archived';
 
     protected $fillable = ['current_from', 'current_to', 'delivery_from'];
 
     protected $casts = [
-        'can_order'     => 'boolean',
-        'current_from'  => 'datetime',
-        'current_to'    => 'datetime',
+        'can_order' => 'boolean',
+        'current_from' => 'datetime',
+        'current_to' => 'datetime',
         'delivery_from' => 'datetime',
     ];
 
     public function scopeAvailable($query)
     {
-        $query->where('current_to', '>=', Carbon::now()->setTimeFromTimeString('12:00:00'))
-              ->where('can_order', true);
+        $query->where('current_to', '>=', Carbon::now()->setTimeFromTimeString('00:00:00'))
+            ->where('can_order', true);
     }
 
     public function scopeUpcoming($query)
@@ -40,12 +42,11 @@ class Menu extends Model
         return $query->where('current_from', '>=', Carbon::now()->startOfWeek());
     }
 
-
     public static function nextUp(): Menu
     {
         $next = self::where('delivery_from', '>=', Carbon::today()->startOfDay())
-                    ->orderBy('delivery_from')
-                    ->first();
+            ->orderBy('delivery_from')
+            ->first();
 
         return $next ?? new self;
     }
@@ -53,9 +54,9 @@ class Menu extends Model
     public static function nextAvailable(): Menu
     {
         $next = self::where('delivery_from', '>=', Carbon::today()->startOfDay())
-                    ->where('current_to', '>', now())
-                    ->orderBy('delivery_from')
-                    ->first();
+            ->where('current_to', '>', now())
+            ->orderBy('delivery_from')
+            ->first();
 
         return $next ?? new self;
     }
@@ -63,7 +64,7 @@ class Menu extends Model
     public static function nextToPrep()
     {
         $next = self::available()->where('delivery_from', '>=', now()->startOfDay())
-                    ->orderBy('delivery_from')->first();
+            ->orderBy('delivery_from')->first();
 
         return $next ?? new self;
     }
@@ -80,9 +81,9 @@ class Menu extends Model
                 $delivery = Carbon::parse($start)->addWeeks($week)->endOfWeek()->addDays(1);
 
                 Menu::create([
-                    'current_from'  => $from,
-                    'current_to'    => $to,
-                    'delivery_from' => $delivery
+                    'current_from' => $from,
+                    'current_to' => $to,
+                    'delivery_from' => $delivery,
                 ]);
             });
     }
@@ -111,23 +112,23 @@ class Menu extends Model
     {
 
         return [
-            'id'                     => $this->id,
-            'can_order'              => $this->can_order,
-            'orders_close_on'        => DatePresenter::standard($this->ordersCloseDate()),
+            'id' => $this->id,
+            'can_order' => $this->can_order,
+            'orders_close_on' => DatePresenter::standard($this->ordersCloseDate()),
             'orders_close_on_pretty' => DatePresenter::pretty($this->ordersCloseDate()),
-            'current_from_date'      => $this->current_from->format('Y-m-d'),
-            'current_from_pretty'    => $this->current_from->format('jS M, Y'),
-            'current_to_date'        => $this->current_to->format('Y-m-d'),
-            'current_to_pretty'      => $this->current_to->format('jS M, Y'),
-            'current_range_pretty'   => DatePresenter::range($this->current_from, $this->current_to),
-            'delivery_from_date'     => $this->delivery_from->format('Y-m-d'),
-            'delivery_from_pretty'   => $this->delivery_from->format('jS M, Y'),
-            'week_number'            => $this->current_from->week,
-            'is_current'             => $this->isCurrent(),
-            'status'                 => Menu::UPCOMING,
-            'meals'                  => $this->meals->map->asArrayForAdmin()->all(),
-            'free_recipe_meals'      => $this->freeRecipeMeals->map(fn($m) => $m->meal->asArrayForAdmin()),
-            'add_ons'                => $this->addOns->toArray()
+            'current_from_date' => $this->current_from->format('Y-m-d'),
+            'current_from_pretty' => $this->current_from->format('jS M, Y'),
+            'current_to_date' => $this->current_to->format('Y-m-d'),
+            'current_to_pretty' => $this->current_to->format('jS M, Y'),
+            'current_range_pretty' => DatePresenter::range($this->current_from, $this->current_to),
+            'delivery_from_date' => $this->delivery_from->format('Y-m-d'),
+            'delivery_from_pretty' => $this->delivery_from->format('jS M, Y'),
+            'week_number' => $this->current_from->week,
+            'is_current' => $this->isCurrent(),
+            'status' => Menu::UPCOMING,
+            'meals' => $this->meals->map->asArrayForAdmin()->all(),
+            'free_recipe_meals' => $this->freeRecipeMeals->map(fn ($m) => $m->meal->asArrayForAdmin()),
+            'add_ons' => $this->addOns->toArray(),
         ];
     }
 
@@ -165,7 +166,7 @@ class Menu extends Model
             ->with('order')
             ->due()
             ->get()
-            ->filter(fn(OrderedKit $kit) => $kit->order->status === Order::STATUS_OPEN);
+            ->filter(fn (OrderedKit $kit) => $kit->order->status === Order::STATUS_OPEN);
 
         return new Batch(
             $kits,
@@ -185,9 +186,9 @@ class Menu extends Model
         $batch = $this->getBatch();
 
         $this->batchReport()->create([
-            'week'           => $batch->week,
-            'total_kits'     => $batch->totalKits(),
-            'total_meals'    => $batch->totalPackedMeals(),
+            'week' => $batch->week,
+            'total_kits' => $batch->totalKits(),
+            'total_meals' => $batch->totalPackedMeals(),
             'total_servings' => $batch->totalServings(),
         ]);
     }
@@ -200,7 +201,7 @@ class Menu extends Model
     public function addFreeRecipes(Collection $meals)
     {
         $this->freeRecipeMeals()->delete();
-        $meals->each(fn(Meal $meal) => $this->addFreeRecipeMeal($meal));
+        $meals->each(fn (Meal $meal) => $this->addFreeRecipeMeal($meal));
     }
 
     public function addFreeRecipeMeal(Meal $meal): FreeRecipeMeal
@@ -212,6 +213,4 @@ class Menu extends Model
     {
         return $this->belongsToMany(AddOn::class);
     }
-
-
 }
