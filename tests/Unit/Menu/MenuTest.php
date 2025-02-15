@@ -1,8 +1,6 @@
 <?php
 
-
 namespace Tests\Unit\Menu;
-
 
 use App\Meals\Meal;
 use App\Orders\Menu;
@@ -90,7 +88,7 @@ class MenuTest extends TestCase
     public function can_scope_to_available_for_orders()
     {
         $open_current = factory(Menu::class)->state('current')->create([
-            'can_order'  => true,
+            'can_order' => true,
             'current_to' => Carbon::tomorrow(),
         ]);
         $open_upcoming = factory(Menu::class)->state('upcoming')->create([
@@ -116,7 +114,28 @@ class MenuTest extends TestCase
         $this->assertFalse($scoped->contains($closed_upcoming));
     }
 
+    /**
+     * @test
+     */
+    public function menu_is_available_until_12_pm_on_friday()
+    {
+        $this->travelTo(now()->startOfWeek());
 
+        $menu = factory(Menu::class)->state('current')->create([
+            'can_order' => true,
+            'current_to' => now()->addDays(4)->startOfDay(),
+        ]);
+
+        $this->travelTo(now()->addDays(4)->setTimeFromTimeString('11:59'));
+
+        $isAvailable = Menu::available()->get()->contains($menu);
+        $this->assertTrue($isAvailable);
+
+        $this->travel(3)->minutes();
+
+        $isAvailable = Menu::available()->get()->contains($menu);
+        $this->assertFalse($isAvailable);
+    }
 
     /**
      * @test
@@ -125,32 +144,29 @@ class MenuTest extends TestCase
     {
         $this->travelTo(Carbon::parse('next monday'));
         $current_prep = factory(Menu::class)->create([
-            'current_from'  => now()->subWeek()->startOfDay(),
-            'current_to'    => now()->subWeek()->addDays(3)->endOfDay(),
+            'current_from' => now()->subWeek()->startOfDay(),
+            'current_to' => now()->subWeek()->addDays(3)->endOfDay(),
             'delivery_from' => now()->subWeek()->endOfWeek()->addDays(2),
-            'can_order'     => true,
+            'can_order' => true,
         ]);
 
         $next_prep = factory(Menu::class)->create([
-            'current_from'  => now()->startOfDay(),
-            'current_to'    => now()->startOfDay()->addDays(3)->endOfDay(),
+            'current_from' => now()->startOfDay(),
+            'current_to' => now()->startOfDay()->addDays(3)->endOfDay(),
             'delivery_from' => now()->startOfDay()->endOfWeek()->addDays(2),
-            'can_order'     => true,
+            'can_order' => true,
         ]);
 
         $future_prep = factory(Menu::class)->create([
-            'current_from'  => now()->addWeek()->startOfDay(),
-            'current_to'    => now()->addWeek()->startOfDay()->addDays(3)->endOfDay(),
+            'current_from' => now()->addWeek()->startOfDay(),
+            'current_to' => now()->addWeek()->startOfDay()->addDays(3)->endOfDay(),
             'delivery_from' => now()->addWeek()->startOfDay()->endOfWeek()->addDays(2),
-            'can_order'     => true,
+            'can_order' => true,
         ]);
 
         $next_to_prep = Menu::nextToPrep();
 
         $this->assertTrue($next_to_prep->is($next_prep));
 
-
     }
-
-
 }
