@@ -44,8 +44,11 @@
                             <router-link
                                 :to="`/meals/${meal.id}/manage/info`"
                                 class="hover:text-indigo-500"
-                                >{{ meal.name }}</router-link
-                            >
+                                >{{ meal.name }} -
+                                <span class="text-xs">{{
+                                    meal.popularity
+                                }}</span>
+                            </router-link>
                         </td>
                         <td class="p-2 text-sm font-bold">
                             {{ meal.times_offered }}

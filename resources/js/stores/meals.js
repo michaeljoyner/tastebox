@@ -62,7 +62,11 @@ export default {
         byPopularity: (state) => {
             return state.used_meals
                 .filter((m) => m.total_ordered > 0)
-                .sort((a, b) => b.total_servings - a.total_servings);
+                .map((m) => ({
+                    ...m,
+                    popularity: (m.total_ordered / m.times_offered).toFixed(2),
+                }))
+                .sort((a, b) => b.popularity - a.popularity);
         },
 
         searchedClassifications: (state) =>
