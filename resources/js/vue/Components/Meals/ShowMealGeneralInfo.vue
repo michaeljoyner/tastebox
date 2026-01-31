@@ -94,6 +94,7 @@ const tierColour = computed(() => {
         1: "bg-red-300",
         2: "bg-green-300",
         3: "bg-yellow-400",
+        4: "bg-black text-white",
     };
     return lookup[props.meal.tier_value] || "bg-blue-400";
 });

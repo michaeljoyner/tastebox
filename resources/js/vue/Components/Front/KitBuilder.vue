@@ -232,6 +232,7 @@ const mealPriceClasses = (tier) => {
         Basic: "bg-orange-200 text-black",
         Standard: "bg-emerald-400 text-white",
         Premium: "bg-black text-white",
+        Deluxe: "bg-yellow-500 text-black",
     };
     return lookup[tier] || lookup.Standard;
 };
