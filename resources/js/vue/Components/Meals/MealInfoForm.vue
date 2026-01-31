@@ -12,7 +12,7 @@
             <div class="flex flex-wrap mt-2">
                 <div
                     v-for="tier in tiers"
-                    class="mr-6 flex space-x-2 items-center px-2 py-1 border border-black rounded-md"
+                    class="mr-4 flex space-x-1 items-center px-2 py-1 border border-black rounded-md"
                 >
                     <input
                         type="radio"
@@ -20,7 +20,7 @@
                         :value="tier.value"
                         :id="`tier_${tier.value}`"
                     />
-                    <label :for="`tier_${tier.value}`">{{
+                    <label class="text-sm" :for="`tier_${tier.value}`">{{
                         tier.description
                     }}</label>
                 </div>
