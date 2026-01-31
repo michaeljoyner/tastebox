@@ -44,7 +44,7 @@ export default {
             { value: 1, description: "💩 Basic" },
             { value: 2, description: "🤷 Standard" },
             { value: 3, description: "💰 Premium" },
-            { value: 4, description: "💠 Premium" },
+            { value: 4, description: "💠 Deluxe" },
         ],
     },
 
