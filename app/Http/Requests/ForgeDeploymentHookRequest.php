@@ -14,21 +14,21 @@ class ForgeDeploymentHookRequest extends FormRequest
 
     public function successful(): bool
     {
-        return $this->get('status') === 'success';
+        return $this->input('status') === 'success';
     }
 
     public function site(): string
     {
-        return $this->get('site.name') ?? 'Unknown site';
+        return $this->input('site.name') ?? 'Unknown site';
     }
 
     public function repoLink(): string
     {
-        return $this->get('commit_url');
+        return $this->input('commit_url');
     }
 
     public function commitMessage(): string
     {
-        return $this->get('commit_message');
+        return $this->input('commit_message');
     }
 }

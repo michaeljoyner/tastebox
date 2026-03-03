@@ -25,7 +25,7 @@ class ForgeDeployment extends Notification
 
     public function toSlack(object $notifiable): SlackMessage
     {
-        $title = $this->success ? '✅ Deployed Succesfully' : '❌ Deployment Failed';
+        $title = $this->success ? '✅ XTERRA Deployed Succesfully' : '❌ XTERRA Deployment Failed';
 
         return (new SlackMessage)
             ->content($title)
@@ -36,7 +36,7 @@ class ForgeDeployment extends Notification
                     ->fields([
                         'Site' => $this->siteName,
                         'Commit' => "[{$this->commitMessage}]({$this->repoUrl})",
-                    ]);
+                    ])->markdown(['text', 'fields']);
             });
     }
 }
