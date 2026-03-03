@@ -22,8 +22,13 @@ class ForgeDeploymentHookRequest extends FormRequest
         return $this->get('site.name') ?? 'Unknown site';
     }
 
-    public function repoLink(): ?string
+    public function repoLink(): string
     {
         return $this->get('commit_url');
+    }
+
+    public function commitMessage(): string
+    {
+        return $this->get('commit_message');
     }
 }

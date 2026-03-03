@@ -3,9 +3,9 @@
 namespace App\Notifications;
 
 use Illuminate\Bus\Queueable;
+use Illuminate\Notifications\Messages\SlackAttachment;
+use Illuminate\Notifications\Messages\SlackMessage;
 use Illuminate\Notifications\Notification;
-use Illuminate\Notifications\Slack\BlockKit\Blocks\SectionBlock;
-use Illuminate\Notifications\Slack\SlackMessage;
 
 class ForgeDeployment extends Notification
 {
@@ -14,7 +14,8 @@ class ForgeDeployment extends Notification
     public function __construct(
         public bool $success,
         public string $siteName,
-        public ?string $repoUrl = null,
+        public string $commitMessage,
+        public string $repoUrl,
     ) {}
 
     public function via(object $notifiable): array
@@ -27,13 +28,15 @@ class ForgeDeployment extends Notification
         $title = $this->success ? '✅ Deployed Succesfully' : '❌ Deployment Failed';
 
         return (new SlackMessage)
-            ->text($title)
-            ->sectionBlock(function (SectionBlock $block) {
-                $block->text('Details');
-                $block->field("*Site:*\n{$this->siteName}")->markdown();
-                if ($this->repoUrl) {
-                    $block->field("*Commit deployed:*\n[GitHub]({$this->repoUrl})")->markdown();
-                }
+            ->content($title)
+            ->attachment(function (SlackAttachment $attachment) {
+                $attachment->title('Deployement')
+                    ->content('Details:')
+                    ->color($this->success ? 'good' : 'bad')
+                    ->fields([
+                        'Site' => $this->siteName,
+                        'Commit' => "[{$this->commitMessage}]({$this->repoUrl})",
+                    ]);
             });
     }
 }

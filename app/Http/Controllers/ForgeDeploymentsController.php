@@ -13,6 +13,7 @@ class ForgeDeploymentsController extends Controller
         (new SlackNotifiable)->notify(new ForgeDeployment(
             success: $request->successful(),
             siteName: $request->site(),
+            commitMessage: $request->commitMessage(),
             repoUrl: $request->repoLink(),
         ));
     }
