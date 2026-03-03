@@ -2,12 +2,18 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Support\Facades\Log;
+use App\Http\Requests\ForgeDeploymentHookRequest;
+use App\Notifications\ForgeDeployment;
+use App\Notifications\SlackNotifiable;
 
 class ForgeDeploymentsController extends Controller
 {
-    public function store()
+    public function store(ForgeDeploymentHookRequest $request)
     {
-        Log::info(request()->all());
+        (new SlackNotifiable)->notify(new ForgeDeployment(
+            success: $request->successful(),
+            siteName: $request->site(),
+            repoUrl: $request->repoLink(),
+        ));
     }
 }

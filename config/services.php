@@ -42,6 +42,10 @@ return [
     'nexmo' => [
         'key' => env('NEXMO_API_KEY'),
         'secret' => env('NEXMO_API_SECRET'),
-    ]
+    ],
+
+    'slack' => [
+        'deploys_webhook' => env('SLACK_DEPLOYS_WEBHOOK'),
+    ],
 
 ];
