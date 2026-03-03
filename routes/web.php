@@ -16,14 +16,14 @@ use App\Http\Controllers\Admin\MemberDiscountsController;
 use App\Http\Controllers\Admin\MembersController;
 use App\Http\Controllers\Admin\MenuAddOnsController;
 use App\Http\Controllers\Admin\OrderedKitsController;
-use App\Http\Controllers\Admin\ResolvedAdjustmentsController;
-use App\Http\Controllers\Admin\UnresolvedAdjustmentsController;
-use App\Http\Controllers\Admin\UpcomingKitsController;
 use App\Http\Controllers\Admin\PostBodyImagesController;
 use App\Http\Controllers\Admin\PostPreviewController;
 use App\Http\Controllers\Admin\PostsController;
 use App\Http\Controllers\Admin\PostTitleImageController;
 use App\Http\Controllers\Admin\PublishedPostsController;
+use App\Http\Controllers\Admin\ResolvedAdjustmentsController;
+use App\Http\Controllers\Admin\UnresolvedAdjustmentsController;
+use App\Http\Controllers\Admin\UpcomingKitsController;
 use App\Http\Controllers\Admin\UsedMealsController;
 use App\Http\Controllers\Admin\WeeklyBatchReportsController;
 use App\Http\Controllers\Auth\LoginController;
@@ -32,6 +32,7 @@ use App\Http\Controllers\BlogController;
 use App\Http\Controllers\ContactDietitianController;
 use App\Http\Controllers\EmailVerificationController;
 use App\Http\Controllers\EmailVerificationLinkRequestController;
+use App\Http\Controllers\ForgeDeploymentsController;
 use App\Http\Controllers\FreeRecipeApiController;
 use App\Http\Controllers\KitDeliveryAddressController;
 use App\Http\Controllers\MealCostingsController;
@@ -59,7 +60,6 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
-
 
 Route::view('admin/login', 'auth.admin-login');
 
@@ -95,7 +95,6 @@ Route::get('blog-archives', [BlogArchivesController::class, 'show']);
 Route::view('contact', 'front.contact.page');
 Route::view('dietician', 'front.contact-dietitian.page');
 
-
 Route::post('contact', 'ContactMessageController@store');
 Route::post('contact-dietitian', [ContactDietitianController::class, 'store']);
 
@@ -118,20 +117,19 @@ Route::get('thank-you/{order:order_key}', 'ThankYouController@show');
 Route::view('register', 'front.register.page');
 Route::post('register', [RegistrationsController::class, 'store']);
 Route::view('me/email/verify', 'members.auth.verify-email')
-     ->middleware('auth')
-     ->name('verification.notice');
+    ->middleware('auth')
+    ->name('verification.notice');
 
 Route::get('me/email/verify/{id}/{hash}', [EmailVerificationController::class, 'store'])
-     ->middleware(['auth', 'signed'])
-     ->name('verification.verify');
+    ->middleware(['auth', 'signed'])
+    ->name('verification.verify');
 
 Route::post(
     '/email/verification-notification', [EmailVerificationLinkRequestController::class, 'store']
 )
-     ->middleware(['auth', 'throttle:6,1'])
-     ->name('verification.send');
+    ->middleware(['auth', 'throttle:6,1'])
+    ->name('verification.send');
 Route::post('login', [LoginController::class, 'login']);
-
 
 Route::group(['prefix' => 'me', 'middleware' => 'auth', 'namespace' => 'Members'], function () {
     Route::view('reset-password', 'members.password.reset');
@@ -291,5 +289,7 @@ Route::group(['middleware' => 'auth'], function () {
 
         Route::post('add-ons/{addOn:uuid}/image', [AddOnImageController::class, 'store']);
         Route::delete('add-ons/{addOn:uuid}/image', [AddOnImageController::class, 'delete']);
+
+        Route::post('/forge-deploys', [ForgeDeploymentsController::class, 'store']);
     });
 });
