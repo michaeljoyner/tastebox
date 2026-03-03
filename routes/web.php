@@ -131,6 +131,8 @@ Route::post(
     ->name('verification.send');
 Route::post('login', [LoginController::class, 'login']);
 
+Route::post('/forge-deploys', [ForgeDeploymentsController::class, 'store']);
+
 Route::group(['prefix' => 'me', 'middleware' => 'auth', 'namespace' => 'Members'], function () {
     Route::view('reset-password', 'members.password.reset');
     Route::post('reset-password', [MemberPasswordController::class, 'update']);
@@ -290,6 +292,5 @@ Route::group(['middleware' => 'auth'], function () {
         Route::post('add-ons/{addOn:uuid}/image', [AddOnImageController::class, 'store']);
         Route::delete('add-ons/{addOn:uuid}/image', [AddOnImageController::class, 'delete']);
 
-        Route::post('/forge-deploys', [ForgeDeploymentsController::class, 'store']);
     });
 });
