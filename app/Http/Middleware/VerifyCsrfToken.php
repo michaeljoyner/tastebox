@@ -12,6 +12,7 @@ class VerifyCsrfToken extends Middleware
      * @var array
      */
     protected $except = [
-        'payfast/notify/*'
+        'payfast/notify/*',
+        'forge-deploys',
     ];
 }
