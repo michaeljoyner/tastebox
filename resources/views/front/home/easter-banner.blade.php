@@ -1,3 +1,3 @@
 <div class="bg-slate-800 text-white px-8 py-4 {{ $classes ?? '' }}">
-    <p class="text-center font-semibold">We will close for the Easter Weekend, so there will be no menu available for delivery on April 6th.</p>
+    <p class="text-center font-semibold">Orders will be closed from Monday, April 27th. More info to come soon.</p>
 </div>
